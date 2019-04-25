@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Writing with HTML5</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/document.css">
+    </head>
+    <body>
+        <h1>使用HTML5书写文档</h1>
+        <p>若有可能，使用HTML5来书写文档。</p>
+        
+        <h2>一个HTML5文档的格式</h2>
+        <pre>
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Sample HTML5 Page&lt;/title&gt;
+        &lt;meta charset="UTF-8"&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+        
+        &lt;link rel="stylesheet" href="css/style.css"&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Sample HTML5 Page&lt;/h1&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+        
+        <h2>关于显示程序源码应使用的HTML标签</h2>
+        <p>pre是必须用的。有些用户还使用pre code的方式。但code是行内元素。因此，若要显示一整段的代码，应只使用pre就行了。DocBook将programlisting也只是转换为pre而已。pre的目的在于保留空格和换行符。</p>
+        
+        <h2>使用<span class="htmltag">article</span></h2>
+        <p>在着重于网页结构的网页中，可不使用<span class="htmltag">article</span>标签。但如果该网页侧重于展示一篇文章，则应使用<span class="htmltag">article</span>。</p>
+        <pre>
+&lt;body&gt;
+    &lt;article&gt;
+        &lt;header&gt;
+            &lt;h1&gt;My First Article&lt;/h1&gt;
+            &lt;p class='authorinfo'&gt;Sarkuya, &lt;time&gt;2019-04-25&lt;/time&gt;&lt;/p&gt;
+        &lt;/header&gt;
+
+        &lt;section class='chapter'&gt;
+            &lt;h1&gt;Chapter 1: Get Ready&lt;/h1&gt;
+            &lt;p&gt;Go ahead to get ready for this game.&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section class='chapter'&gt;
+            &lt;h1&gt;Chapter 2: Run&lt;/h1&gt;
+            &lt;p&gt;Don't forget to run away if dangerous.&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section class='appendix'&gt;
+            &lt;h1&gt;Appendix 1: DocBook&lt;/h1&gt;
+            &lt;p&gt;Think of DocBook always.&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section class='reference'&gt;
+            &lt;h1&gt;参考书目&lt;/h1&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href="" target="_blank"&gt;abc&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/section&gt;
+
+        &lt;footer&gt;&lt;p class="copyright"&gt;All rights reserved.&lt;/p&gt;&lt;/footer&gt;
+    &lt;/article&gt;
+&lt;/body&gt;
+</pre>
+        
+        <h2>编码约定</h2>
+        <p>如同编程，在使用HTML5书写文档时，也必须遵循一定的编码约定。</p>
+        <table>
+            <caption>编码约定习俗</caption>
+            <thead>
+                <tr><th>类别</th><th>格式</th><th>例子</th></tr>
+            </thead>
+            <tbody>
+                <tr><th>url</th><td>小写, 使用"-"连字符</td><td>writing-with-html5.html</td></tr>
+                <tr><th>标签属性</th><td>小写</td><td>&lt;span class='custspan'&gt;</td></tr>
+                <tr><th>函数名称</th><td>驼峰标记法</td><td>function setPageSize() {}</td></tr>
+                
+            </tbody>
+        </table>
+        
+        <h2>版面设计要求</h2>
+        <ol>
+            <li>简洁大方</li>
+            <li>赏心悦目</li>
+        </ol>
+        <p></p>
+        
+        
+        <h2>书写文档时一些必备功能</h2>
+        <ul>
+            <li>自动编排章节序号</li>
+            <li>自动添加文档目录及链接</li>
+            <li>语法加亮</li>
+        </ul>
+        <p></p>
+        
+        <h2>应有的工具</h2>
+        <ul>
+            <li>Color Wheel</li>
+            <li>HTML Tag Escape</li>
+            <li>Regular Expression Online</li>
+            <li>Unicode</li>
+        </ul>
+        <p></p>
+        
+        <h2>References</h2>
+        <ul>
+            <li><a href="https://html.spec.whatwg.org/multipage/" target="_blank">HTML5 Living Standard</a></li>
+        </ul>
+    </body>
+</html>
