@@ -4,6 +4,7 @@
 article header h1 {
     color: green;
     text-align: center;
+    font-size: xx-large;
 }
 
 article header p.authorinfo {
@@ -15,6 +16,7 @@ article header p.authorinfo {
 
 article section h1 {
     color: #336699;
+    font-size: x-large;
 }
 
 article footer p.copyright {
@@ -30,6 +32,8 @@ article footer p.copyright {
 
 span.htmltag {
     color: brown;
+    font-style: italic;
+    padding: 0 0.3em;
 }
 
 pre {
@@ -38,4 +42,5 @@ pre {
     font-size: 80%;
     border-radius: 5px;
     color: #333;
+    overflow-x: scroll;
 }

@@ -9,6 +9,7 @@ h2 {
 
 p {
     text-indent: 2em;
+    line-height: 2em;
 }
 
 a {
@@ -45,6 +46,10 @@ table td {
 
 table th {
     background-color: #B2CFD8;
+}
+
+table tbody th {
+    text-align: left;
 }
 
 table td {

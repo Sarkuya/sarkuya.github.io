@@ -8,13 +8,30 @@
         
         <link rel="stylesheet" href="../css/style.css">
         <link rel="stylesheet" href="../css/document.css">
+        
+        <style type="text/css">
+            div#fontsizepanel {
+                border: 1px solid gray;
+                color: #333;
+                background-color:  beige;
+            }
+        </style>
     </head>
     <body>
-        <h1>使用HTML5书写文档</h1>
-        <p>若有可能，使用HTML5来书写文档。</p>
-        
-        <h2>一个HTML5文档的格式</h2>
-        <pre>
+        <article>
+            <header>
+                <h1>使用HTML5书写文档</h1>
+                <p class='authorinfo'>Sarkuya, <time>2019-04-25</time></p>
+            </header>
+            
+            <section class="chapter">
+                <h1>为何使用HTML5来编写文档</h1>
+                <p>若有可能，使用HTML5来书写文档。</p>
+            </section>
+
+            <section class="chapter">
+                <h1>一个HTML5文档的格式</h1>
+                <pre>
 &lt;!DOCTYPE html&gt;
 
 &lt;html&gt;
@@ -22,7 +39,7 @@
         &lt;title&gt;Sample HTML5 Page&lt;/title&gt;
         &lt;meta charset="UTF-8"&gt;
         &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-        
+
         &lt;link rel="stylesheet" href="css/style.css"&gt;
     &lt;/head&gt;
     &lt;body&gt;
@@ -30,13 +47,17 @@
     &lt;/body&gt;
 &lt;/html&gt;
 </pre>
-        
-        <h2>关于显示程序源码应使用的HTML标签</h2>
-        <p>pre是必须用的。有些用户还使用pre code的方式。但code是行内元素。因此，若要显示一整段的代码，应只使用pre就行了。DocBook将programlisting也只是转换为pre而已。pre的目的在于保留空格和换行符。</p>
-        
-        <h2>使用<span class="htmltag">article</span></h2>
-        <p>在着重于网页结构的网页中，可不使用<span class="htmltag">article</span>标签。但如果该网页侧重于展示一篇文章，则应使用<span class="htmltag">article</span>。</p>
-        <pre>
+            </section>
+            
+            <section class="chapter">
+                <h1>关于显示程序源码应使用的标签</h1>
+                <p>pre是必须用的。有些用户还使用pre code的方式。但code是行内元素。因此，若要显示一整段的代码，应只使用pre就行了。DocBook将programlisting也只是转换为pre而已。pre的目的在于保留空格和换行符。</p>
+            </section>
+                
+            <section class="chapter">
+                <h1>使用<span class="htmltag">article</span></h1>
+                <p>在着重于网页结构的网页中，可不使用<span class="htmltag">article</span>标签。但如果该网页侧重于展示一篇文章，则应使用<span class="htmltag">article</span>。</p>
+                <pre>
 &lt;body&gt;
     &lt;article&gt;
         &lt;header&gt;
@@ -70,50 +91,106 @@
     &lt;/article&gt;
 &lt;/body&gt;
 </pre>
-        
-        <h2>编码约定</h2>
-        <p>如同编程，在使用HTML5书写文档时，也必须遵循一定的编码约定。</p>
-        <table>
-            <caption>编码约定习俗</caption>
-            <thead>
-                <tr><th>类别</th><th>格式</th><th>例子</th></tr>
-            </thead>
-            <tbody>
-                <tr><th>url</th><td>小写, 使用"-"连字符</td><td>writing-with-html5.html</td></tr>
-                <tr><th>标签属性</th><td>小写</td><td>&lt;span class='custspan'&gt;</td></tr>
-                <tr><th>函数名称</th><td>驼峰标记法</td><td>function setPageSize() {}</td></tr>
+                <p>article的header及section之下均有h1标签。这里的h1取意为相应章节之下的最大标题，而非h1之本义。因此，需对这些h1设定相应的大小。</p>
+                <p>当使用字面符而非em, px等单位来表示大小时，font-size分为两种。</p>
+                <p>一种是绝对大小。有以下几种规格：</p>
+                <ul>
+                    <li>xx-large</li>
+                    <li>x-large</li>
+                    <li>large</li>
+                    <li>mediumn</li>
+                    <li>small</li>
+                    <li>x-small</li>
+                    <li>xx-small</li>
+                </ul>
+                <p>其与H1 - H6的关系详见下表。</p>
+                <table>
+                    <caption>font-size绝对值对应表</caption>
+                    <thead>
+                        <tr><th>绝对值</th><th>HTML标题</th><th>例子</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><th>xx-large</th><td>h1</td><td><span style="font-size: xx-large">xx-large text</span></td></tr>
+                        <tr><th>x-large</th><td>h2</td><td><span style="font-size: x-large">x-large text</span></td></tr>
+                        <tr><th>large</th><td>h3</td><td><span style="font-size: large">large text</span></td></tr>
+                        <tr><th>medium</th><td>h4</td><td><span style="font-size: medium">medium text</span></td></tr>
+                        <tr><th>small</th><td>h5</td><td><span style="font-size: small">small text</span></td></tr>
+                        <tr><th>x-small</th><td>[N / A]</td><td><span style="font-size: x-small">x-small text</span></td></tr>
+                        <tr><th>xx-small</th><td>h6</td><td><span style="font-size: xx-small">xx-small text</span></td></tr>
+                    </tbody>
+                </table>
                 
-            </tbody>
-        </table>
-        
-        <h2>版面设计要求</h2>
-        <ol>
-            <li>简洁大方</li>
-            <li>赏心悦目</li>
-        </ol>
-        <p></p>
-        
-        
-        <h2>书写文档时一些必备功能</h2>
-        <ul>
-            <li>自动编排章节序号</li>
-            <li>自动添加文档目录及链接</li>
-            <li>语法加亮</li>
-        </ul>
-        <p></p>
-        
-        <h2>应有的工具</h2>
-        <ul>
-            <li>Color Wheel</li>
-            <li>HTML Tag Escape</li>
-            <li>Regular Expression Online</li>
-            <li>Unicode</li>
-        </ul>
-        <p></p>
-        
-        <h2>References</h2>
-        <ul>
-            <li><a href="https://html.spec.whatwg.org/multipage/" target="_blank">HTML5 Living Standard</a></li>
-        </ul>
+                <p>下面是其考虑了其自带的margin及padding后的效果：</p>
+                <div id="fontsizepanel">
+                    <p style="font-size: xx-large">xx-large text</p>
+                    <p style="font-size: x-large">x-large text</p>
+                    <p style="font-size: large">large text</p>
+                    <p style="font-size: medium">medium text</p>
+                    <p style="font-size: small">small text</p>
+                    <p style="font-size: x-small">x-small text</p>
+                    <p style="font-size: xx-small">xx-small text</p>
+                </div>
+                <p>另一种是相对大小。</p>
+                <ul>
+                    <li>larger</li>
+                    <li>smaller</li>
+                </ul>
+                <p>即相对于父元素的取值，而取更大或更小的值。例如，若某元素取值为larger, 如果父元素的大小值为medium，则该元素则取比medium更大一格的值，即large.</p>
+                <p>综上，对于article header之下的h1，对应于文章标题，其font-size应为xx-large。而section之下的h1对应于章标题，应取值为x-large. section之下的section之下h1对应于节标题，应取值为large. section之section之section之下的h1对应于第2级节标题，应取值为medium.</p>
+            </section>
+            
+            <section class="chapter">
+                <h1>编码约定</h1>
+                <p>如同编程，在使用HTML5书写文档时，也必须遵循一定的编码约定。</p>
+                <table>
+                    <caption>编码约定习俗</caption>
+                    <thead>
+                        <tr><th>类别</th><th>格式</th><th>例子</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><th>url</th><td>小写, 使用"-"连字符</td><td>writing-with-html5.html</td></tr>
+                        <tr><th>标签属性</th><td>小写</td><td>&lt;span class='custspan'&gt;</td></tr>
+                        <tr><th>函数名称</th><td>驼峰标记法</td><td>function setPageSize() {}</td></tr>
+                    </tbody>
+                </table>
+            </section>
+            
+            <section class="chapter">
+                <h1>版面设计要求</h1>
+                <ol>
+                    <li>简洁大方</li>
+                    <li>赏心悦目</li>
+                </ol>
+                <p></p>
+            </section>
+            
+            <section class="chapter">
+                <h1>书写文档时一些必备功能</h1>
+                <ul>
+                    <li>自动编排章节序号</li>
+                    <li>自动添加文档目录及链接</li>
+                    <li>语法加亮</li>
+                </ul>
+                <p></p>
+            </section>
+
+            <section class="chapter">
+                <h1>应有的工具</h1>
+                <ul>
+                    <li>Color Wheel</li>
+                    <li>HTML Tag Escape</li>
+                    <li>Regular Expression Online</li>
+                    <li>Unicode</li>
+                </ul>
+                <p></p>
+            </section>
+
+            <section class="reference">
+                <h1>References</h1>
+                <ul>
+                    <li><a href="https://html.spec.whatwg.org/multipage/" target="_blank">HTML5 Living Standard</a></li>
+                </ul>
+            </section>
+        </article>
     </body>
 </html>
