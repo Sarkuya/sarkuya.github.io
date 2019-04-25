@@ -28,7 +28,14 @@ article footer p.copyright {
     color: #666;
 }
 
+article ul,
+article ol
+{
+    margin-left: 2em;
+}
 
+article ul li {
+}
 
 span.htmltag {
     color: brown;

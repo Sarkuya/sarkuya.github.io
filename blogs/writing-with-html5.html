@@ -51,12 +51,13 @@
             
             <section class="chapter">
                 <h1>关于显示程序源码应使用的标签</h1>
-                <p>pre是必须用的。有些用户还使用pre code的方式。但code是行内元素。因此，若要显示一整段的代码，应只使用pre就行了。DocBook将programlisting也只是转换为pre而已。pre的目的在于保留空格和换行符。</p>
+                <p><span class="htmltag">pre</span>是必须用的。有些用户还使用<span class="htmltag">pre</span> <span class="htmltag">code</span>的方式。但<span class="htmltag">code</span>是行内元素。因此，若要显示一整段的代码，应只使用<span class="htmltag">pre</span>就行了。DocBook将programlisting也只是转换为<span class="htmltag">pre</span>而已。<span class="htmltag">pre</span>的目的在于保留空格和换行符。</p>
             </section>
                 
             <section class="chapter">
                 <h1>使用<span class="htmltag">article</span></h1>
                 <p>在着重于网页结构的网页中，可不使用<span class="htmltag">article</span>标签。但如果该网页侧重于展示一篇文章，则应使用<span class="htmltag">article</span>。</p>
+                <p>下面是使用<span class="htmltag">article</span>的一个简单例子。</p>
                 <pre>
 &lt;body&gt;
     &lt;article&gt;
@@ -91,7 +92,7 @@
     &lt;/article&gt;
 &lt;/body&gt;
 </pre>
-                <p>article的header及section之下均有h1标签。这里的h1取意为相应章节之下的最大标题，而非h1之本义。因此，需对这些h1设定相应的大小。</p>
+                <p><span class="htmltag">article</span>的<span class="htmltag">header</span>及<span class="htmltag">section</span>之下均有<span class="htmltag">h1</span>标签。这里的<span class="htmltag">h1</span>取意为相应章节之下的最大标题，而非<span class="htmltag">h1</span>之本义。因此，需对这些<span class="htmltag">h1</span>设定相应的大小。</p>
                 <p>当使用字面符而非em, px等单位来表示大小时，font-size分为两种。</p>
                 <p>一种是绝对大小。有以下几种规格：</p>
                 <ul>
@@ -136,7 +137,7 @@
                     <li>smaller</li>
                 </ul>
                 <p>即相对于父元素的取值，而取更大或更小的值。例如，若某元素取值为larger, 如果父元素的大小值为medium，则该元素则取比medium更大一格的值，即large.</p>
-                <p>综上，对于article header之下的h1，对应于文章标题，其font-size应为xx-large。而section之下的h1对应于章标题，应取值为x-large. section之下的section之下h1对应于节标题，应取值为large. section之section之section之下的h1对应于第2级节标题，应取值为medium.</p>
+                <p>综上，对于<span class="htmltag">article</span> <span class="htmltag">header</span>之下的<span class="htmltag">h1</span>，对应于文章标题，其font-size应为xx-large。而<span class="htmltag">section</span>之下的<span class="htmltag">h1</span>对应于章标题，应取值为x-large. <span class="htmltag">section</span>之下的<span class="htmltag">section</span>之下<span class="htmltag">h1</span>对应于节标题，应取值为large. <span class="htmltag">section</span>之<span class="htmltag">section</span>之<span class="htmltag">section</span>之下的<span class="htmltag">h1</span>对应于第2级节标题，应取值为medium.</p>
             </section>
             
             <section class="chapter">
@@ -161,7 +162,7 @@
                     <li>简洁大方</li>
                     <li>赏心悦目</li>
                 </ol>
-                <p></p>
+                <p>切忌过度花里花哨。</p>
             </section>
             
             <section class="chapter">
