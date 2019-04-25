@@ -1,0 +1,41 @@
+
+/* -------------------- article -------------------- */
+
+article header h1 {
+    color: green;
+    text-align: center;
+}
+
+article header p.authorinfo {
+    color: #666;
+    text-align: right;
+    font-style: italic;
+    font-size: 80%;
+}
+
+article section h1 {
+    color: #336699;
+}
+
+article footer p.copyright {
+    background-color: #eee;
+    padding: 0.5em;
+    font-style: italic;
+    font-size: 80%;
+    text-align: center;
+    color: #666;
+}
+
+
+
+span.htmltag {
+    color: brown;
+}
+
+pre {
+    background-color: #ddd;
+    padding: 0.5em;
+    font-size: 80%;
+    border-radius: 5px;
+    color: #333;
+}
