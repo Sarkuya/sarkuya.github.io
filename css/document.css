@@ -1,8 +1,17 @@
+html {
+    background-color: hsla(210, 50%, 80%, 0.8);
+}
+
+body {
+    padding: 1em;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 1.0em;
+}
 
 /* -------------------- article -------------------- */
 
 article header h1 {
-    color: green;
+    color: hsla(220, 30%, 30%, 0.9);
     text-align: center;
     font-size: xx-large;
 }
@@ -25,7 +34,7 @@ article>section>section>h1 {
 }
 
 article>section>section>section>h1 {
-    color: skyblue;
+    color: #666;
     font-size: medium;
 }
 
@@ -42,6 +51,7 @@ article ul,
 article ol
 {
     margin-left: 2em;
+    margin-top: -1em;
 }
 
 article ul li {
@@ -54,7 +64,7 @@ span.htmltag {
 }
 
 pre {
-    background-color: #ddd;
+    background-color: rgba(255, 255, 255, 0.2);
     padding: 0.5em;
     font-size: 80%;
     border-radius: 5px;
