@@ -14,9 +14,19 @@ article header p.authorinfo {
     font-size: 80%;
 }
 
-article section h1 {
+article>section>h1 {
     color: #336699;
     font-size: x-large;
+}
+
+article>section>section>h1 {
+    color: #517994;
+    font-size: large;
+}
+
+article>section>section>section>h1 {
+    color: skyblue;
+    font-size: medium;
 }
 
 article footer p.copyright {

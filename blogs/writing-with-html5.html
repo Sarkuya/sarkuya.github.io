@@ -16,6 +16,8 @@
                 background-color:  beige;
             }
         </style>
+        
+        <script src="../js/htmlDocUtils.js"></script>
     </head>
     <body>
         <article>
@@ -92,52 +94,64 @@
     &lt;/article&gt;
 &lt;/body&gt;
 </pre>
-                <p><span class="htmltag">article</span>的<span class="htmltag">header</span>及<span class="htmltag">section</span>之下均有<span class="htmltag">h1</span>标签。这里的<span class="htmltag">h1</span>取意为相应章节之下的最大标题，而非<span class="htmltag">h1</span>之本义。因此，需对这些<span class="htmltag">h1</span>设定相应的大小。</p>
-                <p>当使用字面符而非em, px等单位来表示大小时，font-size分为两种。</p>
-                <p>一种是绝对大小。有以下几种规格：</p>
-                <ul>
-                    <li>xx-large</li>
-                    <li>x-large</li>
-                    <li>large</li>
-                    <li>mediumn</li>
-                    <li>small</li>
-                    <li>x-small</li>
-                    <li>xx-small</li>
-                </ul>
-                <p>其与H1 - H6的关系详见下表。</p>
-                <table>
-                    <caption>font-size绝对值对应表</caption>
-                    <thead>
-                        <tr><th>绝对值</th><th>HTML标题</th><th>例子</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><th>xx-large</th><td>h1</td><td><span style="font-size: xx-large">xx-large text</span></td></tr>
-                        <tr><th>x-large</th><td>h2</td><td><span style="font-size: x-large">x-large text</span></td></tr>
-                        <tr><th>large</th><td>h3</td><td><span style="font-size: large">large text</span></td></tr>
-                        <tr><th>medium</th><td>h4</td><td><span style="font-size: medium">medium text</span></td></tr>
-                        <tr><th>small</th><td>h5</td><td><span style="font-size: small">small text</span></td></tr>
-                        <tr><th>x-small</th><td>[N / A]</td><td><span style="font-size: x-small">x-small text</span></td></tr>
-                        <tr><th>xx-small</th><td>h6</td><td><span style="font-size: xx-small">xx-small text</span></td></tr>
-                    </tbody>
-                </table>
-                
-                <p>下面是其考虑了其自带的margin及padding后的效果：</p>
-                <div id="fontsizepanel">
-                    <p style="font-size: xx-large">xx-large text</p>
-                    <p style="font-size: x-large">x-large text</p>
-                    <p style="font-size: large">large text</p>
-                    <p style="font-size: medium">medium text</p>
-                    <p style="font-size: small">small text</p>
-                    <p style="font-size: x-small">x-small text</p>
-                    <p style="font-size: xx-small">xx-small text</p>
-                </div>
-                <p>另一种是相对大小。</p>
-                <ul>
-                    <li>larger</li>
-                    <li>smaller</li>
-                </ul>
-                <p>即相对于父元素的取值，而取更大或更小的值。例如，若某元素取值为larger, 如果父元素的大小值为medium，则该元素则取比medium更大一格的值，即large.</p>
-                <p>综上，对于<span class="htmltag">article</span> <span class="htmltag">header</span>之下的<span class="htmltag">h1</span>，对应于文章标题，其font-size应为xx-large。而<span class="htmltag">section</span>之下的<span class="htmltag">h1</span>对应于章标题，应取值为x-large. <span class="htmltag">section</span>之下的<span class="htmltag">section</span>之下<span class="htmltag">h1</span>对应于节标题，应取值为large. <span class="htmltag">section</span>之<span class="htmltag">section</span>之<span class="htmltag">section</span>之下的<span class="htmltag">h1</span>对应于第2级节标题，应取值为medium.</p>
+                <section>
+                    <h1>h1的实际大小值</h1>
+
+                    <p><span class="htmltag">article</span>的<span class="htmltag">header</span>及<span class="htmltag">section</span>之下均有<span class="htmltag">h1</span>标签。这里的<span class="htmltag">h1</span>取意为相应章节之下的最大标题，而非<span class="htmltag">h1</span>之本义。因此，需对这些<span class="htmltag">h1</span>设定相应的大小。</p>
+                    
+                    <section>
+                        <h1>关于font-size</h1>
+                        <p>当使用字面符而非em, px等单位来表示大小时，font-size分为两种。</p>
+                        <p>一种是绝对大小。有以下几种规格：</p>
+                        <ul>
+                            <li>xx-large</li>
+                            <li>x-large</li>
+                            <li>large</li>
+                            <li>mediumn</li>
+                            <li>small</li>
+                            <li>x-small</li>
+                            <li>xx-small</li>
+                        </ul>
+                        <p>其与H1 - H6的关系详见下表。</p>
+                        <table>
+                            <caption>font-size绝对值对应表</caption>
+                            <thead>
+                                <tr><th>绝对值</th><th>HTML标题</th><th>例子</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><th>xx-large</th><td>h1</td><td><span style="font-size: xx-large">xx-large text</span></td></tr>
+                                <tr><th>x-large</th><td>h2</td><td><span style="font-size: x-large">x-large text</span></td></tr>
+                                <tr><th>large</th><td>h3</td><td><span style="font-size: large">large text</span></td></tr>
+                                <tr><th>medium</th><td>h4</td><td><span style="font-size: medium">medium text</span></td></tr>
+                                <tr><th>small</th><td>h5</td><td><span style="font-size: small">small text</span></td></tr>
+                                <tr><th>x-small</th><td>[N / A]</td><td><span style="font-size: x-small">x-small text</span></td></tr>
+                                <tr><th>xx-small</th><td>h6</td><td><span style="font-size: xx-small">xx-small text</span></td></tr>
+                            </tbody>
+                        </table>
+
+                        <p>下面是其考虑了其自带的margin及padding后的效果：</p>
+                        <div id="fontsizepanel">
+                            <p style="font-size: xx-large">xx-large text</p>
+                            <p style="font-size: x-large">x-large text</p>
+                            <p style="font-size: large">large text</p>
+                            <p style="font-size: medium">medium text</p>
+                            <p style="font-size: small">small text</p>
+                            <p style="font-size: x-small">x-small text</p>
+                            <p style="font-size: xx-small">xx-small text</p>
+                        </div>
+                        <p>另一种是相对大小。</p>
+                        <ul>
+                            <li>larger</li>
+                            <li>smaller</li>
+                        </ul>
+                        <p>即相对于父元素的取值，而取更大或更小的值。例如，若某元素取值为larger, 如果父元素的大小值为medium，则该元素则取比medium更大一格的值，即large.</p>
+                    </section>
+                    
+                    <section>
+                        <h1>设定h1大小</h1>
+                        <p>综上，对于<span class="htmltag">article</span> <span class="htmltag">header</span>之下的<span class="htmltag">h1</span>，对应于文章标题，其font-size应为xx-large。而<span class="htmltag">section</span>之下的<span class="htmltag">h1</span>对应于章标题，应取值为x-large. <span class="htmltag">section</span>之下的<span class="htmltag">section</span>之下<span class="htmltag">h1</span>对应于节标题，应取值为large. <span class="htmltag">section</span>之<span class="htmltag">section</span>之<span class="htmltag">section</span>之下的<span class="htmltag">h1</span>对应于第2级节标题，应取值为medium.</p>
+                    </section>
+                </section>
             </section>
             
             <section class="chapter">
@@ -161,6 +175,7 @@
                 <ol>
                     <li>简洁大方</li>
                     <li>赏心悦目</li>
+                    <li>Media Query</li>
                 </ol>
                 <p>切忌过度花里花哨。</p>
             </section>
@@ -168,9 +183,11 @@
             <section class="chapter">
                 <h1>书写文档时一些必备功能</h1>
                 <ul>
-                    <li>自动编排章节序号</li>
-                    <li>自动添加文档目录及链接</li>
-                    <li>语法加亮</li>
+                    <li>&check; 有较为合理而固定的文档结构</li>
+                    <li>&check; 自动编排章节序号</li>
+                    <li>&star; 自动添加文档目录及链接</li>
+                    <li>&star; 语法加亮</li>
+                    <li>&star; 方便地改变文章的section层级</li>
                 </ul>
                 <p></p>
             </section>
@@ -179,11 +196,28 @@
                 <h1>应有的工具</h1>
                 <ul>
                     <li>Color Wheel</li>
+                    <li>Color Representation Convertion Online</li>
                     <li>HTML Tag Escape</li>
                     <li>Regular Expression Online</li>
                     <li>Unicode</li>
+                    <li>PDF, Epub Convertion</li>
                 </ul>
                 <p></p>
+            </section>
+            
+            <section class="chapter">
+                <h1>NetBeans工具助力</h1>
+                <ul>
+                    <li><a href="http://wiki.netbeans.org/FaqEditorMacros" target="_blank">NetBeans FaqEditorMacros</a></li>
+                </ul>
+                <p></p>
+            </section>
+            
+            <section class="chapter">
+                <h1>Questionnaire</h1>
+                <ul>
+                    <li>Portable Doc, or Online Tutorial?</li>
+                </ul>
             </section>
 
             <section class="reference">
