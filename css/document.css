@@ -102,7 +102,7 @@ pre {
     padding: 0.5em;
     border-radius: 5px;
     color: #333;
-    overflow: scroll;
+    overflow-x: scroll;
 }
 
 pre.programlisting {
