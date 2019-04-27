@@ -11,11 +11,12 @@
         
         <style type="text/css">
             div#fontsizepanel {
-                border: 1px inset lightgray;
+                border: 1px solid lightgray;
                 color: #666;
-                background-color: #fff;
+                background-color: #ddd;
                 width: 300px;
                 border-radius: 0.5em;
+                box-shadow: 5px 5px 5px #333;
             }
         </style>
         
@@ -24,7 +25,7 @@
     <body>
         <article>
             <header>
-                <h1>使用HTML5书写文档</h1>
+                <h1>使用<span class="outstand">HTML5</span>书写文档</h1>
                 <p class='authorinfo'>Sarkuya, <time>2019-04-25</time></p>
             </header>
             
@@ -35,7 +36,7 @@
 
             <section class="chapter">
                 <h1>一个HTML5文档的格式</h1>
-                <pre>
+                <pre class="programlisting">
 &lt;!DOCTYPE html&gt;
 
 &lt;html&gt;
@@ -54,7 +55,7 @@
             </section>
             
             <section class="chapter">
-                <h1>关于显示程序源码应使用的标签</h1>
+                <h1>关于源代码标签</h1>
                 <p><span class="htmltag">pre</span>是必须用的。有些用户还使用<span class="htmltag">pre</span> <span class="htmltag">code</span>的方式。但<span class="htmltag">code</span>是行内元素。因此，若要显示一整段的代码，应只使用<span class="htmltag">pre</span>就行了。DocBook将programlisting也只是转换为<span class="htmltag">pre</span>而已。<span class="htmltag">pre</span>的目的在于保留空格和换行符。</p>
             </section>
                 
@@ -62,7 +63,7 @@
                 <h1>使用<span class="htmltag">article</span></h1>
                 <p>在着重于网页结构的网页中，可不使用<span class="htmltag">article</span>标签。但如果该网页侧重于展示一篇文章，则应使用<span class="htmltag">article</span>。</p>
                 <p>下面是使用<span class="htmltag">article</span>的一个简单例子。</p>
-                <pre>
+                <pre class="programlisting">
 &lt;body&gt;
     &lt;article&gt;
         &lt;header&gt;
@@ -174,6 +175,7 @@
             
             <section class="chapter">
                 <h1>版面设计要求</h1>
+                <p>版面设计应考虑以下因素：</p>
                 <ol>
                     <li>简洁大方</li>
                     <li>赏心悦目</li>

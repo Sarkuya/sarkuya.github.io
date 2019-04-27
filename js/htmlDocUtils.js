@@ -11,7 +11,7 @@ htmlDocUtils.numberingChapters = function() {
     
     chapterTitles.forEach(function(chapterTitleElement, index){
         var chapterIndex = index + 1;
-        chapterTitleElement.innerText = chapterIndex + ". " + chapterTitleElement.innerText;
+        chapterTitleElement.innerHTML = "<span class='indexNum'>" + chapterIndex + " </span>" + chapterTitleElement.innerText;
         
         // first level sections -> 1.1 Section_Title
         var chapterElement = chapterTitleElement.parentElement;

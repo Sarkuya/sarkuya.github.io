@@ -1,19 +1,36 @@
+/*
+    Stylesheet for documentation
+
+    Author     : Sarkuya
+    Created on : 2019-04-25
+*/
+
 html {
-    background-color: hsla(210, 50%, 80%, 0.8);
+    background: linear-gradient(#00abeb, #fff);
 }
 
 body {
+    margin: 1em;
     padding: 1em;
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 1.0em;
+    background-color: #fff;
+    border-radius: 0.5em;
+    box-shadow: 0 0 5px #123;
+    font-family: Helvetica, "Lucida Grande", "Lucida Sans Unicode", Arial, Verdana, sans-serif;
 }
 
 /* -------------------- article -------------------- */
 
 article header h1 {
-    color: hsla(220, 30%, 30%, 0.9);
+    color: #007ac0;
     text-align: center;
     font-size: xx-large;
+    text-shadow:rgb(213, 213, 213) -4px -4px 8px;
+    color: rgb(92, 25, 36);
+    font-size: 500%;
+}
+
+article header h1 span.outstand {
+    color: rgb(235, 76, 33);
 }
 
 article header p.authorinfo {
@@ -21,20 +38,35 @@ article header p.authorinfo {
     text-align: right;
     font-style: italic;
     font-size: 80%;
+    margin-right: 0.5em;
 }
 
 article>section>h1 {
-    color: #336699;
+    color: #043a6b;
     font-size: x-large;
+    margin-top: 5em;
+}
+
+article>section>h1>span.indexNum {
+    color: brown;
+    font-size: 300%;
+    font-style: italic;
 }
 
 article>section>section>h1 {
-    color: #517994;
+    color: #007aa0;
     font-size: large;
 }
 
+article>section>section>h1:before,
+article>section>section>section>h1:before {
+    content: "§ ";
+    color: green;
+}
+
 article>section>section>section>h1 {
-    color: #666;
+    color: #517994;
+
     font-size: medium;
 }
 
@@ -58,16 +90,32 @@ article ul li {
 }
 
 span.htmltag {
-    color: brown;
+    color: rgb(235, 76, 33);
     font-style: italic;
     padding: 0 0.3em;
 }
 
 pre {
-    background-color: rgba(255, 255, 255, 0.2);
+    font-family: monospace;
+    white-space: pre;
+    line-height: 1.5em;
     padding: 0.5em;
-    font-size: 80%;
     border-radius: 5px;
     color: #333;
-    overflow-x: scroll;
+}
+
+pre.programlisting {
+    background-color: #f9f9f9;
+    border: 1px dashed #2f6fab;
+}
+
+pre.synopsis {
+    background-color: #e0e0e0;
+    border-left: 5px solid limegreen;
+    border-right: 5px solid limegreen;
+}
+
+pre.screen {
+    color: #ccc;
+    background-color: #333;
 }

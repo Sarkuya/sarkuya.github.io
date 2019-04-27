@@ -13,12 +13,12 @@ p {
 }
 
 a {
-    color: #336699;
+    color: #007dc3;
     text-decoration: none;
 }
 
 a:hover {
-    text-decoration: underline;
+    color: #666;
 }
 
 /**

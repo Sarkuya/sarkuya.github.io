@@ -1,0 +1,416 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <title>HelloMsg</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+</head>
+<body>
+    <div class="book_title">C++</div>
+    <h1>Chapter 1 -- Getting Started</h1>
+
+    <h2>HelloWorld源码</h2>
+    <pre class="source_code">
+#include &lt;iostream&gt;
+
+int main()
+{
+    std::cout << "Hello world!\n";
+}
+</pre>
+
+    <h2>源码理解与参考</h2>
+    <h3>标准库的命名空间</h3>
+    <p>std是标准库的命名空间。</p>
+
+    <p>1.1. winbase.h定义了Windows基本数据类型、宏及结构。winbase.h中还包含了winnt.h.</p>
+    <p>1.1.1. 基本类型</p>
+    <table>
+        <caption>winbase.h定义的基本类型</caption>
+        <thead>
+            <tr><th>Windows类型</th><th> 对应的C/C++或Windows类型</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>ULONG</td><td>unsigned long</td></tr>
+            <tr><td>PULONG</td><td>ULOONG*</td></tr>
+            <tr><td>USHORT</td><td>unsigned short</td></tr>
+            <tr><td>PUSHORT</td><td>USHORT*</td></tr>
+            <tr><td>UCHAR</td><td>unsigned char</td></tr>
+            <tr><td>PUCHAR</td><td>UCHAR*</td></tr>
+            <tr><td>PSZ</td><td>char*</td></tr>
+        </tbody>
+    </table>
+    <p>1.1.2. 布尔类型</p>
+    <table>
+        <caption>winbase.h定义的布尔类型</caption>
+        <thead>
+            <tr><th>Windows类型</th><th> 对应的C/C++或Windows类型</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>TRUE</td><td>true, 1</td></tr>
+            <tr><td>FALSE</td><td>false, 0</td></tr>
+        </tbody>
+    </table>
+    <p>1.1.3. 调用约定类型</p>
+    <table>
+        <caption>winbase.h定义的调用约定类型</caption>
+        <thead>
+            <tr><th>Windows类型</th><th> 对应的C/C++或Windows类型</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>IN</td><td>N/A</td></tr>
+            <tr><td>OUT</td><td>N/A</td></tr>
+            <tr><td>OPTIONAL</td><td>N/A</td></tr>
+            <tr><td>far</td><td>N/A</td></tr>
+            <tr><td>near</td><td>N/A</td></tr>
+            <tr><td>FAR</td><td>far</td></tr>
+            <tr><td>NEAR</td><td>near</td></tr>
+            <tr><td>pascal</td><td>_stdcall</td></tr>
+            <tr><td>PASCAL</td><td>_stdcall</td></tr>
+            <tr><td>cdecl</td><td>_cdecl</td></tr>
+            <tr><td>CDECL</td><td>_cdecl</td></tr>
+            <tr><td>CALLBACK</td><td>_stdcall</td></tr>
+            <tr><td>WINAPI</td><td>_stdcall</td></tr>
+            <tr><td>WINAPI_INLINE</td><td>WINAPI</td></tr>
+            <tr><td>WINAPIV</td><td>_cdecl</td></tr>
+            <tr><td>APIENTRY</td><td>WINAPI</td></tr>
+            <tr><td>APIPRIVATE</td><td>_stdcall</td></tr>
+        </tbody>
+    </table>
+    <p>1.1.4. 常量关键字</p>
+    <table>
+        <caption>winbase.h定义的常量关键字</caption>
+        <thead>
+            <tr><th>Windows类型</th><th> 对应的C/C++或Windows类型</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>CONST</td><td>const</td></tr>
+        </tbody>
+    </table>
+    <p>1.1.5. 常用类型</p>
+    <table>
+        <caption>winbase.h定义的常用类型</caption>
+        <thead>
+            <tr><th>Windows类型</th><th> 对应的C/C++或Windows类型</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>DWORD</td><td>unsigned long</td></tr>
+            <tr><td>BOOL</td><td>int</td></tr>
+            <tr><td>BYTE</td><td>unsigned char</td></tr>
+            <tr><td>WORD</td><td>unsigned short</td></tr>
+            <tr><td>FLOAT</td><td>float</td></tr>
+            <tr><td>PFLOAT</td><td>FLOAT*</td></tr>
+            <tr><td>PBOOL</td><td>BOOL near*</td></tr>
+            <tr><td>LPBOOL</td><td>BOOL far*</td></tr>
+            <tr><td>PBYTE</td><td>BYTE near*</td></tr>
+            <tr><td>LPBYTE</td><td>Byte far*</td></tr>
+            <tr><td>PINT</td><td>int near*</td></tr>
+            <tr><td>LPINT</td><td>int far*</td></tr>
+            <tr><td>PWORD</td><td>WORD near*</td></tr>
+            <tr><td>LPWORD</td><td>WORD far*</td></tr>
+            <tr><td>LPLONG</td><td>long far*</td></tr>
+            <tr><td>PDWORD</td><td>DWORD near*</td></tr>
+            <tr><td>LPDWORD</td><td>DWORD far*</td></tr>
+            <tr><td>LPVOID</td><td>void far*</td></tr>
+            <tr><td>LPCVOID</td><td>CONST void far*</td></tr>
+            <tr><td>INT</td><td>int</td></tr>
+            <tr><td>UINT</td><td>unsigned int</td></tr>
+            <tr><td>PUINT</td><td>unsigned int*</td></tr>
+            <tr><td>ATOM</td><td>WORD</td></tr>
+        </tbody>
+    </table>
+
+    <p>1.1.6. 多态数值类型</p>
+    <table>
+        <caption>winbase.h定义的多态数值类型</caption>
+        <thead>
+            <tr><th>Windows类型</th><th> 对应的C/C++或Windows类型</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>WPARAM</td><td>UINT_PTR</td></tr>
+            <tr><td>LPARAM</td><td>LONG_PTR</td></tr>
+            <tr><td>LRESULT</td><td>LONG_PTR</td></tr>
+        </tbody>
+    </table>
+
+    <p>1.1.7. 宏</p>
+    <table>
+        <caption>winbase.h定义的宏</caption>
+        <thead>
+            <tr><th>名称</th><th>格式</th><th>作用</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>max</td><td>max(a,b)</td><td>返回两数中的最大值</td></tr>
+            <tr><td>min</td><td>min(a,b)</td><td>返回两数中的最小值</td></tr>
+            <tr><td>MAKEWORD</td><td>MAKEWORD(a,b)</td><td>将两数打包成WORD</td></tr>
+            <tr><td>MAKELONG</td><td>MAKELONG(a,b)</td><td>将两数打包成LONG</td></tr>
+        </tbody>
+    </table>
+    <p>max及min这两个宏可通过定义NOMINMAX来取消。</p>
+
+    <p>1.1.8 与句柄有关的类型</p>
+    <ul>
+        <li>HKEY</li>
+        <li>PHKEY</li>
+        <li>HACCEL</li>
+        <li>HBITMAP</li>
+        <li>HBRUSH</li>
+        <li>HCOLORSPACE</li>
+        <li>HDC</li>
+        <li>HGLRC</li>
+        <li>HDESK</li>
+        <li>HENHMETAFILE</li>
+        <li>HFONT</li>
+        <li>HICON</li>
+        <li>HMENU</li>
+        <li>HMETAFILE</li>
+        <li>HINSTANCE</li>
+        <li>HMODULE</li>
+        <li>HPALETTE</li>
+        <li>HPEN</li>
+        <li>HRGN</li>
+        <li>HRSRC</li>
+        <li>HSPRITE</li>
+        <li>HLSURF</li>
+        <li>HSTR</li>
+        <li>HTASK</li>
+        <li>HWINSTA</li>
+        <li>HKL</li>
+        <li>HWINEVENTHOOK</li>
+        <li>HMONITOR</li>
+        <li>HUMPD</li>
+        <li>HCURSOR</li>
+        <li>HFILE</li>
+    </ul>
+    <p>这些基本上都与GDI有关。与此相关的另有2个类型，COLORREF, LPCOLORREF，对应于DWORD类型。</p>
+
+
+    <p>1.1.8 结构</p>
+    <p>定义了RECT, RECTL, POINT, POINTL, POINTS, SIZE, SIZEL, FILETIME等结构。</p>
+    <pre class="definition">
+typedef struct tagRECT
+{
+    LONG    left;
+    LONG    top;
+    LONG    right;
+    LONG    bottom;
+} RECT, *PRECT, NEAR *NPRECT, FAR *LPRECT;
+
+typedef const RECT FAR* LPCRECT;
+
+typedef struct _RECTL       /* rcl */
+{
+    LONG    left;
+    LONG    top;
+    LONG    right;
+    LONG    bottom;
+} RECTL, *PRECTL, *LPRECTL;
+
+typedef const RECTL FAR* LPCRECTL;
+
+typedef struct tagPOINT
+{
+    LONG  x;
+    LONG  y;
+} POINT, *PPOINT, NEAR *NPPOINT, FAR *LPPOINT;
+
+typedef struct _POINTL      /* ptl  */
+{
+    LONG  x;
+    LONG  y;
+} POINTL, *PPOINTL;
+
+typedef struct tagSIZE
+{
+    LONG        cx;
+    LONG        cy;
+} SIZE, *PSIZE, *LPSIZE;
+
+typedef SIZE               SIZEL;
+typedef SIZE               *PSIZEL, *LPSIZEL;
+
+typedef struct tagPOINTS
+{
+#ifndef _MAC
+    SHORT   x;
+    SHORT   y;
+#else
+    SHORT   y;
+    SHORT   x;
+#endif
+} POINTS, *PPOINTS, *LPPOINTS;
+
+typedef struct _FILETIME {
+    DWORD dwLowDateTime;
+    DWORD dwHighDateTime;
+} FILETIME, *PFILETIME, *LPFILETIME;
+</pre>
+    <p>结构RECTL与RECT一样，POINTL与POINT一样，POINTS则是使用SHORT来表示的POINT结构。</p>
+
+    <p>1.2 排除特定的包含文件</p>
+    <p>Windows.h包含了许多文件。可以通过定义特定的数值来自动排除某些头文件。最常见的是如果定义了WIN32_LEAN_AND_MEAN，则在Windows环境下面，以下的头文件将不被包含进来：</p>
+    <ul>
+        <li>&lt;cderr.h&gt;</li>
+        <li>&lt;dde.h&gt;</li>
+        <li>&lt;ddeml.h&gt;</li>
+        <li>&lt;dlgs.h&gt;</li>
+        <li>&lt;lzexpand.h&gt;</li>
+        <li>&lt;mmsystem.h&gt;</li>
+        <li>&lt;nb30.h&gt;</li>
+        <li>&lt;rpc.h&gt;</li>
+        <li>&lt;shellapi.h&gt;</li>
+        <li>&lt;winperf.h&gt;</li>
+        <li>&lt;winsock.h&gt;</li>
+    </ul>
+
+    <p>
+        还有另外一些标志，均显式地以“NO”开头，表示“不需要”特定的头文件。如NOMENUS, NOICONS, NOGDI等等。</p>
+
+    <p>1.2. WinNT.h</p>
+    <p>1.2.1 WinNT.h先定义了几个基本数据类型。</p>
+    <table>
+        <caption>WinNT.h定义的基本类型</caption>
+        <thead>
+            <tr><th>Windows类型</th><th> 对应的C/C++或Windows类型</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>VOID</td><td>void</td></tr>
+            <tr><td>CHAR</td><td>char</td></tr>
+            <tr><td>SHORT</td><td>short</td></tr>
+            <tr><td>LONG</td><td>long</td></tr>
+            <tr><td>INT</td><td>int</td></tr>
+        </tbody>
+    </table>
+
+    <p>1.2.2 Unicode的字符型及字符型数组</p>
+    <p>对于单个字符，上面已经定义了CHAR型。而对于Unicode，C/C++中有wchar_t与之对应。Windows中则有WCHAR.</p>
+    <table>
+        <caption>Unicode的单个字符类型</caption>
+        <thead>
+            <tr><th>Windows类型</th><th> 对应的C/C++或Windows类型</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>WCHAR</td><td>wchar_t</td></tr>
+        </tbody>
+    </table>
+    <p>以下是相关的指针：</p>
+    <table>
+        <caption>单字符类型的指针与常量指针</caption>
+        <tr>
+          <th>指针</th>
+          <th>含义</th>
+          <th>对应的Windows类型</th>
+          <td rowspan="4">&lt;--&gt;</td>
+          <th>常量指针</th>
+          <th>含义</th>
+          <th>对应的Windows类型</th>
+        </tr>
+        <tr>
+          <td>PWCHAR</td>
+          <td>pointer to wide char</td>
+          <td rowspan="3">WCHAR*</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+        </tr>
+        <tr>
+          <td>LPWCH</td>
+          <td>long pointer to wide char</td>
+          <td>LPCWCH</td>
+          <td>long pointer to const wide char</td>
+          <td rowspan="2">CONST WCHAR*</td>
+        </tr>
+        <tr>
+          <td>PWCH</td>
+          <td>pointer to wide char</td>
+          <td>PCWCH</td>
+          <td>pointer to const wide char</td>
+        </tr>
+    </table>
+
+    <p>Unicode的字符型数组分为3种情况：以null结尾的，和2个null结尾的，可能不以null结尾的。</p>
+    <table>
+        <caption>以null结尾的字符型数组的指针与常量指针</caption>
+        <tr>
+          <th>指针</th>
+          <th>含义</th>
+          <th>对应的Windows类型</th>
+          <td rowspan="4">&lt;--&gt;</td>
+          <th>常量指针</th>
+          <th>含义</th>
+          <th>对应的Windows类型</th>
+        </tr>
+        <tr>
+          <td>NWPSTR</td>
+          <td>null terminated wide pointer to string</td>
+          <td rowspan="3">WCHAR*</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+        </tr>
+        <tr>
+          <td>LPWSTR</td>
+          <td>long pointer to wide string</td>
+          <td>LPCWSTR</td>
+          <td>long pointer to const wide string</td>
+          <td>CONST WCHAR*</td>
+        </tr>
+        <tr>
+          <td>PWSTR</td>
+          <td>pointer to wide string</td>
+          <td>PCZPWSTR</td>
+          <td>pointer to const zero-ended pointer to wide string</td>
+          <td>CONST PWSTR*</td>
+        </tr>
+        <tr>
+          <td>PWSTR</td>
+          <td>pointer to wide string</td>
+          <td>PCZPWSTR</td>
+          <td>pointer to const zero-ended pointer to wide string</td>
+          <td>CONST PWSTR*</td>
+        </tr>
+        <tr>
+          <td>PZPWSTR</td>
+          <td>pointer to zero-ended pointer to wide string</td>
+          <td>PWSTR*</td>
+          <td>----</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+        </tr>
+        <tr>
+          <td>LPUWSTR</td>
+          <td>long pointer to unaligned wide string</td>
+          <td>WCHAR UNALIGNED*</td>
+          <td>----</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+        </tr>
+        <tr>
+          <td>PUWSTR</td>
+          <td>pointer to unaligned wide string</td>
+          <td>WCHAR UNALIGNED*</td>
+          <td>----</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+        </tr>
+        <tr>
+          <td>PZPCWSTR</td>
+          <td>pointer to &nbsp;</td>
+          <td>PCWSTR*</td>
+          <td>----</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+        </tr>
+
+    </table>
+
+    <h3>2. WinMain函数</h3>
+    <p>WinMain是Windows应用程序的入口。每个Windows应用都必须有此函数。</p>
+</body>
+</html>

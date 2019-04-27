@@ -1,0 +1,59 @@
+body
+{
+    background-color: #eee;
+}
+
+h2 
+{
+    color: #333;
+    margin-top: 2em;
+    font-size: x-large;
+}
+
+div.book_title
+{
+    font-weight: bold;
+    font-size: larger;
+    text-align: right;
+    text-decoration: underline;
+    color: Green;
+}
+
+pre.source_code 
+{
+    border: 1px solid #333;
+    padding: 1.5em;
+    background-color: #ddd;
+    margin-left: 2em;
+}
+
+pre.definition
+{
+    border: 1px solid #333;
+    padding: 1.5em;
+    color: #666;
+    background-color: #ddd;
+    margin-left: 2em;
+}
+
+table
+{
+    border-collapse: collapse;
+}
+
+table, th, td
+{
+    border: 1px solid black;
+    padding: 5px;
+}
+
+table caption
+{
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+table tr th
+{
+    background-color: #ccc;
+}
