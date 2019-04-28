@@ -40,6 +40,10 @@ article header p.authorinfo {
     margin-right: 0.5em;
 }
 
+article  {
+    columns: 25em;
+}
+
 article>section>h1 {
     color: #043a6b;
     font-size: x-large;
@@ -86,6 +90,13 @@ article ol
 }
 
 article ul li {
+}
+
+article dl.demo {
+    background-color: #eee;
+    padding: 1em;
+    margin-left: 1em;
+    border-radius: 5px;
 }
 
 span.htmltag {
