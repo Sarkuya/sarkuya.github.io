@@ -32,30 +32,36 @@ article header h1 {
     color: #007ac0;
     text-align: center;
     font-size: xx-large;
-    text-shadow:rgb(213, 213, 213) -4px -4px 8px;
+    text-shadow:#ccc 3px 3px 3px;
     color: rgb(92, 25, 36);
+    letter-spacing: 0.5em;
 }
 
 article header h1 span.outstand {
     color: rgb(235, 76, 33);
+    font-size: larger;
+    font-weight: 900;
 }
 
 article header p.authorinfo {
-    color: #666;
+    color: #6f6f6f;
     text-align: right;
     font-style: italic;
-    font-size: 80%;
+    font-size: 100%;
     margin-right: 0.5em;
 }
 
 article header div.toc {
     background-color: #fff;
+    margin-left: 1em;
 }
 
 article header div.toc p {
+    text-indent: 0;
     text-align: center;
     font-size: x-large;
     color: #043a6b;
+    letter-spacing: 1em;
 }
 
 article header div.toc dt {
@@ -95,6 +101,10 @@ article>section>section>section>h1 {
     font-size: medium;
 }
 
+article section p {
+    color: #0f0f0f;
+}
+
 article footer p.copyright {
     background-color: #eee;
     padding: 0.5em;
@@ -115,10 +125,13 @@ article ul li {
 }
 
 article dl.demo {
-    background-color: #eee;
+    font-family: monospace;
+    color: #333;
+    background-color: #f9f9f9;
     padding: 1em;
     margin-left: 1em;
     border-radius: 5px;
+    font-size: 80%;
 }
 
 span.htmltag {
@@ -135,6 +148,7 @@ pre {
     border-radius: 5px;
     color: #333;
     overflow-x: scroll;
+    font-size: 80%;
 }
 
 pre.programlisting {

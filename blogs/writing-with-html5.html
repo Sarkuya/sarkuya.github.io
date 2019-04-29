@@ -25,13 +25,23 @@
     <body>
         <article>
             <header>
-                <h1>使用<span class="outstand">HTML5</span>书写文档</h1>
+                <h1>使用<span class="outstand">HTML5</span>编写文档</h1>
                 <p class='authorinfo'>Sarkuya, <time>2019-04-25</time></p>
             </header>
             
             <section class="chapter">
                 <h1>为何使用HTML5来编写文档</h1>
-                <p>若有可能，使用HTML5来书写文档。</p>
+                <p>使用HTML5来编写文档有以下好处：</p>
+                <ol>
+                    <li>方便共享</li>
+                    <li>版面效果佳良</li>
+                    <li>快速转换为其他格式的文档</li>
+                    <li>充分利用HTML技术的各种优势</li>
+                    <li>不受厂商与平台限制</li>
+                    <li>编辑环境自由</li>
+                </ol>
+                <p>因此，若有可能，应使用HTML5来编写文档。</p>
+                <p>本文从编写一个最简单的HTML5文档开始，探讨在各阶段其与一篇成熟的文档之间存在的差距，并通过运用各种技术来达到效果，或缩短距离，最后力使其成为一篇漂亮、出色的文档。</p>
             </section>
 
             <section class="chapter">
@@ -60,7 +70,7 @@
             </section>
                 
             <section class="chapter">
-                <h1>使用<span class="htmltag">article</span></h1>
+                <h1>使用<span class="htmltag">article</span>编写文档内容</h1>
                 <p>在着重于网页结构的网页中，可不使用<span class="htmltag">article</span>标签。但如果该网页侧重于展示一篇文章，则应使用<span class="htmltag">article</span>。</p>
                 <p>下面是使用<span class="htmltag">article</span>的一个简单例子。</p>
                 <pre class="programlisting">
@@ -98,12 +108,11 @@
 &lt;/body&gt;
 </pre>
                 <section>
-                    <h1>h1的实际大小值</h1>
-
+                    <h1>设定h1的值</h1>
                     <p><span class="htmltag">article</span>的<span class="htmltag">header</span>及<span class="htmltag">section</span>之下均有<span class="htmltag">h1</span>标签。这里的<span class="htmltag">h1</span>取意为相应章节之下的最大标题，而非<span class="htmltag">h1</span>之本义。因此，需对这些<span class="htmltag">h1</span>设定相应的大小。</p>
                     
                     <section>
-                        <h1>关于font-size</h1>
+                        <h1>font-size的绝对值及相对值</h1>
                         <p>当使用字面符而非em, px等单位来表示大小时，font-size分为两种。</p>
                         <p>一种是绝对大小。有以下几种规格：</p>
                         <ul>
@@ -151,14 +160,14 @@
                     </section>
                     
                     <section>
-                        <h1>设定h1大小</h1>
+                        <h1>为h1指定合适的绝对值</h1>
                         <p>综上，对于<span class="htmltag">article</span> <span class="htmltag">header</span>之下的<span class="htmltag">h1</span>，对应于文章标题，其font-size应为xx-large。而<span class="htmltag">section</span>之下的<span class="htmltag">h1</span>对应于章标题，应取值为x-large. <span class="htmltag">section</span>之下的<span class="htmltag">section</span>之下<span class="htmltag">h1</span>对应于节标题，应取值为large. <span class="htmltag">section</span>之<span class="htmltag">section</span>之<span class="htmltag">section</span>之下的<span class="htmltag">h1</span>对应于第2级节标题，应取值为medium.</p>
                     </section>
                 </section>
             </section>
             
             <section class="chapter">
-                <h1>关于dl</h1>
+                <h1>使用dl制作文档目录</h1>
                 <p><span class="htmltag">dl</span>表示description list。它由一组name-value的组合构成。name由<span class="htmltag">dt</span>(description term)表示，value由<span class="htmltag">dd</span>(description details)表示。</p>
                 <p>例如，代码：</p>
                 <pre class="programlisting">
@@ -232,7 +241,7 @@
                     <dt>第三部分 附录</dt>
                     <dt>参考资料</dt>
                 </dl>
-                <p>这是上面的HTML代码：</p>
+                <p>这是实现上面效果的HTML代码：</p>
                 <pre class="programlisting">
 &lt;dl&gt;
     &lt;dt&gt;前言&lt;/dt&gt;
@@ -275,7 +284,16 @@
     &lt;dt&gt;参考资料&lt;/dt&gt;
 &lt;/dl&gt;
 </pre>
-                <p><span class="htmltag">dt</span>总是存放各级标题。使用<span class="htmltag">dd</span>作为嵌套下级内容的容器。</p>
+                <p><span class="htmltag">dt</span>总是存放各级标题。使用<span class="htmltag">dd</span>作为嵌套下级内容的容器。第一级，直接添加<span class="htmltag">dt</span>，对于第一级以下的每一级，则需依序添加<span class="htmltag">dd</span>, <span class="htmltag">dl</span>, <span class="htmltag">dt</span>。</p>
+            </section>
+            
+            <section class="chapter">
+                <h1>代码加亮</h1>
+                <p>从<span class="htmltag">pre</span>取出内容时，如果取其innerHTML属性，则取得了经过转义后的代码。</p>
+                <pre class="programlisting">
+var preElement = document.getElementById("test");
+console.log(preElement.innerHTML);  // &lt;p&gt;Hello&lt;/p&gt;
+</pre>
             </section>
             
             <section class="chapter">
@@ -324,6 +342,7 @@ var rgb = "rgb("
                     <li>Media Query</li>
                 </ol>
                 <p>切忌过度花里花哨。</p>
+                <p>功夫在诗外。平时做到用心观察，用心研究，用心记录。</p>
             </section>
             
             <section class="chapter">
@@ -331,7 +350,7 @@ var rgb = "rgb("
                 <ul>
                     <li>&check; 有较为合理而固定的文档结构</li>
                     <li>&check; 自动编排章节序号</li>
-                    <li>&star; 自动添加文档目录及链接</li>
+                    <li>&check; 自动添加文档目录及链接</li>
                     <li>&star; 语法加亮</li>
                     <li>&star; 方便地改变文章的section层级</li>
                 </ul>

@@ -6,9 +6,19 @@
 var htmlDocUtils = {};
 
 htmlDocUtils.init = function() {
-    
     htmlDocUtils.numberingChapters();
     htmlDocUtils.makeToc();
+    htmlDocUtils.highLightPre();
+};
+
+htmlDocUtils.highLightPre = function() {
+    var preElements = document.querySelectorAll("article pre");
+    
+    preElements.forEach(function(preElement, index){
+        var content = preElement.innerHTML;
+        
+
+    });
 };
 
 htmlDocUtils.makeLinkSpan = function(href, textContent) {
@@ -116,19 +126,6 @@ htmlDocUtils.makeToc = function() {
             });
         });
     });
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    //console.log(toc);
 };
 
 htmlDocUtils.numberingChapters = function() {
@@ -158,7 +155,5 @@ htmlDocUtils.numberingChapters = function() {
         });
     });
 };
-
-
 
 window.addEventListener("DOMContentLoaded", htmlDocUtils.init);
