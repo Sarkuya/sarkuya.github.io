@@ -5,6 +5,10 @@
     Created on : 2019-04-25
 */
 
+@page {
+    size: a4 portrait;
+}
+
 html {
     background: linear-gradient(#00abeb, #fff);
 }
@@ -19,6 +23,10 @@ body {
 }
 
 /* -------------------- article -------------------- */
+
+article  {
+    columns:  25em;
+}
 
 article header h1 {
     color: #007ac0;
@@ -40,8 +48,22 @@ article header p.authorinfo {
     margin-right: 0.5em;
 }
 
-article  {
-    columns: 25em;
+article header div.toc {
+    background-color: #fff;
+}
+
+article header div.toc p {
+    text-align: center;
+    font-size: x-large;
+    color: #043a6b;
+}
+
+article header div.toc dt {
+    line-height: 1.5em;
+}
+
+article header div.toc dt+dd {
+    margin-left: 2em;
 }
 
 article>section>h1 {

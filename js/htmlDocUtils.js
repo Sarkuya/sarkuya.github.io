@@ -11,9 +11,18 @@ htmlDocUtils.init = function() {
     htmlDocUtils.makeToc();
 };
 
-htmlDocUtils.makeToc = function() {
-    var articleHeaderElement = document.querySelector("article>header");
+htmlDocUtils.makeLinkSpan = function(href, textContent) {
+    var link = document.createElement("a");
+    link.setAttribute("href", href);
+    link.innerHTML = textContent;
 
+    var span = document.createElement("span");
+    span.appendChild(link);
+    
+    return span;
+};
+
+htmlDocUtils.makeTocDL = function() {
     var toc = document.createElement("div");
     toc.className = "toc";
     
@@ -25,33 +34,39 @@ htmlDocUtils.makeToc = function() {
     
     var dlElement = document.createElement("dl");
     dlElement.className = "toc";
+    toc.appendChild(dlElement);
     
+    document.querySelector("article>header").appendChild(toc);
+    
+    return dlElement;
+};
+
+htmlDocUtils.makeToc = function() {
+    var dlElement = this.makeTocDL();
     
     var chapterTitles = document.querySelectorAll("article>section>h1");
     
     chapterTitles.forEach(function(chapterTitleElement, index){
         chapterTitleElement.setAttribute("id", "ch"+(index+1));
         
-        var link = document.createElement("a");
-        link.setAttribute("href", "#ch"+(index+1));
-        link.innerHTML = chapterTitleElement.innerText;
-        
-        var span = document.createElement("span");
-        span.appendChild(link);
-        
+        var span = htmlDocUtils.makeLinkSpan("#ch"+(index+1), chapterTitleElement.innerText);
         var dt = document.createElement("dt");
         dt.appendChild(span);
         
         dlElement.appendChild(dt);
         
-        
         var chapterElement = chapterTitleElement.parentElement;
         var firstSectionTitles = chapterElement.querySelectorAll("article>section>section>h1");
         
-        var firstSectionDD = document.createElement("dd");
-        var firstSectionDL = document.createElement("dl");
-        firstSectionDD.appendChild(firstSectionDL);
-        dlElement.appendChild(firstSectionDD);
+        var firstSectionDD;
+        var firstSectionDL;
+        
+        if (firstSectionTitles.length > 0) {
+            firstSectionDD = document.createElement("dd");
+            firstSectionDL = document.createElement("dl");
+            firstSectionDD.appendChild(firstSectionDL);
+            dlElement.appendChild(firstSectionDD);
+        }
         
         firstSectionTitles.forEach(function(firstSectionTitleElement, index){
             var indexPart = firstSectionTitleElement.innerText.replace(/ .+/, "");
@@ -60,30 +75,50 @@ htmlDocUtils.makeToc = function() {
             var firstSectionIndex = array[1];
             
             var id = "ch"+chapterIndex+"s"+firstSectionIndex;
-
             firstSectionTitleElement.setAttribute("id", id);
             
-            var link = document.createElement("a");
-            link.setAttribute("href", "#"+id);
-            link.innerHTML = firstSectionTitleElement.innerText;
-
-            var span = document.createElement("span");
-            span.appendChild(link);
+            var span = htmlDocUtils.makeLinkSpan("#"+id, firstSectionTitleElement.innerText);
             
             var firstSectionDT = document.createElement("dt");
             firstSectionDT.appendChild(span);
             
             firstSectionDL.appendChild(firstSectionDT);
             
-            console.log(firstSectionDL.innerHTML);
-        });
-        
-        
+            var firstSectionElement = firstSectionTitleElement.parentElement;
+            var secondSectionTitles = firstSectionElement.querySelectorAll("article>section>section>section>h1");
+            
+            var secondSectionDD;
+            var secondSectionDL;
 
+            if (secondSectionTitles.length > 0) {
+                secondSectionDD = document.createElement("dd");
+                secondSectionDL = document.createElement("dl");
+                secondSectionDD.appendChild(secondSectionDL);
+                firstSectionDL.appendChild(secondSectionDD);
+            }
+            
+            secondSectionTitles.forEach(function(secondSectionTitleElement, index){
+                var indexPart = secondSectionTitleElement.innerText.replace(/ .+/, "");
+                var array = indexPart.split(".");
+                var chapterIndex = array[0];
+                var firstSectionIndex = array[1];
+                var secondSectionIndex = array[2];
+
+                var id = "ch"+chapterIndex+"s"+firstSectionIndex +"s"+secondSectionIndex;
+                secondSectionTitleElement.setAttribute("id", id);
+                
+                var span = htmlDocUtils.makeLinkSpan("#"+id, secondSectionTitleElement.innerText);
+            
+                var secondSectionDT = document.createElement("dt");
+                secondSectionDT.appendChild(span);
+                
+                secondSectionDL.appendChild(secondSectionDT);
+            });
+        });
     });
     
-    toc.appendChild(dlElement);
-    articleHeaderElement.appendChild(toc);
+    
+    
     
     
     
