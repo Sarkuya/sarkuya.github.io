@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>test</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <style>
+            pre {
+                background-color: #eee;
+                padding: 1em;
+            }
+            
+            span.tag {
+                color: blue;
+            }
+        </style>
+        
+        <script>
+            function init() {
+                var test = document.getElementById("test");
+                
+                console.log(test.textContent);
+                console.log(test.innerText);
+                console.log(test.innerHTML);
+                
+                var textValue = test.innerHTML;
+                
+                textValue = textValue.replace(/span/g, "<span class='tag'>$&</span>");
+                
+                test.innerHTML = textValue;
+                
+                console.log(textValue);
+            }
+            
+            window.addEventListener("DOMContentLoaded", init);
+        </script>
+    </head>
+    <body>
+        <h1>test</h1>
+        
+        <pre id="test">This is a &lt;span&gt;word&lt;/span&gt;.</pre>
+    </body>
+</html>

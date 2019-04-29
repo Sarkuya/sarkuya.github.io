@@ -24,8 +24,8 @@ body {
 
 /* -------------------- article -------------------- */
 
-article  {
-    columns:  25em;
+article {
+    columns: 25em;
 }
 
 article header h1 {
@@ -82,6 +82,7 @@ article>section>h1>span.indexNum {
     color: brown;
     font-size: 300%;
     font-style: italic;
+    text-shadow: #ccc 5px 5px 5px;
 }
 
 article>section>section>h1 {
@@ -124,7 +125,16 @@ article ol
 article ul li {
 }
 
-article dl.demo {
+article div.toc dl.toc>dt {
+    padding-top: 0.5em;
+}
+
+article div.toc dl.toc dd {
+    margin: -1em 2em;
+}
+
+article dl.demo,
+article pre.demo {
     font-family: monospace;
     color: #333;
     background-color: #f9f9f9;
@@ -134,10 +144,31 @@ article dl.demo {
     font-size: 80%;
 }
 
-span.htmltag {
+article p.note {
+    border: 1px inset gray;
+    padding: 1em;
+    background: #eee;
+    font-size: 80%;
+    color: #666;
+}
+
+article p.note:before {
+    content: "注意：";
+    color: red;
+    font-size: 120%;
+}
+
+
+article span.htmltag {
     color: rgb(235, 76, 33);
     font-style: italic;
     padding: 0 0.3em;
+}
+
+article span.emphasis {
+    color: darkorchid;
+    font-style: italic;
+    text-decoration: underline;
 }
 
 pre {
@@ -165,4 +196,8 @@ pre.synopsis {
 pre.screen {
     color: #ccc;
     background-color: #333;
+}
+
+code {
+    background-color: #eee;
 }

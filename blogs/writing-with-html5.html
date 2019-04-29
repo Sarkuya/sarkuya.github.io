@@ -289,11 +289,88 @@
             
             <section class="chapter">
                 <h1>代码加亮</h1>
-                <p>从<span class="htmltag">pre</span>取出内容时，如果取其innerHTML属性，则取得了经过转义后的代码。</p>
-                <pre class="programlisting">
-var preElement = document.getElementById("test");
-console.log(preElement.innerHTML);  // &lt;p&gt;Hello&lt;/p&gt;
+                
+                <section>
+                    <h1>理解innerHTML属性</h1>
+                    <p>如果网页上有这样一段代码：</p>
+                    <pre class="programlisting">
+&lt;p id="test"&gt;This is a &lt;span&gt;word&lt;/span&gt;.&lt;/p&gt;
 </pre>
+                    <p>则代码：</p>
+                    <pre class="programlisting">
+var test = document.getElementById("test");
+
+console.log(test.textContent); // This is a word.
+console.log(test.innerText);   // This is a word.
+console.log(test.innerHTML);   // This is a &lt;span&gt;word&lt;/span&gt;.
+</pre>
+                    <p>textContent及innerText均过滤掉了内部的HTML标签，只保留了文本内容。而innerHTML则将其内部的HTML标签也原封不动地保留下来。</p>
+                </section>
+                
+                <section>
+                    <h1>pre的转义</h1>
+                    <p>先看<span class="htmltag">pre</span>中如何显示一个简单的<span class="htmltag">span</span>：<code>This is a &lt;span&gt;word&lt;/span&gt;.</code></p>
+                    <p>如果我们在网页中这样写：</p>
+                    <pre class="programlisting">
+&lt;pre&gt;This is a &lt;span&gt;word&lt;/span&gt;.&lt;/pre&gt;
+</pre>
+                    <p><span class="htmltag">pre</span>的解析流程为，保留其内部嵌套的HTML标签的含义，这里即&lt;<span class="htmltag">span</span>&gt;及&lt;<span class="htmltag">/span</span>&gt;的原有含义。先将这一部分的文本提取出来，应用上相应的样式（这里并未指定任何样式）后，输出其文本内容。这样，它所显示的效果为：</p>
+                    <pre class="demo">This is a <span>word</span>.</pre>
+                    <p>当然，我们现在就可以为其加上一个绿色的样式：</p>
+                    <pre class="programlisting">
+&lt;pre&gt;This is a &lt;span style="color: green;"&gt;word&lt;/span&gt;.&lt;/pre&gt;
+</pre>
+                    <p>现在，则显示为：</p>
+                    <pre class="demo">This is a <span style="color: green;">word</span>.</pre>
+                    <p>因此，<span class="htmltag">pre</span>保留其内部嵌套的HTML标签的意义在于，允许我们在其内部设定各种样式，以丰富网页的效果。这个也正是我们要实现源码语法加亮时想要的效果：将<span class="htmltag">pre</span>内容中相关的关键字提取出来，为其添加各种样式的HTML标签就行了。</p>
+                    <p>现在的问题是，我不希望你自行解析&lt;<span class="htmltag">span</span>&gt;及&lt;<span class="htmltag">/span</span>&gt;的含义，相反，你要在网页如实地输出这两个HTML标签来，这样，读者才会看到原始代码。</p>
+                    <p>要做到这一点，我们需要将&lt;<span class="htmltag">span</span>&gt;及&lt;<span class="htmltag">/span</span>&gt;进行转义，即用"&amp;lt;"代替"&lt;"号，即用"&amp;gt;"代替"&gt;"号。"lt"表示"less than"，"gt"表示"greater than"，分别对应于中文中的“小于号”、“大于号”。于是，网页中的代码改为：</p>
+                    <pre class="programlisting">
+&lt;pre&gt;This is a &amp;lt;span&amp;gt;word&amp;lt;/span&amp;gt;.&lt;/pre&gt;
+</pre>
+                    <p>这样，当它在网页中显示出来时，就会显示：</p>
+                    <pre class="demo">This is a &lt;span&gt;word&lt;/span&gt;.</pre>
+                    <p>这样，<span class="htmltag">pre</span>的内部代码不再出现HTML标签，而最终呈现的效果则出现了HTML标签的符号。所以，上面两行代码，第一行是我们写给计算机看的，虽然有些丑陋，但计算机看得很清楚; 而第二行代码是计算机根据这个丑陋的代码，转换为人眼更易接受的形式，以满足读者的愉悦。因此，这里有3个不同的角色，<span class="emphasis">编程者</span>必须按<span class="emphasis">计算机</span>的习惯编写丑陋的代码，而计算机自动将丑陋的代码转换成美观的效果给<span class="emphasis">读者</span>看。</p>
+                </section>
+                
+                <section>
+                    <h1>转义后的pre的内容的读取与设置</h1>
+                    <p>网页上<span class="htmltag">pre</span>存有的内容，在未经过语法加亮前，应视为都是经过转义的。例如，&lt;p&gt;已经转义为<code>&amp;lt;p&amp;gt;</code>。</p>
+                    <p class="note">如果要在HTML网页上显示“<code>&amp;lt;</code>”，由于4个字符连在一起时才视为转义字符，则只需将第一个字符使用"<code>&amp;amp;</code>"进行转义就行了。因此，在网页中，应写：“<code>&amp;amp;lt;</code>”。</p>
+                    <p>现在，我们来看看经过转义后的<span class="htmltag">pre</span>的textContent, innerText, innerHTML这3个属性值的情况。我们将6.1节中的这句话存放进一个<span class="htmltag">pre</span>中。编写内容：</p>
+                    <pre class="programlisting">
+&lt;pre id="test"&gt;This is a &amp;lt;span&amp;gt;word&amp;lt;/span&amp;gt;.&lt;/pre&gt;
+</pre>
+                    <p>然后，查看相应属性值。</p>
+                    <pre class="programlisting">
+var test = document.getElementById("test");
+
+console.log(test.textContent); // This is a &lt;span&gt;word&lt;/span&gt;.
+console.log(test.innerText);   // This is a &lt;span&gt;word&lt;/span&gt;.
+console.log(test.innerHTML);   // This is a &amp;lt;span&amp;gt;word&amp;lt;/span&amp;gt;.
+</pre>
+                    <p>textContent, 及innerText属性，所取得的文本中存有HTML标签，是反转回来的代码。</p>
+                    <p>而innerHTML属性，则所取得的文本中没有HTML标签，它原封不动地将<span class="htmltag">pre</span>中的内容提取给我们。这一点与6.1节中的情况正好相反。</p>
+                    <p>对于这个例子，如果我们要加亮其中的HTML标签，则应在网页中这样编写：</p>
+                    <pre class="programlisting">
+&lt;pre id="test"&gt;This is a &amp;lt;&lt;span style="color: red;"&gt;span&lt;/span&gt;&amp;gt;word&amp;lt;/&lt;span style="color: red;"&gt;span&lt;/span&gt;&amp;gt;.&lt;/pre&gt;
+</pre>
+                    <p>即，只要在HTML标签出现的地方，用一个拟应用样式的标签<span class="htmltag">span</span>来环绕它就行了。</p>
+                    <pre class="programlisting">
+var test = document.getElementById("test");
+
+var textValue = test.innerHTML;
+
+textValue = textValue.replace(/span/g, "&lt;span class='tag'&gt;$&&lt;/span&gt;");
+
+test.innerHTML = textValue;
+</pre>
+                    <p>这样，即可为其套上一个名为"tag"的样式。</p>
+                    
+
+                </section>
+                
+
             </section>
             
             <section class="chapter">
@@ -372,10 +449,71 @@ var rgb = "rgb("
             
             <section class="chapter">
                 <h1>NetBeans工具助力</h1>
+                
+                <section>
+                    <h1>快速插入代码模板</h1>
+                    <p>我们要经常插入下面的代码：</p>
+                    <pre class="programlisting">
+&lt;section class="chapter"&gt;
+    &lt;h1&gt;TITLE_HERE&lt;/h1&gt;
+    &lt;p&gt;&lt;/p&gt;
+&lt;/section&gt;
+</pre>
+                    <p>在NetBeans中，默认情况下已有一些可快捷输入的代码块。NetBeans -> Preferences -> 编辑器 -> 代码模板 -> HTML中，可看到这些已经预定义好的代码模板。例如，若要快速地输入table，则只需输入"tab"这3个字符，然后再按一下TAB键，则可快速地输入以下代码：</p>
+                    <pre class="programlisting">
+&lt;table&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Header&lt;/th&gt;
+        &lt;th&gt;Header2&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Cell&lt;/td&gt;
+        &lt;td&gt;Cell&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Cell&lt;/td&gt;
+        &lt;td&gt;Cell&lt;/td&gt;
+    &lt;/tr&gt;
+    
+&lt;/table&gt;
+</pre>
+                    <p>现在，我们新建自己的代码模板。在上面的界面中点击“新建”按钮，输入“sect”, 在“展开的文本中”，输入：</p>
+                    <pre class="programlisting">
+&lt;section class="chapter"&gt;
+    &lt;h1&gt;${cursor}&lt;/h1&gt;
+    &lt;p&gt;&lt;/p&gt;
+&lt;/section&gt;
+</pre>
+                    <p>在“描述”中，输入“HTML5 section”，确定。</p>
+                    <p>然后，在编辑网页时，输入“sect”，再按一下“TAB”键，则可快速地输入上述内容。</p>
+                </section>
+                
+                <section>
+                    <h1>利用宏将关键字转换为HTML标签</h1>
+                    <p>NetBeans -> Preferences -> 编辑器 -> 宏，新建，surround-with-htmltag, 输入：</p>
+                    <pre class="programlisting">
+caret-begin-word "&lt;span class=\"htmltag\"&gt;" caret-end-word "&lt;/span&gt;"
+</pre>
+                    <p>快捷键，输入“Ctrol + Command + T”。然后，圈选某个关键字，再按快捷键，则自动添加相应的HTML标签。</p>
+                </section>
+                
+                <section>
+                    <h1>参考资料</h1>
+                    <ul>
+                        <li><a href="https://blog.csdn.net/tanghw/article/details/8451118" target="_blank">在NetBeans中使用代码模板及宏功能简化输入</a></li>
+                        <li><a href="http://wiki.netbeans.org/FaqEditorMacros" target="_blank">NetBeans FaqEditorMacros</a></li>
+                        
+                    </ul>
+                </section>
+            </section>
+            
+            <section class="chapter">
+                <h1>Discovery</h1>
                 <ul>
-                    <li><a href="http://wiki.netbeans.org/FaqEditorMacros" target="_blank">NetBeans FaqEditorMacros</a></li>
+                    <li>onLoad事件比onDOMContentLoaded事件的速度有较大的提升，尤其是第2遍以后运行，应是缓存的原因。</li>
+                    <li>pre的overflow-x的移动端上的体验较好，但在桌面浏览器上会多出下面的滚动条</li>
+                    <li>使用CSS3的多栏功能，性能受到较大影响</li>
                 </ul>
-                <p></p>
             </section>
             
             <section class="chapter">
@@ -383,6 +521,20 @@ var rgb = "rgb("
                 <ul>
                     <li>Portable Doc, or Online Tutorial?</li>
                 </ul>
+            </section>
+            
+            <section class="chapter">
+                <h1>ToDo List</h1>
+                <ul>
+                    <li>自动生成标题、自动生成目录的算法的效率有待提高</li>
+                    <li>从各章节的标题能返回到总目录</li>
+                </ul>
+            </section>
+            
+            <section class="chapter">
+                <h1>结语</h1>
+                <p>在实现这一功能的过程中，我的感悟是，并不需要多高深的知识，也并不需要多先进的工具，只有一点：细节决定成败。</p>
+                <p>只要设定好目标，在向其迈进的过程中，不要害怕会遇到各种各样的问题，这是避免不了的。但应认真分析为何出现这类问题，潜下心来思考如何解决，或化大为小，或化繁为简，或化难为易，终能实现目标。</p>
             </section>
 
             <section class="reference">

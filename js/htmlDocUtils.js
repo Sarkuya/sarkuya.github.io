@@ -14,10 +14,10 @@ htmlDocUtils.init = function() {
 htmlDocUtils.highLightPre = function() {
     var preElements = document.querySelectorAll("article pre");
     
-    preElements.forEach(function(preElement, index){
-        var content = preElement.innerHTML;
+    preElements.forEach(function(preElement) {
+        var textValue = preElement.innerHTML;
         
-
+        preElement.innerHTML = textValue.replace(/\b(html|head|title|meta|link|body|h1|p|time|dl|dt|dd|pre|ul|li|section|article|header|footer)\b/gi, "<span style='color: brown;'>$&</span>");
     });
 };
 
@@ -156,4 +156,4 @@ htmlDocUtils.numberingChapters = function() {
     });
 };
 
-window.addEventListener("DOMContentLoaded", htmlDocUtils.init);
+window.addEventListener("load", htmlDocUtils.init);
