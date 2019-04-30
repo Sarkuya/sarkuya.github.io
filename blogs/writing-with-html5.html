@@ -385,6 +385,7 @@ test.innerHTML = textValue;
                         <tr><th>url</th><td>小写, 使用"-"连字符</td><td>writing-with-html5.html</td></tr>
                         <tr><th>标签属性</th><td>小写</td><td>&lt;span class='custspan'&gt;</td></tr>
                         <tr><th>函数名称</th><td>驼峰标记法</td><td>function setPageSize() {}</td></tr>
+                        <tr><th>变量名称</th><td>驼峰标记法</td><td>var boxWidth = 50;</td></tr>
                     </tbody>
                 </table>
             </section>
@@ -511,8 +512,9 @@ caret-begin-word "&lt;span class=\"htmltag\"&gt;" caret-end-word "&lt;/span&gt;"
                 <h1>Discovery</h1>
                 <ul>
                     <li>onLoad事件比onDOMContentLoaded事件的速度有较大的提升，尤其是第2遍以后运行，应是缓存的原因。</li>
+                    <li>Firefox的渲染速度比Safari要快</li>
+                    <li>使用CSS3的多栏功能，Safari性能受到较大影响</li>
                     <li>pre的overflow-x的移动端上的体验较好，但在桌面浏览器上会多出下面的滚动条</li>
-                    <li>使用CSS3的多栏功能，性能受到较大影响</li>
                 </ul>
             </section>
             

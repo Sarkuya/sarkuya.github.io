@@ -130,7 +130,7 @@ article div.toc dl.toc>dt {
 }
 
 article div.toc dl.toc dd {
-    margin: -1em 2em;
+    margin: 0em 2em;
 }
 
 article dl.demo,

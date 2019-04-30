@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>JavaScript Regular Expression Online</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="../css/style.css">
+        
+        <style type="text/css">
+            form fieldset {
+                display: grid;
+                grid-template-columns: 135px 1fr;
+                grid-gap: 20px 10px;
+                background-color: #eee;
+            }
+            
+            form fieldset legend {
+                color:  chocolate;
+                font-weight: bold;
+            }
+            
+            form fieldset label {
+                font-weight: bold;
+                text-align: right;
+            }
+            
+            form fieldset label:after {
+                content: ":";
+            }
+            
+            form fieldset input[type='text']:focus {
+                background-color: cornsilk;
+            }
+            
+            form fieldset div {
+                grid-row: 3;
+                grid-column: 2;
+            }
+            
+            div#searchingresult {
+                background-color: #eee;
+                padding: 1em;
+            }
+            
+            div#searchingresult label {
+                color: green;
+                display: block;
+            }
+            
+            div#searchingresult label:not(:first-of-type) {
+                margin-top: 2.5em;
+            }
+            
+            div#searchingresult p {
+                border: 1px solid gray;
+                background-color:  lemonchiffon;
+                margin-left: 2em;
+                text-indent: 0em;
+                padding: 0.5em;
+            }
+            
+            div#searchingresult p span.matched {
+                color: red;
+            }
+        </style>
+        
+        <script type="text/javascript">
+            function init() {
+                document.querySelector("form").addEventListener("submit", onFormSubmit);
+            }
+            
+            function escapeHTML(string) {
+                var result = string.replace(/\</g, "&lt;");
+                result = result.replace(/\>/g, "&gt;");
+                return result;
+            }
+            
+            function onFormSubmit(event) {
+                var resultDiv = document.querySelector("#searchingresult");
+                resultDiv.innerHTML = "";
+                
+                var searchedString = document.getElementsByName("searchedstring")[0].value;
+                var pattern = document.getElementsByName("pattern")[0].value;
+                
+                var regExp = new RegExp(pattern, "gi");
+                
+                var result;
+                var index = 1;
+                
+                while ((result = regExp.exec(searchedString)) !== null) {
+                    var label = document.createElement("label");
+                    label.innerText = "Turn " + index + ":";
+                    index++;
+                    
+                    var para = document.createElement("p");
+                    para.className = "outputpara";
+                    
+                    var matchingStart = result.index;
+                    var matchingEnd = regExp.lastIndex - 1;
+                    
+                    var head = result.input.slice(0, matchingStart);
+                    head = escapeHTML(head);
+                    
+                    var matchedString = result.input.slice(matchingStart, matchingEnd + 1);
+                    matchedString = escapeHTML(matchedString);
+                    matchedString = "<span class='matched'>" + matchedString + "</span>";
+                    
+                    var tail = result.input.slice(matchingEnd + 1);
+                    tail = escapeHTML(tail);
+                    
+                    para.innerHTML = head + matchedString + tail;
+                    
+                    resultDiv.appendChild(label);
+                    resultDiv.appendChild(para);
+                }
+                
+                event.preventDefault();
+            }
+            
+            window.addEventListener("DOMContentLoaded", init);
+        </script>
+    </head>
+    <body>
+        <h1>JavaScript Regular Expression Online</h1>
+        
+        <form>
+            <fieldset>
+                <legend>JS Regexp</legend>
+                <label>Searched String</label><input type="text" name="searchedstring" required="required" value="<p>abc</p>" />
+                <label>Pattern</label><input type="text" name="pattern" required="required" value="abc" />
+                <div><input type="submit" value="Search" /></div>
+            </fieldset>
+        </form>
+        
+        <h2>Searching Result</h2>
+        <div id="searchingresult"></div>
+    </body>
+</html>
