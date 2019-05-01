@@ -12,13 +12,52 @@ htmlDocUtils.init = function() {
 };
 
 htmlDocUtils.highLightPre = function() {
+//    var preElements = document.querySelectorAll("article pre");
+//    
+//    preElements.forEach(function(preElement, index) {
+//        var textValue = preElement.innerHTML;
+//        
+//        if (index === 12) {
+//
+//            console.log(textValue, index);
+//
+//            //preElement.innerHTML = textValue.replace(/&lt;(em)&gt;/gi, "$`<span style='color: brown;'>$1</span>$'");
+//            
+//            var re = new RegExp("&lt;/?([^&gt;]+)&gt;", "gi");
+//            
+//            var result;
+//            
+//            while ((result = re.exec(textValue)) !== null) {
+//                console.log(result[0]);
+//                console.log(result[1]);
+//            }
+//            
+//        }
+//    });
+    
+    
+    // htmlTag version
     var preElements = document.querySelectorAll("article pre");
     
-    preElements.forEach(function(preElement) {
-        var textValue = preElement.innerHTML;
+    preElements.forEach(function(preElement, index) {
+        //var textValue = preElement.innerHTML;
         
-        preElement.innerHTML = textValue.replace(/\b(html|head|title|meta|link|body|h1|p|time|dl|dt|dd|pre|ul|li|section|article|header|footer)\b/gi, "<span style='color: brown;'>$&</span>");
+
+            var textContent = preElement.textContent;
+            
+            var re = new RegExp("(</?)([^>\\s]+)(\\s?[^>]*>)", "gi");
+            
+            var newString = textContent.replace(re, function(match, p1, p2, p3, offset, string){
+                p1 = p1.replace(/</g, "&lt;");
+                p3 = p3.replace(/>/g, "&gt;");
+                return p1 + "<span class='htmltag'>" + p2 + "</span>" + p3;
+            });
+            
+            preElement.innerHTML = newString;
+        
     });
+    
+    
 };
 
 htmlDocUtils.makeLinkSpan = function(href, textContent) {

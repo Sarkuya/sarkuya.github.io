@@ -11,7 +11,7 @@
         <style type="text/css">
             form fieldset {
                 display: grid;
-                grid-template-columns: 135px 1fr;
+                grid-template-columns: 155px 1fr;
                 grid-gap: 20px 10px;
                 background-color: #eee;
             }
@@ -35,7 +35,7 @@
             }
             
             form fieldset div {
-                grid-row: 3;
+                grid-row: 4;
                 grid-column: 2;
             }
             
@@ -50,12 +50,13 @@
             }
             
             div#searchingresult label:not(:first-of-type) {
-                margin-top: 2.5em;
+/*                margin-top: 2.5em;*/
             }
             
             div#searchingresult p {
                 border: 1px solid gray;
-                background-color:  lemonchiffon;
+                border-radius: 10px;
+                background-color: rgba(0, 150, 150, 0.5);
                 margin-left: 2em;
                 text-indent: 0em;
                 padding: 0.5em;
@@ -77,7 +78,14 @@
                 return result;
             }
             
+            function escapeRegExp(string) {
+                return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            }
+            
             function onFormSubmit(event) {
+                // <p class='authorinfo'>Sarkuya, <time>2019-04-25</time></p>
+                // <(\w+)( .*)?>.*</\1>
+                
                 var resultDiv = document.querySelector("#searchingresult");
                 resultDiv.innerHTML = "";
                 
@@ -114,6 +122,17 @@
                     
                     resultDiv.appendChild(label);
                     resultDiv.appendChild(para);
+                    
+                    if (result.length >= 1) {
+                        //console.log(result[1]);
+                    }
+                    
+                    for (var i = 1; i <= result.length - 1; i++) {
+                        console.log(result[i]);
+                        var p = document.createElement("p");
+                        p.innerText = result[i];
+                        resultDiv.appendChild(p);
+                    }
                 }
                 
                 event.preventDefault();
@@ -128,8 +147,9 @@
         <form>
             <fieldset>
                 <legend>JS Regexp</legend>
-                <label>Searched String</label><input type="text" name="searchedstring" required="required" value="<p>abc</p>" />
-                <label>Pattern</label><input type="text" name="pattern" required="required" value="abc" />
+                <label>Your Goal</label><input type="text" placeholder="Write down you goal here if it helps." />
+                <label>String to be Searched</label><input type="text" name="searchedstring" required="required" value="<p></p>" />
+                <label>Pattern</label><input type="text" name="pattern" required="required" value="</?(p)>" />
                 <div><input type="submit" value="Search" /></div>
             </fieldset>
         </form>

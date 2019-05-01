@@ -133,6 +133,16 @@ article div.toc dl.toc dd {
     margin: 0em 2em;
 }
 
+article section dl {
+    margin-left: 1em;
+}
+
+article section dl dt {
+    font-weight: bold;
+    font-style: italic;
+    color: #333;
+}
+
 article dl.demo,
 article pre.demo {
     font-family: monospace;
@@ -196,6 +206,11 @@ pre.synopsis {
 pre.screen {
     color: #ccc;
     background-color: #333;
+}
+
+pre.programlisting span.htmltag {
+    color: brown;
+    padding: 0em;
 }
 
 code {

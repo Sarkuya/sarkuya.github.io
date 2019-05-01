@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>JavaScript Regular Expression</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/document.css">
+        
+        <style type="text/css">
+        </style>
+        
+        <script src="../js/htmlDocUtils.js"></script>
+    </head>
+    <body>
+        <article>
+            <header>
+                <h1>RegExp Reference</h1>
+                <p class='authorinfo'>Sarkuya, <time>2019-04-30</time></p>
+            </header>
+            
+            <section class="chapter">
+                <h1>概述</h1>
+                <p><p>JavaScript中以RegExp对象来表示正则表达式。JavaScript的正则表达式以Perl 5为原型。</p>
+            </section>
+            
+            <section class="chapter">
+                <h1>RegExp构造方法</h1>
+                <pre class="programlisting">
+var re1 = RegExp("abc", "gi");      // 以函数调用作为构造方法
+var re2 = RegExp(re1);              // 未指定flags，但由于re是一个RegExp对象，也以re1的flags来构造re2
+
+var re3 = new RegExp("abc");        // 标准构造函数
+var re4 = new RegExp(re3, "gim");
+
+var re5 = /abc/gi;                  // 字面符形式
+</pre>
+            </section>
+            
+            <section class="chapter">
+                <h1>RegExp的属性</h1>
+                <p>RegExp的属性有：</p>
+                <dl>
+                    <dt>source</dt>
+                    <dd>被搜索的字符串</dd>
+                    <dt>global</dt>
+                    <dd>是否全局搜索。根据标志"g"来设定。</dd>
+                    <dt>ingnoreCase</dt>
+                    <dd>是否忽略大小写。根据标志"i"来设定。</dd>
+                    <dt>multiline</dt>
+                    <dd>是否搜索多行。根据标志"m"来设定。</dd>
+                    <dt>lastIndex</dt>
+                    <dd>下次搜索要开始的索引位置。</dd>
+                </dl>
+            </section>
+            
+            <section class="chapter">
+                <h1>RegExp的方法</h1>
+                <p>RegExp的方法有：</p>
+                <dl>
+                    <dt>exec(string)</dt>
+                    <dd>根据pattern来被搜索string。如果匹配成功，返回一个包含匹配结果的数组对象。如果匹配不成功，返回null.</dd>
+                    <dt>test(string)</dt>
+                    <dd>根据pattern来被搜索string。如果匹配成功，返回true。否则返回false。</dd>
+                </dl>
+            </section>
+            
+            <section class="chapter">
+                <h1>模式</h1>
+                <p>有直接的字符模式。也有以特殊字符表示特定含义的模式。</p>
+                
+                <section class="chapter">
+                    <h1>特殊字符</h1>
+                    <p>也称为模式字符，有：</p>
+                    <ol>
+                        <li>^</li>
+                        <li>$</li>
+                        <li>\</li>
+                        <li>.</li>
+                        <li>*</li>
+                        <li>+</li>
+                        <li>?</li>
+                        <li>(</li>
+                        <li>)</li>
+                        <li>[</li>
+                        <li>]</li>
+                        <li>{</li>
+                        <li>}</li>
+                        <li>|</li>
+                    </ol>
+                    <p>注意，HTML中的“&lt;”及“&gt;”及“/”均不是正则表示式中的特殊字符。</p>
+                    <p>但在JavaScript代码中，如果使用字面符的构造方法，因为这种方式使用了"/"符号，因此如果需匹配此字符，则需对其对行转义：</p>
+                    <pre class="programlisting">
+var re = /abc\//gi;
+</pre>
+                    <p>若使用字符串来构造RegExp，则需注意对"\"进行转义</p>
+                    <pre class="programlisting">
+var re = new RegExp("a\\sb", "gi");
+</pre>
+                    <p>正常情况下，"\s"代表空字符，但当将其放进字符串中时，它被解释为一个字符"\"后面跟有一个字符"s"，被解释为两个单独的字符。而我们将其变为"\\"后，即告诉JavaScript， 请对此字符进行转义，它不再是一个普通的字符，而是一个特殊的字符，此字符与后面的"s"连在一起，构成一个有特定含义的特殊的字符。</p>
+                    <p>因此，无论是采用哪种构造方法，即使有些字符不是正则表达式的特殊字符，也要进行相应的转义。</p>
+                </section>
+                
+                <section class="chapter">
+                    <h1>字符类转义 (CharacterClassEscape)</h1>
+                    <p>通过"\"加上特定字符，表示特定的含义。</p>
+                    <ol>
+                        <li>\d</li>
+                        <li>\D</li>
+                        <li>\s</li>
+                        <li>\S</li>
+                        <li>\w</li>
+                        <li>\W</li>
+                    </ol>
+                </section>
+                
+                <section class="chapter">
+                    <h1>控制字符类转义 (ControlEscape)</h1>
+                    <p>通过"\"加上特定字符，表示特定的控制字符。</p>
+                    <ol>
+                        <li>\f</li>
+                        <li>\n</li>
+                        <li>\r</li>
+                        <li>\t</li>
+                        <li>\v</li>
+                    </ol>
+                </section>
+            </section>
+            
+            <section class="chapter">
+                <h1>特殊字符表示的模式</h1>
+                <p></p>
+                
+                <section class="chapter">
+                    <h1>字符类</h1>
+                    <table>
+                        <thead>
+                            <tr><th>字符</th><th>含义</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>.</td>
+                                <td>
+                                    <p>1. 单个字符。但不包含行符：\n, \r, \u2028, \u2029</p>
+                                    <p>2. 在字符集中，不是特殊字符，而只是一个直接字面符"."</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>\d</td>
+                                <td>阿拉伯数字。等同于[0-9]</td>
+                            </tr>
+                            <tr>
+                                <td>\D</td>
+                                <td>非阿拉伯数字。等同于[^0-9]</td>
+                            </tr>
+                            <tr>
+                                <td>\w</td>
+                                <td>等同于[A-Za-z0-9_]。即字母，数字，下划线。</td>
+                            </tr>
+                            <tr>
+                                <td>\W</td>
+                                <td>等同于[^A-Za-z0-9_]。即非字母，数字，下划线。</td>
+                            </tr>
+                            <tr>
+                                <td>\s</td>
+                                <td>单个空白符。等同于[ \f\n\r\t\v\u00a0\u1680\2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]</td>
+                            </tr>
+                            <tr>
+                                <td>\S</td>
+                                <td>非空白符。</td>
+                            </tr>
+                            <tr>
+                                <td>\t</td>
+                                <td>水平tab</td>
+                            </tr>
+                            <tr>
+                                <td>\r</td>
+                                <td>回车</td>
+                            </tr>
+                            <tr>
+                                <td>\n</td>
+                                <td>换行</td>
+                            </tr>
+                            <tr>
+                                <td>\v</td>
+                                <td>垂直tab</td>
+                            </tr>
+                            <tr>
+                                <td>\f</td>
+                                <td>form-feed</td>
+                            </tr>
+                            <tr>
+                                <td>[\b]</td>
+                                <td>退格键</td>
+                            </tr>
+                            <tr>
+                                <td>\0</td>
+                                <td>NUL字符</td>
+                            </tr>
+                            <tr>
+                                <td>\cX</td>
+                                <td>X为A-Z. 控制字符</td>
+                            </tr>
+                            <tr>
+                                <td>\xhh</td>
+                                <td>两位十六进制字符</td>
+                            </tr>
+                            <tr>
+                                <td>\uhhhh</td>
+                                <td>四位十六进制的UTF－16代码单元</td>
+                            </tr>
+                            <tr>
+                                <td>\u{hhhh}或\u{hhhhh}</td>
+                                <td>U+hhhh或U+hhhhh的Unicode. 标志u设置了才有效</td>
+                            </tr>
+                            <tr>
+                                <td>\</td>
+                                <td>表示后面的字符将被转义。非特殊字符将被转义为特殊字符，特殊字符将被转义为非特殊字符。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                
+                <section class="chapter">
+                    <h1>断言</h1>
+                    <p></p>
+                </section>
+                
+                <section class="chapter">
+                    <h1>边界</h1>
+                    
+                </section>
+                
+                <section class="chapter">
+                    <h1>分组与范围</h1>
+                    <table>
+                        <thead>
+                            <tr><th>字符</th><th>含义</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>x|y</td>
+                                <td>x或y</td>
+                            </tr>
+                            <tr>
+                                <td>[xyz], [a-c]</td>
+                                <td>字符集。</td>
+                            </tr>
+                            <tr>
+                                <td>[^xyz], [^a-c]</td>
+                                <td>不在范围内的字符集。</td>
+                            </tr>
+                            <tr>
+                                <td>(x)</td>
+                                <td>捕获组。索引下标依序为[1], [2]... [n-1]，括号无论是否嵌套，均从左开始计算左括号"("。或者($1, ... $9)</td>
+                            </tr>
+                            <tr>
+                                <td>\n</td>
+                                <td>向后引用(back reference). n为正数。即引用前面捕获组中第n个变量。</td>
+                            </tr>
+                            <tr>
+                                <td>(?&lt;Name&gt;x)</td>
+                                <td>命名捕获组。对于/\((?&lt;area&gt;\d\d\d)\)/，可通过matches.groups.area来访问。</td>
+                            </tr>
+                            <tr>
+                                <td>(?:x)</td>
+                                <td>非捕获组。匹配x但不记忆捕获结果。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                
+                <section class="chapter">
+                    <h1>数量</h1>
+                    <p></p>
+                </section>
+            </section>
+            
+            <section class="chapter">
+                <h1>标志 (flags)</h1>
+                <p>g, i, m.</p>
+            </section>
+            
+            <section class="chapter">
+                <h1>匹配实例</h1>
+                <p></p>
+                
+                <section>
+                    <h1>匹配HTML</h1>
+                    <p>目标：匹配HTML标签名，如<span class="htmltag">p</span>, <span class="htmltag">span</span>等。</p>
+                    <p>需考虑的几种情况：</p>
+                    <ol>
+                        <li>开始标签与结束标签</li>
+                        <li>标签名称与标签的众多属性</li>
+                        <li>嵌套标签</li>
+                    </ol>
+                    
+                    <section>
+                        <h1>简单实例</h1>
+                        <p>input: </p>
+                        <pre class="programlisting">
+&lt;p&gt;&lt;/p&gt;
+</pre>
+                        <p>这个HTML标签由开始标签&lt;<span class="htmltag">p</span>&gt;，以及结束标签&lt;/<span class="htmltag">p</span>&gt;组成。开始标签有一个小于号"&lt;"，<span class="htmltag">p</span>, 一个大于号"&gt;"。结束标签类似于开始标签，只不过<span class="htmltag">p</span>前面多了一个斜杠"/"。若要同时匹配这两个<span class="htmltag">p</span>，可将这个"/"视为数量为0或1的可选项。因此，模式</p>
+                        <pre class="programlisting">
+&lt;/?p&gt;
+</pre>
+                        <p>就可同时匹配出"&lt;<span class="htmltag">p</span>&gt;"，及"&lt;/<span class="htmltag">p</span>&gt;"。而我们只希望匹配HTML的标签名，不要表示HTML标签的其他标志，则可通过捕获组的方式将"<span class="htmltag">p</span>"括起来。</p>
+                        <pre class="programlisting">
+&lt;/?(p)&gt;
+</pre>
+                        <p>这样，就可匹配出符合HTML标签格式的两个<span class="htmltag">p</span>。它们存在于每次匹配的结果result[1]中。</p>
+                    </section>
+                    
+                    <section class="chapter">
+                        <h1>匹配带有纯文本内容的段落</h1>
+                        <p>input: </p>
+                        <pre class="programlisting">
+&lt;p&gt;abc&lt;/p&gt;
+</pre>
+                        <p>开始标签与结束标签中带有文本"abc"。上一节的例子采取可选值的方式，同时匹配开始标签与结束标签，但忽略了开始标签与结束标签的顺序，因此不适合于这种情况。由于开始标签及结束标签中的名称都是一样的，这里都是“<span class="htmltag">p</span>”，因此，可使用back reference的方式。模式：</p>
+                        <pre class="programlisting">
+&lt;(p)&gt;.*&lt;/\1&gt;
+</pre>
+                        <p>匹配出整个字符串"&lt;p&gt;abc&lt;/p&gt;"(result[0])，以及第一个“<span class="htmltag">p</span>”(result[1])。若要用"\1"来向后，即往左，引用先前已经匹配好的结果，必须将此匹配结果先用括号围绕起来，因此，这个模式中的括号在此不可省略。这个结果正好也是我们想要匹配出来的。但结束标签后面的<span class="htmltag">p</span>并未匹配出来。好办，只需将其也用括号围绕起来就行了。</p>
+                        <pre class="programlisting">
+&lt;(p)&gt;.*&lt;/(\1)&gt;
+</pre>
+                        <p>这同时也匹配出第二个<span class="htmltag">p</span>，位于result[2]中。</p>
+                    </section>
+                    
+                    <section class="chapter">
+                        <h1>匹配带有嵌套标签的段落</h1>
+                        <p>input: </p>
+                        <pre class="programlisting">
+&lt;span&gt;abc&lt;span&gt;Hello&lt;/span&gt;xyz&lt;/span&gt;
+</pre>
+                        <p><span class="htmltag">p</span>的内容中即有纯文本，还嵌套了一个<span class="htmltag">span</span>标签。正则表达式的引擎是从左到右匹配。</p>
+                        <p>模式：</p>
+                        <pre class="programlisting">
+&lt;/?([^&gt;]+)&gt;
+</pre>
+                        <p>匹配出四个span，存在result[1] - reulst[4]中。因为?, *, +的greedy性，而导致引擎backtrack。因使用这种否定的方式，当含有有效的HTML代码时，不再有backtrack。</p>
+                        <p>模式：</p>
+                        <pre class="programlisting">
+&lt;/?([^&gt;\s]+)\s?[^&gt;]*&gt;
+</pre>
+                        <p>匹配出HTML标签名称存在于result[1]中。它的含义是，&lt;, 然后可能带有/，然后有1或多个既不是&gt;，也不是空白符的字符集，然后可能带有空格，空格后面是0或多个不是&gt;的字符集。</p>
+                        <p>这样，对于input:</p>
+                        <pre class="programlisting">
+&lt;p class='m' width='23'&gt;&lt;em&gt;abc&lt;span&gt;Hello&lt;/span&gt;xyz&lt;/em&gt;&lt;/p&gt;
+</pre>
+                        <p>p的后面带有属性值，也能正确地匹配出<span class="htmltag">p</span>，<span class="htmltag">em</span>，<span class="htmltag">span</span>。</p>
+                    </section>
+                    
+                </section>
+            </section>
+            
+            <section class="chapter">
+                <h1>String的replace方法</h1>
+                <p>replace方法的模式中，可以带有以下特殊字符：</p>
+                <table>
+                        <thead>
+                            <tr><th>字符</th><th>含义</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>$$</td>
+                                <td>"$"本身</td>
+                            </tr>
+                            <tr>
+                                <td>$&</td>
+                                <td>所匹配的子字符串</td>
+                            </tr>
+                            <tr>
+                                <td>$`</td>
+                                <td>所匹配的子字符串之前的内容</td>
+                            </tr>
+                            <tr>
+                                <td>$'</td>
+                                <td>所匹配的子字符串之后的内容</td>
+                            </tr>
+                            <tr>
+                                <td>$n</td>
+                                <td>第n个括号内的内容。1 <= n < 100</td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+            
+            <section class="chapter">
+                <h1>Questioniar</h1>
+                <p>如何匹配不要出现连续的几个字符？ 例如，如果出现了"abc",即a与b与c连排在一起时，则匹配不成功。</p>
+            </section>
+
+            <section class="reference">
+                <h1>References</h1>
+                <ul>
+                    <li>ECMAScript Language Specification, ECMA-262, 5.1 Edition / June 2011</li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions" target="_blank">MDN JavaScript Regular Expressions</a></li>
+                    <li><a href="http://blog.stevenlevithan.com/archives/javascript-match-recursive-regexp" target="_blank">Matching Nested Constructs in JavaScript, Part 2</a></li>
+                    <li><a href="http://blog.stevenlevithan.com/archives/match-innermost-html-element" target="_blank">Matching Innermost HTML Elements</a></li>
+                    <li><a href="https://www.regular-expressions.info/examples.html" target="_blank">Grabbing HTML Tags</a></li>
+                    <li><a href="https://www.regular-expressions.info/repeat.html" target="_blank">Watch Out for The Greediness!</a></li>
+                    
+                </ul>
+            </section>
+            
+            <footer><p class="copyright">All rights reserved.</p></footer>
+        </article>
+    </body>
+</html>
+
