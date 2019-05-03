@@ -7,42 +7,28 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <style>
-            pre {
-                background-color: #eee;
-                padding: 1em;
+            .wrapper {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-gap: 10px;
+                grid-auto-rows: minmax(100px, auto);
             }
             
-            span.tag {
-                color: blue;
+            div:not(.wrapper) {
+                border: 1px solid black;
             }
+            
+            form {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-gap: 10px;
+                grid-auto-rows: minmax(100px, auto);
+            }
+
         </style>
         
         <script>
             function init() {
-                var re = RegExp("abc", "gi");
-                
-                var re2 = RegExp(re);
-                
-                var re3 = new RegExp("abc");
-                var re4 = new RegExp(re3, "gim");
-                
-                var re5 = /abc/gi;
-                
-                console.log(re5);
-                
-//                var test = document.getElementById("test");
-//                
-//                console.log(test.textContent);
-//                console.log(test.innerText);
-//                console.log(test.innerHTML);
-//                
-//                var textValue = test.innerHTML;
-//                
-//                textValue = textValue.replace(/span/g, "<span class='tag'>$&</span>");
-//                
-//                test.innerHTML = textValue;
-//                
-//                console.log(textValue);
             }
             
             window.addEventListener("DOMContentLoaded", init);
@@ -51,6 +37,21 @@
     <body>
         <h1>test</h1>
         
-        <pre id="test">This is a &lt;span&gt;word&lt;/span&gt;.</pre>
+        <div class="wrapper">
+            <div class="one">One</div>
+            <div class="two">Two</div>
+            <div class="three">Three</div>
+            <div class="four">Four</div>
+            <div class="five">Five</div>
+            <div class="six">Six</div>
+        </div>
+        
+        <form>
+
+                <label>aaa</label><input type="text" />
+                <label>bbb</label><input type="text" />
+
+            
+        </form>
     </body>
 </html>

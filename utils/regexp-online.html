@@ -9,32 +9,33 @@
         <link rel="stylesheet" href="../css/style.css">
         
         <style type="text/css">
-            form fieldset {
+            form {
                 display: grid;
-                grid-template-columns: 155px 1fr;
+                grid-template-columns: 175px 1fr;
                 grid-gap: 20px 10px;
                 background-color: #eee;
+                padding: 1em;
             }
             
-            form fieldset legend {
+            form legend {
                 color:  chocolate;
                 font-weight: bold;
             }
             
-            form fieldset label {
+            form label {
                 font-weight: bold;
                 text-align: right;
             }
             
-            form fieldset label:after {
+            form label:after {
                 content: ":";
             }
             
-            form fieldset input[type='text']:focus {
+            form input[type='text']:focus {
                 background-color: cornsilk;
             }
             
-            form fieldset div {
+            form div {
                 grid-row: 4;
                 grid-column: 2;
             }
@@ -69,7 +70,7 @@
         
         <script type="text/javascript">
             function init() {
-                document.querySelector("form").addEventListener("submit", onFormSubmit);
+                document.querySelector("input[type='button']").addEventListener("click", onFormSubmit);
             }
             
             function escapeHTML(string) {
@@ -145,13 +146,10 @@
         <h1>JavaScript Regular Expression Online</h1>
         
         <form>
-            <fieldset>
-                <legend>JS Regexp</legend>
-                <label>Your Goal</label><input type="text" placeholder="Write down you goal here if it may otherwise suffer." />
-                <label>String to be Searched</label><input type="text" name="searchedstring" required="required" value="<p></p>" />
-                <label>Pattern</label><input type="text" name="pattern" required="required" value="</?(p)>" />
-                <div><input type="submit" value="Search" /></div>
-            </fieldset>
+            <label>Your Goal</label><input type="text" placeholder="Write down you goal here if it may otherwise suffer." />
+            <label>String to be Searched</label><input type="text" name="searchedstring" required="required" value="<div width='20' height='30' color='red'>" />
+            <label>Pattern</label><input type="text" name="pattern" required="required" value="(?<=y)x" />
+            <div><input type="button" value="Search" /></div>
         </form>
         
         <h2>Searching Result</h2>

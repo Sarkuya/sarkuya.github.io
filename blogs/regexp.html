@@ -268,6 +268,7 @@ var re = new RegExp("a\\sb", "gi");
                             </tr>
                         </tbody>
                     </table>
+                    <p>Lookbehind于ECMAScript 2018 Specification中予以规范，但目前只有Google Chrome支持这个功能。</p>
                 </section>
                 
                 <section>
@@ -466,11 +467,126 @@ var re = new RegExp("a\\sb", "gi");
                         <pre class="highlight">
 &lt;div width='20' height='30' color='red'&gt;
 </pre>
+                        <p>HTML标签中每个属性的特点是，前面有一个空格，然后是名值组。</p>
                         <p>模式</p>
                         <pre class="programlisting">
-\w+='\w+'
+\s(\w+)='(\w*)'
 </pre>
-                        <p>匹配出3个属性的名值组。且result[0]都是被搜索字符串的全部。说明共进行了3次搜索，尽管每次搜索regExp.lastIndex都会改变，但每次的搜索范围都是被搜索字符串的全部。</p>
+                        <p>匹配出3个属性的名值组。</p>
+                        <pre class="screen">
+Turn 1:
+  [0]: &lt;div <span style="color:yellow">width='20'</span> height='30' color='red'&gt;
+  [1]: width
+  [2]: 20
+
+Turn 2:
+  [0]: &lt;div width='20' <span style="color:yellow">height='30'</span> color='red'&gt;
+  [1]: height
+  [2]: 30
+
+Turn 3:
+  [0]: &lt;div width='20' height='30' <span style="color:yellow">color='red'</span>&gt;
+  [1]: color
+  [2]: red
+</pre>
+                        <p>每次匹配命中的范围都以黄色标出。[0]表示每次匹配符合条件的字符串。[1]是第1个捕获组的内容，即属性名，[2]是第2个捕获组的内容，即属性值。</p>
+                        <p>说明共进行了3次搜索，尽管每次搜索regExp.lastIndex都会改变，但每次的搜索范围都是被搜索字符串的全部。</p>
+                        <p>共搜索了3次，这正是我们想要的效果。因为在每一次的匹配中，我们都可以提取出相应的属性值。这非常方便于语法加亮。</p>
+                        <p>换用不同的模式，可能也可以匹配出某些结果，但由于greedy的原因，一些结果无法精确被提取出来。因此，编写模式时，一开始的思路很重要，然后再设法慢慢完善。</p>
+                        <p>对于此例，在以后完善模式的过程中，应确保匹配3次，且每次均匹配出相应的属性名值组。</p>
+                        <p>现在，将前面的"&lt;div"也考虑进来。对于每个属性，它要么前面有"&lt;div"，要么什么都没有。</p>
+                        <p>因此，模式改为：</p>
+                        <pre class="programlisting">
+(&lt;div)?\s(\w+)='(\w*)'
+</pre>
+                        <p>匹配结果为：</p>
+                        <pre class="screen">
+Turn 1:
+  [0]: <span style="color:yellow">&lt;div width='20'</span> height='30' color='red'&gt;
+  [1]: &lt;div
+  [2]: width
+  [3]: 20
+
+Turn 2:
+  [0]: &lt;div width='20' <span style="color:yellow">height='30'</span> color='red'&gt;
+  [1]: undefined
+  [2]: height
+  [3]: 30
+
+Turn 3:
+  [0]: &lt;div width='20' height='30' <span style="color:yellow">color='red'</span>&gt;
+  [1]: undefined
+  [2]: color
+  [3]: red
+</pre>
+                        <p>现在，将"div"以括号括起来：</p>
+                        <pre class="programlisting">
+(&lt;(div))?\s(\w+)='(\w*)'
+</pre>
+                        <p>匹配结果：</p>
+                        <pre class="screen">
+Turn 1:
+  [0]: <span style="color:yellow">&lt;div width='20'</span> height='30' color='red'&gt;
+  [1]: &lt;div
+  [2]: div
+  [3]: width
+  [4]: 20
+
+Turn 2:
+  [0]: &lt;div width='20' <span style="color:yellow">height='30'</span> color='red'&gt;
+  [1]: undefined
+  [2]: undefined
+  [3]: height
+  [4]: 30
+
+Turn 3:
+  [0]: &lt;div width='20' height='30' <span style="color:yellow">color='red'</span>&gt;
+  [1]: undefined
+  [2]: undefined
+  [3]: color
+  [4]: red
+</pre>
+                        <p>[2]即为标签名称，[3]为属性名，[4]为属性值。</p>
+                        <p>现在，将最后的"&gt;"包含进来。对于每个属性名值组来讲，它后面要么什么都没有，要么有一组0或多的空白符，以及一个"&gt;"。</p>
+                        <pre class="programlisting">
+(&lt;(div))?\s(\w+)='(\w*)'(\s*&gt;)?
+</pre>
+                        <p>匹配结果：</p>
+                        <pre class="screen">
+Turn 1:
+  [0]: <span style="color:yellow">&lt;div width='20'</span> height='30' color='red'&gt;
+  [1]: &lt;div
+  [2]: div
+  [3]: width
+  [4]: 20
+  [5]: undefined
+
+Turn 2:
+  [0]: &lt;div width='20' <span style="color:yellow">height='30'</span> color='red'&gt;
+  [1]: undefined
+  [2]: undefined
+  [3]: height
+  [4]: 30
+  [5]: undefined
+
+Turn 3:
+  [0]: &lt;div width='20' height='30' <span style="color:yellow">color='red'&gt;</span>
+  [1]: undefined
+  [2]: undefined
+  [3]: color
+  [4]: red
+  [5]: &gt;
+</pre>
+                        <p>将模式中的"div"改为"\w+"，以让它匹配任意标签名称。</p>
+                        <pre class="programlisting">
+(&lt;(\w+))?\s(\w+)='(\w*)'(\s*&gt;)?
+</pre>
+                        <p></p>
+                        <p></p>
+                        <p></p>
+                        
+                        
+                        
                         
                     </section>
                     
@@ -532,6 +648,7 @@ var re = new RegExp("a\\sb", "gi");
                     <li><a href="http://blog.stevenlevithan.com/archives/match-innermost-html-element" target="_blank">Matching Innermost HTML Elements</a></li>
                     <li><a href="https://www.regular-expressions.info/examples.html" target="_blank">Grabbing HTML Tags</a></li>
                     <li><a href="https://www.regular-expressions.info/repeat.html" target="_blank">Watch Out for The Greediness!</a></li>
+                    <li><a href="https://www.regular-expressions.info/lookaround.html" target="_blank">Lookahead and Lookbehind</a></li>
                     
                 </ul>
             </section>

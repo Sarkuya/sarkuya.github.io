@@ -9,52 +9,53 @@
         <link rel="stylesheet" href="../css/style.css">
         
         <style type="text/css">
-            form fieldset {
+            form {
                 display: grid;
                 grid-template-columns: 135px 1fr;
                 grid-gap: 20px 10px;
                 background-color: #eee;
+                padding: 1em;
             }
             
-            form fieldset legend {
+            form legend {
                 color: chocolate;
                 font-weight: bold;
             }
             
-            form fieldset label {
+            form label {
                 font-weight: bold;
                 text-align: right;
             }
             
-            form fieldset label:after {
+            form label:after {
                 content: ":";
             }
             
-            form fieldset textarea:focus {
+            form textarea:focus {
                 background-color: cornsilk;
             }
             
-            form fieldset div:first-of-type {
+            form div:first-of-type {
                 grid-row: 2;
                 grid-column: 2;
             }
             
-            form fieldset label:nth-of-type(2) {
+            form label:nth-of-type(2) {
                 grid-row: 3;
                 grid-column: 1;
             }
             
-            form fieldset #escapedstring {
+            form #escapedstring {
                 grid-row: 3;
                 grid-column: 2;
             }
             
-            form fieldset div:last-of-type {
+            form div:last-of-type {
                 grid-row: 4;
                 grid-column: 2;
             }
             
-            form fieldset input[type='button'] {
+            form input[type='button'] {
                 width: 150px;
             }
         </style>
@@ -85,13 +86,12 @@
         <h1>HTML Escape</h1>
         
         <form>
-            <fieldset>
-                <legend>HTML Escape</legend>
+
                 <label>HTML String</label><textarea id="htmlstring" rows="30" cols="20"></textarea>
                 <div><input type="button" id='escapebutton' value="Escape" /></div>
                 <label>Escaped String</label><textarea id="escapedstring" rows="30" cols="20"></textarea>
                 <div><input type="button" id='copybutton' value="Copy To Clipboard" /></div>
-            </fieldset>
+
         </form>
     </body>
 </html>
