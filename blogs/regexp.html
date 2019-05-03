@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>JavaScript Regular Expression</title>
+        <title>Doc: JavaScript Regular Expression</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -23,7 +23,25 @@
             
             <section class="chapter">
                 <h1>概述</h1>
-                <p><p>JavaScript中以RegExp对象来表示正则表达式。JavaScript的正则表达式以Perl 5为原型。</p>
+                
+                <section>
+                    <h1>功能</h1>
+                    <p>正则表达式可快速地找出特定的子字符串。利用其强大的模式，我们可以指定非常丰富的匹配条件。除了查找，在替换时还可以使用模式，以简短的代码高效地实现替换功能。</p>
+                    <p>正则表达式有各种各样的流派。各流派有其稍微不同的语法及功能。JavaScript的正则表达式以强大的Perl 5为原型。</p>
+                    <p>JavaScript使用RegExp对象来处理正则表达式的任务。</p>
+                </section>
+                
+                <section>
+                    <h1>学习正则表达式的路线</h1>
+                    <p>正则表达式的功能很强大，但内容不多，可按下面的路线来学习。</p>
+                    <ol>
+                        <li>RegExp的exec()方法，先使用"gi"标志</li>
+                        <li>模式，配合以各类标志</li>
+                        <li>匹配引擎匹配原理</li>
+                        <li>匹配实练</li>
+                    </ol>
+                    <p>配合以一个在线匹配的工具，能达到事半功倍的效果。</p>
+                </section>
             </section>
             
             <section class="chapter">
@@ -71,7 +89,7 @@ var re5 = /abc/gi;                  // 字面符形式
                 <h1>模式</h1>
                 <p>有直接的字符模式。也有以特殊字符表示特定含义的模式。</p>
                 
-                <section class="chapter">
+                <section>
                     <h1>特殊字符</h1>
                     <p>也称为模式字符，有：</p>
                     <ol>
@@ -103,7 +121,7 @@ var re = new RegExp("a\\sb", "gi");
                     <p>因此，无论是采用哪种构造方法，即使有些字符不是正则表达式的特殊字符，也要进行相应的转义。</p>
                 </section>
                 
-                <section class="chapter">
+                <section>
                     <h1>字符类转义 (CharacterClassEscape)</h1>
                     <p>通过"\"加上特定字符，表示特定的含义。</p>
                     <ol>
@@ -116,7 +134,7 @@ var re = new RegExp("a\\sb", "gi");
                     </ol>
                 </section>
                 
-                <section class="chapter">
+                <section>
                     <h1>控制字符类转义 (ControlEscape)</h1>
                     <p>通过"\"加上特定字符，表示特定的控制字符。</p>
                     <ol>
@@ -133,7 +151,7 @@ var re = new RegExp("a\\sb", "gi");
                 <h1>特殊字符表示的模式</h1>
                 <p></p>
                 
-                <section class="chapter">
+                <section>
                     <h1>字符类</h1>
                     <table>
                         <thead>
@@ -224,17 +242,66 @@ var re = new RegExp("a\\sb", "gi");
                     </table>
                 </section>
                 
-                <section class="chapter">
+                <section>
                     <h1>断言</h1>
-                    <p></p>
+                    <table>
+                        <thead>
+                            <tr><th>字符</th><th>含义</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>x(?=y)</td>
+                                <td>Lookahead assertion. 如果x的后面紧随着y, 则x匹配成功。</td>
+                            </tr>
+                            <tr>
+                                <td>x(?!y)</td>
+                                <td>Negative lookahead assertion. 如果x的后面没有紧随着y, 则x匹配成功。</td>
+                            </tr>
+                            <tr>
+                                <td>(?<=y)x</td>
+                                <td>Lookbehind assertion. 如果x的前面有y, 则x匹配成功。</td>
+                            </tr>
+                            <tr>
+                                <td>(?&lt;!y)x</td>
+                                <td>Negative lookbehind assertion. 如果x的前面没有y, 则x匹配成功。</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </section>
                 
-                <section class="chapter">
+                <section>
                     <h1>边界</h1>
-                    
+                    <table>
+                        <thead>
+                            <tr><th>字符</th><th>含义</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>^</td>
+                                <td>是否以特定字符开始。如果多行标志"m"设为true, 则紧随在每个断行符之后的字符也能匹配上。若出现在分组符号“[]”中，则表示“非”的意思。</td>
+                            </tr>
+                            <tr>
+                                <td>$</td>
+                                <td>是否以特定字符结束。如果多行标志"m"设为true, 则紧随在每个断行符之前的字符也能匹配上。</td>
+                            </tr>
+                            <tr>
+                                <td>\b</td>
+                                <td>
+                                    <p>单词分界符。前面或后面是否以单词的形式出现。即前或后是否带有空白符。注意，如果匹配成功，"\b"不计入匹配的长度。即，"\b"的匹配长度为0。</p>
+                                    <p>易混淆：[\b]，匹配退格键。</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>\B</td>
+                                <td>非单词分界符。"\B"不计入匹配的长度。</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </section>
                 
-                <section class="chapter">
+                <section>
                     <h1>分组与范围</h1>
                     <table>
                         <thead>
@@ -274,9 +341,45 @@ var re = new RegExp("a\\sb", "gi");
                     </table>
                 </section>
                 
-                <section class="chapter">
+                <section>
                     <h1>数量</h1>
-                    <p></p>
+                    <table>
+                        <thead>
+                            <tr><th>字符</th><th>含义</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>x*</td>
+                                <td>0或多。</td>
+                            </tr>
+                            <tr>
+                                <td>x+</td>
+                                <td>1或多。</td>
+                            </tr>
+                            <tr>
+                                <td>x?</td>
+                                <td>0或1。</td>
+                            </tr>
+                            <tr>
+                                <td>x{n}</td>
+                                <td>n次。n为正整数。</td>
+                            </tr>
+                            <tr>
+                                <td>x{n,}</td>
+                                <td>至少n次。</td>
+                            </tr>
+                            <tr>
+                                <td>x{n,m}</td>
+                                <td>至少n次，至多m次。</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>x*? <br/> x+? <br/> x?? <br/> x{n}? <br/> x{n,}? <br/> x{n,m}?</td>
+                                <td>默认情况下，当出现*, +, ?时，正则表达式引擎是贪婪（greedy）的。意味着它将尽量匹配更多的字符串。在这些字符后面加上一个?号，使它们不再贪婪。此时，当找到一个匹配时，就立即停止。</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </section>
             </section>
             
@@ -302,7 +405,7 @@ var re = new RegExp("a\\sb", "gi");
                     <section>
                         <h1>简单实例</h1>
                         <p>input: </p>
-                        <pre class="programlisting">
+                        <pre class="highlight">
 &lt;p&gt;&lt;/p&gt;
 </pre>
                         <p>这个HTML标签由开始标签&lt;<span class="htmltag">p</span>&gt;，以及结束标签&lt;/<span class="htmltag">p</span>&gt;组成。开始标签有一个小于号"&lt;"，<span class="htmltag">p</span>, 一个大于号"&gt;"。结束标签类似于开始标签，只不过<span class="htmltag">p</span>前面多了一个斜杠"/"。若要同时匹配这两个<span class="htmltag">p</span>，可将这个"/"视为数量为0或1的可选项。因此，模式</p>
@@ -316,10 +419,10 @@ var re = new RegExp("a\\sb", "gi");
                         <p>这样，就可匹配出符合HTML标签格式的两个<span class="htmltag">p</span>。它们存在于每次匹配的结果result[1]中。</p>
                     </section>
                     
-                    <section class="chapter">
+                    <section>
                         <h1>匹配带有纯文本内容的段落</h1>
                         <p>input: </p>
-                        <pre class="programlisting">
+                        <pre class="highlight">
 &lt;p&gt;abc&lt;/p&gt;
 </pre>
                         <p>开始标签与结束标签中带有文本"abc"。上一节的例子采取可选值的方式，同时匹配开始标签与结束标签，但忽略了开始标签与结束标签的顺序，因此不适合于这种情况。由于开始标签及结束标签中的名称都是一样的，这里都是“<span class="htmltag">p</span>”，因此，可使用back reference的方式。模式：</p>
@@ -333,10 +436,10 @@ var re = new RegExp("a\\sb", "gi");
                         <p>这同时也匹配出第二个<span class="htmltag">p</span>，位于result[2]中。</p>
                     </section>
                     
-                    <section class="chapter">
+                    <section>
                         <h1>匹配带有嵌套标签的段落</h1>
                         <p>input: </p>
-                        <pre class="programlisting">
+                        <pre class="highlight">
 &lt;span&gt;abc&lt;span&gt;Hello&lt;/span&gt;xyz&lt;/span&gt;
 </pre>
                         <p><span class="htmltag">p</span>的内容中即有纯文本，还嵌套了一个<span class="htmltag">span</span>标签。正则表达式的引擎是从左到右匹配。</p>
@@ -351,10 +454,24 @@ var re = new RegExp("a\\sb", "gi");
 </pre>
                         <p>匹配出HTML标签名称存在于result[1]中。它的含义是，&lt;, 然后可能带有/，然后有1或多个既不是&gt;，也不是空白符的字符集，然后可能带有空格，空格后面是0或多个不是&gt;的字符集。</p>
                         <p>这样，对于input:</p>
-                        <pre class="programlisting">
+                        <pre class="highlight">
 &lt;p class='m' width='23'&gt;&lt;em&gt;abc&lt;span&gt;Hello&lt;/span&gt;xyz&lt;/em&gt;&lt;/p&gt;
 </pre>
                         <p>p的后面带有属性值，也能正确地匹配出<span class="htmltag">p</span>，<span class="htmltag">em</span>，<span class="htmltag">span</span>。</p>
+                    </section>
+                    
+                    <section>
+                        <h1>匹配标签的多个属性</h1>
+                        <p>Input: </p>
+                        <pre class="highlight">
+&lt;div width='20' height='30' color='red'&gt;
+</pre>
+                        <p>模式</p>
+                        <pre class="programlisting">
+\w+='\w+'
+</pre>
+                        <p>匹配出3个属性的名值组。且result[0]都是被搜索字符串的全部。说明共进行了3次搜索，尽管每次搜索regExp.lastIndex都会改变，但每次的搜索范围都是被搜索字符串的全部。</p>
+                        
                     </section>
                     
                 </section>
@@ -396,6 +513,14 @@ var re = new RegExp("a\\sb", "gi");
             <section class="chapter">
                 <h1>Questioniar</h1>
                 <p>如何匹配不要出现连续的几个字符？ 例如，如果出现了"abc",即a与b与c连排在一起时，则匹配不成功。</p>
+            </section>
+            
+            <section class="chapter">
+                <h1>Utilities</h1>
+                <ul>
+                    <li><a href='../utils/html-escape.html' target="_blank">HTML Escape</a></li>
+                    <li><a href='../utils/regexp-online.html' target="_blank">JavaScript Regular Expression Online</a></li>
+                </ul>
             </section>
 
             <section class="reference">

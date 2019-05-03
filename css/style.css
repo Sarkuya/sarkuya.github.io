@@ -53,8 +53,8 @@ table tbody th {
     text-align: left;
 }
 
-table td {
-
+table td p {
+    text-indent: 0;
 }
 
 table tr:nth-child(odd) td {

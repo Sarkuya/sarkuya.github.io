@@ -25,7 +25,7 @@ body {
 /* -------------------- article -------------------- */
 
 article {
-    columns: 25em;
+/*    columns: 25em;*/
 }
 
 article header h1 {
@@ -64,6 +64,11 @@ article header div.toc p {
     letter-spacing: 1em;
 }
 
+article header div.toc dl {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 article header div.toc dt {
     line-height: 1.5em;
 }
@@ -76,6 +81,10 @@ article>section>h1 {
     color: #043a6b;
     font-size: x-large;
     margin-top: 5em;
+}
+
+article section h1 a {
+    color: #043a6b;
 }
 
 article>section>h1>span.indexNum {
@@ -192,9 +201,20 @@ pre {
     font-size: 80%;
 }
 
+pre.highlight,
 pre.programlisting {
     background-color: #f9f9f9;
     border: 1px dashed #2f6fab;
+}
+
+pre.highlight {
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+pre.highlight span.htmltag {
+    color: brown;
+    padding: 0em;
 }
 
 pre.synopsis {
@@ -208,10 +228,7 @@ pre.screen {
     background-color: #333;
 }
 
-pre.programlisting span.htmltag {
-    color: brown;
-    padding: 0em;
-}
+
 
 code {
     background-color: #eee;

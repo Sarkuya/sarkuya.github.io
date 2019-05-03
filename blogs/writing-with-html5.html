@@ -46,7 +46,7 @@
 
             <section class="chapter">
                 <h1>一个HTML5文档的格式</h1>
-                <pre class="programlisting">
+                <pre class="highlight">
 &lt;!DOCTYPE html&gt;
 
 &lt;html&gt;
@@ -73,7 +73,7 @@
                 <h1>使用<span class="htmltag">article</span>编写文档内容</h1>
                 <p>在着重于网页结构的网页中，可不使用<span class="htmltag">article</span>标签。但如果该网页侧重于展示一篇文章，则应使用<span class="htmltag">article</span>。</p>
                 <p>下面是使用<span class="htmltag">article</span>的一个简单例子。</p>
-                <pre class="programlisting">
+                <pre class="highlight">
 &lt;body&gt;
     &lt;article&gt;
         &lt;header&gt;
@@ -170,7 +170,7 @@
                 <h1>使用dl制作文档目录</h1>
                 <p><span class="htmltag">dl</span>表示description list。它由一组name-value的组合构成。name由<span class="htmltag">dt</span>(description term)表示，value由<span class="htmltag">dd</span>(description details)表示。</p>
                 <p>例如，代码：</p>
-                <pre class="programlisting">
+                <pre class="highlight">
 &lt;dl&gt;
     &lt;dt&gt;Authors&lt;dt&gt;
         &lt;dd&gt;John&lt;/dd&gt;
@@ -242,7 +242,7 @@
                     <dt>参考资料</dt>
                 </dl>
                 <p>这是实现上面效果的HTML代码：</p>
-                <pre class="programlisting">
+                <pre class="highlight">
 &lt;dl&gt;
     &lt;dt&gt;前言&lt;/dt&gt;
     &lt;dt&gt;第一部分 WebGL核心编程&lt;/dt&gt;
@@ -292,8 +292,8 @@
                 
                 <section>
                     <h1>理解innerHTML属性</h1>
-                    <p>如果网页上有这样一段代码：</p>
-                    <pre class="programlisting">
+                    <p>设，网页上有这样一段代码：</p>
+                    <pre class="highlight">
 &lt;p id="test"&gt;This is a &lt;span&gt;word&lt;/span&gt;.&lt;/p&gt;
 </pre>
                     <p>则代码：</p>
@@ -310,14 +310,14 @@ console.log(test.innerHTML);   // This is a &lt;span&gt;word&lt;/span&gt;.
                 <section>
                     <h1>pre的转义</h1>
                     <p>先看<span class="htmltag">pre</span>中如何显示一个简单的<span class="htmltag">span</span>：<code>This is a &lt;span&gt;word&lt;/span&gt;.</code></p>
-                    <p>如果我们在网页中这样写：</p>
-                    <pre class="programlisting">
+                    <p>我们在网页中这样写：</p>
+                    <pre class="highlight">
 &lt;pre&gt;This is a &lt;span&gt;word&lt;/span&gt;.&lt;/pre&gt;
 </pre>
                     <p><span class="htmltag">pre</span>的解析流程为，保留其内部嵌套的HTML标签的含义，这里即&lt;<span class="htmltag">span</span>&gt;及&lt;<span class="htmltag">/span</span>&gt;的原有含义。先将这一部分的文本提取出来，应用上相应的样式（这里并未指定任何样式）后，输出其文本内容。这样，它所显示的效果为：</p>
                     <pre class="demo">This is a <span>word</span>.</pre>
                     <p>当然，我们现在就可以为其加上一个绿色的样式：</p>
-                    <pre class="programlisting">
+                    <pre class="highlight">
 &lt;pre&gt;This is a &lt;span style="color: green;"&gt;word&lt;/span&gt;.&lt;/pre&gt;
 </pre>
                     <p>现在，则显示为：</p>
@@ -325,11 +325,13 @@ console.log(test.innerHTML);   // This is a &lt;span&gt;word&lt;/span&gt;.
                     <p>因此，<span class="htmltag">pre</span>保留其内部嵌套的HTML标签的意义在于，允许我们在其内部设定各种样式，以丰富网页的效果。这个也正是我们要实现源码语法加亮时想要的效果：将<span class="htmltag">pre</span>内容中相关的关键字提取出来，为其添加各种样式的HTML标签就行了。</p>
                     <p>现在的问题是，我不希望你自行解析&lt;<span class="htmltag">span</span>&gt;及&lt;<span class="htmltag">/span</span>&gt;的含义，相反，你要在网页如实地输出这两个HTML标签来，这样，读者才会看到原始代码。</p>
                     <p>要做到这一点，我们需要将&lt;<span class="htmltag">span</span>&gt;及&lt;<span class="htmltag">/span</span>&gt;进行转义，即用"&amp;lt;"代替"&lt;"号，即用"&amp;gt;"代替"&gt;"号。"lt"表示"less than"，"gt"表示"greater than"，分别对应于中文中的“小于号”、“大于号”。于是，网页中的代码改为：</p>
-                    <pre class="programlisting">
+                    <pre class="highlight">
 &lt;pre&gt;This is a &amp;lt;span&amp;gt;word&amp;lt;/span&amp;gt;.&lt;/pre&gt;
 </pre>
                     <p>这样，当它在网页中显示出来时，就会显示：</p>
-                    <pre class="demo">This is a &lt;span&gt;word&lt;/span&gt;.</pre>
+                    <pre class="demo">
+This is a &lt;span&gt;word&lt;/span&gt;.
+</pre>
                     <p>这样，<span class="htmltag">pre</span>的内部代码不再出现HTML标签，而最终呈现的效果则出现了HTML标签的符号。所以，上面两行代码，第一行是我们写给计算机看的，虽然有些丑陋，但计算机看得很清楚; 而第二行代码是计算机根据这个丑陋的代码，转换为人眼更易接受的形式，以满足读者的愉悦。因此，这里有3个不同的角色，<span class="emphasis">编程者</span>必须按<span class="emphasis">计算机</span>的习惯编写丑陋的代码，而计算机自动将丑陋的代码转换成美观的效果给<span class="emphasis">读者</span>看。</p>
                 </section>
                 
@@ -338,8 +340,8 @@ console.log(test.innerHTML);   // This is a &lt;span&gt;word&lt;/span&gt;.
                     <p>网页上<span class="htmltag">pre</span>存有的内容，在未经过语法加亮前，应视为都是经过转义的。例如，&lt;p&gt;已经转义为<code>&amp;lt;p&amp;gt;</code>。</p>
                     <p class="note">如果要在HTML网页上显示“<code>&amp;lt;</code>”，由于4个字符连在一起时才视为转义字符，则只需将第一个字符使用"<code>&amp;amp;</code>"进行转义就行了。因此，在网页中，应写：“<code>&amp;amp;lt;</code>”。</p>
                     <p>现在，我们来看看经过转义后的<span class="htmltag">pre</span>的textContent, innerText, innerHTML这3个属性值的情况。我们将6.1节中的这句话存放进一个<span class="htmltag">pre</span>中。编写内容：</p>
-                    <pre class="programlisting">
-&lt;pre id="test"&gt;This is a &amp;lt;span&amp;gt;word&amp;lt;/span&amp;gt;.&lt;/pre&gt;
+                    <pre class="highlight">
+&lt;pre id="test"&gt;This is a &lt;span&gt;word&lt;/span&gt;.&lt;/pre&gt;
 </pre>
                     <p>然后，查看相应属性值。</p>
                     <pre class="programlisting">
@@ -352,7 +354,7 @@ console.log(test.innerHTML);   // This is a &amp;lt;span&amp;gt;word&amp;lt;/spa
                     <p>textContent, 及innerText属性，所取得的文本中存有HTML标签，是反转回来的代码。</p>
                     <p>而innerHTML属性，则所取得的文本中没有HTML标签，它原封不动地将<span class="htmltag">pre</span>中的内容提取给我们。这一点与6.1节中的情况正好相反。</p>
                     <p>对于这个例子，如果我们要加亮其中的HTML标签，则应在网页中这样编写：</p>
-                    <pre class="programlisting">
+                    <pre class="highlight">
 &lt;pre id="test"&gt;This is a &amp;lt;&lt;span style="color: red;"&gt;span&lt;/span&gt;&amp;gt;word&amp;lt;/&lt;span style="color: red;"&gt;span&lt;/span&gt;&amp;gt;.&lt;/pre&gt;
 </pre>
                     <p>即，只要在HTML标签出现的地方，用一个拟应用样式的标签<span class="htmltag">span</span>来环绕它就行了。</p>
@@ -366,11 +368,7 @@ textValue = textValue.replace(/span/g, "&lt;span class='tag'&gt;$&&lt;/span&gt;"
 test.innerHTML = textValue;
 </pre>
                     <p>这样，即可为其套上一个名为"tag"的样式。</p>
-                    
-
                 </section>
-                
-
             </section>
             
             <section class="chapter">
@@ -454,14 +452,14 @@ var rgb = "rgb("
                 <section>
                     <h1>快速插入代码模板</h1>
                     <p>我们要经常插入下面的代码：</p>
-                    <pre class="programlisting">
+                    <pre class="highlight">
 &lt;section class="chapter"&gt;
     &lt;h1&gt;TITLE_HERE&lt;/h1&gt;
     &lt;p&gt;&lt;/p&gt;
 &lt;/section&gt;
 </pre>
                     <p>在NetBeans中，默认情况下已有一些可快捷输入的代码块。NetBeans -> Preferences -> 编辑器 -> 代码模板 -> HTML中，可看到这些已经预定义好的代码模板。例如，若要快速地输入table，则只需输入"tab"这3个字符，然后再按一下TAB键，则可快速地输入以下代码：</p>
-                    <pre class="programlisting">
+                    <pre class="highlight">
 &lt;table&gt;
     &lt;tr&gt;
         &lt;th&gt;Header&lt;/th&gt;
@@ -479,7 +477,7 @@ var rgb = "rgb("
 &lt;/table&gt;
 </pre>
                     <p>现在，我们新建自己的代码模板。在上面的界面中点击“新建”按钮，输入“sect”, 在“展开的文本中”，输入：</p>
-                    <pre class="programlisting">
+                    <pre class="highlight">
 &lt;section class="chapter"&gt;
     &lt;h1&gt;${cursor}&lt;/h1&gt;
     &lt;p&gt;&lt;/p&gt;
@@ -550,6 +548,8 @@ caret-begin-word "&lt;span class=\"htmltag\"&gt;" caret-end-word "&lt;/span&gt;"
             </section>
             
             <footer><p class="copyright">All rights reserved.</p></footer>
+            
+            <h3><span><a href="#tocch1">abc</a></span></h3>
         </article>
     </body>
 </html>

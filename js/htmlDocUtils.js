@@ -12,37 +12,10 @@ htmlDocUtils.init = function() {
 };
 
 htmlDocUtils.highLightPre = function() {
-//    var preElements = document.querySelectorAll("article pre");
-//    
-//    preElements.forEach(function(preElement, index) {
-//        var textValue = preElement.innerHTML;
-//        
-//        if (index === 12) {
-//
-//            console.log(textValue, index);
-//
-//            //preElement.innerHTML = textValue.replace(/&lt;(em)&gt;/gi, "$`<span style='color: brown;'>$1</span>$'");
-//            
-//            var re = new RegExp("&lt;/?([^&gt;]+)&gt;", "gi");
-//            
-//            var result;
-//            
-//            while ((result = re.exec(textValue)) !== null) {
-//                console.log(result[0]);
-//                console.log(result[1]);
-//            }
-//            
-//        }
-//    });
-    
-    
     // htmlTag version
-    var preElements = document.querySelectorAll("article pre");
+    var preElements = document.querySelectorAll("article pre.highlight");
     
-    preElements.forEach(function(preElement, index) {
-        //var textValue = preElement.innerHTML;
-        
-
+    preElements.forEach(function(preElement) {
             var textContent = preElement.textContent;
             
             var re = new RegExp("(</?)([^>\\s]+)(\\s?[^>]*>)", "gi");
@@ -54,14 +27,14 @@ htmlDocUtils.highLightPre = function() {
             });
             
             preElement.innerHTML = newString;
-        
     });
-    
-    
 };
 
 htmlDocUtils.makeLinkSpan = function(href, textContent) {
     var link = document.createElement("a");
+    
+    link.setAttribute("id", "toc" + href.slice(1));
+    
     link.setAttribute("href", href);
     link.innerHTML = textContent;
 
@@ -173,7 +146,9 @@ htmlDocUtils.numberingChapters = function() {
     
     chapterTitles.forEach(function(chapterTitleElement, index){
         var chapterIndex = index + 1;
-        chapterTitleElement.innerHTML = "<span class='indexNum'>" + chapterIndex + " </span>" + chapterTitleElement.innerText;
+        
+        //chapterTitleElement.innerHTML = "<span class='indexNum'>" + chapterIndex + " </span>" + chapterTitleElement.innerText;
+        chapterTitleElement.innerHTML = "<span class='indexNum'>" + chapterIndex + " </span>" + "<span><a href='#tocch" + chapterIndex + "'>" + chapterTitleElement.innerText + "</a></span>";
         
         // first level sections -> 1.1 Section_Title
         var chapterElement = chapterTitleElement.parentElement;
