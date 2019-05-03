@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Doc: NetBeans</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/document.css">
+        
+        <script src="../js/htmlDocUtils.js"></script>
+    </head>
+    <body>
+        <article>
+            <header>
+                <h1>NetBeans</h1>
+                <p class='authorinfo'>Sarkuya, <time>2019-05-03</time></p>
+            </header>
+            
+            <section class="chapter">
+                <h1>NetBeans的安装</h1>
+                <p>NetBeans的最新版本已经更新为Apache NetBeans。</p>
+                
+                <section>
+                    <h1>安装JDK</h1>
+                    <p>在Mac OS X下，有".dmg"的安装包，可以直接安装。只要JDK的版本在于1.8.0就可以安装Apache NetBeans IDE 11.0。</p>
+                    <p>验证：</p>
+                    <pre class="programlisting">
+java -version
+</pre>
+                </section>
+                
+                <section>
+                    <h1>安装Ant</h1>
+                    <p>下载Ant.</p>
+                    <p>将所下载的Ant顶层文件夹复制到"/usr/local"。</p>
+                    <p>在终端中输入：</p>
+                    <pre class="programlisting">
+export PATH=/usr/local/apache-ant-1.10.5/bin:$PATH
+echo 'export PATH=/usr/local/apache-ant-1.10.5/bin:$PATH' >> ~/.profile
+</pre>
+                    <p>第一行代码为当前session设置路径，第二行代码为当前用户的以后所有session设置路径。</p>
+                    <p>验证：</p>
+                    <pre class="programlisting">
+ant -version
+</pre>
+                </section>
+                
+                <section>
+                    <h1>安装NetBeans</h1>
+                    <p>NetBeans的安装有源包(source)及运行包(binaries)。这里介绍运行包的安装。</p>
+                    <p>下载运行包，解压，并复制到"/Applications"文件夹中。</p>
+                    <p>将netbeans/bin下面的"netbeans"复制到桌面上，会自动创建一个替身(Windows操作系统下称为快捷方式)。双击这个替身即可运行NetBeans。</p>
+                </section>
+                
+            </section>
+            
+            <section class="chapter">
+                <h1>配置</h1>
+                <p></p>
+                
+                <section>
+                    <h1>设置默认的编码为UTF-8</h1>
+                    <p>在"netbeans/etc"文件夹下，将"netBeans.conf"拖至NetBeans中编辑。</p>
+                    <p>设置netbeans-default_options的最前面的内容为：</p>
+                    <pre class="programlisting">
+netbeans_default_options=“-J-Dfile.encoding=UTF-8 ...”
+</pre>
+                </section>
+            </section>
+            
+            <section class="chapter">
+                <h1>与GitHub合作</h1>
+                <ol>
+                    <li>在GitHub上创建GitHub Page</li>
+                    <li>在GitHub上创建README.md</li>
+                    <li>NetBeans克隆GitHub上的仓库</li>
+                    <li>使用现有的源代码来创建一个项目</li>
+                    <li>提交</li>
+                    <li>推入到上游</li>
+                </ol>
+            </section>
+
+            <section class="reference">
+                <h1>References</h1>
+                <ul>
+                    <li><a href="https://netbeans.org" target="_blank">NetBeans.org</a></li>
+                </ul>
+            </section>
+            
+            <footer><p class="copyright">All rights reserved.</p></footer>
+        </article>
+    </body>
+</html>
+
