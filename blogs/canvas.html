@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>HTML5 Canvas</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link href="../css/style.css" rel="stylesheet" type="text/css">
+        
+<!--        <link rel="stylesheet" href="js/highlight/styles/default.css">
+        <script src="js/highlight/highlight.pack.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>-->
+        
+        <script src="../js/init.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <p id="toc-nav">
+            <a href="#toc" id="toc-jump">
+                <span aria-hidden="true">↑</span>
+                <span>Jump to Table of Contents</span>
+            </a>
+            <a href="#toc" id="toc-toggle">
+                <span aria-hidden="true">→</span>
+                <span>Pop out Sidebar</span>
+            </a>
+        </p>
+        
+        <article id="mainContent">
+            <header>
+                <h1>HTML5 Canvas</h1>
+            </header>
+
+            <section class="chapter" id="canvas">
+                <h2>Canvas元素</h2>
+                <p></p>
+                <table>
+                    <caption>接口</caption>
+                    <thead>
+                        <tr><th>类型</th><th>名称</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td rowspan="2">属性</td><td>width</td></tr>
+                        <tr><td>height</td></tr>
+                        <tr><td rowspan="4">方法</td><td>getContext</td></tr>
+                        <tr><td>toDataURL</td></tr>
+                        <tr><td>toBlob</td></tr>
+                        <tr><td>transferControlToOffscreen</td></tr>
+                    </tbody>
+                </table>
+            </section>
+            
+            <section class="chapter" id="context">
+                <h2>CanvasRenderingContext2D</h2>
+                <p></p>
+                <table>
+                    <caption>接口</caption>
+                    <thead>
+                        <tr><th>分类</th><th>类型</th><th>名称</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td rowspan="3">top</td><td rowspan="2">属性</td><td>canvas</td></tr>
+                        <tr><td>height</td></tr>
+                        <tr><td>方法</td><td>getContextAttributes</td></tr>
+                        
+                        <tr><td rowspan="2">CanvasState</td><td rowspan="2">方法</td><td>save</td></tr>
+                        <tr><td>restore</td></tr>
+                        
+                        <tr><td>CanvasPattern</td><td>方法</td><td>setTransform</td></tr>
+                        
+                        <tr><td rowspan="7">CanvasTransform</td><td rowspan="7">方法</td><td>scale</td></tr>
+                        <tr><td>rotate</td></tr>
+                        <tr><td>translate</td></tr>
+                        <tr><td>transform</td></tr>
+                        <tr><td>getTransform</td></tr>
+                        <tr><td>setTransform</td></tr>
+                        <tr><td>resetTransform</td></tr>
+                        
+                        <tr><td rowspan="2">CanvasCompositing</td><td rowspan="2">属性</td><td>globalAlpha</td></tr>
+                        <tr><td>globalCompsiteOperation</td></tr>
+                        
+                        <tr><td rowspan="2">CanvasImageSmoothing</td><td rowspan="2">属性</td><td>imageSmoothingEnabled</td></tr>
+                        <tr><td>imageSmoothingQuality</td></tr>
+                        
+                        <tr><td rowspan="4">CanvasShadowStyles</td><td rowspan="4">属性</td><td>shadowOffsetX</td></tr>
+                        <tr><td>shadowOffsetY</td></tr>
+                        <tr><td>shadowBlur</td></tr>
+                        <tr><td>shadowColor</td></tr>
+                        
+                        <tr><td>CanvasFilters</td><td>属性</td><td>filter</td></tr>
+                        
+                        <tr><td rowspan="2">CanvasUserInterface</td><td rowspan="2">方法</td><td>drawFocusIfNeeded</td></tr>
+                        <tr><td>scrollPathIntoView</td></tr>
+                        
+                        <tr><td>CanvasDrawImage</td><td>方法</td><td>drawImage</td></tr>
+                        
+                        <tr><td rowspan="3">ImageData</td><td rowspan="3">属性</td><td>width</td></tr>
+                        <tr><td>height</td></tr>
+                        <tr><td>data</td></tr>
+                        
+                        <tr><td rowspan="3">CanvasImageData</td><td rowspan="3">方法</td><td>createImageData</td></tr>
+                        <tr><td>getImageData</td></tr>
+                        <tr><td>putImageData</td></tr>
+                        
+                        <tr><td rowspan="12">TextMetrics</td><td rowspan="12">属性</td><td>width</td></tr>
+                        <tr><td>actualBoundingBoxLeft</td></tr>
+                        <tr><td>actualBoundingBoxRight</td></tr>
+                        <tr><td>fontBoundingBoxAscent</td></tr>
+                        <tr><td>fontBoundingBoxDescent</td></tr>
+                        <tr><td>actualBoundingBoxAscent</td></tr>
+                        <tr><td>actualBoundingBoxDescent</td></tr>
+                        <tr><td>emHeightAscent</td></tr>
+                        <tr><td>emHeightDescent</td></tr>
+                        <tr><td>hangingBaseline</td></tr>
+                        <tr><td>alphabeticBaseline</td></tr>
+                        <tr><td>ideographicBaseline</td></tr>
+                        
+                        <tr><td rowspan="4">CanvasTextDrawingStyles</td><td rowspan="4">属性</td><td>font</td></tr>
+                        <tr><td>textAlign</td></tr>
+                        <tr><td>textBaseline</td></tr>
+                        <tr><td>direction</td></tr>
+                        
+                        <tr><td rowspan="3">CanvasText</td><td rowspan="3">方法</td><td>fillText</td></tr>
+                        <tr><td>strokeText</td></tr>
+                        <tr><td>measureText</td></tr>
+                        
+                        <tr><td rowspan="7">CanvasPathDrawingStyles</td><td rowspan="5">属性</td><td>lineWidth</td></tr>
+                        <tr><td>lineCap</td></tr>
+                        <tr><td>lineJoin</td></tr>
+                        <tr><td>miterLimit</td></tr>
+                        <tr><td>lineDashOffset</td></tr>
+                        <tr><td rowspan="2">方法</td><td>setLineDash</td></tr>
+                        <tr><td>getLineDash</td></tr>
+                        
+                        <tr><td>CanvasGradient</td><td>方法</td><td>addColorStop</td></tr>
+                        
+                        <tr><td rowspan="5">CanvasFillStrokeStyles</td><td rowspan="2">属性</td><td>strokeStyle</td></tr>
+                        <tr><td>fillStyle</td></tr>
+                        <tr><td rowspan="3">方法</td><td>createLinearGradient</td></tr>
+                        <tr><td>createRadialGradient</td></tr>
+                        <tr><td>createPattern</td></tr>
+                        
+                        <tr><td rowspan="3">CanvasRect</td><td rowspan="3">方法</td><td>clearRect</td></tr>
+                        <tr><td>fillRect</td></tr>
+                        <tr><td>strokeRect</td></tr>
+                        
+                        <tr><td rowspan="6">CanvasDrawPath</td><td rowspan="6">方法</td><td>beginPath</td></tr>
+                        <tr><td>fill</td></tr>
+                        <tr><td>stroke</td></tr>
+                        <tr><td>clip</td></tr>
+                        <tr><td>isPointInPath</td></tr>
+                        <tr><td>isPointInStroke</td></tr>
+                        
+                        <tr><td rowspan="9">CanvasPath</td><td rowspan="9">方法</td><td>closePath</td></tr>
+                        <tr><td>moveTo</td></tr>
+                        <tr><td>lineTo</td></tr>
+                        <tr><td>quadraticCurveTo</td></tr>
+                        <tr><td>bezierCurveTo</td></tr>
+                        <tr><td>arcTo</td></tr>
+                        <tr><td>rect</td></tr>
+                        <tr><td>arc</td></tr>
+                        <tr><td>ellipse</td></tr>
+                        
+                        <tr><td rowspan="2">Path2D</td><td rowspan="2">方法</td><td>addPath</td></tr>
+                        <tr><td>CanvasPath中的所有方法</td></tr>
+                    </tbody>
+                </table>
+            </section>
+            
+            <section class="chapter" id="path">
+                <h2>Path</h2>
+                <p></p>
+                <pre><code class='javascript'>var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+
+ctx.beginPath();
+
+ctx.moveTo(0, 0);
+ctx.lineTo(10, 0);
+
+ctx.closePath();
+
+ctx.stroke();
+ctx.fill();
+</code></pre>
+            </section>
+            
+            <section class="chapter" id="reference">
+                <h2>参考资料</h2>
+                
+                <section>
+                    <h3>本地资源</h3>
+                    <ol>
+                        <li><a href="html_unicode.html" target="_blank">HTML Unicode</a></li>
+                        <li><a href="apps/audioplayer.html" target="_blank">Audio Player</a></li>
+                    </ol>
+                </section>
+                
+                <section>
+                    <h3>网络资源</h3>
+                    <ol>
+                        <li><a href="https://html.spec.whatwg.org/#the-canvas-element" target="_blank">The Canvas Element</a></li>
+                    </ol>
+                </section>
+            </section>
+
+            <footer>
+                <p>Copyright Sarkuya 2019.1.1</p>
+            </footer>
+        
+        </article>
+
+    </body>
+</html>

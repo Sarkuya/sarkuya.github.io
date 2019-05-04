@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>黄金分割线</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/document.css">
+        
+        <script src="../js/geoGrp.js"></script>
+        
+        <script>
+            function init() {
+                var canvas = document.getElementById("myCanvas");
+                var ctx = canvas.getContext('2d');
+                
+                geoGrp.setupCanvas(canvas);
+                geoGrp.setupCoordinate("down", geoGrp.getLeftTopCorner(), 10, 10, 10, 10, true);
+                
+                geoGrp.drawGoldenRect(Point(1, 1), 8, 13, true);
+            }
+            
+            window.addEventListener("load", init);
+        </script>
+        
+        <script src="../js/htmlDocUtils.js"></script>
+    </head>
+    
+    <body>
+        <article>
+            <header>
+                <h1>黄金分割线</h1>
+                <p class='authorinfo'>Sarkuya, <time>2019-02-07</time></p>
+            </header>
+            
+            <section class="chapter">
+                <h1>由来</h1>
+                <p>毕达哥拉斯：“一条线段的某一部分与另一部分之比，如果正好等于另一部分同整个线段的比即0.618，那么，这样比例会给人一种美感。”</p>
+            </section>
+            
+            <section class="chapter">
+                <h1>斐波纳契数列</h1>
+                <pre><code>0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, ...</code></pre>
+                
+                <section>
+                    <h1>组成</h1>
+                    <p>以0和1开始，之后后面的每个数字都是前面两个数字之和。</p>
+                </section>
+                
+                <section>
+                    <h1>特点</h1>
+                    <p>除第1个数字0之外，数列中的每个数字除以前面的数字，其商均非常接近黄金分割值1.618，时高时低。随着数字增大，其商也无限接近1.618。</p>
+                </section>
+            </section>
+            
+            <section class="chapter">
+                <h1>斐波纳契螺旋</h1>
+                <canvas id="myCanvas" width="600" height="600">Browser does not support canvas!</canvas>
+                <p>上图中，使用以下函数绘制：</p>
+                <pre><code>geoGrp.drawGoldenRect(Point(1, 1), 8, 13, true);</code></pre>
+                <p>只需指定最外边矩形的左上角坐标，以及最外边矩形的宽度。最外边矩形的高度，以及里面各个小矩形，完全由黄金分割线来计算得出。倒数第2个参数，决定圆弧的次数。最后一个参数，决定是否需要绘制辅助矩形。</p>
+            </section>
+            
+            <footer><p class="copyright">All rights reserved.</p></footer>
+        </article>
+    </body>
+</html>

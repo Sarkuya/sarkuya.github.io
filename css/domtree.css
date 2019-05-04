@@ -1,0 +1,39 @@
+ul.domtree, ul.domtree ul {
+    margin: 0;
+    padding: 0 0 0 2em;
+}
+ 
+ul.domtree li {
+    list-style: none;
+    position: relative;
+}
+ 
+ul.domtree li:before {
+    position: absolute;
+    content: '';
+    top: -0.1em;
+    left: -0.5em;
+    width: 0.4em;
+    height: 0.615em;
+    border-style: none none solid solid;
+    border-width: 0.05em;
+}
+ 
+/*
+ul.domtree li:last-child {
+    color: gray;
+}
+ul.domtree li:not(:last-child) {
+    color: red;
+}
+*/
+ 
+ul.domtree li:not(:last-child):after {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: -0.5em;
+    bottom: 0;
+    border-style: none none none solid;
+    border-width: 0.05em;
+}

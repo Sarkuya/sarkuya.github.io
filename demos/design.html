@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Beautiful CSS Design</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <style type="text/css">
+            body > h1 {
+                /*font-family: Helvetica;*/
+                font-weight:  600;
+                font-size: 600%;
+                color: rgb(92, 25, 36);
+                text-shadow:rgb(213, 213, 213) -4px -4px 8px;
+            }
+            
+            h2 {
+                color: #336699;
+            }
+            
+            h2:first-of-type {
+                margin-top: 10em;
+            }
+            
+            h2:not(:first-of-type) {
+                margin-top: 5em;
+            }
+            
+            #demo1 {
+                font-family: 'AdobeHeitiStd-Regular';
+                font-size: 700%;
+                color: rgb(92, 25, 36);
+                text-shadow:rgb(213, 213, 213) -4px -4px 8px;
+                margin-left: 1em;
+            }
+            
+            .outstand {
+                color: rgb(235, 76, 33);
+            }
+            
+            /* ------------------------------------------------------- */
+            
+            #demo2 {
+                margin-left: 2em;
+                box-shadow:5px 5px 9px #333333;
+                width: 500px;
+                height: calc(500px * 0.618);
+                background-color: rgb(199, 208, 197);
+            }
+            
+            #demo2 p {
+                text-align: left;
+                padding-left: 3em;
+                color: rgb(91, 49, 58);
+            }
+            
+            #demo2 p.name {
+                text-align: center;
+                font-size: 300%;
+                font-weight:  bolder;
+                padding-top: 0.5em;
+                padding-left: 0em;
+                color: rgb(100, 11, 42);
+            }
+            
+            #demo2 p.address {
+                text-align: right;
+                padding-right: 1em;
+                font-size: 150%;
+                font-weight:  bold;
+                margin-top: -1.5em;
+                margin-bottom: 2.5em;
+            }
+            
+            /* ------------------------------------------------------- */
+            
+            #demo3 {
+                margin-left: 2em;
+                box-shadow:5px 5px 9px #333333;
+                width: 500px;
+                height: calc(500px * 0.618);
+                background-color: rgb(214, 190, 213);
+                text-align: center;
+                
+                position: relative;
+                
+            }
+            
+            #demo3 h1 {
+                padding-top: 10px;
+            }
+            
+            #demo3 h1:before {
+                position: absolute;
+                content: '♡';
+                color: rgb(191, 150, 191);
+                left: 75px;
+                top: 190px;
+                transform: scale(5.5, 4.5) rotate(-30deg);
+            }
+            
+            #demo3 h1:after {
+                position: absolute;
+                content: '♡';
+                color: rgb(191, 150, 191);
+                right: 50px;
+                bottom: 50px;
+                transform: scale(3.5, 3.5) rotate(30deg);
+            }
+            
+            #demo3 p {
+                line-height: 0.5em;
+            }
+            
+            #demo3 .business {
+                margin-top: -1em;
+                font-style: italic;
+                font-size: 110%;
+            }
+            
+            #demo3 .brief, #demo3 .big-sale {
+                margin-top: 2em;
+            }
+            
+            #demo3 .contact-info {
+                margin-top: 3em;
+            }
+            
+            /* ------------------------------------------------------- */
+            
+            #demo4 {
+                margin-left: 2em;
+                margin-bottom: 5em;
+                border-radius: 1em;
+                box-shadow:2px 2px 5px #333333;
+                width: 500px;
+                height: calc(500px * 1.618);
+                padding: 0.5em;
+                padding-left: 4em;
+                padding-right: 1em;
+                background: rgb(240, 242, 233);
+            }
+            
+            #demo4 h1 {
+                color: rgb(34, 77, 93);
+                font-size: 300%;
+                transform: scale(1.0, 3.5);
+                margin-left: -0.8em;
+                margin-top: 1em;
+            }
+            
+            #demo4 h2 {
+                color: rgb(153, 175, 172);
+                font-size: 150%;
+                transform: scale(1.5, 2.0);
+                margin-left: 4em;
+                margin-top: 2.0em;
+            }
+            
+            #demo4 h3:first-of-type {
+                margin-top: 2em;
+            }
+            
+            #demo4 h3 {
+                color: rgb(45, 63, 70);
+                margin-bottom: -0.8em;
+            }
+            
+            #demo4 p {
+                color: rgb(118, 125, 124);
+            }
+            
+            #demo4 .additional-info {
+                margin-top: 5em;
+            }
+            
+            #demo4 .additional-info h3 {
+                margin-bottom: 0.3em;
+            }
+            
+            #demo4 .additional-info p {
+                line-height: 1px;
+            }
+            
+            /* ------------------------------------------------------- */
+            #demo5 {
+                margin-left: 2em;
+                box-shadow:5px 5px 9px #333333;
+                width: 120px;
+                background-color: hsl(320, 10%, 75%);
+                padding: 1em;
+            }
+            
+            #demo5 p {
+                font-size: 120%;
+                font-family: BrushScriptMT;
+                color: hsl(310, 25%, 50%);
+                margin-left: 1em;
+                padding: 0.5em;
+                line-height: 50%;
+            }
+            
+            /* ------------------------------------------------------- */
+            #demo6 {
+                margin-left: 2em;
+                box-shadow:5px 5px 9px #333333;
+                width: 300px;
+                background-color: hsl(50, 15%, 75%);
+                padding: 0.5em 1.0em;
+            }
+            
+            #demo6 h1 {
+                font-size: 150%;
+                margin-bottom: -0.4em;
+            }
+            
+            #demo6 h1:not(:nth-of-type(1)) {
+                margin-top: 1.5em;
+            }
+            
+            #demo6 p {
+                font-size: 120%;
+                font-family: Arial;
+                color: hsl(40, 15%, 25%);
+                margin-left: 0em;
+                padding: 0em;
+                line-height: 50%;
+            }
+            
+            
+        </style>
+    </head>
+    <body>
+        <h1>Beautiful CSS Des<span class='outstand'>i</span>gn</h1>
+        
+        <p>To see if attracting. Why? How?</p>
+        
+        <h2>Demo1</h2>
+        <div id="demo1">stimulat<span class='outstand'>i</span>ng</div>
+        
+        <h2>Demo2</h2>
+        <div id="demo2">
+            <p class='name'>Sock and Buskin</p>
+            <p class='address'>Ambrosia Sidney</p>
+            <p>109 Friday Street</p>
+            <p>Penshurst, NM</p>
+            <p>(505)555-1212</p>
+        </div>
+        
+        <h2>Demo3</h2>
+        <div id='demo3'>
+            <h1>Sally's Psychic Services</h1>
+            <p class='business'>Providing psychic support in Stanta Fe</p>
+            
+            <div class='brief'>
+                <p>Contact lost loved ones, including pets.</p>
+                <p>Get help with important decision.</p>
+                <p>Find clarity in a fog of unknowns.</p>
+            </div>
+            
+            <div class='contact-info'>
+                <p>Sally@SantaFePsychic.comm</p>
+                <p>SantaFePsychic.com</p>
+            </div>
+            
+            <div class='big-sale'>
+                <p>Special rate for locals!</p>
+                <p>phone consultation 555.0978</p>
+            </div>
+        </div>
+        
+        <h2>Demo4</h2>
+        <div id="demo4">
+            <h1>First Friday Club</h1>
+            <h2>Winter Rending Schedule</h2>
+            
+            <h3>Cymbeline</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias molestiae atque quis blanditiis eaque maiores ducimus optio neque debitis quos dolorum odit unde quibusdam tenetur quaerat magni eius quod tempore.</p>
+            
+            <h3>The Winter's Tale</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias molestiae atque quis blanditiis eaque maiores ducimus optio neque debitis quos dolorum odit unde quibusdam tenetur quaerat magni eius quod tempore.</p>
+            
+            <h3>Twelfth Night</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias molestiae atque quis blanditiis eaque maiores ducimus optio neque debitis quos dolorum odit unde quibusdam tenetur quaerat magni eius quod tempore.</p>
+            
+            <div class='additional-info'>
+                <h3>The memald Tavern</h3>
+                <p>asfss sfd df df df d ddfdsf df df d sfsasdf</p>
+                <p>asfss sfd df df df d ddfdsf df</p>
+                <p>asfss sfd df df df d ddfdsf df df d sds</p>
+                <p>asfss sfd</p>
+            </div>
+        </div>
+        
+        <h2>Demo5</h2>
+        <div id="demo5">
+            <p>Marigold</p>
+            <p>Lausy</p>
+            <p>Rue</p>
+            <p>Woodfine</p>
+            <p>Daisy</p>
+            <p>Cowslip</p>
+            <p>Caruation</p>
+            <p>Luimrose</p>
+            <p>Yiolet</p>
+            <p>Liuk</p>
+        </div>
+        
+        <h2>Demo6</h2>
+        <div id="demo6">
+            <h1>Correspondences</h1>
+            <p>Flowers, herbs, trees</p>
+            <p>Ancient Greeks and Romans</p>
+            <p>Historical characters</p>
+            
+            <h1>Quotes on motifs</h1>
+            <p>Women</p>
+            <p>Death</p>
+            <p>Morning</p>
+            <p>Snakes</p>
+            
+            <h1>Language</h1>
+            <p>Iambic pentameter</p>
+            <p>Rhetorical devices</p>
+            <p>Poetic devices</p>
+            <p>First lines</p>
+            
+            <h1>Collections</h1>
+            <p>Small printings</p>
+            <p>Kitschy volumns</p>
+            <p>Dingbats</p>
+        </div>
+        
+        <p>The demo above demostrates: </p>
+    </body>
+</html>

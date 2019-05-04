@@ -390,6 +390,110 @@ var re = new RegExp("a\\sb", "gi");
             </section>
             
             <section class="chapter">
+                <h1>搜索引擎工作机制</h1>
+                
+                <section>
+                    <h1>基本机制</h1>
+                    
+                    <p>我们准备进行下面搜索：</p>
+                    <pre class="programlisting">
+String:  This is the story about the world.
+Pattern: th
+</pre>
+                    <p>使用的代码：</p>
+                    <pre class="programlisting">
+var string = "This is the story about the world.";
+var regExp = /th/gi;
+
+var result;
+
+while ((result = regExp.exec(string)) !== null) {
+
+}
+</pre>
+                    <p>首先，当创建regExp时，regExp.source等于<code>/th/gi</code>，regExp.lastIndex值为0，表示下次匹配将从string的索引值为0的位置开始。此时，引擎已经做准备，处于等待指令状态。</p>
+                    <p>接着，我们发出指令：<code>regExp.exec(string)</code>。引擎完成以下工作：</p>
+                    <p>1. 调用<code>regExp.exec(string)</code>。由于regExp.lastIndex为0，引擎开始在string中index为0的位置进行搜索"th"。</p>
+                    <p>2. 前面两个字符"Th"即匹配成功。引擎创建一个数组，设为array。array[0]记录下所找到的部分"Th"。array.index存储此轮所匹配到的索引位置。array.input存储被搜索的字符串，这里即"This is the story about the world."。若有捕获组，则以array[1]...array[n-1]分别存储所有捕获组的匹配内容。</p>
+                    <p>3. 根据此轮所匹配到的array[0]中的内容的长度，将regExp.lastIndex的值设为arrya.index + array[0].length，将指针指向下轮匹配开始的位置。</p>
+                    <p>4. 返回array.</p>
+                    <p>上面是引擎在调用<code>regExp.exec(string)</code>时内部一个完整的流程，我们可称其为<em>第1轮的匹配成功</em>。返回array后，程序流程转移到程序员手中。在上面的代码中，我们先将其赋值于名为result的对象，然后判断result是否为null。如果为null，说明引擎已经全部搜索完毕，退出while循环。如果不为null值，则可在while循环中根据result及regExp的相应属性值进行进一步的处理。</p>
+                    <p>上一步，由于result不为null，while指令再次调用<code>regExp.exec(string)</code>进行搜索，开始了<em>第2轮的匹配</em>。由于第1轮在string的索引值0，1的位置成功匹配到"Th"，regExp.lastIndex的值更新为2，因此第2轮的匹配将从string中索引值为2的地方开始搜索。此时，重复上述1—4步。</p>
+                    <p></p>
+                    <p>正则表达式多数情况下是在一个内容较多的字符串中搜索特定内容的子字符串，因此，将导致可能的多轮匹配。每调用一次<code>regExp.exec(string)</code>，就是进行了一轮的匹配。显然，由于在string中共有3个"th"出现（不计大小写），因此，上面的代码共调用3次<code>regExp.exec(string)</code>，也即共进行了3轮的匹配。当3轮匹配完成后，regExp.lastIndex自动重置为0。这时，我们可以说，搜索完毕，共有3次匹配成功。</p>
+                    <p>下面是3轮匹配成功的图示。</p>
+                    <pre class="screen">
+Turn 1:
+  [0]: <span class="matched">Th</span>is is the story about the world.
+
+Turn 2:
+  [0]: This is <span class="matched">th</span>e story about the world.
+
+Turn 3:
+  [0]: This is the story about <span class="matched">th</span>e world.
+</pre>
+                    <p>"[0]"表示以黄色加亮的部分是result[0]存储的内容。</p>
+                    <p class="note">只有当模式的标志中设有"g"，即全局搜索时，引擎才会自动更新regExp.lastIndex。我们才可根据这个自动更新的值进行循环调用<code>regExp.exec(string)</code>。否则，程序将陷入死循环。</p>
+                </section>
+                
+                <section>
+                    <h1>贪婪的引擎</h1>
+                    <p>准备搜索：</p>
+                    <pre class="programlisting">
+String:  This is a real story.
+Pattern: th(is )*
+</pre>
+                    <p>模式<code>th(is )*</code>的意思是：</p>
+                    <ol>
+                        <li>字符t, 字符h</li>
+                        <li>后面跟着0或多的"is "。</li>
+                    </ol>
+                    <p>因为比较简单，我们先用肉眼观察。</p>
+                    <p>首先，"Th"能匹配成功。它符合"th"后面跟着数量为0的"is "的条件。</p>
+                    <p>其次，"This "能匹配成功。它符合"th"后面跟着数量为1的"is "的条件。</p>
+                    <p>第三，"This is "能匹配成功。它符合"th"后面跟着数量为多(具体为2个)的"is "的条件。</p>
+                    <p>我们想当然地认为，引擎应进行3轮匹配，依次返回"Th"， "This "， "This is "的结果。但实际结果不是。从上节我们知道，每轮匹配，引擎都会更新regExp.lastIndex的值，以指向下一次匹配开始的位置。在"Th"匹配成功后，regExp.lastIndex的值会更新为2，为第2轮的开始位置。此时指向"i"，在这个位置上，再匹配"th(is )*"，显然不会再次匹配成功。这就漏掉了后面两种匹配结果，跟我们的预期结果不相符。</p>
+                    <p>因此，每轮匹配，只会开始于regExp.lastIndex的不同值的地方。而我们这次遇到的问题的，在索引位置为0的地方，同时出现了3种匹配结果。既然索引位置都是0，则针对此位置只会有一轮的匹配，而不是3轮的匹配。</p>
+                    <p>上节我们还知道，此轮匹配成功的结果存将存放于result[0]中返回。那么，result能否同时告诉我们这轮匹配的3种结果？result[1]...result[n-1]是捕获组的信息，这里无法指望它们。只有result[0]才存放这次匹配成功的结果，且它只能存放一个匹配信息，要么是"Th"， 要么是"This "， 要么是"This is "。</p>
+                    <p>引擎说，我是很贪婪的，遇到这种情况，我会尽可能地往后搜索，只有找到最后一个匹配结果后，我才停止本轮的匹配。</p>
+                    <p>具体来说，其细节是：regExp.lastIndex为0。先匹配到"Th"，引擎先暂记下这个匹配结果"Th"及其位置。然后，还是根据regExp.lastIndex，依旧从索引为0的地方开始，从string中取出更多的字符，以查看还有没有符合条件的其他匹配。此次匹配成功"This "。再次记下此匹配结果及位置。第3次，从头开始，再取更多的字符，匹配"This is "成功。当遇到"a"时，已经不再符合模式的条件，可以结束本轮匹配。于是，引擎将regExp.lastIndex的值设为"a"所在的位置，即8，将result[0]的值设为最后一次匹配结果"This is "，停止本轮搜索，从<code>regExp.exec(string)</code>返回。因此，我们看到的是这样的结果：</p>
+                    <pre class="screen">
+Turn 1:
+  [0]: <span class="matched">This is </span>the story about the world.
+  [1]: is
+</pre>
+                    <p>由于模式中有括号，result[1]也存储了这个捕获结果。</p>
+                    <p>特殊字符中的表示数量的字符，如?, *, +, 都会产生这种贪婪的效果。</p>
+                    <p>引擎的这种贪婪的效果，有时不是我们所要的。对于字符串：</p>
+                    <pre class="highlight">
+&lt;p&gt;&lt;span&gt;abc&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;
+</pre>
+                    <p>模式：</p>
+                    <pre class="programlisting">
+&lt;(\w+)&gt;.*&lt;/\1&gt;
+</pre>
+                    <p>将匹配所有的字符：</p>
+                    <pre class="screen">
+Turn 1:
+  [0]: <span class="matched">&lt;p&gt;&lt;span&gt;abc&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;</span>
+  [1]: p
+</pre>
+                    <p>既不能只匹配出嵌套的<span class="htmltag">span</span>，也不能只匹配出左边的一对<span class="htmltag">p</span>，或只匹配出右边的一对<span class="htmltag">p</span>。相反，只要最左边有"&lt;<span class="htmltag">p</span>&gt;"，最右边有"&lt;<span class="htmltag">/p</span>&gt;"，它就全部打包进匹配结果，而不在乎这里面可能含有的特殊结构。根据引擎的贪婪特性，它这样做是对的，如果说达不到我们的预期效果，只能说是我们错了。我们得改用其他的模式。</p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    
+                </section>
+                
+            </section>
+            
+            <section class="chapter">
                 <h1>匹配实例</h1>
                 <p></p>
                 
@@ -475,17 +579,17 @@ var re = new RegExp("a\\sb", "gi");
                         <p>匹配出3个属性的名值组。</p>
                         <pre class="screen">
 Turn 1:
-  [0]: &lt;div <span style="color:yellow">width='20'</span> height='30' color='red'&gt;
+  [0]: &lt;div <span class="matched">width='20'</span> height='30' color='red'&gt;
   [1]: width
   [2]: 20
 
 Turn 2:
-  [0]: &lt;div width='20' <span style="color:yellow">height='30'</span> color='red'&gt;
+  [0]: &lt;div width='20' <span class="matched">height='30'</span> color='red'&gt;
   [1]: height
   [2]: 30
 
 Turn 3:
-  [0]: &lt;div width='20' height='30' <span style="color:yellow">color='red'</span>&gt;
+  [0]: &lt;div width='20' height='30' <span class="matched">color='red'</span>&gt;
   [1]: color
   [2]: red
 </pre>
@@ -502,19 +606,19 @@ Turn 3:
                         <p>匹配结果为：</p>
                         <pre class="screen">
 Turn 1:
-  [0]: <span style="color:yellow">&lt;div width='20'</span> height='30' color='red'&gt;
+  [0]: <span class="matched">&lt;div width='20'</span> height='30' color='red'&gt;
   [1]: &lt;div
   [2]: width
   [3]: 20
 
 Turn 2:
-  [0]: &lt;div width='20' <span style="color:yellow">height='30'</span> color='red'&gt;
+  [0]: &lt;div width='20' <span class="matched">height='30'</span> color='red'&gt;
   [1]: undefined
   [2]: height
   [3]: 30
 
 Turn 3:
-  [0]: &lt;div width='20' height='30' <span style="color:yellow">color='red'</span>&gt;
+  [0]: &lt;div width='20' height='30' <span class="matched">color='red'</span>&gt;
   [1]: undefined
   [2]: color
   [3]: red
@@ -526,21 +630,21 @@ Turn 3:
                         <p>匹配结果：</p>
                         <pre class="screen">
 Turn 1:
-  [0]: <span style="color:yellow">&lt;div width='20'</span> height='30' color='red'&gt;
+  [0]: <span class="matched">&lt;div width='20'</span> height='30' color='red'&gt;
   [1]: &lt;div
   [2]: div
   [3]: width
   [4]: 20
 
 Turn 2:
-  [0]: &lt;div width='20' <span style="color:yellow">height='30'</span> color='red'&gt;
+  [0]: &lt;div width='20' <span class="matched">height='30'</span> color='red'&gt;
   [1]: undefined
   [2]: undefined
   [3]: height
   [4]: 30
 
 Turn 3:
-  [0]: &lt;div width='20' height='30' <span style="color:yellow">color='red'</span>&gt;
+  [0]: &lt;div width='20' height='30' <span class="matched">color='red'</span>&gt;
   [1]: undefined
   [2]: undefined
   [3]: color
@@ -554,7 +658,7 @@ Turn 3:
                         <p>匹配结果：</p>
                         <pre class="screen">
 Turn 1:
-  [0]: <span style="color:yellow">&lt;div width='20'</span> height='30' color='red'&gt;
+  [0]: <span class="matched">&lt;div width='20'</span> height='30' color='red'&gt;
   [1]: &lt;div
   [2]: div
   [3]: width
@@ -562,7 +666,7 @@ Turn 1:
   [5]: undefined
 
 Turn 2:
-  [0]: &lt;div width='20' <span style="color:yellow">height='30'</span> color='red'&gt;
+  [0]: &lt;div width='20' <span class="matched">height='30'</span> color='red'&gt;
   [1]: undefined
   [2]: undefined
   [3]: height
@@ -570,7 +674,7 @@ Turn 2:
   [5]: undefined
 
 Turn 3:
-  [0]: &lt;div width='20' height='30' <span style="color:yellow">color='red'&gt;</span>
+  [0]: &lt;div width='20' height='30' <span class="matched">color='red'&gt;</span>
   [1]: undefined
   [2]: undefined
   [3]: color

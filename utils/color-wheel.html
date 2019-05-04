@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Color Wheel</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="../js/geoGrp.js"></script>
+        
+        
+        
+        <style type="text/css">
+            #myCanvas {
+                border: 0px solid #eee;
+                display: inline-block;
+            }
+            
+            .demo-color-blocks div {
+                display: inline-block;
+                width: 150px;
+                height: 45px;
+                border: 1px solid black;
+                margin: 0.5em;
+            }
+            
+            .demo-color-blocks div:nth-of-type(1) {
+                margin-left: 5em;
+            }
+            
+            .demo-color-blocks h2 {
+                margin-bottom: 0.1em;
+            }
+            
+            .demo-color-blocks p {
+                text-align: center;
+            }
+            
+            #bg-color-blocks div:nth-of-type(1) p {
+                color: #000;
+            }
+            #bg-color-blocks div:nth-of-type(2) p {
+                color: #333;
+            }
+            #bg-color-blocks div:nth-of-type(3) p {
+                color: #666;
+            }
+            #bg-color-blocks div:nth-of-type(4) p {
+                color: #999;
+            }
+            #bg-color-blocks div:nth-of-type(5) p {
+                color: #CCC;
+            }
+            #bg-color-blocks div:nth-of-type(6) p {
+                color: #FFF;
+            }
+            
+            #fg-color-blocks div:nth-of-type(1) {
+                background-color: #000;
+            }
+            #fg-color-blocks div:nth-of-type(2) {
+                background-color: #333;
+            }
+            #fg-color-blocks div:nth-of-type(3) {
+                background-color: #666;
+            }
+            #fg-color-blocks div:nth-of-type(4) {
+                background-color: #999;
+            }
+            #fg-color-blocks div:nth-of-type(5) {
+                background-color: #CCC;
+            }
+            #fg-color-blocks div:nth-of-type(6) {
+                background-color: #FFF;
+            }
+            
+            #fg-color-blocks p {
+                font-weight: bolder;
+            }
+            
+            table {
+                font-family: verdana, arial, sans-serif;
+                font-size: 0.8em;
+                border-collapse: collapse;
+                caption-side: top;
+                margin-left: 2em;
+            }
+
+            table caption {
+                margin-top: 1.0em;
+                font-weight: bold;
+                font-size: 1.5em;
+                margin-bottom: 1.0em;
+            }
+
+            table caption:before {
+                content: "\2696";
+                margin-right: 0.25em;
+            }
+
+            table caption:after {
+                content: " \2696";
+            }
+
+            table th {
+                background-color: #B2CFD8;
+            }
+
+            table th, table td {
+                border: 1px solid #517994;
+                padding: 0.5em;
+            }
+
+            table tr:nth-child(odd) td {
+                background-color: #eee;
+            }
+
+            table tr:nth-child(even) td {
+                background-color: #ddd;
+            }
+
+            table tr:hover td {
+                background-color: #DFEBF1;
+                cursor: pointer;
+            }
+            
+            th.vertical-cell {
+                writing-mode: vertical-rl;
+                text-orientation: upright;
+            }
+            
+            #color-from-wheel-div {
+                display: inline-block;
+                margin-bottom: 3em;
+            }
+
+            #hsl-table {
+                margin-bottom: 1em;
+            }
+            
+            #hsl-table thead tr:nth-child(1) th:nth-child(1) {
+                color: white;
+            }
+            
+            form#color-string-panel {
+            }
+            
+            form#color-string-panel label {
+                display: inline-block;
+                width: 35px;
+                text-align: right;
+                border: 0px solid black;
+                margin-left: 1em;
+                margin-right: 0.5em;
+            }
+            
+        </style>
+        
+        <script>
+            var colorWheel = {
+                centerPoint: Point(0, 0),
+                outterRadius: 50,
+                innerRadius: 50 * 0.618,
+                outterRadiusLen: 0,
+                innerRadiusLen: 0,
+                blocksNum: 36
+            };
+            
+            var canvas;
+            
+            function init() {
+                canvas = document.getElementById("myCanvas");
+                var ctx = canvas.getContext('2d');
+                
+                geoGrp.setupCanvas(canvas);
+                
+                colorWheel.centerPoint = geoGrp.getCenterPoint();
+                geoGrp.setupCoordinate("up", colorWheel.centerPoint, 50, 10, 50, 10, false);
+                geoGrp.drawColorWheel(Point(0, 0), colorWheel.outterRadius, colorWheel.innerRadius, colorWheel.blocksNum);
+                
+                colorWheel.outterRadiusLen = colorWheel.outterRadius * Math.min(geoGrp.X_UNIT_LENGTH, geoGrp.Y_UNIT_LENGTH);
+                colorWheel.innerRadiusLen = colorWheel.innerRadius * Math.min(geoGrp.X_UNIT_LENGTH, geoGrp.Y_UNIT_LENGTH);
+                
+                canvas.addEventListener("mousemove", onCanvasMouseMove);
+                document.getElementById('hsl-table').addEventListener("mousemove", onHSLTableMouseMove);
+            }
+            
+            function isPointInColorsArea(point) {
+                var lenFromOrg = geoGrp.getLineLength(point, colorWheel.centerPoint);
+                
+                if (lenFromOrg >= colorWheel.innerRadiusLen && lenFromOrg <= colorWheel.outterRadiusLen) {
+                    return true;
+                }
+                
+                return false;
+            }
+            
+            function onCanvasMouseMove(event) {
+                var canvasRect = canvas.getBoundingClientRect();
+                
+                var x = event.clientX - canvasRect.x;
+                var y = event.clientY - canvasRect.y;
+                
+                if (!isPointInColorsArea(Point(x, y))) {
+                    event.target.style.cursor = 'crosshair';
+                    return;
+                }
+                
+                event.target.style.cursor = 'pointer';
+                
+                var colorAngle = Math.atan2(y - colorWheel.centerPoint.y, x - colorWheel.centerPoint.x);
+                var colorAngleInDegree = radianToDegree(colorAngle);
+                
+                if (colorAngleInDegree < 0) {
+                    colorAngleInDegree = 360 + colorAngleInDegree;
+                }
+                
+                var colorBlockIndex = Math.ceil(colorAngleInDegree / (360 / colorWheel.blocksNum)) - 1;
+                var colorValue = Math.round(360 / colorWheel.blocksNum * colorBlockIndex);
+                
+                updateHSLTable(colorValue);
+                
+                var hslString = "hsl(" + colorValue + ", 50%, 50%)";
+                updateBgColorBlocks(hslString);
+                updateFgColorBlocks(hslString);
+            }
+            
+            function updateBgColorBlocks(hslColorValue) {
+                var parent = document.getElementById("bg-color-blocks");
+                var bgColorBlocks = parent.getElementsByTagName("div");
+                
+                for (var i = 0; i < bgColorBlocks.length; i++) {
+                    bgColorBlocks[i].style.backgroundColor = hslColorValue;
+                    bgColorBlocks[i].innerHTML = '<p>' + hslColorValue + '</p>';
+                }
+            }
+            
+            function updateFgColorBlocks(hslColorValue) {
+                var parent = document.getElementById("fg-color-blocks");
+                var fgColorBlocks = parent.getElementsByTagName("div");
+                
+                for (var i = 0; i < fgColorBlocks.length; i++) {
+                    var para = fgColorBlocks[i].getElementsByTagName("p")[0];
+                    
+                    para.style.color = hslColorValue;
+                    para.innerText = hslColorValue + "";
+                }
+            }
+            
+            function updateHSLTable(hue) {
+                var hslTable = document.getElementById('hsl-table');
+                
+                var firstCell = hslTable.querySelector('th');
+                //firstCell.innerText = hue;
+                firstCell.innerHTML = hue + "<sup>o</sup>";
+                firstCell.style.backgroundColor = "hsl(" + hue + ", 50%, 50%)";
+                
+                var rows = hslTable.querySelectorAll("tbody tr");
+                
+                for(var i = 0; i < rows.length; i++) {
+                    var lightness = Math.ceil(100 - i * (100 / (rows.length - 1)));
+                    
+                    var cells = rows[i].querySelectorAll("td");
+                    for (var j = 0; j < cells.length; j++) {
+                        var saturation = 100 - j * (100 / (cells.length - 1));
+                        
+                        var hslColorValue = "hsl(" + hue + ", " + saturation + "%, " + lightness + "%)";
+                        cells[j].style.backgroundColor = hslColorValue;
+                        
+                        cells[j].setAttribute("data-hslColorValue", hslColorValue);
+                    }
+                }
+            }
+            
+            function onHSLTableMouseMove(event) {
+                var target = event.target;
+                
+                if (target.tagName !== 'TD') {
+                    return;
+                }
+                
+                document.getElementById('hsl-color-value').value = target.getAttribute('data-hslColorValue');
+                document.getElementById('rgb-color-value').value = target.style.backgroundColor;
+                
+                var hslString = target.getAttribute('data-hslColorValue');
+                updateBgColorBlocks(hslString);
+                updateFgColorBlocks(hslString);
+            }
+            
+            window.addEventListener("load", init);
+        </script>
+    </head>
+    
+    <body>
+        <h1>Color Wheel</h1>
+        <canvas id="myCanvas" width="600" height="600">Browser does not support canvas!</canvas>
+        
+        <div id="color-from-wheel-div">
+            <table id="hsl-table">
+                <thead>
+                    <tr><th rowspan="2" colspan="2"></th><th colspan="5">Saturation</th></tr>
+                    <tr><th>100%</th><th>75%</th><th>50%</th><th>25%</th><th>0%</th></tr>
+                </thead>
+                <tbody>
+                    <tr><th rowspan="9" class="vertical-cell">L</th><th>100%</th><td></td><td></td><td></td><td></td><td></td></tr>
+                    <tr><th>88%</th><td></td><td></td><td></td><td></td><td></td></tr>
+                    <tr><th>75%</th><td></td><td></td><td></td><td></td><td></td></tr>
+                    <tr><th>63%</th><td></td><td></td><td></td><td></td><td></td></tr>
+                    <tr><th>50%</th><td></td><td></td><td></td><td></td><td></td></tr>
+                    <tr><th>38%</th><td></td><td></td><td></td><td></td><td></td></tr>
+                    <tr><th>25%</th><td></td><td></td><td></td><td></td><td></td></tr>
+                    <tr><th>13%</th><td></td><td></td><td></td><td></td><td></td></tr>
+                    <tr><th>0%</th><td></td><td></td><td></td><td></td><td></td></tr>
+                </tbody>
+            </table>
+
+            <form id="color-string-panel">
+                <label>hsl: </label><input type="text" id="hsl-color-value" /> <br />
+                <label>rgb: </label><input type="text" id="rgb-color-value" />
+            </form>
+        </div>
+        
+        <div id="bg-color-blocks" class="demo-color-blocks">
+            <h2>Background From Hanged Over</h2>
+            <div><p></p></div>
+            <div><p></p></div>
+            <div><p></p></div>
+            <div><p></p></div>
+            <div><p></p></div>
+            <div><p></p></div>
+        </div>
+        
+        <div id="fg-color-blocks" class="demo-color-blocks">
+            <h2>Foreground From Hanged Over</h2>
+            <div><p></p></div>
+            <div><p></p></div>
+            <div><p></p></div>
+            <div><p></p></div>
+            <div><p></p></div>
+            <div><p></p></div>
+        </div>
+    </body>
+</html>

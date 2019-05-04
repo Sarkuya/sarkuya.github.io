@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>HTML Unicode</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="../css/style.css" rel="stylesheet" type="text/css">
+
+        <script src="../js/html_unicode.js" type="text/javascript">
+        </script>
+    </head>
+    <body onload="init()">
+
+        <article style="margin-left: 1em;">
+            <header>
+                <h1>HTML Unicode</h1>
+            </header>
+
+            <section class="chapter" id="introduction">
+                <h2>Unicode查询表</h2>
+                
+                所有类型：
+                <select onchange="onSelectUnicodeField(event)">
+                    <option>0000-007F：C0控制符及基本拉丁文 (C0 Control and Basic Latin)</option>
+                    <option>0080-00FF：C1控制符及拉丁文补充-1 (C1 Control and Latin 1 Supplement)</option>
+                    <option>0100-017F：拉丁文扩展-A (Latin Extended-A)</option>
+                    <option>0180-024F：拉丁文扩展-B (Latin Extended-B)</option>
+                    <option>0250-02AF：国际音标扩展 (IPA Extensions)</option>
+                    <option>02B0-02FF：空白修饰字母 (Spacing Modifiers)</option>
+                    <option>0300-036F：结合用读音符号 (Combining Diacritics Marks)</option>
+                    <option>0370-03FF：希腊文及科普特文 (Greek and Coptic)</option>
+                    <option>0400-04FF：西里尔字母(Cyrillic)</option>
+                    <option>0500-052F：西里尔字母补充 (Cyrillic Supplement)</option>
+                    <option>0530-058F：亚美尼亚语 (Armenian)</option>
+                    <option>0590-05FF：希伯来文 (Hebrew)</option>
+                    <option>0600-06FF：阿拉伯文 (Arabic)</option>
+                    <option>0700-074F：叙利亚文 (Syriac)</option>
+                    <option>0750-077F：阿拉伯文补充 (Arabic Supplement)</option>
+                    <option>0780-07BF：马尔代夫语 (Thaana)</option>
+                    <option>07C0-07FF：西非书面语言 (N'Ko)</option>
+                    <option>0800-085F：阿维斯塔语及巴列维语(Avestan and Pahlavi)</option>
+                    <option>0860-087F：Mandaic</option>
+                    <option>0880-08AF：撒马利亚语 (Samaritan)</option>
+                    <option>0900-097F：天城文书 (Devanagari)</option>
+                    <option>0980-09FF：孟加拉语 (Bengali)</option>
+                    <option>0A00-0A7F：锡克教文 (Gurmukhi)</option>
+                    <option>0A80-0AFF：古吉拉特文 (Gujarati)</option>
+                    <option>0B00-0B7F：奥里亚文 (Oriya)</option>
+                    <option>0B80-0BFF：泰米尔文 (Tamil)</option>
+                    <option>0C00-0C7F：泰卢固文 (Telugu)</option>
+                    <option>0C80-0CFF：卡纳达文 (Kannada)</option>
+                    <option>0D00-0D7F：德拉维族语 (Malayalam)</option>
+                    <option>0D80-0DFF：僧伽罗语 (Sinhala)</option>
+                    <option>0E00-0E7F：泰文 (Thai)</option>
+                    <option>0E80-0EFF：老挝文 (Lao)</option>
+                    <option>0F00-0FFF：藏文 (Tibetan)</option>
+                    <option>1000-109F：缅甸语 (Myanmar)</option>
+                    <option>10A0-10FF：格鲁吉亚语(Georgian)</option>
+                    <option>1100-11FF：朝鲜文 (Hangul Jamo)</option>
+                    <option>1200-137F：埃塞俄比亚语 (Ethiopic)</option>
+                    <option>1380-139F：埃塞俄比亚语补充 (Ethiopic Supplement)</option>
+                    <option>13A0-13FF：切罗基语 (Cherokee)</option>
+                    <option>1400-167F：统一加拿大土著语音节 (Unified Canadian Aboriginal Syllabics)</option>
+                    <option>1680-169F：欧甘字母 (Ogham)</option>
+                    <option>16A0-16FF：如尼文(Runic)</option>
+                    <option>1700-171F：塔加拉语 (Tagalog)</option>
+                    <option>1720-173F：Hanunóo</option>
+                    <option>1740-175F：Buhid</option>
+                    <option>1760-177F：塔格班瓦文(Tagbanwa)</option>
+                    <option>1780-17FF：高棉语 (Khmer)</option>
+                    <option>1800-18AF：蒙古文 (Mongolian)</option>
+                    <option>18B0-18FF：Cham</option>
+                    <option>1900-194F：Limbu</option>
+                    <option>1950-197F：德宏泰语 (Tai Le)</option>
+                    <option>1980-19DF：新傣仂语 (New Tai Lue)</option>
+                    <option>19E0-19FF：高棉语记号 (Kmer Symbols)</option>
+                    <option>1A00-1A1F：Buginese</option>
+                    <option>1A20-1A5F：Batak</option>
+                    <option>1A80-1AEF：Lanna</option>
+                    <option>1B00-1B7F：巴厘语 (Balinese)</option>
+                    <option>1B80-1BB0：巽他语 (Sundanese)</option>
+                    <option>1BC0-1BFF：Pahawh Hmong</option>
+                    <option>1C00-1C4F：雷布查语(Lepcha)</option>
+                    <option>1C50-1C7F：桑塔利文(Ol Chiki)</option>
+                    <option>1C80-1CDF：曼尼普尔语(Meithei/Manipuri)</option>
+                    <option>1D00-1D7F：语音学扩展 (Phonetic Extensions)</option>
+                    <option>1D80-1DBF：语音学扩展补充 (Phonetic Extensions Supplement)</option>
+                    <option>1DC0-1DFF：结合用读音符号补充 (Combining Diacritics Marks Supplement)</option>
+                    <option>1E00-1EFF：拉丁文扩充附加 (Latin Extended Additional)</option>
+                    <option>1F00-1FFF：希腊语扩充 (Greek Extended)</option>
+                    <option>2000-206F：常用标点(General Punctuation)</option>
+                    <option>2070-209F：上标及下标 (Superscripts and Subscripts)</option>
+                    <option>20A0-20CF：货币符号 (Currency Symbols)</option>
+                    <option>20D0-20FF：组合用记号 (Combining Diacritics Marks for Symbols)</option>
+                    <option>2100-214F：字母式符号 (Letterlike Symbols)</option>
+                    <option>2150-218F：数字形式 (Number Form)</option>
+                    <option>2190-21FF：箭头 (Arrows)</option>
+                    <option>2200-22FF：数学运算符 (Mathematical Operator)</option>
+                    <option>2300-23FF：杂项工业符号 (Miscellaneous Technical)</option>
+                    <option>2400-243F：控制图片 (Control Pictures)</option>
+                    <option>2440-245F：光学识别符 (Optical Character Recognition)</option>
+                    <option>2460-24FF：封闭式字母数字 (Enclosed Alphanumerics)</option>
+                    <option>2500-257F：制表符 (Box Drawing)</option>
+                    <option>2580-259F：方块元素 (Block Element)</option>
+                    <option>25A0-25FF：几何图形 (Geometric Shapes)</option>
+                    <option>2600-26FF：杂项符号 (Miscellaneous Symbols)</option>
+                    <option>2700-27BF：印刷符号 (Dingbats)</option>
+                    <option>27C0-27EF：杂项数学符号-A (Miscellaneous Mathematical Symbols-A)</option>
+                    <option>27F0-27FF：追加箭头-A (Supplemental Arrows-A)</option>
+                    <option>2800-28FF：盲文点字模型 (Braille Patterns)</option>
+                    <option>2900-297F：追加箭头-B (Supplemental Arrows-B)</option>
+                    <option>2980-29FF：杂项数学符号-B (Miscellaneous Mathematical Symbols-B)</option>
+                    <option>2A00-2AFF：追加数学运算符 (Supplemental Mathematical Operator)</option>
+                    <option>2B00-2BFF：杂项符号和箭头 (Miscellaneous Symbols and Arrows)</option>
+                    <option>2C00-2C5F：格拉哥里字母(Glagolitic)</option>
+                    <option>2C60-2C7F：拉丁文扩展-C (Latin Extended-C)</option>
+                    <option>2C80-2CFF：古埃及语 (Coptic)</option>
+                    <option>2D00-2D2F：格鲁吉亚语补充 (Georgian Supplement)</option>
+                    <option>2D30-2D7F：提非纳文 (Tifinagh)</option>
+                    <option>2D80-2DDF：埃塞俄比亚语扩展 (Ethiopic Extended)</option>
+                    <option>2E00-2E7F：追加标点 (Supplemental Punctuation)</option>
+                    <option>2E80-2EFF：CJK 部首补充 (CJK Radicals Supplement)</option>
+                    <option>2F00-2FDF：康熙字典部首 (Kangxi Radicals)</option>
+                    <option>2FF0-2FFF：表意文字描述符 (Ideographic Description Characters)</option>
+                    <option>3000-303F：CJK 符号和标点 (CJK Symbols and Punctuation)</option>
+                    <option>3040-309F：日文平假名 (Hiragana)</option>
+                    <option>30A0-30FF：日文片假名 (Katakana)</option>
+                    <option>3100-312F：注音字母 (Bopomofo)</option>
+                    <option>3130-318F：朝鲜文兼容字母 (Hangul Compatibility Jamo)</option>
+                    <option>3190-319F：象形字注释标志 (Kanbun)</option>
+                    <option>31A0-31BF：注音字母扩展 (Bopomofo Extended)</option>
+                    <option>31C0-31EF：CJK 笔画 (CJK Strokes)</option>
+                    <option>31F0-31FF：日文片假名语音扩展 (Katakana Phonetic Extensions)</option>
+                    <option>3200-32FF：封闭式 CJK 文字和月份 (Enclosed CJK Letters and Months)</option>
+                    <option>3300-33FF：CJK 兼容 (CJK Compatibility)</option>
+                    <option>3400-4DBF：CJK 统一表意符号扩展 A (CJK Unified Ideographs Extension A)</option>
+                    <option>4DC0-4DFF：易经六十四卦符号 (Yijing Hexagrams Symbols)</option>
+                    <option>4E00-9FBF：CJK 统一表意符号 (CJK Unified Ideographs)</option>
+                    <option>A000-A48F：彝文音节 (Yi Syllables)</option>
+                    <option>A490-A4CF：彝文字根 (Yi Radicals)</option>
+                    <option>A500-A61F：Vai</option>
+                    <option>A660-A6FF：统一加拿大土著语音节补充 (Unified Canadian Aboriginal Syllabics Supplement)</option>
+                    <option>A700-A71F：声调修饰字母 (Modifier Tone Letters)</option>
+                    <option>A720-A7FF：拉丁文扩展-D (Latin Extended-D)</option>
+                    <option>A800-A82F：Syloti Nagri</option>
+                    <option>A840-A87F：八思巴字 (Phags-pa)</option>
+                    <option>A880-A8DF：Saurashtra</option>
+                    <option>A900-A97F：爪哇语 (Javanese)</option>
+                    <option>A980-A9DF：Chakma</option>
+                    <option>AA00-AA3F：Varang Kshiti</option>
+                    <option>AA40-AA6F：Sorang Sompeng</option>
+                    <option>AA80-AADF：Newari</option>
+                    <option>AB00-AB5F：越南傣语 (Vi?t Thái)</option>
+                    <option>AB80-ABA0：Kayah Li</option>
+                    <option>AC00-D7AF：朝鲜文音节 (Hangul Syllables)</option>
+                    <option>D800-DBFF：High-half zone of UTF-16</option>
+                    <option>DC00-DFFF：Low-half zone of UTF-16</option>
+                    <option>E000-F8FF：自行使用区域 (Private Use Zone)</option>
+                    <option>F900-FAFF：CJK 兼容象形文字 (CJK Compatibility Ideographs)</option>
+                    <option>FB00-FB4F：字母表达形式 (Alphabetic Presentation Form)</option>
+                    <option>FB50-FDFF：阿拉伯表达形式A (Arabic Presentation Form-A)</option>
+                    <option>FE00-FE0F：变量选择符 (Variation Selector)</option>
+                    <option>FE10-FE1F：竖排形式 (Vertical Forms)</option>
+                    <option>FE20-FE2F：组合用半符号 (Combining Half Marks)</option>
+                    <option>FE30-FE4F：CJK 兼容形式 (CJK Compatibility Forms)</option>
+                    <option>FE50-FE6F：小型变体形式 (Small Form Variants)</option>
+                    <option>FE70-FEFF：阿拉伯表达形式B (Arabic Presentation Form-B)</option>
+                    <option>FF00-FFEF：半型及全型形式 (Halfwidth and Fullwidth Form)</option>
+                    <option>FFF0-FFFF：特殊 (Specials)</option>
+                </select>
+                
+                <br />
+                常用非语言符号：
+                <select onchange="onSelectUnicodeField(event)">
+                    <option>0020-007F：C0控制符及基本拉丁文 (C0 Control and Basic Latin)</option>
+                    <option>0080-00FF：C1控制符及拉丁文补充-1 (C1 Control and Latin 1 Supplement)</option>
+                    <option>02B0-02FF：空白修饰字母 (Spacing Modifiers)</option>
+                    <option>0300-036F：结合用读音符号 (Combining Diacritics Marks)</option>
+                    <option>0F00-0FFF：藏文 (Tibetan)</option>
+                    <option>2000-206F：常用标点(General Punctuation)</option>
+                    <option>2070-209F：上标及下标 (Superscripts and Subscripts)</option>
+                    <option>20A0-20CF：货币符号 (Currency Symbols)</option>
+                    <option>20D0-20FF：组合用记号 (Combining Diacritics Marks for Symbols)</option>
+                    <option>2100-214F：字母式符号 (Letterlike Symbols)</option>
+                    <option>2150-218F：数字形式 (Number Form)</option>
+                    <option>2190-21FF：箭头 (Arrows)</option>
+                    <option>2200-22FF：数学运算符 (Mathematical Operator)</option>
+                    <option>2300-23FF：杂项工业符号 (Miscellaneous Technical)</option>
+                    <option>2400-243F：控制图片 (Control Pictures)</option>
+                    <option>2440-245F：光学识别符 (Optical Character Recognition)</option>
+                    <option>2460-24FF：封闭式字母数字 (Enclosed Alphanumerics)</option>
+                    <option>2500-257F：制表符 (Box Drawing)</option>
+                    <option>2580-259F：方块元素 (Block Element)</option>
+                    <option>25A0-25FF：几何图形 (Geometric Shapes)</option>
+                    <option>2600-26FF：杂项符号 (Miscellaneous Symbols)</option>
+                    <option>2700-27BF：印刷符号 (Dingbats)</option>
+                    <option>27C0-27EF：杂项数学符号-A (Miscellaneous Mathematical Symbols-A)</option>
+                    <option>27F0-27FF：追加箭头-A (Supplemental Arrows-A)</option>
+                    <option>2800-28FF：盲文点字模型 (Braille Patterns)</option>
+                    <option>2900-297F：追加箭头-B (Supplemental Arrows-B)</option>
+                    <option>2980-29FF：杂项数学符号-B (Miscellaneous Mathematical Symbols-B)</option>
+                    <option>2A00-2AFF：追加数学运算符 (Supplemental Mathematical Operator)</option>
+                    <option>2B00-2BFF：杂项符号和箭头 (Miscellaneous Symbols and Arrows)</option>
+                    <option>2E00-2E7F：追加标点 (Supplemental Punctuation)</option>
+                    <option>2FF0-2FFF：表意文字描述符 (Ideographic Description Characters)</option>
+                    <option>3000-303F：CJK 符号和标点 (CJK Symbols and Punctuation)</option>
+                    <option>3200-32FF：封闭式 CJK 文字和月份 (Enclosed CJK Letters and Months)</option>
+                    <option>4DC0-4DFF：易经六十四卦符号 (Yijing Hexagrams Symbols)</option>
+                    <option>F800-F8FF：自行使用区域 (Private Use Zone)</option>
+                    <option>FE30-FE4F：CJK 兼容形式 (CJK Compatibility Forms)</option>
+                </select>
+                
+                <p></p>
+                <div id="output_table"></div>
+            </section>
+
+
+            <section class="chapter" id="reference">
+                <h2>参考资料</h2>
+                <ul>
+                    <li><a href="https://unicode-table.com/cn" target="_blank">unicode-table.com</a></li>
+                    <li><a href="https://baike.baidu.com/item/Unicode/750500?fr=aladdin" target="_blank">Unicode</a>, 百度</li>
+                    
+                </ul>
+            </section>
+
+            <footer>
+                <p>Copyright Sarkuya 2019.1.8</p>
+            </footer>
+
+        </article>
+
+
+    </body>
+</html>

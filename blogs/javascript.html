@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>JavaScript</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link href="../css/style.css" rel="stylesheet" type="text/css">
+        
+        <script src="../js/init.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <p id="toc-nav">
+            <a href="#toc" id="toc-jump">
+                <span aria-hidden="true">↑</span>
+                <span>Jump to Table of Contents</span>
+            </a>
+            <a href="#toc" id="toc-toggle">
+                <span aria-hidden="true">→</span>
+                <span>Pop out Sidebar</span>
+            </a>
+        </p>
+        
+        <article id="mainContent">
+            <header>
+                <h1>JavaScript</h1>
+            </header>
+            
+            <section class="chapter" id="dom">
+                <h2>JavaScript DOM</h2>
+                <p></p>
+                
+                <section>
+                    <h3>Table DOM</h3>
+                    <h4>属性</h4>
+                    <p>Table有以下主要通用属性：</p>
+                    <ul>
+                        <li>childElementCount</li>
+                        <li>childNodes</li>
+                        <li>children</li>
+                        <li>dataset: 所有以"data-"为先的命名属性的集合</li>
+                        <li>isContentEditable</li>
+                        <li>firstChild</li>
+                        <li>firstElementChild</li>
+                        <li>lastChild</li>
+                        <li>lastElementChild</li>
+                        <li>nextElementSibling</li>
+                        <li>nextSibling</li>
+                        <li>parentElement</li>
+                        <li>parentNode</li>
+                        <li>previousElementSibling</li>
+                        <li>previousSibling</li>
+                    </ul>
+                    
+                    <p>Table有以下主要属性：</p>
+                    <ul>
+                        <li>caption</li>
+                        <li>rows: HTMLCollection</li>
+                        <li>tHead</li>
+                        <li>tBodies: HTMLCollection</li>
+                        <li>tFoot</li>
+                    </ul>
+                    
+                    <h5>tHead, tFoot</h5>
+                    <p>有以下属性：</p>
+                    <ul>
+                        <li>rows: HTMLCollection, 返回[&lt;tr&gt;]</li>
+                    </ul>
+                    
+                    <h5>tBodies</h5>
+                    <p>可以有多个tBody，因此，如果要访问第一个tBody，可使用<code>tBodies[0]</code>的方法来引用。</p>
+                    <p>每个tBody均有一个rows的属性。</p>
+                    
+                    <h5>tr</h5>
+                    <p>tr有一个属性，cells[]。用以访问单元格，即th, 或td。</p>
+                </section>
+            </section>
+            
+            <section class="chapter" id="html-element">
+                <h2>应对HTML元素</h2>
+                <p></p>
+                
+                <section>
+                    <h3>CSS属性</h3>
+                    <p>可使用以下方法应对CSS属性：</p>
+                    <ol>
+                        <li>element.getAttribute(attributeName)</li>
+                        <li>element.setAttribute(attributeName, value)</li>
+                        <li>element.removeAttribute(attributeName)</li>
+                        <li>element.style.getPropertyValue(propertyName)</li>
+                        <li>element.style.setProperty(propertyName, value)</li>
+                        <li>element.style.removePropertyValue(propertyName)</li>
+                        <li>element.style.cssText</li>
+                        
+                    </ol>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    
+                </section>
+                
+                <section>
+                    <h3>ddd</h3>
+                    <p></p>
+                </section>
+            </section>
+            
+            <section class="chapter" id="event">
+                <h2>事件</h2>
+                <section>
+                    <h3>DOMContentLoaded</h3>
+                    <p></p>
+                    <pre class="hightlight"><code>window.addEventListener("DOMConetentLoaded", (event) => {
+    console.log("Dom fully loaded and parsed");
+});
+</code></pre>
+                </section>
+            </section>
+
+            <section class="chapter" id="reference">
+                <h2>参考资料</h2>
+                
+                <section>
+                    <h3>本地资源</h3>
+                    <ol>
+                        <li><a href="../design/design.html" target="_blank">design.html</a></li>
+                        <li><a href="../demos/css-domtree.html" target="_blank">CSS Dom Tree</a></li>
+                    </ol>
+                </section>
+                
+                <section>
+                    <h3>网络资源</h3>
+                    <ol>
+                        <li><a href="https://blog.csdn.net/laokdidiao/article/details/51189476" target="_blank">CSS3实现32种基本图形</a></li>
+                        <li><a href="http://www.csszengarden.com" target="_blank">CSS Zen Garden</a></li>
+                        <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS" target="_blank">MDN Learn to sytle HTML using CSS</a></li>
+                        <li><a href="https://www.html.cn/tool/css3Preview/" target="_blank">CSS3样式生成器-Css3演示</a></li>
+                        <li><a href="https://www.html.cn/book/css/all-properties.html" target="_blank">CSS速查总表</a></li>
+                        <li><a href="https://www.html5tricks.com/demo/css3-simple-tab/index.html" target="_blank">CSS3实现的Tab Demo</a></li>
+                        <li><a href="https://alistapart.com" target="_blank">A List Apart</a></li>
+                        <li><a href="https://gridbyexample.com" target="_blank">Grid by Exmaple</a></li>
+                    </ol>
+                </section>
+            </section>
+
+            <footer>
+                <p>Copyright Sarkuya 2019-03-18</p>
+            </footer>
+        
+        </article>
+    </body>
+</html>

@@ -7,51 +7,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <style>
-            .wrapper {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                grid-gap: 10px;
-                grid-auto-rows: minmax(100px, auto);
-            }
-            
-            div:not(.wrapper) {
-                border: 1px solid black;
-            }
-            
-            form {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                grid-gap: 10px;
-                grid-auto-rows: minmax(100px, auto);
-            }
-
         </style>
         
         <script>
             function init() {
+                var string = "This is a real story.";
+                var regExp = /th(is )*/gi;
+
+                var result;
+
+                while ((result = regExp.exec(string)) !== null) {
+
+                    console.log(regExp.lastIndex);
+                }
             }
             
             window.addEventListener("DOMContentLoaded", init);
         </script>
     </head>
     <body>
-        <h1>test</h1>
         
-        <div class="wrapper">
-            <div class="one">One</div>
-            <div class="two">Two</div>
-            <div class="three">Three</div>
-            <div class="four">Four</div>
-            <div class="five">Five</div>
-            <div class="six">Six</div>
-        </div>
-        
-        <form>
-
-                <label>aaa</label><input type="text" />
-                <label>bbb</label><input type="text" />
-
-            
-        </form>
     </body>
 </html>

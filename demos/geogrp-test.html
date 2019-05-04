@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>GeoGrp Test</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="../js/geoGrp.js"></script>
+        
+        <style type="text/css">
+            canvas {
+                border: 0px solid #eee;
+                background-color: white;
+            }
+        </style>
+        
+        <script>
+            function init() {
+                var canvas = document.getElementById("myCanvas");
+                var ctx = canvas.getContext('2d');
+                
+                var g = setupGeoGrp(canvas);
+                
+                ctx.strokeStyle = 'black';
+                ctx.fillStyle = 'hsl(0, 50%, 50%)';
+
+                g.drawTriangle(Point(0, 0), Point(4, 0), Point(4, 3));
+                g.drawArcInIntersectAngle(Point(0, 0), Point(4, 0), Point(4, 3), 0.9);
+                g.drawCircle(Point(0, 0), 5);
+                
+                ctx.font = '28px Arial';
+                g.fillText("a", Point(4.2, 1.5));
+                g.drawTextAlignLineSegment("b", Point(0, 0), Point(4, 0), "center", "down", 0.1, false);
+                g.drawTextAlignLineSegment("c", Point(0, 0), Point(4, 3), "center", "up", 0.1, false);
+                
+                ctx.font = '18px Arial';
+                ctx.fillStyle = 'black';
+                g.drawTextInIntersectAngle("Ɵ", Point(0, 0), Point(4, 0), Point(4, 3), 1.0);
+                
+            }
+            
+            function setupGeoGrp(canvas) {
+                geoGrp.X_MARK_LABEL_POS = "down";
+                geoGrp.Y_MARK_LABEL_POS = "right";
+                
+                geoGrp.setupCanvas(canvas);
+                geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), 10, 10, 10, 10, true);
+                
+                geoGrp.canvas.getContext('2d').imageSmoothingEnabled = true;
+                geoGrp.canvas.getContext('2d').imageSmoothingQuality = 'high';
+                
+                return geoGrp;
+            }
+            
+            window.addEventListener("load", init);
+        </script>
+        
+    </head>
+    
+    
+    <body>
+        <h1>geoGrp Demo</h1>
+        
+        <h2></h2>
+        <canvas id="myCanvas" width="1000" height="1000">Browser does not support canvas!</canvas>
+    </body>
+</html>
