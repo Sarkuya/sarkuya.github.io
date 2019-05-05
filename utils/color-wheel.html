@@ -8,10 +8,10 @@
         
         <script src="../js/geoGrp.js"></script>
         
-        
+        <link rel="stylesheet" href="../css/style.css">
         
         <style type="text/css">
-            #myCanvas {
+/*            #myCanvas {
                 border: 0px solid #eee;
                 display: inline-block;
             }
@@ -152,11 +152,81 @@
                 border: 0px solid black;
                 margin-left: 1em;
                 margin-right: 0.5em;
+            }*/
+            
+            div.grid-wrapper {
+                display: grid;
+                /*grid-template-columns: 300px 320px;*/
+                grid-template-columns: minmax(300px,1fr) 1fr;
+                grid-gap: 10px;
             }
+            
+            div#canvas-wrapper {
+                border: 1px solid black;
+                grid-row: 1 / 3;
+                grid-column: 1;
+            }
+            
+            table#hsl-table th {
+                grid-row: 1;
+                grid-column: 2;
+            }
+            
+            div#color-string-panel {
+                background-color: #ddd;
+                padding: 0.5em;
+                
+                grid-row: 2;
+                grid-column: 2;
+                
+                display: grid;
+                grid-template-columns: 50px 1fr;
+                grid-gap: 10px;
+            }
+            
+            div#color-string-panel label {
+                color: hsl(220, 75%, 38%);
+                text-align: right;
+            }
+            
+            div#color-string-panel label:after {
+                content: ": ";
+            }
+            
+            div#color-string-panel input[type='text'] {
+                
+            }
+            
+            div.demo-color-blocks {
+                display: grid;
+                grid-template-columns: repeat(6, 1fr);
+                grid-template-rows: 30px;
+                grid-gap: 10px;
+            }
+            
+            div.demo-color-blocks span {
+                font-size: 80%;
+                text-align: center;
+                margin: auto 0;
+                padding: 0.5em;
+            }
+            
+            div#bg-color-blocks {
+                grid-row: 3;
+                grid-column: 1 / 3;
+            }
+            
+            div#fg-color-blocks {
+                grid-row: 4;
+                grid-column: 1 / 3;
+            }
+            
             
         </style>
         
         <script>
+            //console.log(geoGrp.AXIS_COLOR);
+            
             var colorWheel = {
                 centerPoint: Point(0, 0),
                 outterRadius: 50,
@@ -168,10 +238,7 @@
             
             var canvas;
             
-            function init() {
-                canvas = document.getElementById("myCanvas");
-                var ctx = canvas.getContext('2d');
-                
+            function resetGeoGrp() {
                 geoGrp.setupCanvas(canvas);
                 
                 colorWheel.centerPoint = geoGrp.getCenterPoint();
@@ -180,9 +247,27 @@
                 
                 colorWheel.outterRadiusLen = colorWheel.outterRadius * Math.min(geoGrp.X_UNIT_LENGTH, geoGrp.Y_UNIT_LENGTH);
                 colorWheel.innerRadiusLen = colorWheel.innerRadius * Math.min(geoGrp.X_UNIT_LENGTH, geoGrp.Y_UNIT_LENGTH);
+            }
+            
+            function init() {
+                canvas = document.getElementById("myCanvas");
+                
+                window.addEventListener("resize", onWindowResize);
+                onWindowResize();
                 
                 canvas.addEventListener("mousemove", onCanvasMouseMove);
                 document.getElementById('hsl-table').addEventListener("mousemove", onHSLTableMouseMove);
+            }
+            
+            function onWindowResize() {
+                var canvasWrapper = document.getElementById("canvas-wrapper");
+                
+                var style = window.getComputedStyle(canvasWrapper);
+                
+                canvas.width = parseInt(style.width.replace("px", "")) - 10;
+                canvas.height = parseInt(style.height.replace("px", "")) - 10;
+                
+                resetGeoGrp();
             }
             
             function isPointInColorsArea(point) {
@@ -227,23 +312,32 @@
             
             function updateBgColorBlocks(hslColorValue) {
                 var parent = document.getElementById("bg-color-blocks");
-                var bgColorBlocks = parent.getElementsByTagName("div");
+                var bgColorBlocks = parent.getElementsByTagName("span");
                 
                 for (var i = 0; i < bgColorBlocks.length; i++) {
+                    var hex = i * 3;
+                    hex = hex.toString(16);
+                    hex = "#"+hex+hex+hex;
+                    bgColorBlocks[i].style.color = hex;
+                    
                     bgColorBlocks[i].style.backgroundColor = hslColorValue;
-                    bgColorBlocks[i].innerHTML = '<p>' + hslColorValue + '</p>';
+                    bgColorBlocks[i].innerText = hslColorValue;
                 }
             }
             
             function updateFgColorBlocks(hslColorValue) {
                 var parent = document.getElementById("fg-color-blocks");
-                var fgColorBlocks = parent.getElementsByTagName("div");
+                var fgColorBlocks = parent.getElementsByTagName("span");
                 
                 for (var i = 0; i < fgColorBlocks.length; i++) {
-                    var para = fgColorBlocks[i].getElementsByTagName("p")[0];
+                    fgColorBlocks[i].style.color = hslColorValue;
                     
-                    para.style.color = hslColorValue;
-                    para.innerText = hslColorValue + "";
+                    var hex = i * 3;
+                    hex = hex.toString(16);
+                    hex = "#"+hex+hex+hex;
+                    fgColorBlocks[i].style.backgroundColor = hex;
+                    
+                    fgColorBlocks[i].innerText = hslColorValue;
                 }
             }
             
@@ -293,16 +387,19 @@
     
     <body>
         <h1>Color Wheel</h1>
-        <canvas id="myCanvas" width="600" height="600">Browser does not support canvas!</canvas>
         
-        <div id="color-from-wheel-div">
+        <div class="grid-wrapper">
+            <div id="canvas-wrapper">
+                <canvas id="myCanvas">Browser does not support canvas!</canvas>
+            </div>
+            
             <table id="hsl-table">
                 <thead>
                     <tr><th rowspan="2" colspan="2"></th><th colspan="5">Saturation</th></tr>
                     <tr><th>100%</th><th>75%</th><th>50%</th><th>25%</th><th>0%</th></tr>
                 </thead>
                 <tbody>
-                    <tr><th rowspan="9" class="vertical-cell">L</th><th>100%</th><td></td><td></td><td></td><td></td><td></td></tr>
+                    <tr><th rowspan="9" class="vertical-cell">L<br/>i<br/>g<br/>h<br/>t<br/>n<br/>e<br/>s<br/>s</th><th>100%</th><td></td><td></td><td></td><td></td><td></td></tr>
                     <tr><th>88%</th><td></td><td></td><td></td><td></td><td></td></tr>
                     <tr><th>75%</th><td></td><td></td><td></td><td></td><td></td></tr>
                     <tr><th>63%</th><td></td><td></td><td></td><td></td><td></td></tr>
@@ -314,30 +411,29 @@
                 </tbody>
             </table>
 
-            <form id="color-string-panel">
-                <label>hsl: </label><input type="text" id="hsl-color-value" /> <br />
-                <label>rgb: </label><input type="text" id="rgb-color-value" />
-            </form>
-        </div>
-        
-        <div id="bg-color-blocks" class="demo-color-blocks">
-            <h2>Background From Hanged Over</h2>
-            <div><p></p></div>
-            <div><p></p></div>
-            <div><p></p></div>
-            <div><p></p></div>
-            <div><p></p></div>
-            <div><p></p></div>
-        </div>
-        
-        <div id="fg-color-blocks" class="demo-color-blocks">
-            <h2>Foreground From Hanged Over</h2>
-            <div><p></p></div>
-            <div><p></p></div>
-            <div><p></p></div>
-            <div><p></p></div>
-            <div><p></p></div>
-            <div><p></p></div>
+            <div id="color-string-panel">
+                <label>hsl</label><input type="text" id="hsl-color-value" />
+                <label>rgb</label><input type="text" id="rgb-color-value" />
+                <label>hex</label><input type="text" id="hex-color-value" />
+            </div>
+            
+            <div id="bg-color-blocks" class="demo-color-blocks">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <div id="fg-color-blocks" class="demo-color-blocks">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </body>
 </html>
