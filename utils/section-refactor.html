@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>HTML Escaple</title>
+        <title>HTML5 Section Refactor</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -15,11 +15,6 @@
                 grid-gap: 20px 10px;
                 background-color: #eee;
                 padding: 1em;
-            }
-            
-            form legend {
-                color: chocolate;
-                font-weight: bold;
             }
             
             form label {
@@ -45,7 +40,7 @@
                 grid-column: 1;
             }
             
-            form #escapedstring {
+            form #refactoredtext {
                 grid-row: 3;
                 grid-column: 2;
             }
@@ -62,20 +57,41 @@
         
         <script type="text/javascript">
             function init() {
-                document.getElementById("escapebutton").addEventListener("click", onEscape);
+                document.getElementById("sectiontext").value =
+`    <section>
+        <h1>abc</h1>
+        
+        <p>bbb</p>
+        <pre>
+var a = 10;
+a += 5;
+</pre>
+    </section>`;
+                
+                document.getElementById("moveInNextLevelButton").addEventListener("click", onMoveInNextLevel);
                 document.getElementById("copybutton").addEventListener("click", onCopy);
             }
             
-            function onEscape(event) {
-                var htmlString = document.getElementById("htmlstring").value;
+            function onMoveInNextLevel(event) {
+                var sectionText = document.getElementById("sectiontext").value;
                 
-                htmlString = htmlString.replace(/</gi, "&lt;").replace(/>/gi, "&gt;");
+                var result = /^\s*/.exec(sectionText);
+                var leadingSpacesNum = result[0].length;
                 
-                document.getElementById("escapedstring").value = htmlString;
+                var headText = " ".repeat(leadingSpacesNum) + "<section>";
+                headText += "\n" + " ".repeat(leadingSpacesNum + 4) + "<h1>NEW_TITLE_HERE</h1>\n\n";
+                
+                var indentText = sectionText.replace(/^s*/gm, " ".repeat(4));
+                
+                var refactoredText = headText + indentText + "\n";
+                
+                refactoredText += " ".repeat(leadingSpacesNum) + "</section>";
+                
+                document.getElementById("refactoredtext").value = refactoredText;
             }
             
             function onCopy(event) {
-                document.getElementById("escapedstring").select();
+                document.getElementById("refactoredtext").select();
                 document.execCommand("copy");
             }
             
@@ -83,12 +99,12 @@
         </script>
     </head>
     <body>
-        <h1>HTML Escape</h1>
+        <h1>HTML5 Section Refactor</h1>
         
         <form>
-            <label>HTML String</label><textarea id="htmlstring" rows="30" cols="20"></textarea>
-            <div><input type="button" id='escapebutton' value="Escape" /></div>
-            <label>Escaped String</label><textarea id="escapedstring" rows="30" cols="20"></textarea>
+            <label>Section Text</label><textarea id="sectiontext" rows="30" cols="20"></textarea>
+            <div><input type="button" id='moveInNextLevelButton' value="Move in Next Level" /></div>
+            <label>Refactored Text</label><textarea id="refactoredtext" rows="30" cols="20"></textarea>
             <div><input type="button" id='copybutton' value="Copy To Clipboard" /></div>
         </form>
     </body>

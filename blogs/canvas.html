@@ -6,34 +6,21 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        <link href="../css/style.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/document.css">
         
-<!--        <link rel="stylesheet" href="js/highlight/styles/default.css">
-        <script src="js/highlight/highlight.pack.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script>-->
-        
-        <script src="../js/init.js" type="text/javascript"></script>
+        <script src="../js/htmlDocUtils.js"></script>
     </head>
     <body>
-        <p id="toc-nav">
-            <a href="#toc" id="toc-jump">
-                <span aria-hidden="true">↑</span>
-                <span>Jump to Table of Contents</span>
-            </a>
-            <a href="#toc" id="toc-toggle">
-                <span aria-hidden="true">→</span>
-                <span>Pop out Sidebar</span>
-            </a>
-        </p>
-        
-        <article id="mainContent">
+        <article>
             <header>
                 <h1>HTML5 Canvas</h1>
+                <p class='authorinfo'>Sarkuya, <time>2019-01-01</time></p>
             </header>
 
-            <section class="chapter" id="canvas">
-                <h2>Canvas元素</h2>
-                <p></p>
+            <section class="chapter">
+                <h1>Canvas元素</h1>
+                
                 <table>
                     <caption>接口</caption>
                     <thead>
@@ -50,8 +37,8 @@
                 </table>
             </section>
             
-            <section class="chapter" id="context">
-                <h2>CanvasRenderingContext2D</h2>
+            <section class="chapter">
+                <h1>CanvasRenderingContext2D</h1>
                 <p></p>
                 <table>
                     <caption>接口</caption>
@@ -59,14 +46,11 @@
                         <tr><th>分类</th><th>类型</th><th>名称</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td rowspan="3">top</td><td rowspan="2">属性</td><td>canvas</td></tr>
-                        <tr><td>height</td></tr>
+                        <tr><td rowspan="2">N/A</td><td>属性</td><td>canvas</td></tr>
                         <tr><td>方法</td><td>getContextAttributes</td></tr>
                         
                         <tr><td rowspan="2">CanvasState</td><td rowspan="2">方法</td><td>save</td></tr>
                         <tr><td>restore</td></tr>
-                        
-                        <tr><td>CanvasPattern</td><td>方法</td><td>setTransform</td></tr>
                         
                         <tr><td rowspan="7">CanvasTransform</td><td rowspan="7">方法</td><td>scale</td></tr>
                         <tr><td>rotate</td></tr>
@@ -167,10 +151,11 @@
                 </table>
             </section>
             
-            <section class="chapter" id="path">
-                <h2>Path</h2>
+            <section class="chapter">
+                <h1>Path</h1>
                 <p></p>
-                <pre><code class='javascript'>var canvas = document.getElementById('canvas');
+                <pre class="programlisting">
+var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 
 ctx.beginPath();
@@ -178,37 +163,224 @@ ctx.beginPath();
 ctx.moveTo(0, 0);
 ctx.lineTo(10, 0);
 
-ctx.closePath();
-
 ctx.stroke();
 ctx.fill();
-</code></pre>
+
+ctx.closePath();
+</pre>
             </section>
             
-            <section class="chapter" id="reference">
-                <h2>参考资料</h2>
-                
+            <section class="chapter">
+                <h1>坐标轴</h1>
                 <section>
-                    <h3>本地资源</h3>
-                    <ol>
-                        <li><a href="html_unicode.html" target="_blank">HTML Unicode</a></li>
-                        <li><a href="apps/audioplayer.html" target="_blank">Audio Player</a></li>
-                    </ol>
+                    <h1>方向</h1>
+
+                    <p>Canvas的坐标轴的原点在Canvas的左上角，X轴的值往右而增加，Y轴的值往下而增加。</p>
+                    
+                    <canvas id="canvas1" style="border: 1px solid #fff;" width="200" height="200">Canvas1</canvas>
+                    <script>
+                        var canvas = document.getElementById("canvas1");
+                        var ctx = canvas.getContext("2d");
+                        
+                        var CANVAS_PADDING = 20;
+                        
+                        ctx.translate(CANVAS_PADDING, CANVAS_PADDING);
+    
+                        ctx.beginPath();
+    
+                        ctx.moveTo(0, 0);
+                        ctx.lineTo(canvas.width - CANVAS_PADDING * 2, 0);
+                        ctx.lineTo(canvas.width - CANVAS_PADDING * 2 - 10, -6);
+                        ctx.moveTo(canvas.width - CANVAS_PADDING * 2, 0);
+                        ctx.lineTo(canvas.width - CANVAS_PADDING * 2 - 10, 6);
+                        
+                        ctx.moveTo(0, 0);
+                        ctx.lineTo(0, canvas.height - CANVAS_PADDING * 2);
+                        ctx.lineTo(-6, canvas.height - CANVAS_PADDING * 2 - 10);
+                        ctx.moveTo(0, canvas.height - CANVAS_PADDING * 2);
+                        ctx.lineTo(6, canvas.height - CANVAS_PADDING * 2 - 10);
+                        
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        ctx.strokeText("(0, 0)", 0, -5);
+                        
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'middle';
+                        ctx.strokeText("x", canvas.width - CANVAS_PADDING * 2 + 5, 0);
+                        
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'top';
+                        ctx.strokeText("y", 0, canvas.height - CANVAS_PADDING * 2);
+    
+                        ctx.stroke();
+    
+                        ctx.closePath();
+                    </script>
                 </section>
                 
                 <section>
-                    <h3>网络资源</h3>
+                    <h1>坐标轴的反转</h1>
+                    <p><code>ctx.scale(1, -1)</code>虽能反转Y轴，但同时也会将文本反转。因此这种简单的方式不能用于需要绘制文本的地方。</p>
+                    <canvas id="canvas2" style="border: 1px solid #eee;" width="200" height="200">Canvas2</canvas>
+                    <script>
+                        var canvas = document.getElementById("canvas2");
+                        var ctx = canvas.getContext("2d");
+                        
+                        ctx.translate(100, 100);
+                        ctx.scale(1, -1);
+                        
+                        ctx.font = "28px arial";
+
+                        ctx.fillText("Hello", 0, 10);
+                    </script>
+                </section>
+                
+                <section>
+                    <h1>映射坐标值</h1>
+                    <p>需将Y轴最大值设为100，在上面画出高度为30， 50， 80的柱状图。此时需要将100映射到Y轴的高度上，必要时还需进行轴向反转。那么，30应对应于Y轴上多少的位置？</p>
+                    <p>先考虑X轴。先将整个轴长度除以最大份数，上例是100，得出每份的实际长度，再乘以所需的长度就行。</p>
+                    <pre class="programlisting">
+var canvasWidth = 500;
+var maxValue = 100;
+var mappingValue = 30;
+
+var canvasValue = canvasWidth / maxValue * mappingValue = 500 / 100 * 30;
+</pre>
+                    <p>如需考虑留边，则：</p>
+                    <pre class="programlisting">
+var CANVAS_PADDING = 20;
+
+var canvasWidth = 500;
+var maxValue = 100;
+var mappingValue = 30;
+
+var canvasValue = (canvasWidth - CANVAS_PADDING * 2) / maxValue * mappingValue + CANVAS_PADDING;
+</pre>
+                    <p>而对于Y轴来讲，如果需要反转轴向朝上：</p>
+                    <pre class="programlisting">
+var canvasValue = canvas.height - (canvas.height - CANVAS_PADDING * 2) / yMaxValue * mappingValue - CANVAS_PADDING;
+</pre>
+                    <p>于是，分别转换x及y轴坐标的两个函数：</p>
+                    <pre class="programlisting">
+function convertX(x) {
+    return (canvas.width - CANVAS_PADDING * 2) / xMaxValue * x + CANVAS_PADDING;
+}
+
+function convertY(y) {
+    return canvas.height - (canvas.height - CANVAS_PADDING * 2) / yMaxValue * y - CANVAS_PADDING;
+}
+</pre>
+                    
+                    <p>确定起点时，也可直接使用转换函数的值作为参数。</p>
+                    <pre class="programlisting">
+ctx.moveTo(convertX(30), convertY(0));
+ctx.lineTo(convertX(30), convertY(100));
+</pre>
+                    <p>每一步都要进行坐标转换。从快捷编写代码的角度来看，有何方法可以更直观的吗？能否使用Prototype进行函数注入？</p>
+                    <pre class="programlisting">
+CanvasRenderingContext2D.prototype.nMoveTo = function(x, y) {
+    ctx.moveTo(convertX(x), convertY(y));
+};
+
+CanvasRenderingContext2D.prototype.nLineTo = function(x, y) {
+    ctx.lineTo(convertX(x), convertY(y));
+};
+
+ctx.nMoveTo(0, 0);
+ctx.nLineTo(50, 50);
+</pre>
+                    
+                    
+                    <canvas id="canvas3" style="border: 1px solid #eee;" width="200" height="200">Canvas3</canvas>
+                    <script>
+
+                        
+                        function convertX(x) {
+                            return (canvas.width - CANVAS_PADDING * 2) / xMaxValue * x + CANVAS_PADDING;
+                        }
+                        
+                        function convertY(y) {
+                            return canvas.height - (canvas.height - CANVAS_PADDING * 2) / yMaxValue * y - CANVAS_PADDING;
+                        }
+                        
+                        var canvas = document.getElementById("canvas3");
+                        var ctx = canvas.getContext("2d");
+                        
+                        var CANVAS_PADDING = 20;
+                        
+                        var xMaxValue = 100;
+                        var yMaxValue = 100;
+                        
+                        var x = convertX(100);
+                        var y = convertY(100);
+                        
+                        ctx.beginPath();
+                        
+                        ctx.moveTo(CANVAS_PADDING, canvas.height - CANVAS_PADDING);
+                        ctx.lineTo(x, canvas.height - CANVAS_PADDING);
+    
+                        ctx.moveTo(CANVAS_PADDING, canvas.height - CANVAS_PADDING);
+                        ctx.lineTo(CANVAS_PADDING, y);
+                        
+                        ctx.moveTo(convertX(30), convertY(0));
+                        ctx.lineTo(convertX(30), convertY(100));
+                        
+                        ctx.rect(convertX(50), convertY(50), 50, 50);
+                        
+                        
+                        CanvasRenderingContext2D.prototype.nMoveTo = function(x, y) {
+                            ctx.moveTo(convertX(x), convertY(y));
+                        };
+                        
+                        CanvasRenderingContext2D.prototype.nLineTo = function(x, y) {
+                            ctx.lineTo(convertX(x), convertY(y));
+                        };
+                        
+                        
+                        
+                        ctx.nMoveTo(0, 0);
+                        ctx.nLineTo(50, 50);
+                        
+                        
+    
+                        ctx.stroke();
+    
+                        ctx.closePath();
+                    </script>
+                </section>
+            </section>
+            
+            <section class="chapter">
+                <h1>相关数学知识</h1>
+                <p></p>
+                
+                <section>
+                    <h1>弧度与角度的互换</h1>
+                    <pre class="programlisting">
+radian = π / 180 * degree = Math.PI / 180 * degree
+degree = 180 / π * radian = 180 / Math.PI * radian
+</pre>
+                </section>
+            </section>
+            
+            <section class="reference">
+                <h1>参考资料</h1>
+                
+                <section>
+                    <h1>网络资源</h1>
                     <ol>
                         <li><a href="https://html.spec.whatwg.org/#the-canvas-element" target="_blank">The Canvas Element</a></li>
+                        <li><a href="https://www.html5canvastutorials.com" target="_blank">HTML5 Canvas Tutorials Home</a></li>
+                        <li><a href="http://coreymaynard.com/blog/extending-a-javascript-function/" target="_blank">Extending a JavaScript Function</a></li>
+                        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends" target="_blank">MDN extends class</a></li>
+                        <li><a href="https://stackoverflow.com/questions/35748917/extend-or-inherit-an-object-prototypes-when-calling-a-native-prototype-method" target="_blank">extend or inherit an object prototypes when calling a native prototype method</a></li>
+                        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain" target="_blank">Inheritance and the prototype chain</a></li>
+                        
                     </ol>
                 </section>
             </section>
 
-            <footer>
-                <p>Copyright Sarkuya 2019.1.1</p>
-            </footer>
-        
+            <footer><p class="copyright">All rights reserved.</p></footer>
         </article>
-
     </body>
 </html>

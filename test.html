@@ -11,15 +11,17 @@
         
         <script>
             function init() {
-                var string = "This is a real story.";
-                var regExp = /th(is )*/gi;
-
-                var result;
-
-                while ((result = regExp.exec(string)) !== null) {
-
-                    console.log(regExp.lastIndex);
-                }
+                var canvas = document.getElementById("canvas");
+                var ctx = canvas.getContext("2d");
+                
+                ctx.beginPath();
+                
+                ctx.moveTo(0, 0);
+                ctx.lineTo(20, 20);
+                
+                ctx.stroke();
+                
+                ctx.closePath();
             }
             
             window.addEventListener("DOMContentLoaded", init);
@@ -27,6 +29,6 @@
     </head>
     
     <body>
-        
+        <canvas id="canvas" width="300" height="300"></canvas>
     </body>
 </html>
