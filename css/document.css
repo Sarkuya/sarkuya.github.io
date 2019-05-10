@@ -9,7 +9,7 @@
     size: a4 portrait;
 }
 
-@media screen and (min-width: 1125px) and (max-width: 2436px) {
+@media screen and (max-width: 375px) {
     pre {
         overflow-x: scroll;
     }
