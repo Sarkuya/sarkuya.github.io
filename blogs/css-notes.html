@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>CSS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/document.css">
+        
+        <style type="text/css">
+            .w3c {
+                min-height: 250px;
+                position: relative;
+                width: 100%;
+            }
+            
+            .w3c > div > a {
+                margin-left: -1px;
+                position: relative;
+                left: 1px;
+                text-decoration: none;
+                color: black;
+                background: white;
+                display: block;
+                float: left;
+                padding: 5px 10px;
+                border: 1px solid #ccc;
+                border-bottom: 1px solid white;
+            }
+            
+            .w3c > div:not(:target) > a {
+                border-bottom: 0;
+                background: -moz-linear-gradient(top, white, #eee);
+            }
+            
+            .w3c > div:target > a {
+                background: white;
+            }
+            
+            .w3c > div > div {
+                background: white;
+                z-index: -1;
+                left: 0;
+                top: 30px;
+                bottom: 0;
+                right: 0;
+                padding: 20px;
+                border: 1px solid #ccc;
+            }
+            
+            .w3c > div:not(:target) > div {
+                position: absolute
+            }
+            
+            .w3c > div:target > div {
+                position: absolute;
+                z-index: 0;
+            }
+            
+            /* ---------- css grid ---------- */
+            
+            div.grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr 2fr;
+            }
+            
+            div.grid div {
+                color: black;
+                border: 1px solid lightgray;
+                background-color: #eee;
+            }
+            
+            /* ---------- demos ---------- */
+            
+            div.relativediv {
+                border: 1px solid red;
+                position: relative;
+                height: 100px;
+            }
+            
+            div#demo1-1,
+            div#demo2-1 {
+                border: 1px solid blue;
+                position: absolute;
+                left: 10px;
+                top: 10px;
+                width: 50px;
+                height: 50px;
+                background-color: #eee;
+            }
+            
+            div#demo1-2,
+            div#demo2-2 {
+                border: 1px solid green;
+                position: absolute;
+                left: 30px;
+                top: 30px;
+                width: 50px;
+                height: 50px;
+                background-color: #aaa;
+            }
+            
+            div#demo2-1 {
+                z-index: 1;
+            }
+            
+            div#demo2-2 {
+            }
+            
+            div#demo3 {
+                border: 1px solid lightgray;
+            }
+            
+            div#demo3:target {
+                background-color: lightgray;
+            }
+            
+            p:target {
+                background-color: gold;
+            }
+        </style>
+        
+        <script src="../js/htmlDocUtils.js"></script>
+    </head>
+    <body>
+        <article>
+            <header>
+                <h1>CSS Notes</h1>
+                <p class='authorinfo'>Sarkuya, <time>2019-05-09</time></p>
+            </header>
+            
+            <section class="chapter">
+                <h1>CSS Tab的实现</h1>
+                <p></p>
+                
+                <div class="w3c">
+                    <div id="tab16">
+                        <a href="#tab16">Tab 16</a>
+                        <div>One might well argue, that...</div>
+                    </div>
+                    <div id="tab17">
+                        <a href="#tab17">Tab 17</a>
+                        <div>... 30 lines of CSS is rather a lot, and...</div>
+                    </div>
+                    <div id="tab18">
+                        <a href="#tab18">Tab 18</a>
+                        <div>... that 2 should have been enough, but...</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="chapter">
+                <h1>CSS Grid</h1>
+                <p>最重要的两件事：</p>
+                <ol>
+                    <li>指定要设定为"grid"的父元素</li>
+                    <li>设定grid-tempalte-columns</li>
+                </ol>
+                <div class="grid">
+                    <div>a</div>
+                    <div>b</div>
+                    <div>c</div>
+                </div>
+            </section>
+            
+            <section class="chapter">
+                <h1>position</h1>
+                <p>当position为"absolute"时，取绝对定位机制。当其为left: 0, top: 0时，则位置定位在浏览器客户端，也即页面的最左上角。而不管此元素的层级是多少。</p>
+                <p>如果希望它在某个元素素中绝对定位，则需将此父元素的position设为"relative"即可。</p>
+                <p>此时，该元素就脱离了原来的流布局，腾出的空间由其他元素顶上。</p>
+                
+                <div class="relativediv">
+                    <div id="demo1-1">A</div>
+                    <div id="demo1-2">B</div>
+                </div>
+                <p>一个"relative"的父元素，如果其所有子元素都为"absolute"，则意味着所有的子元素都脱离了流布局，不再占有父元素的任何空间，此时，父元素原被子元素占用的空间将被释放，从而变成一个没有高度的元素。若要避免这种情况出现，可以手工指定其height, 或min-height.</p>
+                <p>此时，如上图所示，两个元素可能相互重叠在一起。</p>
+                <p>使用z-index属性可以显式地指定哪个元素排在前面。z-index的值更高，则会挡住z-index的值更低的元素。默认值为"auto"，可将默认值视为0。</p>
+                <div class="relativediv">
+                    <div id="demo2-1">A</div>
+                    <div id="demo2-2">B</div>
+                </div>
+                <p>上面，将A的z-index设为"1"后，其值比B的默认值要大，因此，A排在B的前面。</p>
+                <p></p>
+                <p class="note">z-index只对position为absolute的元素的起作用。</p>
+            </section>
+            
+            <section class="chapter">
+                <h1>:target</h1>
+                <p><a href="#p1">Jump</a> to the next paragraph!</p>
+                <p id="p1">This is a target paragraph, which means it can be linked to.</p>
+                
+                <p><a href="#demo3">Jump</a> to the next div!</p>
+                <div id="demo3"><p>This is a second target div that can also be targeted by CSS.</p></div>
+                
+                <p>当有链接指向某个目标，在我们点击了链接，成功跳至该页面上的目标后，这个目标可以通过":targt"伪类来选中，我们就可以对其设置特定的样式。</p>
+                <p>":targt"的特点有两个。第一个特点是被选中是动态的，只有在点击了链接后并链至目标后，目标才可被选中。第二个特点是一个页面上任何一个时间只能有一个目标被选中，前面的目标会因后面的目标被选中而失去效用。</p>
+            </section>
+
+            <section class="reference">
+                <h1>References</h1>
+                <ul>
+                    <li><a href="https://www.w3.org/TR/selectors-3/#selectors" target="_blank">Selectors Level 3</a></li>
+                    <li><a href="https://developer.apple.com/design/human-interface-guidelines/ios/overview/themes/" target="_blank">Human Interface Guidelines</a></li>
+                    <li><a href="https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/" target="_blank">Adaptivity and Layout</a></li>
+                    <li><a href="https://www.w3.org/TR/css-grid-1/" target="_blank">CSS Grid Layout Module Level 1</a></li>
+                    <li><a href="https://css-tricks.com/examples/CSSTabs/" target="_blank">CSS Tab Examples</a></li>
+                    <li><a href="https://css-tricks.com/using-custom-properties-modify-components/" target="_blank">Using Custom Properties to Modify Components</a></li>
+                    <li><a href="https://www.lipsum.com/" target="_blank">Lorem Ipsum</a></li>
+                    <li><a href="https://www.w3.org/TR/css3-mediaqueries/" target="_blank">Media Queries</a></li>
+                    
+                </ul>
+            </section>
+            
+            <footer><p class="copyright">All rights reserved.</p></footer>
+        </article>
+    </body>
+</html>
