@@ -6,110 +6,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <style type="text/css">
-            .tabpanel {
-                width: 80%;
-                margin: 2em auto;
-                display: grid;
-                grid-template-columns: repeat(15, 1fr);
-            }
-
-            .tabpanel input[type=radio] {
-                display: none;
-            }
-
-            .tabpanel input[type=radio]+label {
-                grid-row: 1;
-
-                padding: 0.5em 2em;
-                margin-top: 15px;
-                margin-left: 0.8em;
-
-                color: mediumorchid;
-                background: #aaa;
-
-                cursor: pointer;
-
-                border-top-left-radius: 0.5em;
-                border-top-right-radius: 0.5em;
-
-                border: 1px solid #ddd;
-                border-bottom-width: 0;
-            }
-
-            .tabpanel input[type=radio]+label:first-of-type {
-                margin-left: 2.0em;
-            }
-
-            .tabpanel input[type=radio]:checked+label {
-                border-top-width: 5px;
-                border-top-color: darkturquoise;
-                color: blueviolet;
-                border-bottom-width: 0;
-                margin-top: 3px;
-                font-weight: bold;
-                box-shadow:  5px 3px 5px #888;
-            }
-
-            .tabpanel div {
-                grid-column: 1 / 16;
-                grid-row: 2;
-                padding: 1em;
-                border-radius: 0.4em;
-                box-shadow: 5px 5px 5px #888;
-            }
-
-            .tabpanel input[type=radio]:checked+label+div {
-                z-index: 1;
-            }
-
-            .tabpanel input[type=radio]:checked+label,
-            .tabpanel div {
-                background-color: #ddd;
-            }
-        </style>
-
-        <script type="text/javascript">
-            function init() {
-                var tabPanels = document.querySelectorAll(".tabpanel");
-
-                tabPanels.forEach(function (tab, tabIndex) {
-                    var tabName = "tab" + (tabIndex + 1);
-
-                    var pageIndex = 0;
-                    var pageName = "";
-                    var pageTitle = "";
-
-                    while (tab.getElementsByTagName("h1").length > 0) {
-                        pageIndex++;
-                        pageName = "page" + pageIndex;
-
-                        var h1 = tab.getElementsByTagName("h1")[0];
-                        pageTitle = h1.textContent;
-
-                        var input = document.createElement("input");
-                        input.setAttribute("type", "radio");
-                        input.setAttribute("name", tabName);
-                        input.setAttribute("id", tabName + pageName);
-                        if (pageIndex === 1) {
-                            input.setAttribute("checked", "checked");
-                        }
-
-                        var label = document.createElement("label");
-                        label.setAttribute("for", tabName + pageName);
-                        label.textContent = pageTitle;
-
-                        var pageContentDiv = h1.nextElementSibling;
-                        tab.insertBefore(input, pageContentDiv);
-                        tab.insertBefore(label, pageContentDiv);
-
-                        tab.removeChild(h1);
-                    }
-                });
-            }
-
-            window.addEventListener("DOMContentLoaded", init);
-        </script>
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/document.css">
+        
+        <script src="../js/htmlDocUtils.js"></script>
     </head>
     <body>
         <h1>CSS Grid Tab</h1>
@@ -117,26 +17,9 @@
         <p> This is a CSS tab implemented using CSS grid.</p>
         <p>The HTML and CSS codes are listed below.</p>
 
-<!--        <div class="tabpanel">
-                    <input type="radio" name="tab1" id="tab1page1title" checked><label for="tab1page1title">Java</label>
-                    <div><p>Java is an object-oriented language.</p></div>
-                    
-                    <input type="radio" name="tab1" id="tab1page2title"><label for="tab1page2title">C++</label>
-                    <div>
-                        <p>C++ is the father of Java.</p>
-                        <p>It is good.</p>
-                    </div>
-                    
-                    <input type="radio" name="tab1" id="tab1page3title"><label for="tab1page3title">Panda</label>
-                    <div>
-                        <p>Panda is a kind of animals.</p>
-                        <p>It is lovely.</p>
-                    </div>
-                </div>-->
-
         <div class="tabpanel">
             <h1>HTML</h1>
-            <div><pre>
+            <div><pre class="highlight">
 &lt;div class="tabpanel"&gt;
     &lt;input type="radio" name="tab1" id="tab1page1" checked="checked"&gt;
     &lt;label for="tab1page1"&gt;Java&lt;/label&gt;
@@ -296,7 +179,7 @@ window.addEventListener("DOMContentLoaded", init);
             </div>
         </div>
 
-        <p>The HTML code is much cleaner then before.</p>
+        <p>The HTML code is much cleaner than before.</p>
 
     </body>
 </html>

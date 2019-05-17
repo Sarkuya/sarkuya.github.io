@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Simple WebGL Application</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script type="text/javascript">
+            var gl;
+            
+            function init() {
+                if (!window.WebGLRenderingContext) {
+                    alert("Your browser doese not support WebGL!");
+                    return;
+                }
+                
+                var canvas = document.getElementById("webglcanvas");
+                gl = canvas.getContext("webgl2");
+                
+                if (!gl) {
+                    alert("Unable to initialize WebGL!");
+                    return;
+                }
+                
+                gl.clearColor(0.0, 0.0, 0.0, 1.0);
+                
+                render();
+            }
+            
+            function render() {
+                gl.clear(gl.COLOR_BUFFER_BIT);
+            }
+            
+            window.addEventListener("DOMContentLoaded", init);
+        </script>
+    </head>
+    <body>
+        <h1>Simple WebGL Application</h1>
+        <canvas id="webglcanvas" width="300" height="300">Your Borwser does not support HTML5 Canvas!</canvas>
+    </body>
+</html>

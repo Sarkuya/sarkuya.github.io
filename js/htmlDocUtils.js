@@ -9,11 +9,51 @@ htmlDocUtils.init = function() {
     htmlDocUtils.numberingChapters();
     htmlDocUtils.makeToc();
     htmlDocUtils.highLightPre();
+    
+    htmlDocUtils.makeCSSTab();
+};
+
+htmlDocUtils.makeCSSTab = function() {
+    var tabPanels = document.querySelectorAll(".tabpanel");
+    
+    tabPanels.forEach(function (tab, tabIndex) {
+        var tabName = "tab" + (tabIndex + 1);
+
+        var pageIndex = 0;
+        var pageName = "";
+        var pageTitle = "";
+
+        while (tab.getElementsByTagName("h1").length > 0) {
+            pageIndex++;
+            pageName = "page" + pageIndex;
+
+            var h1 = tab.getElementsByTagName("h1")[0];
+            pageTitle = h1.textContent;
+
+            var input = document.createElement("input");
+            input.setAttribute("type", "radio");
+            input.setAttribute("name", tabName);
+            input.setAttribute("id", tabName + pageName);
+            if (pageIndex === 1) {
+                input.setAttribute("checked", "checked");
+            }
+
+            var label = document.createElement("label");
+            label.setAttribute("for", tabName + pageName);
+            label.textContent = pageTitle;
+
+            var pageContentDiv = h1.nextElementSibling;
+            tab.insertBefore(input, pageContentDiv);
+            tab.insertBefore(label, pageContentDiv);
+
+            tab.removeChild(h1);
+        }
+    });
 };
 
 htmlDocUtils.highLightPre = function() {
     // htmlTag version
-    var preElements = document.querySelectorAll("article pre.highlight");
+    var preElements = document.querySelectorAll("pre.highlight");
     
     preElements.forEach(function(preElement) {
             var textContent = preElement.textContent;
@@ -45,6 +85,12 @@ htmlDocUtils.makeLinkSpan = function(href, textContent) {
 };
 
 htmlDocUtils.makeTocDL = function() {
+    var articleHeader = document.querySelector("article>header");
+    
+    if (!articleHeader) {
+        return;
+    }
+    
     var toc = document.createElement("div");
     toc.className = "toc";
     
@@ -58,7 +104,7 @@ htmlDocUtils.makeTocDL = function() {
     dlElement.className = "toc";
     toc.appendChild(dlElement);
     
-    document.querySelector("article>header").appendChild(toc);
+    articleHeader.appendChild(toc);
     
     return dlElement;
 };

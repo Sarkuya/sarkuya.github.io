@@ -31,7 +31,7 @@ body {
 /* -------------------- article -------------------- */
 
 article {
-    columns: 25em;
+/*    columns: 25em;*/
 }
 
 article header h1 {
@@ -245,4 +245,72 @@ code {
 
 p em {
     color: orchid;
+}
+
+/* -------------------- tabpanel -------------------- */
+
+.tabpanel {
+    width: 90%;
+    margin: 2em auto;
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+}
+
+.tabpanel input[type=radio] {
+    display: none;
+}
+
+.tabpanel input[type=radio]+label {
+    grid-row: 1;
+
+    padding: 0.5em 2em;
+    margin-top: 15px;
+    margin-left: 0.8em;
+
+    color: mediumorchid;
+    background: #aaa;
+
+    cursor: pointer;
+
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+
+    border: 1px solid #ddd;
+    border-bottom-width: 0;
+}
+
+.tabpanel input[type=radio]+label:first-of-type {
+    margin-left: 2.0em;
+}
+
+.tabpanel input[type=radio]:checked+label {
+    border-top-width: 5px;
+    border-top-color:  goldenrod;
+    color: blueviolet;
+    border-bottom-width: 0;
+    margin-top: 3px;
+    font-weight: bold;
+    box-shadow:  5px 3px 5px #888;
+}
+
+.tabpanel div {
+    grid-column: 1 / 16;
+    grid-row: 2;
+    padding: 1em;
+    border-radius: 0.4em;
+    box-shadow: 5px 5px 5px #888;
+    min-height: 100px;
+    max-height: 200px;
+    overflow:  scroll;
+    font-size: 90%;
+    color: #333;
+}
+
+.tabpanel input[type=radio]:checked+label+div {
+    z-index: 1;
+}
+
+.tabpanel input[type=radio]:checked+label,
+.tabpanel div {
+    background-color: #ddd;
 }
