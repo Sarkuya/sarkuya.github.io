@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+                     "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     width="800" height="800">
+
+    <title>Using SVG Static Grid</title>
+    <desc>Using SVG static grid as background.</desc>
+    
+    <script type="application/ecmascript" xlink:href="../../js/svg-grid.js"></script>
+    
+    <script type="application/ecmascript">
+        svgBkGrid.setupGrid(100);
+    </script>
+
+    <g transform="translate(35, 35)">
+        <use xlink:href="#axes" />
+        <use xlink:href="#tickMarks" />
+        <use xlink:href="#markLabels" />
+        <use xlink:href="#grid" />
+        
+        <rect x="50" y="50" width="50" height="50" stroke="black" fill="none" />
+    </g>
+</svg>

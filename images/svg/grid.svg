@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+                     "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     id="grid-container"
+     width="800" height="800"
+     onload="init()">
+
+    <title>SVG Grid</title>
+    <desc>Drawing SVG Grid</desc>
+    
+    <script type="application/ecmascript"><![CDATA[
+    var LONG_TICK_MARKS_STEPS = 50;
+    var SHORT_TICK_MARKS_STEPS = LONG_TICK_MARKS_STEPS / 2;
+        
+
+    var LONG_TICK_MARKS_WIDTH = 10;
+    var SHORT_TICK_MARKS_WIDTH = LONG_TICK_MARKS_WIDTH / 2;    
+    var LONG_TICK_MARKS_HEIGHT = LONG_TICK_MARKS_WIDTH;
+    var SHORT_TICK_MARKS_HEIGHT = LONG_TICK_MARKS_HEIGHT / 2;
+        
+
+        
+    function init() {
+        var gridContainer = document.getElementById("grid-container");
+
+        var gridContainerWidth = gridContainer.width.baseVal.value;
+        var gridContainerHeight = gridContainer.height.baseVal.value;
+
+        var svgns = gridContainer.namespaceURI;
+        var doc = document;
+
+        var gTickMarks = doc.createElementNS(svgns, "g");
+        gTickMarks.id = "tickMarks";
+        gTickMarks.style.cssText = "stroke: black";
+        gTickMarks.setAttribute("transform", "translate(35, 35)");
+        
+        
+        var tickMarksPath = genTickMarksPath("horizontal");
+        gTickMarks.appendChild(tickMarksPath);
+        
+        tickMarksPath = genTickMarksPath(doc, svgns, gridContainerWidth, gridContainerHeight, "vertical");
+        gTickMarks.appendChild(tickMarksPath);
+        
+        
+        gridContainer.appendChild(gTickMarks);
+        
+        
+
+
+        
+        
+        function genTickMarksPath(whichAxis) {
+            var tickMarksPath = doc.createElementNS(svgns, "path");
+
+            var iterEndValue = 0;
+            var isLongMark = true;
+            var curMarkHeight = 0;
+            var pathData = "";
+
+            if (whichAxis === "horizontal") {
+                iterEndValue = gridContainerWidth;
+            } else {
+                iterEndValue = gridContainerHeight;
+            }
+
+            for (var i = 0; i <= iterEndValue; i += SHORT_TICK_MARKS_STEPS) {
+                if (isLongMark) {
+                    curMarkHeight = LONG_TICK_MARKS_HEIGHT;
+                } else {
+                    curMarkHeight = SHORT_TICK_MARKS_HEIGHT;
+                }
+
+                isLongMark = !isLongMark;
+
+                if (whichAxis === "horizontal") {
+                    pathData += `M ${i} 0 v -${curMarkHeight}` + " ";
+                } else {
+                    pathData += `M 0 ${i} h -${curMarkHeight}` + " ";
+                }
+            }
+
+            tickMarksPath.setAttribute("d", pathData);
+
+            return tickMarksPath;
+        }
+        
+
+/*
+        var face = doc.createElementNS(svgns, "circle");
+        face.cx.baseVal.value = 125;
+        face.cy.baseVal.value = 125;
+        face.r.baseVal.value = 100;
+        face.style.cssText = "fill: white; stroke: black";
+
+        gridContainer.appendChild(face);
+*/
+    }
+        
+
+    ]]>
+    </script>
+</svg>

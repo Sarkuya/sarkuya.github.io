@@ -49,13 +49,7 @@ h1 span.outstand {
     font-weight: 900;
 }
 
-article header p.authorinfo {
-    color: #6f6f6f;
-    text-align: right;
-    font-style: italic;
-    font-size: 100%;
-    margin-right: 0.5em;
-}
+
 
 article header div.toc {
     background-color: #fff;
@@ -121,15 +115,6 @@ article section p {
     color: #0f0f0f;
 }
 
-article footer p.copyright {
-    background-color: #eee;
-    padding: 0.5em;
-    font-style: italic;
-    font-size: 80%;
-    text-align: center;
-    color: #666;
-}
-
 article ul,
 article ol
 {
@@ -188,6 +173,10 @@ article span.htmltag {
     color: rgb(235, 76, 33);
     font-style: italic;
     padding: 0 0.3em;
+}
+
+article span.function-name {
+    color:  darkgoldenrod;
 }
 
 article span.emphasis {
@@ -314,3 +303,4 @@ p em {
 .tabpanel div {
     background-color: #ddd;
 }
+

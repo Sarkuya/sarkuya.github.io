@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+                     "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     width="500" height="500">
+
+    <title>SVG Static Grid</title>
+    <desc>Drawing SVG grid staticly</desc>
+    
+    <defs>
+        <!-- tick marks -->
+        <g id="tickmarks">
+            
+            <!-- horizontal tick marks -->
+            <path d="M 0 0 v -10 M 10 0 v -5 M 20 0 v -10" />
+            
+            <!-- vertical tick marks -->
+            <path d="M 0 0 h -10 M 0 10 h -5 M 0 20 h -10" />
+        </g>
+        
+        
+        <g id="numbers">
+            <!-- horizontal numbers -->
+            <g style="font-family: sans-serif; font-size: 8pt; text-anchor: middle;">
+                <text x="0" y="-15">0</text><text x="20" y="-15">20</text>
+                <text x="40" y="-15">40</text><text x="60" y="-15">60</text>
+            </g>
+            
+            <!-- vertical numbers -->
+            <g style="font-family: sans-serif; font-size: 8pt; text-anchor: end;">
+                <text x="-15" y="4">0</text><text x="-15" y="24">20</text>
+                <text x="-15" y="44">40</text><text x="-15" y="64">60</text>
+            </g>
+        </g>
+        
+        <g id="axes">
+            <path d="M 0 0 h 100 M 0 0 v 100" />
+        </g>
+        
+        <g id="grid">
+            <path d="M 10 0 v 110 M 20 0 v 110 M 30 0 v 110" />
+            <path d="M 0 10 h 110 M 0 20 h 110 M 0 30 h 110 " />
+        </g>
+        
+         <g id="dashed-frame">
+            <rect style="stroke-dasharray: 3 2; fill:none; stroke: #000;"
+              x="0" y="0" width="150" height="150"/>
+          </g>
+    </defs>
+
+    <g transform="translate(35, 35)">
+        <use xlink:href="#tickmarks" style="fill: none; stroke: #000;" />
+        <use xlink:href="#numbers" style="fill: #000; stroke: none;" />
+        <use xlink:href="#axes" style="fill: none; stroke: #000;" />
+        <use xlink:href="#grid" style="fill: none; stroke: #ccc;" />
+        <use xlink:href="#dashed-frame" />
+        
+        <rect x="20" y="20" width="20" height="20" stroke="black" fill="none" />
+    </g>
+</svg>

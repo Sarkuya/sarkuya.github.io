@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>Firefox Notes</title>
+        <title>SVG Notes</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -14,19 +14,20 @@
     <body>
         <article>
             <header>
-                <h1>Firefox Notes</h1>
-                <p class='authorinfo'>Sarkuya, <time>2019-05-10</time></p>
+                <h1>SVG Notes</h1>
+                <p class='authorinfo'>Sarkuya, <time>2019-05-19</time></p>
             </header>
             
             <section class="chapter">
-                <h1>移动设备的尺寸</h1>
-                <p>“查看元素”，在“工具箱”(Ctrl+Shift+I)中点击“响应式设计模式(Ctrl+Shift+M)”，可看到包括iPhone X等设备在内的宽度及高度的像素值。选择相应的设备，可将视图模拟为在该设备上进行显示，非常真实、方便。</p>
+                <h1>SVG加载JavaScript的问题</h1>
+                <p>SVG可以加载JavaScript，但在JavaScript动态生成的内容，如果该SVG被其他SVG文件引用，则这些动态生成的内容不起作用。</p>
+                <p>解决的方法是，不要引用有JavaScript动态生成的内容的SVG，相反，在最终的SVG中文件中，直接加载JavaScript.</p>
             </section>
 
             <section class="reference">
                 <h1>References</h1>
                 <ul>
-                    <li><a href="" target="_blank">Firefox Developer Tools</a></li>
+                    <li><a href="https://www.w3.org/TR/SVG11/" target="_blank">SVG 1.1 Specification</a></li>
                 </ul>
             </section>
             

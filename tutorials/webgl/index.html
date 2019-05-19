@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>WebGL Tutorial</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="../../css/style.css">
+        <link rel="stylesheet" href="../../css/tutorial.css">
+        
+    <style type="text/css">
+        body>h1 {
+            text-align: center;
+        }
+        
+        h1 {
+            text-align: left;
+        }
+        
+        .subject {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 10px;
+        }
+        
+        .subject .subsubject {
+            border: 1px solid #f0f0f0;
+            display: grid;
+            grid-template-columns: 50px auto 1fr;
+            grid-gap: 10px;
+        }
+        
+        .subject .subsubject>h1 {
+            color: chocolate;
+            grid-row: 1 / 3;
+            grid-column: 1;
+            font-size: 300%;
+            margin: 0;
+            text-align: center;
+            align-self:center;
+            font-style: italic;
+            text-shadow: #ccc 5px 5px 5px;
+        }
+        
+        .subject .subsubject>h2 {
+            margin: 0;
+            grid-row: 1 / 3;
+            grid-column: 2 / 4;
+            font-size: xx-large;
+            align-self: center;
+            text-align: center;
+        }
+        
+        .subject .subsubject>a {
+            width: fit-content;
+            grid-row: 3;
+            grid-column: 1 / 3;
+        }
+        
+        .subject .subsubject>a>img {
+            box-shadow: 0px 0px 5px #333;
+            filter: blur(1px);
+        }
+        
+        .subject .subsubject>a:hover>img {
+            box-shadow: 0px 0px 15px #999;
+            filter: none;
+        }
+        
+        .subject .subsubject>.keynotes {
+            grid-row: 3;
+            grid-column: 3;
+        }
+        
+        .subject .subsubject>.keynotes>h1 {
+            color: #007ac0;
+            font-size: 120%;
+            text-align: left;
+        }
+        
+        .subject .subsubject>.description {
+            grid-row: 4;
+            grid-column: 1 / 4;
+        }
+        
+        .subject .subsubject>.description>p {
+            line-height: 1.5em;
+        }
+
+    </style>
+
+    </head>
+    <body>
+        <h1>WebGL Tutorial</h1>
+        <p class='authorinfo'>Sarkuya, <time>2019-05-17</time></p>
+        
+        <h2>Simple WebGL App</h2>
+        <div class="subject">
+            <div class="subsubject">
+                <h1>1</h1>
+                <h2>HTML5 Template</h2>
+                <a href="articles/html5-app-template.html"><img src="images/html5-app-template.png" alt="HTML5 app template" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>nothing but a HTML5 template.</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>A simple HTML5 application template.</p>
+                    <p>View <a href="articles/demos/html5-app-template.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+
+            <div class="subsubject">
+                <h1>2</h1>
+                <h2>Simple WebGL App</h2>
+                <a href="articles/webgl-app.html"><img src="images/webgl-app.png" alt="Simple WebGL App" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>WebGL initialization.</li>
+                    </ul>
+                    
+                    <h1>WebGL Functions</h1>
+                    <ul>
+                        <li>getContext</li>
+                        <li>clearColor</li>
+                        <li>clear</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>The simplest WebGL application ever seen - clears the background with the black color.</p>
+                    <p>View <a href="articles/demos/webgl-app.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+            
+            <div class="subsubject">
+                <h1>3</h1>
+                <h2>WebGL Pipelines</h2>
+                <a href="articles/pipelines.html"><img src="images/yellow-triangle.png" alt="Yellow Triangle" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>WebGL initialization.</li>
+                    </ul>
+                    
+                    <h1>WebGL Functions</h1>
+                    <ul>
+                        <li>getContext</li>
+                        <li>clearColor</li>
+                        <li>clear</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>The simplest WebGL application ever seen.</p>
+                    <p>View <a href="articles/demos/webgl-app.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+        </div>
+        
+        <h2>Drawing Primitives</h2>
+        <div class="subject">
+            <p></p>
+        </div>
+
+        <div class="reference">
+            <h1>References</h1>
+            <ul>
+                <li><a href="https://www.khronos.org/webgl/" target="_blank">Khronos WebGL Home</a></li>
+                <li><a href="https://github.com/KhronosGroup/WebGL" target="_blank">Khronos WebGL GitHub</a></li>
+                
+                <li><a href="https://webgl2fundamentals.org/" target="_blank">WebGL2 Fundamentals</a></li>
+            </ul>
+        </div>
+
+        <footer><p class="copyright">All rights reserved.</p></footer>
+
+    </body>
+</html>

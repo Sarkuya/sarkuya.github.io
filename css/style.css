@@ -13,6 +13,23 @@ p {
     line-height: 2em;
 }
 
+p.authorinfo {
+    color: #6f6f6f;
+    text-align: right;
+    font-style: italic;
+    font-size: 100%;
+    margin-right: 0.5em;
+}
+
+footer p.copyright {
+    background-color: #eee;
+    padding: 0.5em;
+    font-style: italic;
+    font-size: 80%;
+    text-align: center;
+    color: #666;
+}
+
 a {
     color: #007dc3;
     text-decoration: none;
