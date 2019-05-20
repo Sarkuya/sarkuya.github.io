@@ -7,14 +7,6 @@ var svgBkGrid = {
     SHORT_TICK_MARKS_HEIGHT: 0
 };
 
-//var LONG_TICK_MARKS_STEPS = 50;
-//var SHORT_TICK_MARKS_STEPS = LONG_TICK_MARKS_STEPS / 2;
-//
-//var LONG_TICK_MARKS_WIDTH = 10;
-//var SHORT_TICK_MARKS_WIDTH = LONG_TICK_MARKS_WIDTH / 2;
-//var LONG_TICK_MARKS_HEIGHT = LONG_TICK_MARKS_WIDTH;
-//var SHORT_TICK_MARKS_HEIGHT = LONG_TICK_MARKS_HEIGHT / 2;
-
 svgBkGrid.setupGrid = function (longMarksSteps) {
     
     initInnerState(longMarksSteps);
@@ -48,6 +40,9 @@ svgBkGrid.setupGrid = function (longMarksSteps) {
             defs = defs[0];
         }
         
+//        var gWholeGrid = genWholeGridGroup();
+//        defs.appendChild(gWholeGrid);
+        
         var gTickMarks = genTickMarksGroup();
         defs.appendChild(gTickMarks);
         
@@ -61,6 +56,29 @@ svgBkGrid.setupGrid = function (longMarksSteps) {
         defs.appendChild(gGrid);
         
         gridContainer.appendChild(defs);
+    }
+    
+    function genWholeGridGroup() {
+        var gWholeGrid = doc.createElementNS(svgns, "g");
+        gWholeGrid.id = "whole-grid";
+        
+        var useElement = doc.createElementNS(svgns, "use");
+        useElement.setAttribute("xlink:href", "#axes");
+        gWholeGrid.appendChild(useElement);
+        
+        useElement = doc.createElementNS(svgns, "use");
+        useElement.setAttribute("xlink:href", "#tickMarks");
+        gWholeGrid.appendChild(useElement);
+        
+        useElement = doc.createElementNS(svgns, "use");
+        useElement.setAttribute("xlink:href", "#markLabels");
+        gWholeGrid.appendChild(useElement);
+        
+        useElement = doc.createElementNS(svgns, "use");
+        useElement.setAttribute("xlink:href", "#grid");
+        gWholeGrid.appendChild(useElement);
+        
+        return gWholeGrid;
     }
     
     function genGridGroup() {

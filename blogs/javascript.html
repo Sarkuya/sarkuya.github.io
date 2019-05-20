@@ -98,6 +98,30 @@ window.addEventListener("DOMConetentLoaded", (event) => {
 </pre>
                 </section>
             </section>
+            
+            <section class="chapter">
+                <h1>ECMAScript6新特性</h1>
+                <p>设有：</p>
+                <pre class="highlight">
+window.addEventListener("load", function() {
+    console.log("Hello");
+});
+</pre>
+                <p>使用ECMAScript6，可改写为：</p>
+                <pre class="highlight">
+window.addEventListener("load", () => {
+    console.log("Hello");
+});
+</pre>
+                <p>即使没有参数传入，这里的括号也不能省略。</p>
+                <p>如果匿名函数内只有一条语句，更可写为：</p>
+                <pre class="highlight">
+window.addEventListener("load", () => console.log("Hello"));
+</pre>
+                <p>注意，此时这条单独的语句后面不能带有";"号。</p>
+                
+                
+            </section>
 
             <section class="chapter">
                 <h1>参考资料</h1>

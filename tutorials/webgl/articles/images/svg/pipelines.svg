@@ -17,7 +17,7 @@
             svgBkGrid.setupGrid(50);
         }
         
-        //window.addEventListener("load", init);
+        window.addEventListener("load", init);
     </script>
     
     <defs>

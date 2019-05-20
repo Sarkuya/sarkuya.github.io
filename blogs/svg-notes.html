@@ -27,7 +27,8 @@
 &lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
                      "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
 
-&lt;svg width="300" height="300" xmlns="http://www.w3.org/2000/svg" version="1.1"&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+        width="300" height="300"&gt;
     &lt;title&gt;SVG_TITLE&lt;/title&gt;
     &lt;desc&gt;Description&lt;/desc&gt;
     
@@ -62,24 +63,73 @@
 
 &lt;use x="20" y="10" xlink:href="#MyRect" /&gt;
 </pre>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                
+                <p><span class="htmltag">svg</span>, <span class="htmltag">symbol</span>, <span class="htmltag">g</span>, 其它<span class="htmltag">use</span>，以及graphis element都可以通过<span class="htmltag">use</span>元素来重复使用。</p>
+                <p><span class="htmltag">use</span>元素的x, y, width, height属性可用来将被引用的元素映射到当前坐标系统中。</p>
+                <p><span class="htmltag">symbol</span>类似于<span class="htmltag">g</span>，但有以下不同:</p>
+                <ul>
+                    <li><span class="htmltag">symbol</span>不会参与渲染。只有被<span class="htmltag">use</span>引用的实例才参与渲染。</li>
+                    <li><span class="htmltag">symbol</span>有属性viewBox, preserveAspectRation, 可用以缩放以匹配<span class="htmltag">use</span>元素所定义的viewport.</li>
+                </ul>
+                <p>与<span class="htmltag">symbol</span>类似的元素有<span class="htmltag">marker</span>, <span class="htmltag">pattern</span>。</p>
             </section>
             
             <section class="chapter">
-                <h1>SVG绘制元素</h1>
-                <p></p>
+                <h1>Viewbox属性</h1>
+                <p>有时希望将特定图像缩放以匹配其容器。viewBox属性提供了这个功能。</p>
+                <p>产生新viewport的元素，即<span class="htmltag">svg</span>, <span class="htmltag">symbol</span>, <span class="htmltag">image</span>, <span class="htmltag">foreignObject</span>，以及<span class="htmltag">marker</span>, <span class="htmltag">pattern</span>, <span class="htmltag">view</span>元素，都有viewBox属性。</p>
+                <p>参见"7.7 The viewBox attribute".</p>
+            </section>
+            
+            <section class="chapter">
+                <h1>SVG元素的属性(attributes)</h1>
+                <p>各个元素除了有自己独特的属性之外，还有多种通用属性：</p>
                 <ol>
-                    <li>rect(x, y, width, height)</li>
+                    <li>conditional processing attributes</li>
+                    <li>core attributes</li>
+                    <li>graphical event attributes</li>
+                    <li>presentation attributes</li>
+                    <li>class</li>
+                    <li>style</li>
+                    <li>externalResourcesRequired</li>
+                    <li>transform</li>
                 </ol>
+                
+                <section>
+                    <h1>Presentation Attributes</h1>
+                    <p>最常见的有：fill, font-size, stroke, stroke-dasharray, stroke-width等等。</p>
+                </section>
 
+            </section>
+            
+            <section class="chapter">
+                <h1>Graphics Element</h1>
+                <p>图像元素。即能导致在画板上绘制图像的元素。</p>
+                <ol>
+                    <li>circle</li>
+                    <li>ellipse</li>
+                    <li>image</li>
+                    <li>line</li>
+                    <li>path</li>
+                    <li>polygon</li>
+                    <li>polyline</li>
+                    <li>rect</li>
+                    <li>text</li>
+                    <li>use</li>
+                </ol>
+                <p>其中, <span class="htmltag">image</span>及<span class="htmltag">use</span>也是graphics referencing element, 即图像引用元素。</p>
+
+            </section>
+            
+            <section class="chapter">
+                <h1>Styling</h1>
+                <p>有以下几种方式：</p>
+                <ol>
+                    <li>外部CSS</li>
+                    <li>内部CSS</li>
+                    <li>presentation attributes</li>
+                    <li>style属性</li>
+                </ol>
+                <p>其中，style属性的级别最高。</p>
             </section>
             
             <section class="chapter">

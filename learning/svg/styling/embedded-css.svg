@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+                     "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="500" height="500">
+    <title>Embedded CSS Styling</title>
+    
+    <script type="application/ecmascript" xlink:href="../../../js/svg-grid.js"></script>
+    
+    <script type="application/ecmascript">
+        window.addEventListener("load", () => svgBkGrid.setupGrid(100));
+    </script>
+    
+    <defs>
+        <style type="text/css"><![CDATA[
+            rect {
+                fill: yellow;
+                stroke: blue;
+                stroke-width: 3;
+            }
+        ]]></style>
+        
+        <g id="whole-grid">
+            <use xlink:href="#axes" />
+            <use xlink:href="#tickMarks" />
+            <use xlink:href="#markLabels" />
+            <use xlink:href="#grid" />
+        </g>
+    </defs>
+    
+    <g transform="translate(35, 35)">
+        <use xlink:href="#whole-grid" />
+
+        <g>
+            <rect x="200" y="100" width="60" height="300" />
+        </g>
+    </g>
+    
+</svg>
