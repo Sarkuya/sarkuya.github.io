@@ -70,48 +70,8 @@ var vertices = [
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 </pre>
                 <p>Notice the first argument of the <span class="function-name">bufferData</span> is gl.ARRAY_BUFFER. This is the specific buffer where the WebGL would fetch the array data. So after we created a buffer, we bind the buffer to the target gl.ARRAY_BUFFER. So the array data from the vertices would be copied to the GPU's buffer.</p>
-                buffer
+
                 <img src="images/svg/pipelines.svg" alt="WebGL Pipelines" />
-                
-                <p></p>
-                
-<!--                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="482px" height="140px">
-                    <defs>
-                        <marker id="triangle" viewBox="0 0 10 10" refX="0" refY="5" markerUnits="strokeWidth" markerWidth="4" markerHeight="3" orient="auto">
-                            <path d="M 0 0 L 10 5 L 0 10 z" fill="green" />
-                        </marker>
-                    </defs>
-                    
-                    <text x="10" y="20" font-family="verdana" font-size="12" fill="black">JavaScript Client</text>
-                    <text x="250" y="20" font-family="verdana" font-size="12" fill="black">WebGL (GPU)</text>
-                    
-                    <line x1="5" y1="30" x2="477" y2="30" stroke="#ccc" />
-                    <line x1="120" y1="5" x2="120" y2="130" stroke="#ccc" />
-                    
-                    <rect x="25" y="80" width="70" height="30" fill="#ccc" stroke="#999" />
-                    <text x="35" y="99" font-family="verdana" font-size="12" fill="#333">vertices</text>
-                    
-                    <text x="122" y="55" font-family="verdana" font-size="12" fill="brown">ARRAY_BUFFER</text>
-                    <rect x="165" y="65" width="10" height="10" fill="white" stroke="#333" />
-                    
-                    <path d="M 100 95 h 30 v -25 h 20 " fill="none" stroke="green" stroke-width="3" marker-end="url(#triangle)" />
-                    <path d="M 182 70 h 25 v 25 h 20 " fill="none" stroke="green" stroke-width="3" marker-end="url(#triangle)" />
-                    
-                    <rect x="245" y="80" width="70" height="30" fill="#ccc" stroke="#999" />
-                    <text x="262" y="99" font-family="verdana" font-size="12" fill="#333">buffer</text>
-                    
-                    <path d="M 320 95 h 75 " fill="none" stroke="green" stroke-width="3" marker-end="url(#triangle)" />
-                    <text x="326" y="87" font-family="verdana" font-size="10" fill="#999">drawArrays()</text>
-                    
-                    <rect x="410" y="70" width="50" height="50" fill="black" stroke="#eee" />
-                    <path d="M 435 78 l -15 30 l 30 0 z" fill="yellow" stroke="black" />
-                    
-                    <text x="100" y="112" font-family="verdana" font-size="10" fill="#999">bufferData()</text>
-                    <text x="180" y="112" font-family="verdana" font-size="10" fill="#999">bindBuffer()</text>
-                    
-                    <text x="400" y="60" font-family="verdana" font-size="10" fill="#000">Frame Buffer</text>
-                    
-                </svg>-->
                 
                 <p>We need to deal with the following objects:</p>
                 <ul>

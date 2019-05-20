@@ -19,8 +19,72 @@
             </header>
             
             <section class="chapter">
+                <h1>SVG模板</h1>
+                <p></p>
+                <pre class="highlight">
+&lt;?xml version="1.0"?&gt;
+
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+                     "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+
+&lt;svg width="300" height="300" xmlns="http://www.w3.org/2000/svg" version="1.1"&gt;
+    &lt;title&gt;SVG_TITLE&lt;/title&gt;
+    &lt;desc&gt;Description&lt;/desc&gt;
+    
+&lt;/svg&gt;
+</pre>
+            </section>
+            
+            <section class="chapter">
+                <h1>SVG Reference</h1>
+                <pre class="highlight">
+&lt;linearGradient id="MyGradient"&gt;...&lt;/linearGradient&gt;
+&lt;rect style="fill:url(#MyGradient)"/&gt;
+</pre>
+                <p>如果可能，应将引用元素放在<span class="htmltag">defs</span>中。下面的这些元素应总是放在其中：</p>
+                <ul>
+                    <li>altGlyphDef</li>
+                    <li>clipPath</li>
+                    <li>cursor</li>
+                    <li>filter</li>
+                    <li>linearGradient</li>
+                    <li>marker</li>
+                    <li>mask</li>
+                    <li>pattern</li>
+                    <li>raidalGradient</li>
+                    <li>symbol</li>
+                </ul>
+                <p><span class="htmltag">defs</span>的内容模型(content model)与<span class="htmltag">g</span>的是一样的。</p>
+                <pre class="highlight">
+&lt;defs&gt;
+    &lt;rect id="MyRect" width="60" height="10"/&gt;
+&lt;/defs&gt;
+
+&lt;use x="20" y="10" xlink:href="#MyRect" /&gt;
+</pre>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+                
+            </section>
+            
+            <section class="chapter">
+                <h1>SVG绘制元素</h1>
+                <p></p>
+                <ol>
+                    <li>rect(x, y, width, height)</li>
+                </ol>
+
+            </section>
+            
+            <section class="chapter">
                 <h1>SVG加载JavaScript的问题</h1>
-                <p>SVG可以加载JavaScript，但在JavaScript动态生成的内容，如果该SVG被其他SVG文件引用，则这些动态生成的内容不起作用。</p>
+                <p>SVG可以加载JavaScript，但若有JavaScript动态生成的内容，如果该SVG被其他SVG文件引用，则这些动态生成的内容不起作用。</p>
                 <p>解决的方法是，不要引用有JavaScript动态生成的内容的SVG，相反，在最终的SVG中文件中，直接加载JavaScript.</p>
             </section>
 
