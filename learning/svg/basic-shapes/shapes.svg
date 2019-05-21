@@ -9,7 +9,7 @@
     <script type="application/ecmascript" xlink:href="../../../js/svg-grid.js"></script>
     
     <script type="application/ecmascript">
-        //window.addEventListener("load", () => svgBkGrid.setupGrid(100));
+        window.addEventListener("load", () => svgBkGrid.setupGrid(50));
     </script>
     
     <defs>
@@ -38,13 +38,6 @@
         ]]></style>
         
         <path id="my-path" d="M 0 150 L 100 100" />
-        
-        <g id="whole-grid">
-            <use xlink:href="#axes" />
-            <use xlink:href="#tickMarks" />
-            <use xlink:href="#markLabels" />
-            <use xlink:href="#grid" />
-        </g>
     </defs>
     
     <g transform="translate(35, 35)">

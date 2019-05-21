@@ -43,17 +43,22 @@ svgBkGrid.setupGrid = function (longMarksSteps) {
 //        var gWholeGrid = genWholeGridGroup();
 //        defs.appendChild(gWholeGrid);
         
+        var gWholeGrid = doc.createElementNS(svgns, "g");
+        gWholeGrid.id = "whole-grid";
+        
         var gTickMarks = genTickMarksGroup();
-        defs.appendChild(gTickMarks);
+        gWholeGrid.appendChild(gTickMarks);
         
         var gAxes = genAxesGroup();
-        defs.appendChild(gAxes);
+        gWholeGrid.appendChild(gAxes);
         
         var gMarksLabels = genMarksLabelsGroup();
-        defs.appendChild(gMarksLabels);
+        gWholeGrid.appendChild(gMarksLabels);
         
         var gGrid = genGridGroup();
-        defs.appendChild(gGrid);
+        gWholeGrid.appendChild(gGrid);
+        
+        defs.appendChild(gWholeGrid);
         
         gridContainer.appendChild(defs);
     }

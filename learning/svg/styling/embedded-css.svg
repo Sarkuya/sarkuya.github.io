@@ -20,13 +20,6 @@
                 stroke-width: 3;
             }
         ]]></style>
-        
-        <g id="whole-grid">
-            <use xlink:href="#axes" />
-            <use xlink:href="#tickMarks" />
-            <use xlink:href="#markLabels" />
-            <use xlink:href="#grid" />
-        </g>
     </defs>
     
     <g transform="translate(35, 35)">

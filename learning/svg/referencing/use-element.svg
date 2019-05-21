@@ -21,13 +21,6 @@
         ]]></style>
         
         <rect id="myRect" width="100" height="50" class="text-rect" />
-        
-        <g id="whole-grid">
-            <use xlink:href="#axes" />
-            <use xlink:href="#tickMarks" />
-            <use xlink:href="#markLabels" />
-            <use xlink:href="#grid" />
-        </g>
     </defs>
     
     <g transform="translate(35, 35)">

@@ -14,15 +14,6 @@
         window.addEventListener("load", () => svgBkGrid.setupGrid(100));
     </script>
     
-    <defs>
-        <g id="whole-grid">
-            <use xlink:href="#axes" />
-            <use xlink:href="#tickMarks" />
-            <use xlink:href="#markLabels" />
-            <use xlink:href="#grid" />
-        </g>
-    </defs>
-    
     <g transform="translate(35, 35)">
         <use xlink:href="#whole-grid" />
 
