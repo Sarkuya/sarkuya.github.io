@@ -14,11 +14,19 @@
     
     <defs>
         <style type="text/css"><![CDATA[
-
+            .arrow1 {
+                fill: magenta;
+                stroke: magenta;
+            }
+            
+            .arrow2 {
+                fill: cyan;
+                stroke: cyan;
+            }
         ]]></style>
         
-        <marker id="triangle" viewBox="0 0 10 10" refX="0" refY="0" markerUnits="strokeWidth" markerWidth="3" markerHeight="3" orient="auto">
-            <path id="marker-path" d="M 0 0 L 10 5 L 0 10 z" />
+        <marker id="triangle" viewBox="0 0 50 50" refX="0" refY="25" markerUnits="strokeWidth" markerWidth="3" markerHeight="3" orient="auto">
+            <path id="marker-path" d="M 0 0 L 50 25 L 0 50 z" />
         </marker>
 
     </defs>
@@ -26,12 +34,15 @@
     <g transform="translate(35, 35)">
         <use xlink:href="#whole-grid" />
 
-        <use xlink:href="#marker-path" />
+        <!-- <use xlink:href="#marker-path" /> -->
         
-        <g stroke="black" fill="none">
-            <path d="M 25 50 L 100 50 " stroke-width="1" marker-end="url(#triangle)"/>
+        <g class="arrow1">
+            <path d="M 25 50 L 120 50" stroke-width="5" marker-end="url(#triangle)" stroke="red" />
         </g>
         
+        <g class="arrow2">
+            <path d="M 50 100 L 150 100" stroke-width="5" marker-end="url(#triangle)"/>
+        </g>
     </g>
     
 </svg>
