@@ -6,7 +6,7 @@
 <svg xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink"
      version="1.1"
-     width="480" height="420">
+     width="520" height="350">
 
     <title>WebGL Pipelines</title>
     
@@ -14,7 +14,7 @@
     
     <script type="application/ecmascript">
         window.addEventListener("load", () => {
-            svgBkGrid.setupGrid(50);
+            //svgBkGrid.setupGrid(50);
             
             processTextInRect();
         });
@@ -121,7 +121,7 @@
         </marker>
     </defs>
 
-    <g>
+    <g transform="translate(35, 35)">
         <use xlink:href="#whole-grid" />
         
         <text x="13" y="20" font-family="verdana" font-size="12" fill="black">JavaScript Client</text>
@@ -137,39 +137,36 @@
         </g>
         <text x="237" y="75" class="in-rect">buffer</text>
         
+        <text x="63" y="137" class="in-rect">gl</text>
+        <text x="114" y="127" font-family="verdana" font-size="10" fill="#666">bindBuffer()</text>
+        <g class="greenArrow">
+            <path d="M 100 137 L 213 137" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
+        </g>
         
+        <rect x="233" y="133" width="10" height="10" fill="red" stroke="#999" />
+        <text x="253" y="142" font-family="verdana" font-size="12" fill="brown">ARRAY_BUFFER</text>
+        <g class="greenArrow">
+            <path d="M 238 95 L 238 113" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
+        </g>
         
+        <text x="63" y="200" class="in-rect">vertices</text>
+        <text x="114" y="190" font-family="verdana" font-size="10" fill="#666">bufferData()</text>
+        <g class="greenArrow">
+            <path d="M 100 200 L 238 200 v -38" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
+        </g>
+        
+        <text x="63" y="263" class="in-rect">gl</text>
+        <text x="114" y="253" font-family="verdana" font-size="10" fill="#666">drawArrays()</text>
+        <g class="greenArrow">
+            <path d="M 100 263 L 300 263 v -100" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
+        </g>
 
-        <text x="58" y="192" class="in-rect">gl</text>
-
-        <text x="118" y="176" font-family="verdana" font-size="10" fill="#999">bindBuffer()</text>
-        <path d="M 92 187 h 120 " fill="none" stroke="green" stroke-width="4" marker-end="url(#triangle)" />
+        <g class="greenArrow">
+            <path d="M 354 137 h 40" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
+        </g>
         
-        
-        
-        
-        
-        
-        
-        <rect x="233" y="183" width="10" height="10" fill="red" stroke="#333" />
-        <text x="253" y="192" font-family="verdana" font-size="12" fill="brown">ARRAY_BUFFER</text>
-        
-        <path d="M 238 122 v 40 " fill="none" stroke="green" stroke-width="4" marker-end="url(#triangle)" />
-        
-        <text x="58" y="278" class="in-rect">vertices</text>
-        
-        <text x="138" y="265" font-family="verdana" font-size="10" fill="#999">gl.bufferData()</text>
-        <path d="M 116 275 h 122 v -63" fill="none" stroke="green" stroke-width="4" marker-end="url(#triangle)" />
-        
-        <text x="58" y="368" class="in-rect">gl</text>
-        
-        <text x="142" y="352" font-family="verdana" font-size="10" fill="#999">drawArrays()</text>
-        <path d="M 92 363 h 208 v -150 " fill="none" stroke="green" stroke-width="4" marker-end="url(#triangle)" />
-        
-        <path d="M 354 187 h 40 " fill="none" stroke="green" stroke-width="4" marker-end="url(#triangle)" />
-        
-        <text x="405" y="152" font-family="verdana" font-size="10" fill="#000">Frame Buffer</text>
-        <rect x="412" y="162" width="50" height="50" fill="black" stroke="#eee" />
-        <path d="M 437 170 l -15 30 l 30 0 z" fill="yellow" stroke="black" />
+        <text x="405" y="102" font-family="verdana" font-size="10" fill="#000">Frame Buffer</text>
+        <rect x="412" y="112" width="50" height="50" fill="black" stroke="#eee" />
+        <path d="M 437 121 l -15 30 l 30 0 z" fill="yellow" stroke="black" />
     </g>
 </svg>

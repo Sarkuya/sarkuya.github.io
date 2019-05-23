@@ -136,12 +136,19 @@
                 <h1>SVG加载JavaScript的问题</h1>
                 <p>SVG可以加载JavaScript，但若有JavaScript动态生成的内容，如果该SVG被其他SVG文件引用，则这些动态生成的内容不起作用。</p>
                 <p>解决的方法是，不要引用有JavaScript动态生成的内容的SVG，相反，在最终的SVG中文件中，直接加载JavaScript.</p>
+                <p>另一种方案是不要使用image, 或svg，而是使用object. 这种方式支持加载动态的SVG元素。</p>
+                <pre class="highlight">
+    &lt;object type="image/svg+xml" data="drawing.svg"&gt;
+      &lt;img src="alternate_image.jpg" alt="alternate description"&gt;
+    &lt;/object&gt;
+</pre>
             </section>
 
             <section class="reference">
                 <h1>References</h1>
                 <ul>
                     <li><a href="https://www.w3.org/TR/SVG11/" target="_blank">SVG 1.1 Specification</a></li>
+                    <li><a href="https://www.w3.org/TR/SVG11/single-page.html#chapter-backward" target="_blank">SVG 1.1 Backwards Compatibility</a></li>
                 </ul>
             </section>
             
