@@ -17,7 +17,7 @@
         
         function processTextInRect() {
             var paddingHorz = 10;
-            var paddingVert = 0;
+            var paddingVert = paddingHorz / 2;
             
             var textsInRect = document.querySelectorAll("text.in-rect");
         
@@ -27,29 +27,23 @@
                 text.setAttribute("dominant-baseline", "central");
                 var boundingRect = text.getBoundingClientRect();
         
-                maxRectWidth = Math.max(maxRectWidth, boundingRect.width);
-        
-                console.log(boundingRect.x);
-                
+                maxRectWidth = Math.max(maxRectWidth, boundingRect.width + paddingHorz * 2);
             });
-        
-        console.log(maxRectWidth);
         
             textsInRect.forEach((text) => {
                 text.setAttribute("dominant-baseline", "central");
                 var boundingRect = text.getBoundingClientRect();
         
-                //console.log(boundingRect.y);
-                
                 var rect = document.createElementNS(document.querySelector("svg").namespaceURI, "rect");
-                rect.setAttribute("x", boundingRect.x - 35 - paddingHorz );
+        
+                rect.setAttribute("x", boundingRect.x - 35 - (maxRectWidth - boundingRect.width)/2);
                 rect.setAttribute("y", boundingRect.y - 35 - paddingVert);
-                rect.setAttribute("width", maxRectWidth + paddingHorz * 2);
+                rect.setAttribute("width", maxRectWidth);
                 rect.setAttribute("height", boundingRect.height + paddingVert * 2);
                 rect.setAttribute("class", "wrap-text");
         
-                rect.setAttribute("rx", 5);
-                rect.setAttribute("ry", 5);
+                rect.setAttribute("rx", 3);
+                rect.setAttribute("ry", 3);
         
                 text.parentNode.insertBefore(rect, text);
             });
@@ -59,7 +53,7 @@
     <defs>
         <style type="text/css"><![CDATA[
             text.in-rect {
-                font-size: 24px;
+                font-size: 12px;
                 fill: #666;
                 text-anchor: middle;
             }
@@ -76,6 +70,6 @@
         
         <text x="100" y="100" class="in-rect">vertices</text>
         <text x="100" y="150" class="in-rect">gl</text>
-        <text x="100" y="200" class="in-rect">Hello, World</text>
+        <text x="100" y="200" class="in-rect">FB</text>
     </g>
 </svg>
