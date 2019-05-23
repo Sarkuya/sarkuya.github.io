@@ -6,15 +6,15 @@
 <svg xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink"
      version="1.1"
-     width="490" height="310">
+     width="490" height="510">
 
-    <title>WebGL Pipelines</title>
+    <title>WebGL Shaders</title>
     
     <script type="application/ecmascript" xlink:href="../../../../../js/svg-grid.js"></script>
     
     <script type="application/ecmascript">
         window.addEventListener("load", () => {
-            //svgBkGrid.setupGrid(50);
+            svgBkGrid.setupGrid(40);
             
             processTextInRect();
         });
@@ -71,6 +71,12 @@
     
     <defs>
         <style type="text/css"><![CDATA[
+            text, tspan {
+                text-anchor: middle;
+                dominant-baseline: central;
+            }
+            
+            
             svg {
                 border: 1px solid #ccc;
             }
@@ -147,45 +153,77 @@
         <text x="270" y="20" font-family="verdana" font-size="12" font-weight="bold" fill="black">WebGL (GPU)</text>
 
         <line x1="5" y1="30" x2="485" y2="30" stroke="#999" />
-        <line x1="125" y1="5" x2="125" y2="310" stroke="#ccc" stroke-dasharray="16 15" />
+<!--        <line x1="125" y1="5" x2="125" y2="310" stroke="#ccc" stroke-dasharray="16 15" />-->
 
-        <text x="63" y="75" class="in-rect">gl</text>
-        <text x="114" y="65" font-family="verdana" font-size="10" fill="#666">createBuffer()</text>
-        <g class="greenArrow">
-            <path d="M 100 75 L 188 75" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
-        </g>
-        <text x="237" y="75" class="in-rect">buffer</text>
+
         
-        <text x="63" y="137" class="in-rect">gl</text>
-        <text x="114" y="127" font-family="verdana" font-size="10" fill="#666">bindBuffer()</text>
-        <g class="greenArrow">
-            <path d="M 100 137 L 213 137" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
+        <rect x="30" y="96" width="140" height="28" fill="#eee" stroke="#aaa" rx="3" ry="3" />
+        
+
+        <text x="100" y="88" font-family="verdana" font-size="10" fill="#000">buffer</text>
+        <path d="M 40 100 h 120 v 20 h -120 v -20
+                 m 20 0 v 20
+                 m 20 -20 v 20
+                 m 20 -20 v 20
+                 m 20 -20 v 20
+                 m 20 -20 v 20"
+              fill="none" stroke="#666" />
+        
+        <g fill="black" stroke="none" font-size="10px">
+            <rect x="41" y="101" width="18" height="18" fill="white" />
+            <rect x="61" y="101" width="18" height="18" fill="white" />
+            <text x="50" y="110" fill="red">0.0</text>
+            <text x="70" y="110" fill="red">0.5</text>
+            <text x="90" y="110">-0.5</text>
+            <text x="110" y="110">-0.5</text>
+            <text x="130" y="110">0.5</text>
+            <text x="150" y="110">-0.5</text>
         </g>
         
-        <rect x="233" y="133" width="10" height="10" fill="red" stroke="#999" />
+        
+        
+        
+        
+        
+<!--        <rect x="75" y="100" width="25" height="25" fill="#fff" stroke="#aaa" />
+        <text x="87" y="113" fill="black" stroke="none" font-size="10px">-0.5</text>-->
+        
+        
+        
+        <text x="260" y="60" font-family="verdana" font-size="10" fill="#000">Vertex Shader</text>
+        <text x="260" y="80" class="in-rect">gl_Position</text>
+        
+        <text x="260" y="120" font-family="verdana" font-size="10" fill="#000">Fragment Shader</text>
+        <text x="260" y="140" class="in-rect">gl_FragColor</text>
+        
+        <g class="greenArrow">
+            <path d="M 50 130 v 10 h 10 m 10 -10 v 10 h -10 v 20 h 118 v -79 h 18" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
+            <path d="M 260 94 v 10" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
+            <path d="M 320 140 h 70" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
+        </g>
+        
+        <line x1="5" y1="190" x2="485" y2="190" stroke="#ccc" stroke-dasharray="10 10" />
+        
+<!--        <rect x="233" y="133" width="10" height="10" fill="red" stroke="#999" />
         <text x="253" y="142" font-family="verdana" font-size="12" fill="brown">ARRAY_BUFFER</text>
         <g class="greenArrow">
             <path d="M 238 95 L 238 113" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
-        </g>
+        </g>-->
         
-        <text x="63" y="200" class="in-rect">vertices</text>
-        <text x="114" y="190" font-family="verdana" font-size="10" fill="#666">bufferData()</text>
-        <g class="greenArrow">
-            <path d="M 100 200 L 238 200 v -38" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
-        </g>
         
-        <text x="63" y="263" class="in-rect">gl</text>
-        <text x="114" y="253" font-family="verdana" font-size="10" fill="#666">drawArrays()</text>
-        <g class="greenArrow">
-            <path d="M 100 263 L 300 263 v -100" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
-        </g>
-
-        <g class="greenArrow">
-            <path d="M 354 137 h 40" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
-        </g>
-        
-        <text x="405" y="102" font-family="verdana" font-size="10" fill="#000">Frame Buffer</text>
+        <text x="438" y="102" font-family="verdana" font-size="10" fill="#000">Frame Buffer</text>
         <rect x="412" y="112" width="50" height="50" fill="black" stroke="#eee" />
         <path d="M 437 121 l -15 30 l 30 0 z" fill="yellow" stroke="black" />
+
+        
+        <text x="63" y="463" class="in-rect">gl</text>
+        <text x="200" y="453" font-family="verdana" font-size="10" fill="#666">drawArrays()</text>
+        <g class="greenArrow">
+            <path d="M 140 463 h 300 v -50" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
+        </g>
+
+
+        
+
     </g>
 </svg>
