@@ -14,35 +14,69 @@
     
     <defs>
         <style type="text/css"><![CDATA[
-            .arrow1 {
-                fill: magenta;
-                stroke: magenta;
+            g.redArrow {
+                stroke: hsla(0, 75%, 50%, 0.9);
+                fill: none;
             }
             
-            .arrow2 {
-                fill: cyan;
-                stroke: cyan;
+            #red-arrow-end-marker {
+                stroke: none;
+                fill: hsla(0, 75%, 50%, 0.9);
+            }
+            
+            g.greenArrow {
+                stroke: hsla(120, 75%, 50%, 0.9);
+                fill: none;
+            }
+            
+            #green-arrow-end-marker {
+                stroke: none;
+                fill: hsla(120, 75%, 50%, 0.9);
+            }
+            
+            g.blueArrow {
+                stroke: hsla(240, 75%, 50%, 0.9);
+                fill: none;
+            }
+            
+            #blue-arrow-end-marker {
+                stroke: none;
+                fill: hsla(240, 75%, 50%, 0.9);
             }
         ]]></style>
         
-        <marker id="triangle" viewBox="0 0 50 50" refX="0" refY="25" markerUnits="strokeWidth" markerWidth="3" markerHeight="3" orient="auto">
-            <path id="marker-path" d="M 0 0 L 50 25 L 0 50 z" />
+        <path id="arrow-end-path" d="M 0 0 L 50 25 L 0 50 z" />
+        
+        <marker id="green-arrow-end-marker" viewBox="0 0 50 50" refX="0" refY="25" markerUnits="strokeWidth" markerWidth="3" markerHeight="3" orient="auto">
+            <use xlink:href="#arrow-end-path" />
+        </marker>
+        
+        <marker id="red-arrow-end-marker" viewBox="0 0 50 50" refX="0" refY="25" markerUnits="strokeWidth" markerWidth="3" markerHeight="3" orient="auto">
+            <use xlink:href="#arrow-end-path" />
+        </marker>
+        
+        <marker id="blue-arrow-end-marker" viewBox="0 0 50 50" refX="0" refY="25" markerUnits="strokeWidth" markerWidth="3" markerHeight="3" orient="auto">
+            <use xlink:href="#arrow-end-path" />
         </marker>
 
     </defs>
     
-    <g transform="translate(35, 35)">
+    <g>
         <use xlink:href="#whole-grid" />
 
         <!-- <use xlink:href="#marker-path" /> -->
         
-        <g class="arrow1">
-            <path d="M 25 50 L 120 50" stroke-width="5" marker-end="url(#triangle)" stroke="red" />
+        <g class="greenArrow">
+            <path d="M 25 50 L 120 50 L 120 75" stroke-width="5" marker-end="url(#green-arrow-end-marker)" />
+            <path d="M 50 100 L 150 100" stroke-width="5" marker-end="url(#green-arrow-end-marker)"/>
         </g>
         
-        <g class="arrow2">
-            <path d="M 50 100 L 150 100" stroke-width="5" marker-end="url(#triangle)"/>
+        <g class="redArrow">
+            <path d="M 25 150 L 120 150" stroke-width="5" marker-end="url(#red-arrow-end-marker)" />
+        </g>
+        
+        <g class="blueArrow">
+            <path d="M 225 50 L 225 150" stroke-width="5" marker-end="url(#blue-arrow-end-marker)" />
         </g>
     </g>
-    
 </svg>

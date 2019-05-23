@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+                     "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="350" height="350">
+    <title>Text in Rect</title>
+    
+    <script type="application/ecmascript" xlink:href="../../../js/svg-grid.js"></script>
+    
+    <script type="application/ecmascript">
+        window.addEventListener("load", () => {
+            svgBkGrid.setupGrid(50);
+            
+            processTextInRect();
+        });
+        
+        function processTextInRect() {
+            var paddingHorz = 10;
+            var paddingVert = 0;
+            
+            var textsInRect = document.querySelectorAll("text.in-rect");
+        
+            var maxRectWidth = 0;
+        
+            textsInRect.forEach((text) => {
+                text.setAttribute("dominant-baseline", "central");
+                var boundingRect = text.getBoundingClientRect();
+        
+                maxRectWidth = Math.max(maxRectWidth, boundingRect.width);
+        
+                console.log(boundingRect.x);
+                
+            });
+        
+        console.log(maxRectWidth);
+        
+            textsInRect.forEach((text) => {
+                text.setAttribute("dominant-baseline", "central");
+                var boundingRect = text.getBoundingClientRect();
+        
+                //console.log(boundingRect.y);
+                
+                var rect = document.createElementNS(document.querySelector("svg").namespaceURI, "rect");
+                rect.setAttribute("x", boundingRect.x - 35 - paddingHorz );
+                rect.setAttribute("y", boundingRect.y - 35 - paddingVert);
+                rect.setAttribute("width", maxRectWidth + paddingHorz * 2);
+                rect.setAttribute("height", boundingRect.height + paddingVert * 2);
+                rect.setAttribute("class", "wrap-text");
+        
+                rect.setAttribute("rx", 5);
+                rect.setAttribute("ry", 5);
+        
+                text.parentNode.insertBefore(rect, text);
+            });
+        }
+    </script>
+    
+    <defs>
+        <style type="text/css"><![CDATA[
+            text.in-rect {
+                font-size: 24px;
+                fill: #666;
+                text-anchor: middle;
+            }
+            
+            rect.wrap-text {
+                fill: #eee;
+                stroke: #aaa;
+            }
+        ]]></style>
+    </defs>
+    
+    <g>
+        <use xlink:href="#whole-grid" />
+        
+        <text x="100" y="100" class="in-rect">vertices</text>
+        <text x="100" y="150" class="in-rect">gl</text>
+        <text x="100" y="200" class="in-rect">Hello, World</text>
+    </g>
+</svg>

@@ -119,7 +119,18 @@ window.addEventListener("load", () => {
 window.addEventListener("load", () => console.log("Hello"));
 </pre>
                 <p>注意，此时这条单独的语句后面不能带有";"号。</p>
-                
+                <p>如果有参数，</p>
+                <pre class="highlight">
+[1, 2, 3].forEach((element) => {
+    console.log(element);
+});
+</pre>
+                <p>此时参数列表中的括号可以省略。</p>
+                <pre class="highlight">
+[1, 2, 3].forEach(element => {
+    console.log(element);
+});
+</pre>
                 
             </section>
 

@@ -13,11 +13,7 @@
     <script type="application/ecmascript" xlink:href="../../../../../js/svg-grid.js"></script>
     
     <script type="application/ecmascript">
-        function init() {
-            svgBkGrid.setupGrid(50);
-        }
-        
-        window.addEventListener("load", init);
+        window.addEventListener("load", () => svgBkGrid.setupGrid(50));
     </script>
     
     <defs>
@@ -27,10 +23,7 @@
     </defs>
 
     <g>
-        <use xlink:href="#axes" />
-        <use xlink:href="#tickMarks" />
-        <use xlink:href="#markLabels" />
-        <use xlink:href="#grid" />
+        <use xlink:href="#whole-grid" />
         
         <text x="13" y="20" font-family="verdana" font-size="12" fill="black">JavaScript Client</text>
         <text x="256" y="20" font-family="verdana" font-size="12" fill="black">WebGL (GPU)</text>

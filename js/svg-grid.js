@@ -21,6 +21,8 @@ svgBkGrid.setupGrid = function (longMarksSteps) {
 
     genDefs();
     
+    setupTranslate();
+    
     function initInnerState(longMarksSteps) {
         svgBkGrid.LONG_TICK_MARKS_STEPS = longMarksSteps;
         svgBkGrid.SHORT_TICK_MARKS_STEPS = svgBkGrid.LONG_TICK_MARKS_STEPS / 2;
@@ -31,6 +33,14 @@ svgBkGrid.setupGrid = function (longMarksSteps) {
         svgBkGrid.SHORT_TICK_MARKS_HEIGHT = svgBkGrid.LONG_TICK_MARKS_HEIGHT / 2;
     }
     
+    function setupTranslate() {
+        var groups = doc.querySelectorAll("svg>g");
+        
+        groups.forEach(g => {
+            g.setAttribute("transform", "translate(35, 35)");
+        });
+    }
+    
     function genDefs() {
         var defs = doc.getElementsByTagName("defs");
         
@@ -39,9 +49,6 @@ svgBkGrid.setupGrid = function (longMarksSteps) {
         } else {
             defs = defs[0];
         }
-        
-//        var gWholeGrid = genWholeGridGroup();
-//        defs.appendChild(gWholeGrid);
         
         var gWholeGrid = doc.createElementNS(svgns, "g");
         gWholeGrid.id = "whole-grid";
