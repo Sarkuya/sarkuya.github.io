@@ -69,7 +69,7 @@ var vertices = [
 
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 </pre>
-                <p>Notice the first argument of the <span class="function-name">bufferData</span> is gl.ARRAY_BUFFER. This is the specific buffer where the WebGL would fetch the array data. So after we created a buffer, we bind the buffer to the target gl.ARRAY_BUFFER. So the array data from the vertices would be copied to the GPU's buffer.</p>
+                <p>Notice the first argument of the <span class="function-name">bufferData</span> is gl.ARRAY_BUFFER. This is the specific buffer binding target where the WebGL would fetch the array data. So after we created a buffer, we bind the buffer to the target gl.ARRAY_BUFFER. So the array data from the vertices would be copied to the GPU's buffer.</p>
 
                 <object type="image/svg+xml" data="images/svg/pipelines.svg"></object>
                 
@@ -87,6 +87,7 @@ gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
             <section class="chapter">
                 <h1>Coming the Shaders</h1>
                 <p>Is it the whole story? Not yet.</p>
+                <object type="image/svg+xml" data="images/svg/shaders.svg"></object>
             </section>
 
             <section class="reference">

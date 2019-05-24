@@ -6,7 +6,7 @@
 <svg xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink"
      version="1.1"
-     width="490" height="510">
+     width="500" height="500">
 
     <title>WebGL Shaders</title>
     
@@ -14,7 +14,7 @@
     
     <script type="application/ecmascript">
         window.addEventListener("load", () => {
-            svgBkGrid.setupGrid(40);
+            //svgBkGrid.setupGrid(40);
             
             processTextInRect();
         });
@@ -141,7 +141,7 @@
         </marker>        
         
         <g id="array-elements">
-            <text x="60" y="-14" font-family="verdana" font-size="10" fill="#000">buffer</text>
+            <text x="60" y="-14" font-family="verdana" font-size="10" fill="#369">buffer</text>
             <rect x="-10" y="-4" width="140" height="36" fill="#eee" stroke="#aaa" rx="3" ry="3" />
             <path d="M 0 0 h 120 v 20 h -120 v -20
                      m 20 0 v 20
@@ -150,7 +150,7 @@
                      m 20 -20 v 20
                      m 20 -20 v 20"
                   fill="none" stroke="#666" />
-            <g fill="black" stroke="none" font-size="8px">
+            <g fill="black" stroke="none" font-family="arial" font-size="8px">
                 <text x="10" y="10">0.0</text>
                 <text x="30" y="10">0.5</text>
                 <text x="50" y="10">-0.5</text>
@@ -166,8 +166,13 @@
             </g>
         </g>
         
+        <g id="selected-blocks">
+            <rect x="1" y="1" width="18" height="18" fill="white" stroke="none" />
+            <rect x="21" y="1" width="18" height="18" fill="white" stroke="none" />
+        </g>
+        
         <g id="vf-shaders">
-            <text x="0" y="-10" font-family="verdana" font-size="10" fill="#000">Vertex Shader</text>
+            <text x="0" y="-10" font-family="verdana" font-size="10" fill="#369">Vertex Shader</text>
             <rect x="-30" y="0" width="60" height="20" fill="#eee" stroke="#aaa" rx="3" ry="3" />
             <text x="0" y="9" font-size="8">gl_Position</text>
 
@@ -175,13 +180,13 @@
                 <path d="M 0 24 L 0 42" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
             </g>
 
-            <text x="0" y="60" font-family="verdana" font-size="10" fill="#000">Fragment Shader</text>
+            <text x="0" y="60" font-family="verdana" font-size="10" fill="#369">Fragment Shader</text>
             <rect x="-30" y="70" width="60" height="20" fill="#eee" stroke="#aaa" rx="3" ry="3" />
             <text x="0" y="79" font-size="8">gl_FragColor</text>
         </g>
         
         <g id="frame-buffer">
-            <text x="20" y="-10" font-family="verdana" font-size="10" fill="#000">Frame Buffer</text>
+            <text x="80" y="20" font-family="verdana" font-size="10" fill="#369">Frame Buffer</text>
             <rect x="0" y="0" width="40" height="40" fill="black" stroke="none" />
             <path d="M 20 5 l -15 28 l 28 0 z" fill="yellow" stroke="none" />
         </g>
@@ -191,41 +196,66 @@
     <g>
         <use xlink:href="#whole-grid" />
         
-<!--        <text x="60" y="20" font-family="verdana" font-size="12" font-weight="bold" fill="black">JavaScript Client</text>
-        <text x="270" y="20" font-family="verdana" font-size="12" font-weight="bold" fill="black">WebGL (GPU)</text>-->
+        <text x="250" y="20" font-family="verdana" font-size="12" font-weight="bold" fill="black">WebGL (GPU)</text>
 
-        <!--<line x1="5" y1="30" x2="485" y2="30" stroke="#999" />-->
-<!--        <line x1="125" y1="5" x2="125" y2="310" stroke="#ccc" stroke-dasharray="16 15" />-->
+        <line x1="5" y1="30" x2="495" y2="30" stroke="#999" />
 
         <!-- first time -->
-        <use x="40" y="90" xlink:href="#array-elements" />
-        <use x="250" y="70" xlink:href="#vf-shaders" />
-        <use x="400" y="90" xlink:href="#frame-buffer" />
+        <use x="40" y="80" xlink:href="#array-elements" />
         
+        <use x="40" y="80" xlink:href="#selected-blocks" />
+        <g fill="red" stroke="none" font-family="arial" font-size="8px">
+            <text x="50" y="90">0.0</text>
+            <text x="70" y="90">0.5</text>
+        </g>
+        
+        <use x="250" y="70" xlink:href="#vf-shaders" />
         
         <g class="greenArrow">
-            <path d="M 50 130 v 10 h 10 m 10 -10 v 10 h -10 v 20 h 118 v -79 h 18" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
+            <path d="M 50 115 v 15 h 10 m 10 -15 v 15 h -10 v 30 h 120 v -80 h 20" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
         </g>
         
         <line x1="5" y1="190" x2="485" y2="190" stroke="#ccc" stroke-dasharray="10 10" />
         
-
+        <!-- second time -->
+        <use x="40" y="240" xlink:href="#array-elements" />
         
-
+        <use x="80" y="240" xlink:href="#selected-blocks" />
+        <g fill="red" stroke="none" font-family="arial" font-size="8px">
+            <text x="90" y="250">-0.5</text>
+            <text x="110" y="250">-0.5</text>
+        </g>
         
+        <use x="250" y="230" xlink:href="#vf-shaders" />
         
-        
-
-
-        
-        <text x="63" y="463" class="in-rect">gl</text>
-        <text x="200" y="453" font-family="verdana" font-size="10" fill="#666">drawArrays()</text>
         <g class="greenArrow">
-            <path d="M 140 463 h 300 v -50" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
+            <path d="M 90 275 v 15 h 10 m 10 -15 v 15 h -10 v 30 h 80 v -80 h 20" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
+        </g>
+        
+        <line x1="5" y1="350" x2="485" y2="350" stroke="#ccc" stroke-dasharray="10 10" />
+
+        <!-- third time -->
+        <use x="40" y="400" xlink:href="#array-elements" />
+        
+        <use x="120" y="400" xlink:href="#selected-blocks" />
+        <g fill="red" stroke="none" font-family="arial" font-size="8px">
+            <text x="130" y="410">0.5</text>
+            <text x="150" y="410">-0.5</text>
+        </g>
+        
+        <use x="250" y="390" xlink:href="#vf-shaders" />
+        
+        <g class="greenArrow">
+            <path d="M 130 435 v 15 h 10 m 10 -15 v 15 h -10 v 30 h 40 v -80 h 20" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
         </g>
 
-
+        <!-- frame buffer -->
+        <use x="360" y="250" xlink:href="#frame-buffer" />
         
-
+        <g class="greenArrow">
+            <path d="M 290 150 h 90 v 80" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
+            <path d="M 290 310 h 30 v -28 h 20" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
+            <path d="M 290 470 h 103 v -160" stroke-width="4" marker-end="url(#green-arrow-end-marker)" />
+        </g>
     </g>
 </svg>
