@@ -168,7 +168,6 @@ article p.note:before {
     font-size: 120%;
 }
 
-
 article span.htmltag {
     color: rgb(235, 76, 33);
     font-style: italic;
@@ -176,7 +175,20 @@ article span.htmltag {
 }
 
 article span.function-name {
-    color:  darkgoldenrod;
+    color: darkgoldenrod;
+}
+
+article span.variable-name {
+    color:  darksalmon;
+}
+
+article span.constant {
+    color: #666;
+}
+
+article span.parameter {
+    color: orange;
+    font-style: italic;
 }
 
 article span.emphasis {

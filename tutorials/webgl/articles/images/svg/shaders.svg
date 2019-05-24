@@ -196,7 +196,7 @@
     <g>
         <use xlink:href="#whole-grid" />
         
-        <text x="250" y="20" font-family="verdana" font-size="12" font-weight="bold" fill="black">WebGL (GPU)</text>
+        <text x="250" y="14" font-family="verdana" font-size="12" font-weight="bold" fill="black">WebGL (GPU)</text>
 
         <line x1="5" y1="30" x2="495" y2="30" stroke="#999" />
 

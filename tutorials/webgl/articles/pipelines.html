@@ -48,7 +48,10 @@ gl.drawArrays(gl.TRIANGLES, 0, 3);  // intent: use the array data in vertices to
 </pre>
                 <p>The synopsis of the <span class="function-name">drawArrays</span> is as followed.</p>
                 <pre>void drawArrays(GLenum mode, GLint first, GLsizei count)</pre>
-                <p>There are 3 points in vertices array data. From the first point, which starting index is 0, fetches altogether 3 points to draw triangles. In this situation, 3 points would compose only 1 triangle.</p>
+                <p><span class="parameter">mode</span> specifies the kind of primitives. Accepted constants are gl.<span class="constant">POINTS</span>, gl.<span class="constant">LINE_STRIP</span>, gl.<span class="constant">LINE_LOOP</span>, gl.<span class="constant">LINES</span>, gl.<span class="constant">TRIANGLE_STRIP</span>, gl.<span class="constant">LINE_FAN</span>, and  gl.<span class="constant">TRIANGLES</span>, where gl is an instance of the WebGLRenderingContext.</p>
+                <p><span class="parameter">first</span> specifies the starting index of the array.</p>
+                <p><span class="parameter">count</span> specifies the number of vertices to be rendered.</p>
+                <p>There are 3 points in vertices array data. Each point has a pair of array elements. From the first point, which starting index is 0, fetches altogether 3 vertices to draw triangles. In this situation, 3 vertices would compose only 1 triangle.</p>
                 <p>You can see from the code that there are no connections between the <span class="function-name">drawArrays</span> and the vertices. So how WebGL know where to get the array data from?</p>
                 <p>WebGL will rather get the array data from a buffer, than directly from the vertices we are providing. The buffer is resident in GPU, and the speed of data transmission from it is much faster than from the vertices, which is resident in JavaScript client side.</p>
                 <p>So, we need to do the following jobs:</p>
@@ -69,7 +72,12 @@ var vertices = [
 
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 </pre>
-                <p>Notice the first argument of the <span class="function-name">bufferData</span> is gl.ARRAY_BUFFER. This is the specific buffer binding target where the WebGL would fetch the array data. So after we created a buffer, we bind the buffer to the target gl.ARRAY_BUFFER. So the array data from the vertices would be copied to the GPU's buffer.</p>
+                <p>Notice the first argument of the <span class="function-name">bufferData</span> is gl.ARRAY_BUFFER. 
+This is the specific buffer binding target where the WebGL would fetch the array data. 
+So after we created a buffer, we bind the buffer to the target gl.ARRAY_BUFFER. 
+<span class="function-name">bufferData</span> connects the buffer with gl.ARRAY_BUFFER via putting the latter as its first argument.
+So the array data from the vertices would be copied to the GPU's buffer.</p>
+                <p>Then when we issue the drawing method, WebGL konws it should get the vertex data from the buffer to render the image.</p>
 
                 <object type="image/svg+xml" data="images/svg/pipelines.svg"></object>
                 
@@ -86,14 +94,49 @@ gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
             
             <section class="chapter">
                 <h1>Coming the Shaders</h1>
-                <p>Is it the whole story? Not yet.</p>
+                <p>When we issue the drawing method, again, WebGL would never fetch the data directly from the buffer. 
+                    Rather, it would ask the <em>shaders</em> to provide the corresponding informations.</p>
+                <p>There are several shaders in WebGL. Among them, vertex shader and fragment shader are two shaders which are compulsory in each WebGL application, while other shaders are optional.</p>
+                <p>Put in simplified, vertex shader deals with the positions of vertices, while fragment deals with the colors of vertices.</p>
+                <p>The following driagram illustrates how WebGL fetch the data from the vertex shader and fragment shader to render the final image.</p>
                 <object type="image/svg+xml" data="images/svg/shaders.svg"></object>
+                <p>After we issued the drawing method:</p>
+                <pre class="highlight">
+gl.drawArrays(gl.TRIANGLES, 0, 3);
+</pre>
+                <p>We tells WebGL to fetch 3 vertex components, starting from index 0, to construct a triangle. 
+Each component contains 2 array elments, relating to the X axis and Y axis coordinate.</p>
+                <p>In deciding the first vertex, the first two array elements, [0.0, 0.5] will be passed to the vertex shader, and be assigned to the special variable <span class="variable-name">gl_Position</span>. To achive this, we can code like this using Shading Lanuage:</p>
+                <pre class="highlight">
+attribute vec4 vPosition;
+
+void main()
+{
+    gl_Position = vPosition;
+}
+</pre>
+                <p>Here, the attribute <span class="variable-name">vPosition</span> can accept the data from the buffer. We can regard it as a tunnel connecting with the buffers and shaders. 
+WebGL would transfer data [0.0, 0.5] from the buffer to <span class="variable-name">vPosition</span>. Then, in the <span class="function-name">main</span> function, its value is assigned to <span class="variable-name">gl_Position</span>.</p>
+                <p>Putting vertex data in <span class="variable-name">vPosition</span> is the final step to decide the vertex's position from the view of a programmer in this stage. Many other left dirty works would be handled by WebGL from now on, but not for programmer.</p>
+                <p>Then, this data would be passed on to the the Fragment Shader in WebGL's rendering pipelines. As the first WebGL program based on shaders, we can simplify the issue by assign all vertices with just a yellow color. We can code for the Fragment Shader like this:</p>
+                <pre class="highlight">
+precision mediump float;
+
+void main()
+{
+    gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
+}
+</pre>
+                <p>We use 'float' to describe the precision of the data. 
+Just like <span class="variable-name">gl_Position</span>, <span class="variable-name">gl_FragColor</span> is a special variable that deal with vertex color. 
+We hard-coded the yellow color value and assigned it to <span class="variable-name">gl_FragColor</span>, which means no matter how many vertices we have, they all have a same color.</p>
             </section>
 
             <section class="reference">
                 <h1>References</h1>
                 <ul>
                     <li><a href="https://www.khronos.org/registry/OpenGL/specs/es/2.0/es_full_spec_2.0.pdf#nameddest=section-2.8" target="_blank">OpenGL ES 2.0 Specification (PDF)</a></li>
+                    <li><a href="https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/" target="_blank">OpenGL ES 2.0 Reference Pages</a></li>
                     
                     <li><a href="https://www.khronos.org/registry/webgl/specs/latest/1.0/" target="_blank">WebGL 1.0 Specification</a></li>
                     <li><a href="https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glDrawArrays.xml" target="_blank">glDrawArrays</a></li>
