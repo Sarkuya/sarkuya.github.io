@@ -106,7 +106,7 @@ gl.drawArrays(gl.TRIANGLES, 0, 3);
 </pre>
                 <p>We tells WebGL to fetch 3 vertex components, starting from index 0, to construct a triangle. 
 Each component contains 2 array elments, relating to the X axis and Y axis coordinate.</p>
-                <p>In deciding the first vertex, the first two array elements, [0.0, 0.5] will be passed to the vertex shader, and be assigned to the special variable <span class="variable-name">gl_Position</span>. To achive this, we can code like this using Shading Lanuage:</p>
+                <p>In deciding the first vertex, the first two array elements, [0.0, 0.5] will be passed to the vertex shader, and be assigned to the special variable <span class="variable-name">gl_Position</span>. To achive this, we can code like this using Shading Language:</p>
                 <pre class="highlight">
 attribute vec4 vPosition;
 
@@ -117,8 +117,8 @@ void main()
 </pre>
                 <p>Here, the attribute <span class="variable-name">vPosition</span> can accept the data from the buffer. We can regard it as a tunnel connecting with the buffers and shaders. 
 WebGL would transfer data [0.0, 0.5] from the buffer to <span class="variable-name">vPosition</span>. Then, in the <span class="function-name">main</span> function, its value is assigned to <span class="variable-name">gl_Position</span>.</p>
-                <p>Putting vertex data in <span class="variable-name">vPosition</span> is the final step to decide the vertex's position from the view of a programmer in this stage. Many other left dirty works would be handled by WebGL from now on, but not for programmer.</p>
-                <p>Then, this data would be passed on to the the Fragment Shader in WebGL's rendering pipelines. As the first WebGL program based on shaders, we can simplify the issue by assign all vertices with just a yellow color. We can code for the Fragment Shader like this:</p>
+                <p>Putting vertex data in <span class="variable-name">vPosition</span> is the final step in this stage to decide each vertex's position from the view of a programmer. Many other left dirty works would be handled by WebGL in pipelines from now on, but not for programmer.</p>
+                <p>Then, this data would be passed on to the the Fragment Shader in WebGL's rendering pipelines. As the first WebGL program based on shaders, we can simplify the issue by assign all vertices with just a yellow color. Code like this:</p>
                 <pre class="highlight">
 precision mediump float;
 
@@ -130,6 +130,212 @@ void main()
                 <p>We use 'float' to describe the precision of the data. 
 Just like <span class="variable-name">gl_Position</span>, <span class="variable-name">gl_FragColor</span> is a special variable that deal with vertex color. 
 We hard-coded the yellow color value and assigned it to <span class="variable-name">gl_FragColor</span>, which means no matter how many vertices we have, they all have a same color.</p>
+                <p>Now the Fragment Shader has the information of a vertex's position and its color, which is enough to plot a pixel in screen. So the data is moved on to the frame buffer to be rendered. This first vertex is thus rendered on screen. And this finishes the first cycle of invocation of <span class="function-name">glDrawArrays(gl.TRIANGLES, 0, 3)</span>.</p>
+                <p>The last parameter in <span class="function-name">glDrawArrays(gl.TRIANGLES, 0, 3)</span> tells WebGL that there would be 2 vertices left. Again, WebGL asks the Vertex Shader to provide the information of the second vertex. Then, the 2th and the 3rd array elements, [-0.5, -0.5] will passed on to <span class="variable-name">gl_Position</span> in Vertex Shader. The remaiming procedures are the same with above - data would be moved on to the Fragment Shader and then to the Frame Buffer to plot the second vertex on screen.</p>
+                <p>As for the 3rd cycle, [0.5, -0.5] would be extracted from the buffer to the shaders and then the Frame Buffer. Thus, a t yellow triangle is rendered.</p>
+                <p>You can see that Shading Language is powerful - there is only 1 <span class="variable-name">gl_Position</span> for all vertice's positions and 1 <span class="variable-name">gl_FragColor</span> all for vertices' colors. We write in less codes and WebGL do much more works to get all vertice's information. It would be true that Shading Language shown above is much easier than any other programming language, such as C, Java, even JavaScript. Despite of this, Shading Language is nevertheless a programming language, and just like any other one, it needs to be compiled and linked before being used.</p>
+            </section>
+            
+            <section class="chapter">
+                <h1>Compiling and Linking of Shaders</h1>
+                <p>We now know what shaders are, how they function, and how to write codes for shaders, then one issue is left here: get the shaders compiled and linked. The following dragram shows the procedures how to do this.</p>
+                <img src="images/svg/compile-shaders.svg" alt="Preparing Program" />
+                <p>Although it might look rather complicated, the big picture is simple: create 2 shaders, attatch them to a program, link the program, and use the program.</p>
+                
+                <section>
+                    <h1>Creating Shaders</h1>
+                    <p>The procedures of creating the vertex shader and fragment shader are the same, so we could put the codes of creating shaders in a function.</p>
+                    <p>Before we do it, we should decide where to put the shader sources first. </p>
+                    <p>Shader's sources are plain texts. So we can write them in a text file and load the text file using the AJAX. However, for a simple WebGL application, there's a good place for holding the shaders' sources - <span class="htmltag">script</span> element in a HTML file.</p>
+                    <p>For JavaScript to be executed by the web browser, we usually specify its <span class="attribute-name">type</span> attribute.</p>
+                    <pre class="highlight">
+&lt;script type="text/javascript"&gt;
+    ...
+&lt;/script&gt;
+</pre>
+                    <p><span class="attribute-name">type</span> specifies the MIME type. It contains the information of media type and its sub-type. For the code above, the media type is text, and its sub-type is javascript.</p>
+                    <p>If we don't specify the <span class="attribute-name">type</span>, it is assumed to be JavaScript by default. And if we specify another type rather than 'javascript' for the <span class="htmltag">script</span>, this script would not be treated as JavaScript and would not be executed by browsers.</p>
+                    <p>Although it's not the standard, Khronos takes 'x-shader/x-vertex' for the vertex shader and 'x-shader/x-fragment' for the fragment shader.</p>
+                    <p>So, let's add 2 scripts specific to WebGL under the <span class="htmltag">head</span> of <span class="htmltag">html</span>.</p>
+                    <pre class="highlight">
+&lt;html&gt;
+    &lt;head&gt;
+        ...
+
+        &lt;script id="vshader" type="x-shader/x-vertex"&gt;
+            attribute vec4 vPosition;
+
+            void main()
+            {
+                gl_Position = vPosition;
+            }
+        &lt;/script&gt;
+
+        &lt;script id="fshader" type="x-shader/x-fragment"&gt;
+            precision mediump float;
+
+            void main()
+            {
+                gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
+            }
+        &lt;/script&gt;
+        ...
+    &lt;/head&gt;
+
+    ...
+&lt;/html&gt;
+</pre>
+                    <p>Then, we use a function to load both of the shaders.</p>
+                    <pre class="highlight">
+function loadShader(ctx, shaderId)
+{
+    var shaderScript = document.getElementById(shaderId);
+    
+    if (!shaderScript) {
+        console.log("Error: shader script '" + shaderId + "' not found");
+        return null;
+    }
+
+    var shaderType;
+    
+    if (shaderScript.type === "x-shader/x-vertex")
+        shaderType = ctx.VERTEX_SHADER;
+    else if (shaderScript.type === "x-shader/x-fragment")
+        shaderType = ctx.FRAGMENT_SHADER;
+    else {
+        console.log("Error: shader script '" + shaderId + "' of undefined type '" + shaderScript.type + "'");
+        return null;
+    }
+
+    var shader = ctx.createShader(shaderType);
+
+    ctx.shaderSource(shader, shaderScript.text);
+    ctx.compileShader(shader);
+
+    var compiled = ctx.getShaderParameter(shader, ctx.COMPILE_STATUS);
+    if (!compiled) {
+        var error = ctx.getShaderInfoLog(shader);
+        console.log("Error compiling shader '" + shaderId + "':" + error);
+        ctx.deleteShader(shader);
+        return null;
+    }
+
+    return shader;
+}
+</pre>
+                </section>
+                
+                <section>
+                    <h1>Getting the Program Ready</h1>
+                    <p>We put the codes of preparing a program into a function and invoke it.</p>
+                    <pre class="highlight">
+function prepareProgram(vshader, fshader) {
+    var vertexShader = loadShader(gl, vshader);
+    var fragmentShader = loadShader(gl, fshader);
+
+    var program = gl.createProgram();
+
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+
+    gl.linkProgram(program);
+
+    var linked = gl.getProgramParameter(program, gl.LINK_STATUS);
+    if (!linked) {
+        var error = gl.getProgramInfoLog(program);
+        console.log("Error in program linking: " + error);
+
+        gl.deleteProgram(program);
+        gl.deleteProgram(fragmentShader);
+        gl.deleteProgram(vertexShader);
+
+        return null;
+    }
+
+    gl.useProgram(program);
+
+    return program;
+}
+
+gl.program = prepareProgram("vshader", "fshader");
+</pre>
+                </section>
+            </section>
+            
+            <section class="chapter">
+                <h1>Telling WebGL How to Fetch Data</h1>
+                <p></p>
+                
+                
+                <section>
+                    <h1>Understanding Shader Attribute Array</h1>
+                    <p>When we wrote the vertex shader's codes:</p>
+                    <pre class="highlight">
+&lt;script id="vshader" type="x-shader/x-vertex"&gt;
+    attribute vec4 vPosition;
+
+    void main()
+    {
+        gl_Position = vPosition;
+    }
+&lt;/script&gt;
+</pre>
+                    <p>We said previously that being an attribute, <span class="variable-name">vPosition</span> can accept the data from the buffer. Let's dive into the details here.</p>
+                    <p>All attributes in vertex shader, such as <span class="variable-name">vPosition</span> here, are stored in an array. See below for details.</p>
+                    <img src="images/svg/shader-attribute-array.svg" alt="Shader Attribute Array" />
+                    <p>The rectangle with light pink background is the vertex shader. An attribute variable has 4 components. In diagram, only 3 vertex attributes are shown. We can query the max vertex attributes number by passing the gl.<span class="constant">MAX_VERTEX_ATTRIBS</span> constant to the <span class="function-name">getParameter</span> method.</p>
+                    <pre class="highlight">
+var vertexAttribs = gl.getParameter(gl.MAX_VERTEX_ATTRIBS);    // 16 in Safari V11.1
+</pre>
+                    <p>In the diagram, <span class="variable-name">gl_Position</span> acts as a pointer, pointing to the active attribute, indicating by the dashed green arrow pointer. It is the data in this active attribute will be transfered to the fragment shader, indicating by te red arrow pointer.</p>
+                    <p>By default, all generic vertex attribute arrays are disabled. So, we should enable the generic vertex attribute array like this:</p>
+                    <pre class="highlight">
+var location = gl.getAttribLocation(gl.program, "vPosition");
+gl.enableVertexAttribArray(location);
+</pre>
+                    <p><span class="function-name">enableVertexAttribArray</span> method enables the vertex attribute at index as an array. If enabled, the values in the generic vertex attribute array will be accesed when rendering.</p>
+                    <p>If we try to enable a not active attribute, error would occur.</p>
+                    <p>An attribute variable is considered active if it is determined during the link operation that it may be accessed during program execution.</p>
+                    <pre class="highlight">
+attribute vec4 vPosition;
+attribute vec4 vTest;
+
+void main()
+{
+    gl_Position = vPosition;
+}
+</pre>
+                    <p>We declared 2 attributes. Only <span class="variable-name">vPosition</span> is being used to assign its value to <span class="variable-name">gl_Position</span>, which can be determined during the link operation. So, only <span class="variable-name">vPosition</span> is active and <span class="variable-name">vTest</span> is not.</p>
+                    <p>At this time, if we want to enable <span class="variable-name">vTest</span>:</p>
+                    <pre class="highlight">
+var indexTest = gl.getAttribLocation(gl.program, "vTest");
+gl.enableVertexAttribArray(indexTest);
+</pre>
+                    <p>Error occurs: WebGL: INVALID_VALUE: enableVertexAttribArray: index out of range.</p>
+                    <p>To make <span class="variable-name">vTest</span> active:</p>
+                    <pre class="highlight">
+attribute vec4 vPosition;
+attribute vec4 vTest;
+
+void main()
+{
+    gl_Position = vTest;
+    gl_Position = vPosition;
+}
+--- ---
+var indexTest = gl.getAttribLocation(gl.program, "vTest");
+gl.enableVertexAttribArray(indexTest);    // since vTest is active, OK this time
+</pre>
+                    <p>This time, 2 attributes are consumed.</p>
+                    <p>However, this is a trick to cheat the compiler. If we use this to render images, error occurs:  WebGL: INVALID_OPERATION: drawArrays: attempt to access out of bounds arrays.</p>
+                    <p>Enable a vertex attribute as an array means it can accept data from the buffer, in an array way. Otherwise, we can set the unactive attribtues' value by invoking <span class="function-name">vertexAttrib</span> method.</p>
+                    
+                    
+                    <p>We met gl.<span class="constant">ARRAY_BUFFER</span>before. And now we know the meaning of its name - the 'ARRAY' refers to vertex attribute array, and the 'BUFFER' refers to the one which is bound to it. So in the diagram, the buffer object is connected with the veretex attribute array.</p>
+                    <p></p>
+                    <p>We can invoke <span class="function-name">getVertexAttrib</span> to query informations.</p>
+                    
+                </section>
             </section>
 
             <section class="reference">
@@ -141,6 +347,7 @@ We hard-coded the yellow color value and assigned it to <span class="variable-na
                     <li><a href="https://www.khronos.org/registry/webgl/specs/latest/1.0/" target="_blank">WebGL 1.0 Specification</a></li>
                     <li><a href="https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glDrawArrays.xml" target="_blank">glDrawArrays</a></li>
                     <li><a href="https://www.w3.org/TR/SVG11/" target="_blank">SVG 1.1 Specification</a></li>
+                    <li><a href="https://www.iana.org/assignments/media-types/media-types.xhtml" target="_blank">Media Types</a></li>
                     
                 </ul>
             </section>

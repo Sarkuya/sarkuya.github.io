@@ -20,7 +20,7 @@
 
         <script id="fshader" type="x-shader/x-fragment">
             precision mediump float;
-            
+
             void main()
             {
                 gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
@@ -56,77 +56,126 @@
                 
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
                 
+                gl.program = prepareProgram("vshader", "fshader");
                 
-                gl.program = simpleSetup("vshader", "fshader");
-                var location = gl.getAttribLocation(gl.program, "vPosition");
-                gl.enableVertexAttribArray(location);
-                gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 0, 0);
-
+                var index = gl.getAttribLocation(gl.program, "vPosition");
+                gl.enableVertexAttribArray(index);
+                
+                gl.vertexAttribPointer(index, 2, gl.FLOAT, false, 0, 0);
+                
+                //console.log(indexTest);
+                
+                //testGetActiveAttribs();
+                testGetVertexAttrib();
+                //testGetAttribLocation()
+                
                 gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
                 render();
             }
             
-            function simpleSetup(vshader, fshader) {
+            function testGetActiveAttribs() {
+                var maxVertexAttribs = gl.getParameter(gl.MAX_VERTEX_ATTRIBS);
+
+                for (var i = 0; i < maxVertexAttribs; i++) {
+                    var activeAttrib = gl.getActiveAttrib(gl.program, i);
+
+                    if (activeAttrib) {
+                        console.log(i);
+                        console.log(activeAttrib);
+                    }
+                }
+            }
+            
+            function testGetVertexAttrib() {
+                var maxVertexAttribs = gl.getParameter(gl.MAX_VERTEX_ATTRIBS);
+
+                for (var i = 0; i < maxVertexAttribs; i++) {
+                    var flag = gl.getVertexAttrib(i, gl.VERTEX_ATTRIB_ARRAY_ENABLED);
+
+                    if (flag) {
+                        var bufferBinding = gl.getVertexAttrib(i, gl.VERTEX_ATTRIB_ARRAY_BUFFER_BINDING);
+                        var isEnabled = gl.getVertexAttrib(i, gl.VERTEX_ATTRIB_ARRAY_ENABLED);
+                        var arraySize = gl.getVertexAttrib(i, gl.VERTEX_ATTRIB_ARRAY_SIZE);
+                        var arrayStride = gl.getVertexAttrib(i, gl.VERTEX_ATTRIB_ARRAY_STRIDE);
+                        var arrayType = gl.getVertexAttrib(i, gl.VERTEX_ATTRIB_ARRAY_TYPE);
+                        var isNormalized = gl.getVertexAttrib(i, gl.VERTEX_ATTRIB_ARRAY_NORMALIZED);
+                        var currentVertexAttrib = gl.getVertexAttrib(i, gl.CURRENT_VERTEX_ATTRIB);
+
+                        console.log(i);
+                        console.log(bufferBinding);
+                        console.log(isEnabled);
+                        console.log(arraySize);
+                        console.log(arrayStride);
+                        console.log(arrayType);
+                        console.log(isNormalized);
+                        console.log(currentVertexAttrib);
+                    }
+                }
+            }
+            
+            function testGetAttribLocation() {
+                var index = gl.getAttribLocation(gl.program, "vPosition");
+                console.log(index);
+            }
+            
+            function prepareProgram(vshader, fshader) {
                 var vertexShader = loadShader(gl, vshader);
                 var fragmentShader = loadShader(gl, fshader);
-                
+
                 var program = gl.createProgram();
-                
+
                 gl.attachShader(program, vertexShader);
                 gl.attachShader(program, fragmentShader);
-                
+
                 gl.linkProgram(program);
-                
+
                 var linked = gl.getProgramParameter(program, gl.LINK_STATUS);
                 if (!linked) {
                     var error = gl.getProgramInfoLog(program);
                     console.log("Error in program linking: " + error);
-                    
+
                     gl.deleteProgram(program);
                     gl.deleteProgram(fragmentShader);
                     gl.deleteProgram(vertexShader);
-                    
+
                     return null;
                 }
-                
+
                 gl.useProgram(program);
-                
+
                 return program;
             }
 
             function loadShader(ctx, shaderId)
             {
                 var shaderScript = document.getElementById(shaderId);
+
                 if (!shaderScript) {
-                    console.log("*** Error: shader script '" + shaderId + "' not found");
+                    console.log("Error: shader script '" + shaderId + "' not found");
                     return null;
                 }
 
-                if (shaderScript.type == "x-shader/x-vertex")
-                    var shaderType = ctx.VERTEX_SHADER;
-                else if (shaderScript.type == "x-shader/x-fragment")
-                    var shaderType = ctx.FRAGMENT_SHADER;
+                var shaderType;
+
+                if (shaderScript.type === "x-shader/x-vertex")
+                    shaderType = ctx.VERTEX_SHADER;
+                else if (shaderScript.type === "x-shader/x-fragment")
+                    shaderType = ctx.FRAGMENT_SHADER;
                 else {
-                    console.log("*** Error: shader script '" + shaderId + "' of undefined type '" + shaderScript.type + "'");
+                    console.log("Error: shader script '" + shaderId + "' of undefined type '" + shaderScript.type + "'");
                     return null;
                 }
 
-                // Create the shader object
                 var shader = ctx.createShader(shaderType);
 
-                // Load the shader source
                 ctx.shaderSource(shader, shaderScript.text);
-
-                // Compile the shader
                 ctx.compileShader(shader);
 
-                // Check the compile status
                 var compiled = ctx.getShaderParameter(shader, ctx.COMPILE_STATUS);
-                if (!compiled && !ctx.isContextLost()) {
-                    // Something went wrong during compilation; get the error
+                if (!compiled) {
                     var error = ctx.getShaderInfoLog(shader);
-                    console.log("*** Error compiling shader '" + shaderId + "':" + error);
+                    console.log("Error compiling shader '" + shaderId + "':" + error);
                     ctx.deleteShader(shader);
                     return null;
                 }
@@ -145,6 +194,6 @@
     </head>
     <body>
         <h1>Yellow Triangle</h1>
-        <canvas id="webglcanvas" width="300" height="300">Your browser does not support HTML5 Canvas!</canvas>
+        <canvas id="webglcanvas" width="500" height="500">Your browser does not support HTML5 Canvas!</canvas>
     </body>
 </html>

@@ -143,6 +143,10 @@ article section dl dt {
     color: #333;
 }
 
+article dl.function-prototype dt {
+    margin-top: 1em;
+}
+
 article dl.demo,
 article pre.demo {
     font-family: monospace;
@@ -179,7 +183,11 @@ article span.function-name {
 }
 
 article span.variable-name {
-    color:  darksalmon;
+    color: darksalmon;
+}
+
+article span.attribute-name {
+    color: green;
 }
 
 article span.constant {
