@@ -20,6 +20,22 @@
             let gl;
             
             function init() {
+var vertices = [
+     0.0,  0.5,
+    -0.5, -0.5,
+     0.5, -0.5
+];
+
+var theArray = new Float32Array(vertices);
+
+console.log(theArray.BYTES_PER_ELEMENT);
+console.log(theArray.buffer);
+console.log(theArray.byteLength);
+console.log(theArray.byteOffset);
+
+
+                
+                
                 const canvas = document.getElementById("webgl-canvas");
                 
                 if (!canvas) {
@@ -33,7 +49,7 @@
                     ? "Hooray! You got a WebGL2 context"
                     : "Sorry! WebGL is not available";
                     
-                alert(message);
+                //alert(message);
                 
                 window.onkeydown = checkKey;
             }
@@ -59,11 +75,14 @@
                     case 52: {
                         const color = gl.getParameter(gl.COLOR_CLEAR_VALUE);
                         
+                        console.dir(color);
+                        
                         alert(`clearColor = (
                             ${color[0].toFixed(1)},
                             ${color[1].toFixed(1)},
                             ${color[2].toFixed(1)}
                         )`);
+                        
                         window.focus();
                         break;
                     }

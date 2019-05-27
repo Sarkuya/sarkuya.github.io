@@ -6,6 +6,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <link rel="shortcut icon" type="image/jpg" href="../images/jpg/12faces.jpg" />
+        
         <link rel="stylesheet" href="../css/style.css">
         <link rel="stylesheet" href="../css/document.css">
 
@@ -363,6 +365,40 @@ console.log(index);
                     <p></p>
                     <p></p>
                 </section>
+            </section>
+            
+            <section class="chapter">
+                <h1>Float32Array</h1>
+                <p>The type of Float32Array is TypedArray. First, as the name suggests, Float32Array is an array that we can access to its elements in an array way:</p>
+                <pre class="highlight">
+var vertices = [
+     0.0,  0.5,
+    -0.5, -0.5,
+     0.5, -0.5
+];
+
+var theArray = new Float32Array(vertices);
+
+console.log(theArray.length);
+console.log(theArray[0]);
+console.log(theArray[1]);
+...
+console.log(theArray[5]);
+</pre>
+                <p>Second, Float32Array has the following additional properties:</p>
+                <ul>
+                    <li>BYTES_PER_ELEMENT</li>
+                    <li>buffer</li>
+                    <li>byteLength</li>
+                    <li>byteOffset</li>
+                </ul>
+                <pre class="highlight">
+console.log(theArray.BYTES_PER_ELEMENT);    // 4
+console.log(theArray.buffer);               // ArrayBuffer(24)
+console.log(theArray.byteLength);           // 24
+console.log(theArray.byteOffset);           // 0
+</pre>
+                <p></p>
             </section>
 
             <section class="reference">
