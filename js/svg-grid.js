@@ -139,7 +139,7 @@ svgBkGrid.setupGrid = function (longMarksSteps) {
         if (whichAxis === "horizontal") {
             g.style.cssText = "font-family: sans-serif; font-size: 8pt; text-anchor: middle;";
         } else {
-            g.style.cssText = "font-family: sans-serif; font-size: 8pt; text-anchor: end;";
+            g.style.cssText = "font-family: sans-serif; font-size: 8pt; text-anchor: end; dominant-baseline: central;";
         }
         
         var iterEndValue = 0;
@@ -158,7 +158,7 @@ svgBkGrid.setupGrid = function (longMarksSteps) {
                 text.setAttribute("y", -15);
             } else {
                 text.setAttribute("x", -15);
-                text.setAttribute("y", i + 3);
+                text.setAttribute("y", i);
             }
             
             text.textContent = "" + i;
