@@ -117,7 +117,7 @@ void main()
     gl_Position = vPosition;
 }
 </pre>
-                <p>Here, the attribute <span class="variable-name">vPosition</span> can accept the data from the buffer. We can regard it as a tunnel connecting with the buffers and shaders. 
+                <p>Here, "attribute" is a storage qualifier. The attribute <span class="variable-name">vPosition</span> is a variable in vertex shader that can accept the data from the buffers on a per-vertex basis. The attribute qualifier exists in vertex shader only, not other shaders. We can regard it as a tunnel connecting with the buffers and shaders. 
 WebGL would transfer data [0.0, 0.5] from the buffer to <span class="variable-name">vPosition</span>. Then, in the <span class="function-name">main</span> function, its value is assigned to <span class="variable-name">gl_Position</span>.</p>
                 <p>Putting vertex data in <span class="variable-name">vPosition</span> is the final step in this stage to decide each vertex's position from the view of a programmer. Many other left dirty works would be handled by WebGL in pipelines from now on, but not for programmer.</p>
                 <p>Then, this data would be passed on to the the Fragment Shader in WebGL's rendering pipelines. As the first WebGL program based on shaders, we can simplify the issue by assign all vertices with just a yellow color. Code like this:</p>
@@ -268,10 +268,12 @@ gl.program = prepareProgram("vshader", "fshader");
                 <h1>Telling WebGL How to Fetch Data</h1>
                 <p></p>
                 
-                
                 <section>
-                    <h1>Understanding Shader Attribute Array</h1>
-                    <p>When we wrote the vertex shader's codes:</p>
+                    <h1>What are Shader's Attributes</h1>
+                    <p>Buffers are memory areas managed by WebGL system, which are located in the ordinary memory. If we can transfer the data in buffers to GPU's memories, and process graphics-relating tasks such as lighting computing in GPU to leverage the full capabilities of GPU, that would be a better solution in performance. WebGL adopts such a solution in its rendering pipelines.</p>
+                    
+                    
+                    <p>We coded for the vertex shader as followed before:</p>
                     <pre class="highlight">
 &lt;script id="vshader" type="x-shader/x-vertex"&gt;
     attribute vec4 vPosition;
@@ -282,23 +284,34 @@ gl.program = prepareProgram("vshader", "fshader");
     }
 &lt;/script&gt;
 </pre>
-                    <p>We said previously that being an attribute, <span class="variable-name">vPosition</span> can accept the data from the buffer. Let's dive into the details here.</p>
-                    <p>All attributes in vertex shader, such as <span class="variable-name">vPosition</span> here, are stored in an array. See below for details.</p>
-                    <img src="images/svg/shader-attribute-array.svg" alt="Shader Attribute Array" />
-                    <p>The rectangle with light pink background is the vertex shader. An attribute variable has 4 components. In diagram, only 3 vertex attributes are shown. We can query the max vertex attributes number by passing the gl.<span class="constant">MAX_VERTEX_ATTRIBS</span> constant to the <span class="function-name">getParameter</span> method.</p>
+                    <p>Here, the keyword "<em>attribute</em>" is called <em>storage qualifier</em>, which means such variables can store data which values could be transfered from outside the vertex shader.</p>
+                    <p>In all shaders, only vertex shader has attribute variables.</p>
+                    <p>The numbers of vertex attributes are limited in each implementation. We can query the max vertex attributes numbers by passing the gl.<span class="constant">MAX_VERTEX_ATTRIBS</span> constant to the <span class="function-name">getParameter</span> method.</p>
                     <pre class="highlight">
 var vertexAttribs = gl.getParameter(gl.MAX_VERTEX_ATTRIBS);    // 16 in Safari V11.1
 </pre>
-                    <p>In the diagram, <span class="variable-name">gl_Position</span> acts as a pointer, pointing to the active attribute, indicating by the dashed green arrow pointer. It is the data in this active attribute will be transfered to the fragment shader, indicating by the red arrow pointer.</p>
-                    <p>By default, all generic vertex attribute arrays are disabled. So, we should enable the generic vertex attribute array like this:</p>
-                    <pre class="highlight">
-var location = gl.getAttribLocation(gl.program, "vPosition");
-gl.enableVertexAttribArray(location);
-</pre>
-                    <p><span class="function-name">enableVertexAttribArray</span> method enables the vertex attribute at index as an array. If enabled, the values in the generic vertex attribute array will be accesed when rendering.</p>
-                    <p>If we try to enable an attribute which is not active , error would occur.</p>
-                    <p>An attribute variable is considered active if it is determined during the link operation that it may be accessed during program execution.</p>
-                    <pre class="highlight">
+                </section>
+                
+                <section>
+                    <h1>Four Componets in an Attribute</h1>
+                    <p>Normally, we declare attributes to store the data of position, color, normal, texture cocordinte and matrix. All of these data have max 4 compoments. To reflect with this, each attribute has 4 components. For position, color, normal and texture coordiante, each component has a floating-point value. As for the matrix, we have kinds of mat4, mat3, and mat2. A mat4 would use up 4 attribute variable location, a mat3 would use up 3 attrbute variable location, and a mat2 would use up 2 attribute variable location.</p>
+                </section>
+                
+                <section>
+                    <h1>How to Set an Attribute's Value</h1>
+                    <p>There are 2 ways to set an attribute's value. </p>
+                    <p>The first way is to set directly by invoking the gl's method <span class="function-name">vertexAttrib</span>, which we'll deal with later.</p>
+                    <p>The second way is driven by gl's method <span class="function-name">drawArrays</span>, or <span class="function-name">drawElments</span>. In this way, the attribute's value are not set directly, but rather, they are set by accepting the data transfered from buffers. However, to make this happened, we would have to do 3 jobs first:</p>
+                    <ol>
+                        <li>make an attribute active</li>
+                        <li>enable the attribute as an array</li>
+                        <li>tell WebGL the rules to fetch the data</li>
+                    </ol>
+                    
+                    <section>
+                        <h1>Make an Attribute Active</h1>
+                        <p>An attribute variable is considered active if it is determined during the link operation that it may be accessed during program execution.</p>
+                        <pre class="highlight">
 attribute vec4 vPosition;
 attribute vec4 vTest;
 
@@ -307,35 +320,73 @@ void main()
     gl_Position = vPosition;
 }
 </pre>
-                    <p>We declared 2 attributes. Only <span class="variable-name">vPosition</span> is being used to assign its value to <span class="variable-name">gl_Position</span>, which can be determined during the link operation. So, only <span class="variable-name">vPosition</span> is active and <span class="variable-name">vTest</span> is not.</p>
-                    <p>At this time, if we want to enable <span class="variable-name">vTest</span>:</p>
-                    <pre class="highlight">
-var indexTest = gl.getAttribLocation(gl.program, "vTest");
-gl.enableVertexAttribArray(indexTest);
+                        <p>We declared 2 attributes. Only <span class="variable-name">vPosition</span> is being used to assign its value to <span class="variable-name">gl_Position</span>, which can be determined during the link operation. In short, it was consumed. So, only <span class="variable-name">vPosition</span> is active and <span class="variable-name">vTest</span> is not.</p>
+                    </section>
+                    
+                    <section>
+                        <h1>Enable the Attribute as an Array</h1>
+                        <p>Since <span class="variable-name">vPosition</span> is about to be accessed to assign values to <span class="variable-name">gl_Position</span>, it should have its value before that. As we said before that being an attribute, <span class="variable-name">vPosition</span> has 4 floating components. We should turn these 4 components into an array if it is about to accept data from a buffer which is in a form of array for the efficiency. And that's why <span class="function-name">glDrawArrays</span> is so named: it would fetch data from arrays to render images.</p>
+                        <p>By default, all generic vertex attribute arrays are disabled. So, we should enable the generic vertex attribute array like this:</p>
+                        <pre class="highlight">
+var index = gl.getAttribLocation(gl.program, "vPosition");
+gl.enableVertexAttribArray(index);
 </pre>
-                    <p>Error occurs: WebGL: INVALID_VALUE: enableVertexAttribArray: index out of range.</p>
-                    <p>To make <span class="variable-name">vTest</span> active:</p>
-                    <pre class="highlight">
-attribute vec4 vPosition;
-attribute vec4 vTest;
+                        <p>Each attribute has a index, which we can get by invoking the gl's method <span class="function-name">getAttribLocation</span>.</p>
+                        <p><span class="function-name">enableVertexAttribArray</span> method enables the vertex attribute at index as an array. If enabled, the values in the generic vertex attribute array will be accesed when rendering.</p>
+                        <p>If we try to enable an attribute which is not active , error would occur.</p>
+                    </section>
+                    
+                    <section>
+                        <h1>Tell WebGL the Rules to Fetch the Data</h1>
+                        <pre class="highlight">
+// buffer created and bound before
+// var buffer = gl.createBuffer();
+// gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 
-void main()
-{
-    gl_Position = vTest;
-    gl_Position = vPosition;
-}
---- ---
-var indexTest = gl.getAttribLocation(gl.program, "vTest");
-gl.enableVertexAttribArray(indexTest);    // since vTest is active, OK this time
+var index = gl.getAttribLocation(gl.program, "vPosition");
+gl.enableVertexAttribArray(index);
+
+gl.vertexAttribPointer(index, 2, gl.FLOAT, false, 0, 0);
 </pre>
-                    <p>This time, 2 attributes are consumed.</p>
-                    <p>However, this is a trick to cheat the compiler. If we use this to render images, error occurs:  WebGL: INVALID_OPERATION: drawArrays: attempt to access out of bounds arrays.</p>
-                    <p>Enable a vertex attribute as an array means it can accept data from the buffer, in an array way. Otherwise, we can set the unactive attribtues' value by invoking <span class="function-name">vertexAttrib</span> method.</p>
+                        <p><span class="function-name">vertexAttribPointer</span> is a bridge that connects with 2 ends. As the codes above shows, one end is the buffer we created and bound to the gl.<span class="constant">ARRAY_BUFFER</span> before, and the other end is <span class="variable-name">vPosition</span>. So, by using <span class="function-name">vertexAttribPointer</span>, we tell WebGL where to fetch the data, and where to transfer.</p>
+                        <p>Actually, buffer may contain more than merely the vertice's data, like this:</p>
+                        <pre class="highlight">
+var vertices = [
+   //position      color          
+     0.0,  0.5,    1.0, 0.0, 0.0,
+    -0.5, -0.5,    0.0, 1.0, 0.0,
+     0.5, -0.5,    0.0, 0.0, 1.0
+];
+
+// buffer created and bound before
+// var buffer = gl.createBuffer();
+// gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+
+// gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+</pre>
+                        <p>Since vertex shader cares about only the vertice's position, we should tell WebGL how to fetch the vertice's position out of such mixed array buffer.</p>
+                        <p><span class="function-name">vertexAttribPointer</span> serves for this purpose as well, specified in its arguments.</p>
+                        <p>We can invoke <span class="function-name">getVertexAttrib</span> to query informations.</p>
+                    </section>
+                </section>
+                
+
+                
+                
+                <section>
+                    <h1>bbb</h1>
+                    <p>Attributes has the following feafures:</p>
+                    <ul>
+                        <li>each attribute ponints to a buffer</li>
+                        <li>to let attribute has a value, should via enable it as an array driven by glDrawArray, or vertexAttrib method</li>
+                    </ul>
+                    
+
+                    
+                    <img src="images/svg/shader-attribute-array.svg" alt="Shader Attribute Array" />
                     
                     
-                    <p>We met gl.<span class="constant">ARRAY_BUFFER</span>before. And now we know the meaning of its name - the 'ARRAY' refers to vertex attribute array, and the 'BUFFER' refers to the one which is bound to it. So in the diagram, the buffer object is connected with the veretex attribute array.</p>
-                    <p></p>
-                    <p>We can invoke <span class="function-name">getVertexAttrib</span> to query informations.</p>
+                    
                     
                 </section>
             </section>
@@ -350,7 +401,9 @@ gl.enableVertexAttribArray(indexTest);    // since vTest is active, OK this time
                     <li><a href="https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glDrawArrays.xml" target="_blank">glDrawArrays</a></li>
                     <li><a href="https://www.w3.org/TR/SVG11/" target="_blank">SVG 1.1 Specification</a></li>
                     <li><a href="https://www.iana.org/assignments/media-types/media-types.xhtml" target="_blank">Media Types</a></li>
-                    <li><a href="https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.4.50.pdf" target="_blank">The OpenGL Shading Lanuage (PDF)</a></li>
+                    <li><a href="https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.4.50.pdf" target="_blank">The OpenGL Shading Lanuage V4.5 (PDF)</a></li>
+                    <li><a href="https://www.khronos.org/registry/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf" target="_blank">The OpenGL ES Shading Lanuage V1.0 (PDF)</a></li>
+                    
                     
                 </ul>
             </section>
