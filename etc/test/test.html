@@ -11,6 +11,11 @@
         
         <script>
             function init() {
+                fetch("test.json")
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data.name);
+                    });
             }
             
             window.addEventListener("DOMContentLoaded", init);

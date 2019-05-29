@@ -2,6 +2,8 @@
 
 <span class="constant">AAA</span>
 
+<span class="class-name">AAA</span>
+
 <span class="function-name">AAA</span>
 
 <span class="htmltag">AAA</span>

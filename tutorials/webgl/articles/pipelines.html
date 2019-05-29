@@ -6,6 +6,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
+        <link rel="shortcut icon" href="../../../images/png/WebGL-Logo.png" type="image/png" />
+        
         <link rel="stylesheet" href="../../../css/style.css">
         <link rel="stylesheet" href="../../../css/document.css">
         
@@ -48,7 +50,7 @@ gl.drawArrays(gl.TRIANGLES, 0, 3);  // intent: use the array data in vertices to
 </pre>
                 <p>The synopsis of the <span class="function-name">drawArrays</span> is as followed.</p>
                 <pre>void drawArrays(GLenum mode, GLint first, GLsizei count)</pre>
-                <p><span class="parameter">mode</span> specifies the kind of primitives. Accepted constants are gl.<span class="constant">POINTS</span>, gl.<span class="constant">LINE_STRIP</span>, gl.<span class="constant">LINE_LOOP</span>, gl.<span class="constant">LINES</span>, gl.<span class="constant">TRIANGLE_STRIP</span>, gl.<span class="constant">LINE_FAN</span>, and  gl.<span class="constant">TRIANGLES</span>, where gl is an instance of the WebGLRenderingContext.</p>
+                <p><span class="parameter">mode</span> specifies the kind of primitives. Accepted constants are gl.<span class="constant">POINTS</span>, gl.<span class="constant">LINE_STRIP</span>, gl.<span class="constant">LINE_LOOP</span>, gl.<span class="constant">LINES</span>, gl.<span class="constant">TRIANGLE_STRIP</span>, gl.<span class="constant">LINE_FAN</span>, and  gl.<span class="constant">TRIANGLES</span>, where <span class="variable-name">gl</span> is an instance of the <span class="class-name">WebGLRenderingContext</span>.</p>
                 <p><span class="parameter">first</span> specifies the starting index of the array.</p>
                 <p><span class="parameter">count</span> specifies the number of vertices to be rendered.</p>
                 <p>There are 3 points in vertices array data. Each point has a pair of array elements. From the first point, which starting index is 0, fetches altogether 3 vertices to draw triangles. In this situation, 3 vertices would compose only 1 triangle.</p>
@@ -72,7 +74,7 @@ var vertices = [
 
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 </pre>
-                <p>Notice the first argument of the <span class="function-name">bufferData</span> is gl.ARRAY_BUFFER. 
+                <p>Notice the first argument of the <span class="function-name">bufferData</span> is gl.<span class="constant">ARRAY_BUFFER</span>. 
 This is the specific buffer binding target where the WebGL would fetch the array data. 
 So after we created a buffer, we bind the buffer to the target gl.ARRAY_BUFFER. 
 <span class="function-name">bufferData</span> connects the buffer with gl.ARRAY_BUFFER via putting the latter as its first argument.
@@ -95,8 +97,8 @@ So the array data from the vertices would be copied to the GPU's buffer.</p>
             <section class="chapter">
                 <h1>Coming the Shaders</h1>
                 <p>When we issue the drawing method, again, WebGL would never fetch the data directly from the buffer. 
-                    Rather, it would ask the <em>shaders</em> to provide the corresponding informations.</p>
-                <p>There are several shaders in WebGL. Among them, vertex shader and fragment shader are two shaders which are compulsory in each WebGL application, while other shaders are optional.</p>
+                    Rather, it would ask the <em>shaders</em> to provide the corresponding informations. Shaders are executed on the <em>GPU</em>, so their speed are extremely fast.</p>
+                <p>There are several shaders in WebGL. Among of them, vertex shader and fragment shader are two shaders which are mandatory in each WebGL application, while other shaders are optional.</p>
                 <p>Put in simplified, vertex shader deals with the positions of vertices, while fragment deals with the colors of vertices.</p>
                 <p>The following driagram illustrates how WebGL fetch the data from the vertex shader and fragment shader to render the final image.</p>
                 <object type="image/svg+xml" data="images/svg/shaders.svg"></object>
@@ -106,7 +108,7 @@ gl.drawArrays(gl.TRIANGLES, 0, 3);
 </pre>
                 <p>We tells WebGL to fetch 3 vertex components, starting from index 0, to construct a triangle. 
 Each component contains 2 array elments, relating to the X axis and Y axis coordinate.</p>
-                <p>In deciding the first vertex, the first two array elements, [0.0, 0.5] will be passed to the vertex shader, and be assigned to the special variable <span class="variable-name">gl_Position</span>. To achive this, we can code like this using Shading Language:</p>
+                <p>In deciding the first vertex, the first two array elements, [0.0, 0.5] will be passed to the vertex shader, and be assigned to the special variable <span class="variable-name">gl_Position</span>. To achive this, we can code like this using <em>GLSL</em>(OpenGL Shading Language):</p>
                 <pre class="highlight">
 attribute vec4 vPosition;
 
@@ -287,14 +289,14 @@ gl.program = prepareProgram("vshader", "fshader");
                     <pre class="highlight">
 var vertexAttribs = gl.getParameter(gl.MAX_VERTEX_ATTRIBS);    // 16 in Safari V11.1
 </pre>
-                    <p>In the diagram, <span class="variable-name">gl_Position</span> acts as a pointer, pointing to the active attribute, indicating by the dashed green arrow pointer. It is the data in this active attribute will be transfered to the fragment shader, indicating by te red arrow pointer.</p>
+                    <p>In the diagram, <span class="variable-name">gl_Position</span> acts as a pointer, pointing to the active attribute, indicating by the dashed green arrow pointer. It is the data in this active attribute will be transfered to the fragment shader, indicating by the red arrow pointer.</p>
                     <p>By default, all generic vertex attribute arrays are disabled. So, we should enable the generic vertex attribute array like this:</p>
                     <pre class="highlight">
 var location = gl.getAttribLocation(gl.program, "vPosition");
 gl.enableVertexAttribArray(location);
 </pre>
                     <p><span class="function-name">enableVertexAttribArray</span> method enables the vertex attribute at index as an array. If enabled, the values in the generic vertex attribute array will be accesed when rendering.</p>
-                    <p>If we try to enable a not active attribute, error would occur.</p>
+                    <p>If we try to enable an attribute which is not active , error would occur.</p>
                     <p>An attribute variable is considered active if it is determined during the link operation that it may be accessed during program execution.</p>
                     <pre class="highlight">
 attribute vec4 vPosition;
@@ -348,6 +350,7 @@ gl.enableVertexAttribArray(indexTest);    // since vTest is active, OK this time
                     <li><a href="https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glDrawArrays.xml" target="_blank">glDrawArrays</a></li>
                     <li><a href="https://www.w3.org/TR/SVG11/" target="_blank">SVG 1.1 Specification</a></li>
                     <li><a href="https://www.iana.org/assignments/media-types/media-types.xhtml" target="_blank">Media Types</a></li>
+                    <li><a href="https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.4.50.pdf" target="_blank">The OpenGL Shading Lanuage (PDF)</a></li>
                     
                 </ul>
             </section>

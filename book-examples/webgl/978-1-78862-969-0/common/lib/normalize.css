@@ -214,3 +214,7 @@ tr {
 #info ul {
   margin: 5px 20px;
 }
+
+select option {
+    color: black;
+}

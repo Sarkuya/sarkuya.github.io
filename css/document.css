@@ -183,7 +183,12 @@ article span.function-name {
 }
 
 article span.variable-name {
-    color: darksalmon;
+    color: blue;
+}
+
+article span.class-name {
+    color: brown;
+    font-weight: bold;
 }
 
 article span.attribute-name {
@@ -254,6 +259,7 @@ code {
 
 p em {
     color: orchid;
+    font-weight: bold;
 }
 
 /* -------------------- tabpanel -------------------- */
