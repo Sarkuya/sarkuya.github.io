@@ -286,6 +286,11 @@ gl.program = prepareProgram("vshader", "fshader");
 </pre>
                     <p>Here, the keyword "<em>attribute</em>" is called <em>storage qualifier</em>, which means such variables can store data which values could be transfered from outside the vertex shader.</p>
                     <p>In all shaders, only vertex shader has attribute variables.</p>
+                    
+                    <img src="images/svg/shader-attribute-1.svg" alt="Shader Attributes" />
+                    
+                    
+                    
                     <p>The numbers of vertex attributes are limited in each implementation. We can query the max vertex attributes numbers by passing the gl.<span class="constant">MAX_VERTEX_ATTRIBS</span> constant to the <span class="function-name">getParameter</span> method.</p>
                     <pre class="highlight">
 var vertexAttribs = gl.getParameter(gl.MAX_VERTEX_ATTRIBS);    // 16 in Safari V11.1
