@@ -273,11 +273,16 @@ gl.program = prepareProgram("vshader", "fshader");
                     <p>Buffers are memory areas managed by WebGL system, which are located in the ordinary memory. If we can transfer the data in buffers to GPU's memories, and process graphics-relating tasks such as lighting computing in GPU to leverage the full capabilities of GPU, that would be a better solution in performance. WebGL adopts such a solution in its rendering pipelines.</p>
                     <p>In shading language, attribute variables are such ones that can accept and store the data from outside the GPU. Each attribute variable points to a small block of memory spaces allocated in GPU. The diagram below illustrates this.</p>
                     <img src="images/svg/shader-attribute-1.svg" alt="Shader Attributes" />
-                    <p>We can see that, each attriute variable has an index, 4 components, a name, and a flag that indicates whether it is enabled as an array.</p>
+                    <p>We can see that, each attribute variable has an index, 4 components, a name, and a flag that indicates whether it is enabled as an array.</p>
                     
+                    
+                    <p>The numbers of vertex attributes are limited in each implementation. We can query the max vertex attributes numbers by passing the gl.<span class="constant">MAX_VERTEX_ATTRIBS</span> constant to the <span class="function-name">getParameter</span> method.</p>
+                    <pre class="highlight">
+var vertexAttribs = gl.getParameter(gl.MAX_VERTEX_ATTRIBS);    // 16 in Safari V11.1
+</pre>
+                    <p>In all shaders, only vertex shader has attribute variables.</p>
                     
                 </section>
-                
                 
                 <section>
                     <h1>Index and Name</h1>
@@ -293,20 +298,24 @@ gl.program = prepareProgram("vshader", "fshader");
     }
 &lt;/script&gt;
 </pre>
-                    <p>Here, the keyword "<em>attribute</em>" is called <em>storage qualifier</em>, which means such variables can store data which values could be transfered from outside the vertex shader.</p>
-                    <p>In all shaders, only vertex shader has attribute variables.</p>
-                    
-                    <p>The numbers of vertex attributes are limited in each implementation. We can query the max vertex attributes numbers by passing the gl.<span class="constant">MAX_VERTEX_ATTRIBS</span> constant to the <span class="function-name">getParameter</span> method.</p>
+                    <p>Here, the keyword "<em>attribute</em>" is called <em>storage qualifier</em>. Its type is vec4, and its name is "vPosition". With this declaration, the WebGL' states turns into:</p>
+                    <img src="images/svg/shader-attribute-2.svg" alt="Shader Attributes" />
+                    <p>It means that the first attribute space, which index is 0, will be reserved for 'vPosition' variable.</p>
+                    <p>From the view of the code, we know there is a attribute named 'vPosition', while we don't know the exact index of it. By invoking the gl.getAttribLocation method, we can get its index.</p>
                     <pre class="highlight">
-var vertexAttribs = gl.getParameter(gl.MAX_VERTEX_ATTRIBS);    // 16 in Safari V11.1
+var index = gl.getAttribLocation(gl.program, "vPosition");
 </pre>
+                    
+                    
+                    
+                    
                     
                 </section>
                 
                 
                 <section>
                     <h1>Four Componets in an Attribute</h1>
-                    <p>Normally, we declare attributes to store the data of position, color, normal, texture cocordinte and matrix. All of these data have max 4 compoments. To reflect with this, each attribute has 4 components. For position, color, normal and texture coordiante, each component has a floating-point value. As for the matrix, we have kinds of mat4, mat3, and mat2. A mat4 would use up 4 attribute variable location, a mat3 would use up 3 attrbute variable location, and a mat2 would use up 2 attribute variable location.</p>
+                    <p>Normally, we declare attributes to store the data of position, color, normal, texture cocordinte and matrix. All of these data have max 4 compoments. To reflect with this, each attribute has 4 components. For position, color, normal and texture coordinate, each component has a floating-point value. As for the matrix, we have kinds of mat4, mat3, and mat2. A mat4 would use up 4 attribute variable location, a mat3 would use up 3 attrbute variable location, and a mat2 would use up 2 attribute variable location.</p>
                 </section>
                 
                 <section>
@@ -337,13 +346,14 @@ void main()
                     
                     <section>
                         <h1>Enable the Attribute as an Array</h1>
-                        <p>Since <span class="variable-name">vPosition</span> is about to be accessed to assign values to <span class="variable-name">gl_Position</span>, it should have its value before that. As we said before that being an attribute, <span class="variable-name">vPosition</span> has 4 floating components. We should turn these 4 components into an array if it is about to accept data from a buffer which is in a form of array for the efficiency. And that's why <span class="function-name">glDrawArrays</span> is so named: it would fetch data from arrays to render images.</p>
+                        <p>Since <span class="variable-name">vPosition</span> is about to be accessed to assign values to <span class="variable-name">gl_Position</span>, it should have its value set before that. As we said before that being an attribute, <span class="variable-name">vPosition</span> has 4 floating components. We should turn these 4 components into an array if it is about to accept data from a buffer which is in a form of array for the efficiency. And that's why <span class="function-name">glDrawArrays</span> is so named: it would fetch data from arrays to render images.</p>
                         <p>By default, all generic vertex attribute arrays are disabled. So, we should enable the generic vertex attribute array like this:</p>
                         <pre class="highlight">
 var index = gl.getAttribLocation(gl.program, "vPosition");
 gl.enableVertexAttribArray(index);
 </pre>
-                        <p>Each attribute has a index, which we can get by invoking the gl's method <span class="function-name">getAttribLocation</span>.</p>
+                        <img src="images/svg/shader-attribute-3.svg" alt="Shader Attributes" />
+                        
                         <p><span class="function-name">enableVertexAttribArray</span> method enables the vertex attribute at index as an array. If enabled, the values in the generic vertex attribute array will be accesed when rendering.</p>
                         <p>If we try to enable an attribute which is not active , error would occur.</p>
                     </section>
