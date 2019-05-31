@@ -271,8 +271,17 @@ gl.program = prepareProgram("vshader", "fshader");
                 <section>
                     <h1>What are Shader's Attributes</h1>
                     <p>Buffers are memory areas managed by WebGL system, which are located in the ordinary memory. If we can transfer the data in buffers to GPU's memories, and process graphics-relating tasks such as lighting computing in GPU to leverage the full capabilities of GPU, that would be a better solution in performance. WebGL adopts such a solution in its rendering pipelines.</p>
+                    <p>In shading language, attribute variables are such ones that can accept and store the data from outside the GPU. Each attribute variable points to a small block of memory spaces allocated in GPU. The diagram below illustrates this.</p>
+                    <img src="images/svg/shader-attribute-1.svg" alt="Shader Attributes" />
+                    <p>We can see that, each attriute variable has an index, 4 components, a name, and a flag that indicates whether it is enabled as an array.</p>
                     
                     
+                </section>
+                
+                
+                <section>
+                    <h1>Index and Name</h1>
+                    <p></p>
                     <p>We coded for the vertex shader as followed before:</p>
                     <pre class="highlight">
 &lt;script id="vshader" type="x-shader/x-vertex"&gt;
@@ -287,15 +296,13 @@ gl.program = prepareProgram("vshader", "fshader");
                     <p>Here, the keyword "<em>attribute</em>" is called <em>storage qualifier</em>, which means such variables can store data which values could be transfered from outside the vertex shader.</p>
                     <p>In all shaders, only vertex shader has attribute variables.</p>
                     
-                    <img src="images/svg/shader-attribute-1.svg" alt="Shader Attributes" />
-                    
-                    
-                    
                     <p>The numbers of vertex attributes are limited in each implementation. We can query the max vertex attributes numbers by passing the gl.<span class="constant">MAX_VERTEX_ATTRIBS</span> constant to the <span class="function-name">getParameter</span> method.</p>
                     <pre class="highlight">
 var vertexAttribs = gl.getParameter(gl.MAX_VERTEX_ATTRIBS);    // 16 in Safari V11.1
 </pre>
+                    
                 </section>
+                
                 
                 <section>
                     <h1>Four Componets in an Attribute</h1>
