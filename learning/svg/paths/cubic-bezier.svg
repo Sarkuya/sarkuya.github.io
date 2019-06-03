@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+                     "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     width="400" height="400">
+
+    <title>Cubic Bezier Curve Demo</title>
+    
+    <script type="application/ecmascript" xlink:href="../../../js/svg-grid.js"></script>
+    
+    <script type="application/ecmascript">
+        function Point(x, y) {
+            return {x: x, y: y};
+        }
+        
+        function init() {
+            svgBkGrid.setupGrid(40);
+        
+            var startPt = Point(120, 100);
+            var ctrlPt1 = Point(120, 60);
+            var ctrlPt2 = Point(320, 40);
+            var endPt = Point(200, 80);
+        
+            drawCurve(startPt, ctrlPt1, ctrlPt2, endPt);
+        }
+        
+        function drawCurve(startPt, ctrlPt1, ctrlPt2, endPt) {
+            var curvePath = document.getElementById("curve-path");
+            var pathData = `M ${startPt.x} ${startPt.y} C ${ctrlPt1.x} ${ctrlPt1.y} ${ctrlPt2.x} ${ctrlPt2.y} ${endPt.x} ${endPt.y}`;
+            curvePath.setAttribute("d", pathData);
+        
+            document.getElementById("connect-line1").setAttribute("points", `${startPt.x} ${startPt.y} ${ctrlPt1.x} ${ctrlPt1.y}`);
+            document.getElementById("connect-line2").setAttribute("points", `${endPt.x} ${endPt.y} ${ctrlPt2.x} ${ctrlPt2.y}`);
+        
+            document.getElementById("start-pt").cx.baseVal.value = startPt.x;
+            document.getElementById("start-pt").cy.baseVal.value = startPt.y;
+        
+            document.getElementById("end-pt").cx.baseVal.value = endPt.x;
+            document.getElementById("end-pt").cy.baseVal.value = endPt.y;
+        
+            var ctrlPt1Ele = document.getElementById("ctrl-pt1");
+            ctrlPt1Ele.cx.baseVal.value = ctrlPt1.x;
+            ctrlPt1Ele.cy.baseVal.value = ctrlPt1.y;
+        
+            var ctrlPt2Ele = document.getElementById("ctrl-pt2");
+            ctrlPt2Ele.cx.baseVal.value = ctrlPt2.x;
+            ctrlPt2Ele.cy.baseVal.value = ctrlPt2.y;
+        }
+        
+        window.addEventListener("load", init);
+    </script>
+    
+    <defs>
+        <style type="text/css"><![CDATA[
+            svg {
+                border: 1px solid #ccc;
+            }
+            
+            circle.edge-point {
+                r: 2;
+                fill: red;
+                stroke: none;
+            }
+            
+            circle.control-point {
+                r: 2;
+                fill: blue;
+                stroke: none;
+            }
+            
+            polyline.connect {
+                stroke: #ccc;
+            }
+        ]]></style>
+    </defs>
+
+    <g>
+        <use xlink:href="#whole-grid" />
+        
+        <path d="M 100 100
+                 C 100 20
+                   200 80 
+                   200 100"
+              stroke="black" fill="none" id="curve-path" />
+        
+        <polyline points="100 100 200 200 " class="connect" id="connect-line1" />
+        <polyline points="100 100 200 200 " class="connect" id="connect-line2" />
+        
+        <circle cx="100" cy="100" class="edge-point" id="start-pt" />
+        
+        <circle cx="100" cy="20" class="control-point" id="ctrl-pt1" />
+        <circle cx="200" cy="80" class="control-point" id="ctrl-pt2" />
+        
+        <circle cx="200" cy="100" class="edge-point" id="end-pt" />
+        
+        
+    </g>
+</svg>

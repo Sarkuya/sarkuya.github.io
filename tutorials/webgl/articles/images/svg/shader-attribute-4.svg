@@ -6,7 +6,7 @@
 <svg xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink"
      version="1.1"
-     width="660" height="400">
+     width="660" height="420">
 
     <title>Vertex Shader Details</title>
     
@@ -81,7 +81,7 @@
                 stroke: #aaa;
             }
             
-            g.red-arrow {
+            g.red-arrow path {
                 stroke: hsla(0, 75%, 50%, 0.9);
                 fill: none;
                 stroke-width: 3px;
@@ -324,6 +324,14 @@
                 <path d="M 310 40 h 20 v 40 h 20" marker-end="url(#red-arrow-end-marker)" />
             </g>
         </g>
+        
+        <path d="M 0 -5 q 0 -20 20 -20 l 40 0 q 16 -1 20 -15"
+            stroke="black" fill="none" id="left-up-brace" />
+        
+        <g id="up-brace">
+            <use x="0" y="0" xlink:href="#left-up-brace" />
+            <use x="0" y="0" xlink:href="#left-up-brace" transform="translate(160, 0), scale(-1, 1)" />
+        </g>
     </defs>
 
     <g>
@@ -346,5 +354,38 @@
         <use x="160" y="40" xlink:href="#vertex-shader-detail" />
         
         <use x="20" y="300" xlink:href="#buffer-array-data" />
+        
+        
+        
+        <text x="40" y="275">position</text>
+        <use x="0" y="0" xlink:href="#up-brace" transform="scale(0.2, 0.2), translate(120, 1460)" stroke-width="4" />
+        
+        <text x="90" y="275">color</text>
+        <use x="0" y="0" xlink:href="#up-brace" transform="scale(0.3, 0.2), translate(220, 1460)" stroke-width="4" />
+        
+        <text x="140" y="275">position</text>
+        <use x="0" y="0" xlink:href="#up-brace" transform="scale(0.2, 0.2), translate(620, 1460)" stroke-width="4" />
+        
+        <text x="190" y="275">color</text>
+        <use x="0" y="0" xlink:href="#up-brace" transform="scale(0.3, 0.2), translate(560, 1460)" stroke-width="4" />
+        
+        <text x="240" y="275">position</text>
+        <use x="0" y="0" xlink:href="#up-brace" transform="scale(0.2, 0.2), translate(1120, 1460)" stroke-width="4" />
+        
+        <text x="290" y="275">color</text>
+        <use x="0" y="0" xlink:href="#up-brace" transform="scale(0.3, 0.2), translate(880, 1460)" stroke-width="4" />
+        
+        
+        
+        <use x="0" y="0" xlink:href="#up-brace" transform="scale(0.5, -0.5), translate(60, -670)" stroke-width="2" />
+        <text x="70" y="360">vertex 1</text>
+        
+        <use x="0" y="0" xlink:href="#up-brace" transform="scale(0.5, -0.5), translate(260, -670)" stroke-width="2" />
+        <text x="170" y="360">vertex 2</text>
+        
+        <use x="0" y="0" xlink:href="#up-brace" transform="scale(0.5, -0.5), translate(460, -670)" stroke-width="2" />
+        <text x="270" y="360">vertex 3</text>
+        
+        
     </g>
 </svg>

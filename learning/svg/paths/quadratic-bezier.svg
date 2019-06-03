@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+                     "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     width="400" height="400">
+
+    <title>Quadratic Bezier Curve Demo</title>
+    
+    <script type="application/ecmascript" xlink:href="../../../js/svg-grid.js"></script>
+    
+    <script type="application/ecmascript">
+        function Point(x, y) {
+            return {x: x, y: y};
+        }
+        
+        function init() {
+            svgBkGrid.setupGrid(40);
+        
+            var startPt = Point(120, 100);
+            var ctrlPt = Point(120, 60);
+            var endPt = Point(160, 60);
+        
+            drawCurve(startPt, ctrlPt, endPt);
+        }
+        
+        function drawCurve(startPt, ctrlPt, endPt) {
+            var curvePath = document.getElementById("curve-path");
+            var pathData = `M ${startPt.x} ${startPt.y} Q ${ctrlPt.x} ${ctrlPt.y} ${endPt.x} ${endPt.y} l 40 0`;
+            curvePath.setAttribute("d", pathData);
+        
+            document.getElementById("connect-lines").setAttribute("points", `${startPt.x} ${startPt.y} ${ctrlPt.x} ${ctrlPt.y} ${endPt.x} ${endPt.y}`);
+        
+            document.getElementById("start-pt").cx.baseVal.value = startPt.x;
+            document.getElementById("start-pt").cy.baseVal.value = startPt.y;
+        
+            document.getElementById("end-pt").cx.baseVal.value = endPt.x;
+            document.getElementById("end-pt").cy.baseVal.value = endPt.y;
+        
+            var ctrlPtEle = document.getElementById("ctrl-pt");
+            ctrlPtEle.cx.baseVal.value = ctrlPt.x;
+            ctrlPtEle.cy.baseVal.value = ctrlPt.y;
+        }
+        
+        window.addEventListener("load", init);
+    </script>
+    
+    <defs>
+        <style type="text/css"><![CDATA[
+            svg {
+                border: 1px solid #ccc;
+            }
+            
+            circle.edge-point {
+                r: 2;
+                fill: red;
+                stroke: none;
+            }
+            
+            circle.control-point {
+                r: 2;
+                fill: blue;
+                stroke: none;
+            }
+            
+            polyline.connect {
+                stroke: #ccc;
+                fill: none;
+            }
+            
+            
+        ]]></style>
+        
+        <path d="M 0 -5 q 0 -20 20 -20 l 40 0 q 16 -1 20 -15"
+            stroke="black" fill="none" id="left-up-brace" />
+        
+        <g id="up-brace">
+            <use x="0" y="0" xlink:href="#left-up-brace" />
+            <use x="0" y="0" xlink:href="#left-up-brace" transform="translate(160, 0), scale(-1, 1)" />
+        </g>
+        
+    </defs>
+
+    <g>
+        <use xlink:href="#whole-grid" />
+        
+        <path d="M 100 100
+                 C 100 20
+                   200 80 
+                   200 100"
+              stroke="black" fill="none" id="curve-path" />
+        
+        <polyline points="100 100 200 200 " class="connect" id="connect-lines" />
+        
+        <circle cx="100" cy="100" class="edge-point" id="start-pt" />
+        
+        <circle cx="100" cy="20" class="control-point" id="ctrl-pt" />
+        
+        <circle cx="200" cy="100" class="edge-point" id="end-pt" />
+        
+        
+        <rect x="100" y="300" width="100" height="20" stroke="black" fill="none" />
+        
+        <!--<use x="100" y="300" xlink:href="#up-brace" transform="scale(0.6, 0.6), translate(70, 190)" stroke-width="1" />-->
+        
+        
+        <use x="0" y="0" xlink:href="#up-brace" transform="scale(0.61, 0.5), translate(166, 590)" stroke-width="1" />
+        
+        
+    </g>
+</svg>
