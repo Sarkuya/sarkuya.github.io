@@ -111,6 +111,12 @@ article>section>section>section>h1 {
     font-size: medium;
 }
 
+article>section>section>section>section>h1 {
+    font-weight: bold;
+    font-size: medium;
+    color: black;
+}
+
 article section p {
     color: #0f0f0f;
 }

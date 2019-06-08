@@ -79,6 +79,27 @@ This is the specific buffer binding target where the WebGL would fetch the array
 So after we created a buffer, we bind the buffer to the target gl.ARRAY_BUFFER. 
 <span class="function-name">bufferData</span> connects the buffer with gl.ARRAY_BUFFER via putting the latter as its first argument.
 So the array data from the vertices would be copied to the GPU's buffer.</p>
+                <p>The second argument of the <span class="function-name">bufferData</span> is of type TypedArray.</p>
+                <table>
+                    <thead>
+                        <tr><th>Name</th><th>Type</th><th>Element Size (in bytes)</th><th>Equivalent C Type</th><th>Range</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Int8Array</td><td>Integer</td><td>1</td><td>singed char</td><td>[-128, 127]</td></tr>
+                        <tr><td>Uint8Array</td><td>Integer</td><td>1</td><td>unsinged char</td><td>[0, 255]</td></tr>
+                        <tr><td>Uint8ClampedArray</td><td>Integer</td><td>1</td><td>unsinged char</td><td>[0, 255]</td></tr>
+                        
+                        <tr><td>Int16Array</td><td>Integer</td><td>2</td><td>short</td><td>[-32768, 32767]</td></tr>
+                        <tr><td>Uint16Array</td><td>Integer</td><td>2</td><td>unsigned short</td><td>[0, 65535]</td></tr>
+                        
+                        <tr><td>Int32Array</td><td>Integer</td><td>4</td><td>int</td><td>[-2147483648, 2147483647]</td></tr>
+                        <tr><td>Uint32Array</td><td>Integer</td><td>4</td><td>unsigned int</td><td>[0, 4294967295]</td></tr>
+                        
+                        <tr><td>Float32Array</td><td>Floating</td><td>4</td><td>float</td><td>[1.17549e-38, 3.40282e+38]</td></tr>
+                        <tr><td>Float64Array</td><td>Floating</td><td>8</td><td>double</td><td>[2.22507e-308, 1.79769e+308]</td></tr>
+                    </tbody>
+                </table>
+                
                 <p>Then when we issue the drawing method, WebGL konws it should get the vertex data from the buffer to render the image.</p>
 
                 <object type="image/svg+xml" data="images/svg/pipelines.svg"></object>
@@ -347,6 +368,7 @@ gl.enableVertexAttribArray(index);
                         <img src="images/svg/shader-attribute-3.svg" alt="Shader Attributes" />
                         
                         <p><span class="function-name">enableVertexAttribArray</span> method enables the vertex attribute at index as an array. Only when the attribute is enabled, would the values in the generic vertex attribute array be accesed when rendering.</p>
+                        <p><span class="function-name">drawArrays</span> would require a specific vertex attrubte enabled just before invoking it. So the invokation of <span class="function-name">enableVertexAttribArray</span> can be defered anywhere just before the invokation of <span class="function-name">drawArrays</span>.</p>
                         <p>If we try to enable an attribute which is not active , error would occur.</p>
                     </section>
                     
@@ -365,7 +387,7 @@ gl.enableVertexAttribArray(index);
                         <p>Second, the data from the buffer might contain more than merely the vertices's position data, like this:</p>
                         <pre class="highlight">
 var vertices = [
-   //position      color          
+   //positions     colors        
      0.0,  0.5,    1.0, 0.0, 0.0,
     -0.5, -0.5,    0.0, 1.0, 0.0,
      0.5, -0.5,    0.0, 0.0, 1.0
@@ -373,16 +395,14 @@ var vertices = [
 </pre>
                         <p>Since vertex shader cares about only the vertice's position, we should tell WebGL how to fetch the vertice's position out of such mixed array buffer.</p>
                         <p><span class="function-name">vertexAttribPointer</span> serves for this purpose as well, specified in its arguments.</p>
-                        <p>The synopsis of the <span class="function-name">vertexAttribPointer</span>:</p>
-                        <pre>void vertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normailized, GLsizei stride, GLintptr offset)</pre>
                         <p>Let's take the mixed vertices in example to illustrate the functionality of <span class="function-name">vertexAttribPointer</span> first, and then a vertex of pure positions, since the first is a better demo than the latter.</p>
-                        <p>Put the previous relavant codes here again:</p>
-                                                <pre class="highlight">
+                        <p>Put the previous relevant codes here again:</p>
+                        <pre class="highlight">
 var buffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 
 var vertices = [
-   //position      color          
+   //positions     colors    
      0.0,  0.5,    1.0, 0.0, 0.0,
     -0.5, -0.5,    0.0, 1.0, 0.0,
      0.5, -0.5,    0.0, 0.0, 1.0
@@ -399,18 +419,318 @@ gl.vertexAttribPointer(index, 2, gl.FLOAT, false, 0, 0);
                         <p><span class="function-name">vertexAttribPointer</span> is a bridge that connects with 2 ends. As the codes above shows, one end is the buffer we created and bound to the gl.<span class="constant">ARRAY_BUFFER</span> before, and the other end is <span class="variable-name">vPosition</span>. So, by using <span class="function-name">vertexAttribPointer</span>, we tell WebGL where to fetch the data, and where to transfer.</p>
                         
                         <p>We can invoke <span class="function-name">getVertexAttrib</span> to query informations.</p>
+                        
+                        <section>
+                            <h1>Buffer Data in Details</h1>
+                            <p>For the codes:</p>
+                            <pre class="highlight">
+var buffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+
+var vertices = [
+   //positions     colors    
+     0.0,  0.5,    1.0, 0.0, 0.0,
+    -0.5, -0.5,    0.0, 1.0, 0.0,
+     0.5, -0.5,    0.0, 0.0, 1.0
+];
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+</pre>
+                            <p>The memory allocation for the buffer is as followed:</p>
+                            <img src="images/svg/buffer-memory-allocation.svg" alt="Buffer Memory Allocation" />
+                            <p>There are altogether 3 vertices in the buffer. Each vertex contains information of positons and colors. The elements for the positions are filled with green background color and the ones for the colors are filled with light blue.</p>
+                            <p>Since we declare only one attribute -- 'aPosition' in the vertex shader, WebGL cares about only the positions information. So, how can we tell WebGL to extract the positions data from such an array? We do this by invoking <span class="function-name">vertexAttribPointer</span> method. It assigns the buffer object currently bound to ARRAY_BUFFER target to a specific vertex attribute and specify the rules on how to extract the relevant data.</p>
+                            <p>The synopsis of the <span class="function-name">vertexAttribPointer</span>:</p>
+                            <pre>void vertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLintptr offset)</pre>
+                            <p>We show the codes first and then explain.</p>
+                            <pre>
+var index = gl.getAttribLocation(gl.program, "vPosition");
+gl.vertexAttribPointer(index, 2, gl.FLOAT, false, Float32Array.BYTES_PER_ELEMENT * 5, 0);
+</pre>
+                            <p>The first parameter <span class="parameter">index</span> connects with the buffer and the vertex attribute. With this connection, the data would be transfered from the buffer to the vertex attribute.</p>
+                            <p>Since the data type of the buffer is Float32Array, we specify GLenum 'FLOAT' for the parameter <span class="parameter">type</span>. For other typed arrays and their relevant GLenum type, see below.</p>
+                            <table>
+                                <thead>
+                                    <tr><th>TypedArray</th><th>GLenum</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Int8Array</td><td>BYTE</td></tr>
+                                    <tr><td>Uint8Array</td><td>UNSIGNED_BYTE</td></tr>
+                                    <tr><td>Uint8ClampedArray</td><td>UNSIGNED_BYTE</td></tr>
+
+                                    <tr><td>Int16Array</td><td>SHORT</td></tr>
+                                    <tr><td>Uint16Array</td><td>UNSIGNED_SHORT</td></tr>
+
+                                    <tr><td>Int32Array</td><td>INT</td></tr>
+                                    <tr><td>Uint32Array</td><td>UNSIGNED_INT</td></tr>
+
+                                    <tr><td>Float32Array</td><td>FLOAT</td></tr>
+                                    <tr><td>Float64Array</td><td>FLOAT</td></tr>
+                                </tbody>
+                            </table>
+                            <p>Parameter <span class="parameter">size</span>, <span class="parameter">stride</span> and <span class="parameter">offset</span> is illustrated in the following dragram.</p>
+                            <img src="images/svg/vertexAttribPointer-diagram.svg" alt="vertexAttribPointer-diagram" />
+                            <p><span class="parameter">offset</span> tells where to start to fetch data. Here, we specify '0' for it, telling WebGL that it should start from the element indexed with 0.</p>
+                            <p><span class="parameter">size</span> tells how many elements to fetch once upon a time to feed the vertex attribute 'aPosition'. Since we use only 2 floats to represent a vertex position, we specify '2' for the <span class="parameter">size</span>. Then only 2 elements in the array would be fetched at a time. So, [0.0, 0.5] would be fetched at the first time.</p>
+                            <p>The next 3 elements are about color information, and should not be fetched to 'aPosition'. They should be skipped each time. As the diagram shown above, we need to tell WebGL that each vertex contains 5 elements, using the parameter <span class="parameter">stride</span>. If such information is provided, WebGL would know how to fetch the position data for second vertex - it just simply skips the next 3 elements.</p>
+                            <p><span class="parameter">stride</span> and <span class="parameter">offset</span> should be specified in units of bytes. Since <span class="parameter">stride</span> covers 5 elements, and each element has bytes of Float32Array.BYTES_PER_ELEMENT, we can calculate the total bytes of these 5 elements:</p>
+                            <pre>
+Float32Array.BYTES_PER_ELEMENT * 5
+</pre>
+                            <p>And this value is thus specified for <span class="parameter">stride</span>.</p>
+                            <p><span class="parameter">normalized</span> tells WebGL whether the data should be converted (normalized) in range [-1, 1]. The coordinate values we use here, such as [0.0, 0.5], are alreay in range [-1, 1], so we needn't the convertion by setting the value of <span class="parameter">normalized</span> with 'false'.</p>
+                            <p>Back to the situation that vertices contains only position information:</p>
+                            <pre>
+var vertices = [
+   //only positions, no colors  
+     0.0,  0.5,
+    -0.5, -0.5,
+     0.5, -0.5
+];</pre>
+                            <p>We specify '0' for <span class="parameter">stride</span>, meaning the data are tightly packed in the array. :</p>
+                            <pre>
+gl.vertexAttribPointer(index, 2, gl.FLOAT, false, 0, 0);
+</pre>
+                            <p>Now, WebGL has the sufficient information on how to fetch position data from the buffer, and knows well which vertex attribute to transfer the data to.</p>
+                        </section>
+                        
                     </section>
                 </section>
+            </section>
+            
+            <section class="chapter">
+                <h1>Pipelines: a Big Picture</h1>
+                <p>Now, time to put all these in a big picture. We will follow each key step and draw the according WebGL state step by step.</p>
+                <p>1. Program and Shaders</p>
+                <pre>
+&lt;script id="vshader" type="x-shader/x-vertex"&gt;
+    attribute vec4 vPosition;
+
+    void main()
+    {
+        gl_Position = vPosition;
+    }
+&lt;/script&gt;
+
+&lt;script id="fshader" type="x-shader/x-fragment"&gt;
+    precision mediump float;
+
+    void main()
+    {
+        gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
+    }
+&lt;/script&gt;
+
+gl.program = prepareProgram("vshader", "fshader");
+</pre>
+                <p>Diagram:</p>
+                <img src="images/svg/pipelines-big-picture-1.svg" alt="pipelines-big-picture-1.svg" />
+                <p>We declare an attribute variable <span class="variable-name">vPosition</span> and assign its value to <span class="variable-name">gl_Position</span>. The red arrow means its data will be moved to <span class="variable-name">gl_Position</span> while rendering.</p>
+                <p>At this time, nothing points to the <span class="constant">ARRAY_BUFFER</span> and the <span class="variable-name">vPosition</span>'s state is disabled.</p>
                 
-                <section>
-                    <h1>bbb</h1>
-                    <p>Attributes has the following feafures:</p>
-                    <ul>
-                        <li>each attribute ponints to a buffer</li>
-                        <li>to let attribute has a value, should via enable it as an array driven by glDrawArray, or vertexAttrib method</li>
-                    </ul>
-                    <img src="images/svg/shader-attribute-4.svg" alt="Shader Attribute Array" />
-                </section>
+                <p>2. Client Buffer</p>
+                <pre>
+var buffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+</pre>
+                <p>Diagram:</p>
+                <img src="images/svg/pipelines-big-picture-2.svg" alt="pipelines-big-picture-2.svg" />
+                <p>We create a <span class="variable-name">buffer</span> object in the memory area managed by the WebGL and bind it to <span class="constant">ARRAY_BUFFER</span> target. Since <span class="variable-name">buffer</span> will store vertice data, it is usually called <em>VBO</em>(Vertex Buffer Object).</p>
+                <p>At this time, <span class="variable-name">buffer</span>'s contents are empty.</p>
+                
+                <p>3. Copy Data to VBO</p>
+                <pre>
+var vertices = [
+     0.0,  0.5,
+    -0.5, -0.5,
+     0.5, -0.5
+];
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+</pre>
+                <p>Diagram:</p>
+                <img src="images/svg/pipelines-big-picture-3.svg" alt="pipelines-big-picture-3.svg" />
+                <p>We declare a <span class="variable-name">vertices</span> variable in JavaScript client side, and pack the data of it into a Float32Array, and copy the data from <span class="variable-name">vertices</span> to <span class="variable-name">buffer</span>.</p>
+                <p>Note that <span class="variable-name">buffer</span> is not appeared as an argument in method <span class="function-name">bufferData</span>. Rather, <span class="function-name">bufferData</span> takes gl.<span class="constant">ARRAY_BUFFER</span> as its first argument, which means WebGL would copy data to the VBO who is bound to gl.<span class="constant">ARRAY_BUFFER</span> target. Since <span class="variable-name">buffer</span> is bound to this target, data would be copied to it.</p>
+                <p>The gray arrow here means <span class="function-name">bufferData</span> is consuming the WebGL gl.<span class="constant">ARRAY_BUFFER</span> state. So that we know clearly the bounding to gl.<span class="constant">ARRAY_BUFFER</span> would affect the result of <span class="function-name">bufferData</span>.</p>
+                <p>Now, <span class="variable-name">buffer</span> is filled with the data copied from <span class="variable-name">vertices</span>.</p>
+                
+                <p>4. Enable Veretex Attribute Array</p>
+                <pre>
+var index = gl.getAttribLocation(gl.program, "vPosition");
+gl.enableVertexAttribArray(index);
+</pre>
+                <p>Diagram:</p>
+                <img src="images/svg/pipelines-big-picture-4.svg" alt="pipelines-big-picture-4.svg" />
+                <p><span class="variable-name">vPosition</span> is now enabled as an array, satisfying with the prerequisite of <span class="function-name">drawArrays</span>.</p>
+                
+                <p>5. Rules to fetch data</p>
+                <pre>
+gl.vertexAttribPointer(index, 2, gl.FLOAT, false, 0, 0);
+</pre>
+                <p>Diagram:</p>
+                <img src="images/svg/pipelines-big-picture-5.svg" alt="pipelines-big-picture-5.svg" />
+                <p>The first argument <span class="parameter">index</span> of <span class="function-name">vertexAttribPointer</span> specifies which vertex attribute variable would be copied with the data from WebGL memory. However, it does not mention which VBO it would copy data from. Again, WebGL would look for the source from the VBO who is bound to gl.<span class="constant">ARRAY_BUFFER</span> target and thus lead the data be copied from <span class="variable-name">buffer</span> to <span class="variable-name">vPosition</span>.</p>
+                <p>The gray arrow indicates <span class="function-name">vertexAttribPointer</span> is here again consuming the WebGL gl.<span class="constant">ARRAY_BUFFER</span> state.</p>
+                <p>Note that although <span class="function-name">vertexAttribPointer</span> implicitly consumes the WebGL gl.<span class="constant">ARRAY_BUFFER</span> state, when the invokation of <span class="function-name">vertexAttribPointer</span> is finished, WebGL has constructed a full bridge connecting with <span class="variable-name">buffer</span> and <span class="variable-name">vPosition</span>. So that from now on, gl.<span class="constant">ARRAY_BUFFER</span> is not subject to be used any more for rendering later. We can bind gl.<span class="constant">ARRAY_BUFFER</span> to null here if we like:</p>
+                <pre>gl.bindBuffer(gl.ARRAY_BUFFER, null);</pre>
+                
+                <p>6. Rendering</p>
+                <pre>
+gl.drawArrays(gl.TRIANGLES, 0, 3);
+</pre>
+                <p>Rendering resulted from <span class="function-name">drawArrays</span> or <span class="function-name">drawElements</span> is nothing more than transfering the data from VBOs to vertex attributes, once per vertex, and finally to the frame buffer.</p>
+                <p>As you can see, WebGL is a state machine. Drawing in WebGL is as easy as setting the WebGL states correctly, providing the vertex data, and issuing the drawing methods.</p>
+            </section>
+            
+            <section class="chapter">
+                <h1>Yellow Triangle</h1>
+                <p>Time to turn all above into a runnable WebGL application. </p>
+                <pre>
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Yellow Triangle&lt;/title&gt;
+        &lt;meta charset="UTF-8"&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+
+        &lt;script id="vshader" type="x-shader/x-vertex"&gt;
+            attribute vec4 vPosition;
+
+            void main()
+            {
+                gl_Position = vPosition;
+            }
+        &lt;/script&gt;
+
+        &lt;script id="fshader" type="x-shader/x-fragment"&gt;
+            precision mediump float;
+
+            void main()
+            {
+                gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
+            }
+        &lt;/script&gt;
+
+        &lt;script type="text/javascript"&gt;
+            var gl;
+
+            function init() {
+                if (!window.WebGLRenderingContext) {
+                    alert("Your browser doese not support WebGL!");
+                    return;
+                }
+
+                var canvas = document.getElementById("webglcanvas");
+                gl = canvas.getContext("webgl");
+
+                if (!gl) {
+                    alert("Unable to initialize WebGL!");
+                }
+                
+                gl.program = prepareProgram("vshader", "fshader");
+                
+                var buffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                
+                var vertices = [
+                     0.0,  0.5,
+                    -0.5, -0.5,
+                     0.5, -0.5
+                ];
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+                
+                var index = gl.getAttribLocation(gl.program, "vPosition");
+                gl.enableVertexAttribArray(index);
+                gl.vertexAttribPointer(index, 2, gl.FLOAT, false, 0, 0);
+                
+                gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                
+                gl.clearColor(0.0, 0.0, 0.0, 1.0);
+                
+                render();
+            }
+            
+            function prepareProgram(vshader, fshader) {
+                var vertexShader = loadShader(gl, vshader);
+                var fragmentShader = loadShader(gl, fshader);
+
+                var program = gl.createProgram();
+
+                gl.attachShader(program, vertexShader);
+                gl.attachShader(program, fragmentShader);
+
+                gl.linkProgram(program);
+
+                var linked = gl.getProgramParameter(program, gl.LINK_STATUS);
+                if (!linked) {
+                    var error = gl.getProgramInfoLog(program);
+                    console.log("Error in program linking: " + error);
+
+                    gl.deleteProgram(program);
+                    gl.deleteProgram(fragmentShader);
+                    gl.deleteProgram(vertexShader);
+
+                    return null;
+                }
+
+                gl.useProgram(program);
+
+                return program;
+            }
+
+            function loadShader(ctx, shaderId) {
+                var shaderScript = document.getElementById(shaderId);
+
+                if (!shaderScript) {
+                    console.log("Error: shader script '" + shaderId + "' not found");
+                    return null;
+                }
+
+                var shaderType;
+
+                if (shaderScript.type === "x-shader/x-vertex")
+                    shaderType = ctx.VERTEX_SHADER;
+                else if (shaderScript.type === "x-shader/x-fragment")
+                    shaderType = ctx.FRAGMENT_SHADER;
+                else {
+                    console.log("Error: shader script '" + shaderId + "' of undefined type '" + shaderScript.type + "'");
+                    return null;
+                }
+
+                var shader = ctx.createShader(shaderType);
+
+                ctx.shaderSource(shader, shaderScript.text);
+                ctx.compileShader(shader);
+
+                var compiled = ctx.getShaderParameter(shader, ctx.COMPILE_STATUS);
+                if (!compiled) {
+                    var error = ctx.getShaderInfoLog(shader);
+                    console.log("Error compiling shader '" + shaderId + "':" + error);
+                    ctx.deleteShader(shader);
+                    return null;
+                }
+
+                return shader;
+            }
+
+            function render() {
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                
+                gl.drawArrays(gl.TRIANGLES, 0, 3);
+            }
+
+            window.addEventListener("DOMContentLoaded", init);
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Yellow Triangle&lt;/h1&gt;
+        &lt;canvas id="webglcanvas" width="500" height="500"&gt;Your browser does not support HTML5 Canvas!&lt;/canvas&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+                <p>See <a href="demos/yellow-triangle.html" target="_blank">demo</a>.</p>
+                
+
             </section>
 
             <section class="reference">

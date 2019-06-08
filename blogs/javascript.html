@@ -131,7 +131,18 @@ window.addEventListener("load", () => console.log("Hello"));
     console.log(element);
 });
 </pre>
-                
+            </section>
+            
+            <section class="chapter">
+                <h1>AJAX</h1>
+                <p></p>
+                <pre class="highlight">
+fetch("test.json")
+    .then(res => res.json())
+    .then(data => {
+        console.log(data.name);
+    });
+</pre>
             </section>
 
             <section class="chapter">
@@ -154,6 +165,8 @@ window.addEventListener("load", () => console.log("Hello"));
                         <li><a href="https://gridbyexample.com" target="_blank">Grid by Exmaple</a></li>
                         <li><a href="http://es6-features.org" target="_blank">ECMAScript6 New Features</a></li>
                         <li><a href="http://codepo8.github.io/css-fork-on-github-ribbon/" target="_blank">Pure CSS responsive "Fork me on GitHub" ribbon</a></li>
+                        <li><a href="http://www.ecma-international.org/ecma-262/6.0/index.html" target="_blank">ECMAScript 2015 Language Specification (ECMA-262, 6th Edition)</a></li>
+                        
                     </ol>
                 </section>
             </section>
