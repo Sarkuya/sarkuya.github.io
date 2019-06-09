@@ -20,6 +20,12 @@
             text-align: left;
         }
         
+        body>h2 {
+            color: brown;
+            font-size: xx-large;
+            text-align: center;
+        }
+        
         .subject {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -98,7 +104,7 @@
         <h1>WebGL Tutorial</h1>
         <p class='authorinfo'>Sarkuya, <time>2019-05-17</time></p>
         
-        <h2>Simple WebGL App</h2>
+        <h2>WebGL Application Template</h2>
         <div class="subject">
             <div class="subsubject">
                 <h1>1</h1>
@@ -107,7 +113,7 @@
                 <div class="keynotes">
                     <h1>Key Notes:</h1>
                     <ul>
-                        <li>nothing but a HTML5 template.</li>
+                        <li>nothing but a HTML5 template</li>
                     </ul>
                 </div>
                 <div class="description">
@@ -123,7 +129,7 @@
                 <div class="keynotes">
                     <h1>Key Notes:</h1>
                     <ul>
-                        <li>WebGL initialization.</li>
+                        <li>WebGL initialization</li>
                     </ul>
                     
                     <h1>WebGL Functions</h1>
@@ -138,27 +144,76 @@
                     <p>View <a href="articles/demos/webgl-app.html" target="_blank">demo</a>.</p>
                 </div>
             </div>
-            
+        </div>
+        
+        <h2>WebGL Pipelines</h2>
+        <div class="subject">
             <div class="subsubject">
                 <h1>3</h1>
-                <h2>WebGL Pipelines</h2>
+                <h2>Yellow Triangle</h2>
                 <a href="articles/pipelines.html"><img src="images/yellow-triangle.png" alt="Yellow Triangle" /></a>
                 <div class="keynotes">
                     <h1>Key Notes:</h1>
                     <ul>
-                        <li>WebGL initialization.</li>
+                        <li>WebGL pipelines</li>
+                        <li>WebGL states</li>
+                        <li>vertex attributes</li>
+                        <li>program and shaders</li>
+                        <li>VBO</li>
                     </ul>
                     
                     <h1>WebGL Functions</h1>
                     <ul>
-                        <li>getContext</li>
-                        <li>clearColor</li>
-                        <li>clear</li>
+                        <li>createProgram</li>
+                        <li>attachShader</li>
+                        <li>linkProgram</li>
+                        <li>getProgramParameter</li>
+                        <li>getProgramInfoLog</li>
+                        <li>deleteProgram</li>
+                        <li>createShader</li>
+                        <li>shaderSource</li>
+                        <li>compileShader</li>
+                        <li>getShaderParameter</li>
+                        <li>getShaderInfoLog</li>
+                        <li>deleteShader</li>
+                        <li>createBuffer</li>
+                        <li>bindBuffer</li>
+                        <li>bufferData</li>
+                        <li>getAttribLocation</li>
+                        <li>enableVertexAttribArray</li>
+                        <li>vertexAttribPointer</li>
+                        <li>drawArrays</li>
                     </ul>
                 </div>
                 <div class="description">
-                    <p>The simplest WebGL application ever seen.</p>
-                    <p>View <a href="articles/demos/webgl-app.html" target="_blank">demo</a>.</p>
+                    <p>Lots to learn, but step by step. It is essential for every WebGL application.</p>
+                    <p>View <a href="articles/demos/yellow-triangle-refactored.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+            
+            <div class="subsubject">
+                <h1>4</h1>
+                <h2>Colored Triangle</h2>
+                <a href="articles/pipelines.html"><img src="images/colored-triangle.png" alt="Colored Triangle" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>2 vertex attributes</li>
+                        <li>varying variables</li>
+                        <li>vertices with mixed structure</li>
+                        <li>primative assembly</li>
+                        <li>rasterization</li>
+                        <li>per-fragment operations</li>
+                    </ul>
+                    
+                    <h1>WebGL Functions</h1>
+                    <ul>
+                        <li>N/A</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Put position and color information in an array and pass them to shaders.</p>
+                    <p>View <a href="articles/demos/colored-triangle.html" target="_blank">demo</a>.</p>
                 </div>
             </div>
         </div>

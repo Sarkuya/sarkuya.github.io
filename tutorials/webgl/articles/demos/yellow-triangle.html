@@ -58,58 +58,9 @@
                 
                 gl.bindBuffer(gl.ARRAY_BUFFER, null);
                 
-                //testGetActiveAttribs();
-                //testGetVertexAttrib();
-                //testGetAttribLocation()
-                
                 gl.clearColor(0.0, 0.0, 0.0, 1.0);
                 
                 render();
-            }
-            
-            function testGetActiveAttribs() {
-                var maxVertexAttribs = gl.getParameter(gl.MAX_VERTEX_ATTRIBS);
-
-                for (var i = 0; i < maxVertexAttribs; i++) {
-                    var activeAttrib = gl.getActiveAttrib(gl.program, i);
-
-                    if (activeAttrib) {
-                        console.log(i);
-                        console.log(activeAttrib);
-                    }
-                }
-            }
-            
-            function testGetVertexAttrib() {
-                var maxVertexAttribs = gl.getParameter(gl.MAX_VERTEX_ATTRIBS);
-
-                for (var i = 0; i < maxVertexAttribs; i++) {
-                    var flag = gl.getVertexAttrib(i, gl.VERTEX_ATTRIB_ARRAY_ENABLED);
-
-                    if (flag) {
-                        var bufferBinding = gl.getVertexAttrib(i, gl.VERTEX_ATTRIB_ARRAY_BUFFER_BINDING);
-                        var isEnabled = gl.getVertexAttrib(i, gl.VERTEX_ATTRIB_ARRAY_ENABLED);
-                        var arraySize = gl.getVertexAttrib(i, gl.VERTEX_ATTRIB_ARRAY_SIZE);
-                        var arrayStride = gl.getVertexAttrib(i, gl.VERTEX_ATTRIB_ARRAY_STRIDE);
-                        var arrayType = gl.getVertexAttrib(i, gl.VERTEX_ATTRIB_ARRAY_TYPE);
-                        var isNormalized = gl.getVertexAttrib(i, gl.VERTEX_ATTRIB_ARRAY_NORMALIZED);
-                        var currentVertexAttrib = gl.getVertexAttrib(i, gl.CURRENT_VERTEX_ATTRIB);
-
-                        console.log(i);
-                        console.log(bufferBinding);
-                        console.log(isEnabled);
-                        console.log(arraySize);
-                        console.log(arrayStride);
-                        console.log(arrayType);
-                        console.log(isNormalized);
-                        console.log(currentVertexAttrib);
-                    }
-                }
-            }
-            
-            function testGetAttribLocation() {
-                var index = gl.getAttribLocation(gl.program, "vPosition");
-                console.log(index);
             }
             
             function prepareProgram(vshader, fshader) {

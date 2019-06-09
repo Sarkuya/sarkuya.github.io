@@ -437,7 +437,7 @@ gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 </pre>
                             <p>The memory allocation for the buffer is as followed:</p>
                             <img src="images/svg/buffer-memory-allocation.svg" alt="Buffer Memory Allocation" />
-                            <p>There are altogether 3 vertices in the buffer. Each vertex contains information of positons and colors. The elements for the positions are filled with green background color and the ones for the colors are filled with light blue.</p>
+                            <p>There are altogether 3 vertices in the buffer. Each vertex contains information of positions and colors. The elements for the positions are filled with green background color and the ones for the colors are filled with light blue.</p>
                             <p>Since we declare only one attribute -- 'aPosition' in the vertex shader, WebGL cares about only the positions information. So, how can we tell WebGL to extract the positions data from such an array? We do this by invoking <span class="function-name">vertexAttribPointer</span> method. It assigns the buffer object currently bound to ARRAY_BUFFER target to a specific vertex attribute and specify the rules on how to extract the relevant data.</p>
                             <p>The synopsis of the <span class="function-name">vertexAttribPointer</span>:</p>
                             <pre>void vertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLintptr offset)</pre>
@@ -729,8 +729,186 @@ gl.drawArrays(gl.TRIANGLES, 0, 3);
 &lt;/html&gt;
 </pre>
                 <p>See <a href="demos/yellow-triangle.html" target="_blank">demo</a>.</p>
-                
+            </section>
+            
+            <section class="chapter">
+                <h1>Refactoring</h1>
+                <p>Since some codes are always the same in different apps, we can move them into a helper utility named "webgl-utils.js".</p>
+                <pre>
+webglUtils = {};
 
+webglUtils.initContext = function (canvasId) {
+    if (!window.WebGLRenderingContext) {
+        alert("Your browser doese not support WebGL!");
+        return null;
+    }
+    
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) {
+        alert("Unable to find '" + canvasId + "' element");
+        return null;
+    }
+
+    var ctx = canvas.getContext("webgl");
+
+    if (!ctx) {
+        alert("Unable to initialize WebGL!");
+        return null;
+    }
+    
+    return ctx;
+};
+
+webglUtils.prepareProgram = function (ctx, vshader, fshader) {
+    var vertexShader = this.loadShader(ctx, vshader);
+    var fragmentShader = this.loadShader(ctx, fshader);
+
+    var program = ctx.createProgram();
+
+    ctx.attachShader(program, vertexShader);
+    ctx.attachShader(program, fragmentShader);
+
+    ctx.linkProgram(program);
+
+    var linked = ctx.getProgramParameter(program, ctx.LINK_STATUS);
+    if (!linked) {
+        var error = ctx.getProgramInfoLog(program);
+        alert("Error in program linking: " + error);
+
+        ctx.deleteProgram(program);
+        ctx.deleteProgram(fragmentShader);
+        ctx.deleteProgram(vertexShader);
+
+        return null;
+    }
+
+    ctx.useProgram(program);
+
+    return program;
+};
+
+webglUtils.loadShader = function (ctx, shaderId) {
+    var shaderScript = document.getElementById(shaderId);
+
+    if (!shaderScript) {
+        alert("Error: shader script '" + shaderId + "' not found");
+        return null;
+    }
+
+    var shaderType;
+
+    if (shaderScript.type === "x-shader/x-vertex")
+        shaderType = ctx.VERTEX_SHADER;
+    else if (shaderScript.type === "x-shader/x-fragment")
+        shaderType = ctx.FRAGMENT_SHADER;
+    else {
+        alert("Error: shader script '" + shaderId + "' of undefined type '" + shaderScript.type + "'");
+        return null;
+    }
+
+    var shader = ctx.createShader(shaderType);
+
+    ctx.shaderSource(shader, shaderScript.text);
+    ctx.compileShader(shader);
+
+    var compiled = ctx.getShaderParameter(shader, ctx.COMPILE_STATUS);
+    if (!compiled) {
+        var error = ctx.getShaderInfoLog(shader);
+        alert("Error compiling shader '" + shaderId + "':" + error);
+        ctx.deleteShader(shader);
+        return null;
+    }
+
+    return shader;
+};                    
+</pre>
+                <p>With this, the contents of 'yellow-triangle.html' are changed:</p>
+                <pre>
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Yellow Triangle&lt;/title&gt;
+        &lt;meta charset="UTF-8"&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+        
+        &lt;script src="../../../../js/webgl-utils.js"&gt;&lt;/script&gt;
+
+        &lt;script id="vshader" type="x-shader/x-vertex"&gt;
+            attribute vec4 vPosition;
+
+            void main()
+            {
+                gl_Position = vPosition;
+            }
+        &lt;/script&gt;
+
+        &lt;script id="fshader" type="x-shader/x-fragment"&gt;
+            precision mediump float;
+
+            void main()
+            {
+                gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
+            }
+        &lt;/script&gt;
+
+        &lt;script type="text/javascript"&gt;
+            var gl;
+
+            function init() {
+                gl = webglUtils.initContext("webgl-canvas");
+                
+                gl.program = webglUtils.prepareProgram(gl, "vshader", "fshader");
+                
+                initVBOs();
+                
+                gl.clearColor(0.0, 0.0, 0.0, 1.0);
+                render();
+            }
+            
+            function initVBOs() {
+                var buffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                
+                var vertices = [
+                     0.0,  0.5,
+                    -0.5, -0.5,
+                     0.5, -0.5
+                ];
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+                
+                var index = gl.getAttribLocation(gl.program, "vPosition");
+                gl.enableVertexAttribArray(index);
+                gl.vertexAttribPointer(index, 2, gl.FLOAT, false, 0, 0);
+                
+                gl.bindBuffer(gl.ARRAY_BUFFER, null);
+            }
+            
+            function render() {
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                
+                gl.drawArrays(gl.TRIANGLES, 0, 3);
+            }
+
+            window.addEventListener("DOMContentLoaded", init);
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Yellow Triangle&lt;/h1&gt;
+        &lt;canvas id="webgl-canvas" width="500" height="500"&gt;Your browser does not support HTML5 Canvas!&lt;/canvas&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+                <p>The concerns are quite clear now:</p>
+                <ol>
+                    <li>provide sources for both shaders</li>
+                    <li>init the webgl context</li>
+                    <li>prepare the program</li>
+                    <li>init VBOs</li>
+                    <li>render</li>
+                </ol>
+                <p>The most important part is <span class="function-name">initVBOs</span>. Take some time looking over at the codes of it, thinking about how each statement affect the WebGL's states. This is the WebGL way to program. Once we get customed to it, it'll be rather easy to do WebGL programming.</p>
+                <p>See <a href="demos/yellow-triangle-refactored.html" target="_blank">demo</a>.</p>
             </section>
 
             <section class="reference">
