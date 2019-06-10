@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Primitives - Lines</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="../../../../js/J3DIMath.js"></script>
+        <script src="../../../../js/webgl-utils.js"></script>
+
+        <script id="vshader" type="x-shader/x-vertex">
+            attribute vec4 vPosition;
+
+            void main()
+            {
+                gl_Position = vPosition;
+            }
+        </script>
+
+        <script id="fshader" type="x-shader/x-fragment">
+            precision mediump float;
+
+            void main()
+            {
+                gl_FragColor = vec4(0.0, 1.0, 1.0, 1.0);
+            }
+        </script>
+
+        <script type="text/javascript">
+            var gl;
+            var verticesNum = 12;
+
+            function init() {
+                gl = webglUtils.initContext("webgl-canvas");
+                
+                gl.program = webglUtils.prepareProgram(gl, "vshader", "fshader");
+                
+                gl.lineWidth(5);
+                
+                initVBOs();
+                
+                gl.clearColor(0.0, 0.0, 0.0, 1.0);
+                render();
+            }
+            
+            function initVBOs() {
+                var buffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                
+                var vertices = webglUtils.genRegularPolygonsVertices(verticesNum, 0.5, 0);
+                
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+                
+                var index = gl.getAttribLocation(gl.program, "vPosition");
+                gl.enableVertexAttribArray(index);
+                gl.vertexAttribPointer(index, 2, gl.FLOAT, false, 0, 0);
+                
+                gl.bindBuffer(gl.ARRAY_BUFFER, null);
+            }
+            
+            function render() {
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                
+                gl.drawArrays(gl.LINES, 0, verticesNum);
+            }
+
+            window.addEventListener("DOMContentLoaded", init);
+        </script>
+    </head>
+    <body>
+        <h1>Primatives - Lines</h1>
+        <canvas id="webgl-canvas" width="500" height="500">Your browser does not support HTML5 Canvas!</canvas>
+    </body>
+</html>

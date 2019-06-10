@@ -1,6 +1,6 @@
 webglUtils = {};
 
-webglUtils.initContext = function (canvasId) {
+webglUtils.initContext = function(canvasId) {
     if (!window.WebGLRenderingContext) {
         alert("Your browser doese not support WebGL!");
         return null;
@@ -22,7 +22,7 @@ webglUtils.initContext = function (canvasId) {
     return ctx;
 };
 
-webglUtils.prepareProgram = function (ctx, vshader, fshader) {
+webglUtils.prepareProgram = function(ctx, vshader, fshader) {
     var vertexShader = this.loadShader(ctx, vshader);
     var fragmentShader = this.loadShader(ctx, fshader);
 
@@ -50,7 +50,7 @@ webglUtils.prepareProgram = function (ctx, vshader, fshader) {
     return program;
 };
 
-webglUtils.loadShader = function (ctx, shaderId) {
+webglUtils.loadShader = function(ctx, shaderId) {
     var shaderScript = document.getElementById(shaderId);
 
     if (!shaderScript) {
@@ -85,7 +85,7 @@ webglUtils.loadShader = function (ctx, shaderId) {
     return shader;
 };
 
-webglUtils.getActiveAttribs = function (ctx) {
+webglUtils.getActiveAttribs = function(ctx) {
     var maxVertexAttribs = ctx.getParameter(ctx.MAX_VERTEX_ATTRIBS);
 
     for (var i = 0; i < maxVertexAttribs; i++) {
@@ -98,7 +98,7 @@ webglUtils.getActiveAttribs = function (ctx) {
     }
 };
 
-webglUtils.getVertexAttribs = function (ctx) {
+webglUtils.getVertexAttribs = function(ctx) {
     var maxVertexAttribs = ctx.getParameter(ctx.MAX_VERTEX_ATTRIBS);
 
     for (var i = 0; i < maxVertexAttribs; i++) {
@@ -123,4 +123,51 @@ webglUtils.getVertexAttribs = function (ctx) {
             console.log(currentVertexAttrib);
         }
     }
+};
+
+webglUtils.genRegularPolygonsVertices = function(verticesNum, r, angle) {
+    var angleIncrease = 360 / verticesNum;
+    
+    var vertices = [];
+    
+    for (var pointAngle = 0; pointAngle < 360; pointAngle += angleIncrease) {
+        var radian = this.radianFromDegree(pointAngle);
+        var ptX = r * Math.cos(radian);
+        var ptY = r * Math.sin(radian);
+        
+        var vector = new J3DIVector3(ptX, ptY, 0.0);
+        this.rotateVectorAroundZ(vector, angle);
+        
+        vertices.push(vector[0], vector[1]);
+    }
+    
+    return vertices;
+};
+
+webglUtils.translateVector = function(vector, x, y, z) {
+    var matrix = new J3DIMatrix4();
+    
+    matrix.$matrix.m41 = x;
+    matrix.$matrix.m42 = y;
+    matrix.$matrix.m43 = z;
+    
+    vector.multVecMatrix(matrix);
+};
+
+// positive angle for anti-clockwise
+webglUtils.rotateVectorAroundZ = function(vector, angle) {
+    var matrix = new J3DIMatrix4();
+    
+    var radian = this.radianFromDegree(angle);
+    
+    matrix.$matrix.m11 =  Math.cos(radian);
+    matrix.$matrix.m12 =  Math.sin(radian);
+    matrix.$matrix.m21 = -Math.sin(radian);
+    matrix.$matrix.m22 =  Math.cos(radian);
+    
+    vector.multVecMatrix(matrix);
+};
+
+webglUtils.radianFromDegree = function(angle) {
+    return Math.PI / 180 * angle;
 };
