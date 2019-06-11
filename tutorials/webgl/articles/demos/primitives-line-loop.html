@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>Primitives - Lines</title>
+        <title>Primitives - Line Loop</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -23,13 +23,13 @@
 
             void main()
             {
-                gl_FragColor = vec4(0.0, 1.0, 1.0, 1.0);
+                gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
             }
         </script>
 
         <script type="text/javascript">
             var gl;
-            var verticesNum = 12;
+            var verticesNum = 6;
 
             function init() {
                 gl = webglUtils.initContext("webgl-canvas");
@@ -38,7 +38,7 @@
                 
                 initVBOs();
                 
-                gl.lineWidth(5);
+                gl.lineWidth(3);
                 gl.clearColor(0.0, 0.0, 0.0, 1.0);
                 
                 render();
@@ -62,14 +62,14 @@
             function render() {
                 gl.clear(gl.COLOR_BUFFER_BIT);
                 
-                gl.drawArrays(gl.LINES, 0, verticesNum);
+                gl.drawArrays(gl.LINE_LOOP, 0, verticesNum);
             }
 
             window.addEventListener("DOMContentLoaded", init);
         </script>
     </head>
     <body>
-        <h1>Primatives - Lines</h1>
+        <h1>Primatives - Line Loop</h1>
         <canvas id="webgl-canvas" width="500" height="500">Your browser does not support HTML5 Canvas!</canvas>
     </body>
 </html>

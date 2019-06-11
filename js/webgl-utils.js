@@ -125,7 +125,7 @@ webglUtils.getVertexAttribs = function(ctx) {
     }
 };
 
-webglUtils.genRegularPolygonsVertices = function(verticesNum, r, angle) {
+webglUtils.genRegularPolygonVertices = function(verticesNum, r, angle) {
     var angleIncrease = 360 / verticesNum;
     
     var vertices = [];

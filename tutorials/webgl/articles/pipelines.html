@@ -50,9 +50,9 @@ gl.drawArrays(gl.TRIANGLES, 0, 3);  // intent: use the array data in vertices to
 </pre>
                 <p>The synopsis of the <span class="function-name">drawArrays</span> is as followed.</p>
                 <pre>void drawArrays(GLenum mode, GLint first, GLsizei count)</pre>
-                <p><span class="parameter">mode</span> specifies the kind of primitives. Accepted constants are gl.<span class="constant">POINTS</span>, gl.<span class="constant">LINE_STRIP</span>, gl.<span class="constant">LINE_LOOP</span>, gl.<span class="constant">LINES</span>, gl.<span class="constant">TRIANGLE_STRIP</span>, gl.<span class="constant">LINE_FAN</span>, and  gl.<span class="constant">TRIANGLES</span>, where <span class="variable-name">gl</span> is an instance of the <span class="class-name">WebGLRenderingContext</span>.</p>
-                <p><span class="parameter">first</span> specifies the starting index of the array.</p>
-                <p><span class="parameter">count</span> specifies the number of vertices to be rendered.</p>
+                <p><span class="parameter">mode</span> specifies the kind of primitives. Accepted constants are gl.<span class="constant">POINTS</span>, gl.<span class="constant">LINE_STRIP</span>, gl.<span class="constant">LINE_LOOP</span>, gl.<span class="constant">LINES</span>, gl.<span class="constant">TRIANGLE_STRIP</span>, gl.<span class="constant">TRIANGLE_FAN</span>, and  gl.<span class="constant">TRIANGLES</span>, where <span class="variable-name">gl</span> is an instance of the <span class="class-name">WebGLRenderingContext</span>.</p>
+                <p><span class="parameter">first</span> specifies the starting index in the enabled arrays.</p>
+                <p><span class="parameter">count</span> specifies the number of indices to be rendered.</p>
                 <p>There are 3 points in vertices array data. Each point has a pair of array elements. From the first point, which starting index is 0, fetches altogether 3 vertices to draw triangles. In this situation, 3 vertices would compose only 1 triangle.</p>
                 <p>You can see from the code that there are no connections between the <span class="function-name">drawArrays</span> and the vertices. So how WebGL know where to get the array data from?</p>
                 <p>WebGL will rather get the array data from a buffer, than directly from the vertices we are providing. The buffer is resident in GPU, and the speed of data transmission from it is much faster than from the vertices, which is resident in JavaScript client side.</p>

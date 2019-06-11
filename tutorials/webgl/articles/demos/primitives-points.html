@@ -47,7 +47,7 @@
                 var buffer = gl.createBuffer();
                 gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
                 
-                var vertices = webglUtils.genRegularPolygonsVertices(verticesNum, 0.5, 90);
+                var vertices = webglUtils.genRegularPolygonVertices(verticesNum, 0.5, 90);
                 
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
                 
