@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>Primitives - Triangle Strip 2</title>
+        <title>Primitives - Triangle Fan</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -24,35 +24,28 @@
 
         <script id="vshader" type="x-shader/x-vertex">
             attribute vec4 aPosition;
-            attribute vec4 aColor;
-            
-            varying vec4 vColor;
-            
+
             void main()
             {
                 gl_PointSize = 5.0;
                 gl_Position = aPosition;
-                vColor = aColor;
             }
         </script>
 
         <script id="fshader" type="x-shader/x-fragment">
             precision mediump float;
             
-            varying vec4 vColor;
+            uniform vec4 uColor;
 
             void main()
             {
-                gl_FragColor = vColor;
+                gl_FragColor = uColor;
             }
         </script>
 
         <script type="text/javascript">
-            function Point(x, y) {
-                return {x:x, y:y};
-            }
-            
             var gl;
+            var verticesNum = 5;
             var positions;
 
             function init() {
@@ -84,7 +77,7 @@
                     var x = positions[i];
                     var y = positions[i+1];
                     
-                    var pt = NDCToCanvas(Point(x, y), canvas.width, canvas.height);
+                    var pt = webglUtils.NDCToCanvas(Point(x, y), canvas.width, canvas.height);
                     
                     if (i / 2 % 2 === 0) {
                         ctx.textBaseline = 'bottom';
@@ -92,57 +85,53 @@
                     } else {
                         ctx.textBaseline = 'top';
                         pt.y += yMargin;
+                    } 
+                    
+                    if (i === 0) {
+                        pt.y += 4 *yMargin;
+                    } else if (i/2 === 3) {
+                        pt.y -= 3 *yMargin;
                     }
                     
                     ctx.fillText("V"+i/2, pt.x, pt.y);
                 }
             }
             
-            function NDCToCanvas(point, canvasWidth, canvasHeight) {
-                var x = canvasWidth / 2 + canvasWidth / 2  * point.x ;
-                var y = canvasHeight / 2 - canvasHeight / 2  * point.y;
-                
-                return Point(x, y);
-            }
+            var posBuffer;
+            var lineBuffer;
             
             function initVBOs() {
-                var posBuffer = gl.createBuffer();
+                posBuffer = gl.createBuffer();
                 gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
                 
-                positions = [
-                    -0.7,  0.2,    // v0
-                    -0.5, -0.2,    // v1
-                    -0.3,  0.2,    // v2
-                    -0.1, -0.2,    // v3
-                     0.1,  0.2,    // v4
-                     0.3, -0.2,    // v5
-                     0.5,  0.2,    // v6
-                     0.7, -0.2     // v7
-                ];
+                positions = webglUtils.genRegularPolygonVertices(verticesNum, 0.8, -54.5);
+                positions.unshift(0.0, 0.0);
+                
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
                 
                 var posIndex = gl.getAttribLocation(gl.program, "aPosition");
                 gl.enableVertexAttribArray(posIndex);
                 gl.vertexAttribPointer(posIndex, 2, gl.FLOAT, false, 0, 0);
                 
-                var colorBuffer = gl.createBuffer();
-                gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+                lineBuffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, lineBuffer);
                 
-                var colors = [
-                    1.0, 0.0, 0.0, 1.0,
-                    0.0, 1.0, 0.0, 1.0,
-                    0.0, 0.0, 1.0, 1.0,
-                    1.0, 1.0, 0.0, 1.0,
-                    1.0, 0.0, 1.0, 1.0,
-                    0.0, 1.0, 1.0, 1.0,
-                    1.0, 1.0, 1.0, 1.0,
-                    1.0, 0.0, 0.0, 1.0
-                ];
-                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+                var lines = [];
                 
-                var colorIndex = gl.getAttribLocation(gl.program, "aColor");
-                gl.enableVertexAttribArray(colorIndex);
-                gl.vertexAttribPointer(colorIndex, 4, gl.FLOAT, false, 0, 0);
+                for (var i = 0; i < positions.length; i+=2) {
+                    if (i/2 === 0 || i/2 === 2 || i/2 === 3 || i/2 === 4) {
+                        lines.push(0.0);
+                        lines.push(0.0);
+                        lines.push(positions[i]);
+                        lines.push(positions[i+1]);
+                    }
+                }
+                
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(lines), gl.STATIC_DRAW);
+                
+                var posIndex = gl.getAttribLocation(gl.program, "aPosition");
+                gl.enableVertexAttribArray(posIndex);
+                gl.vertexAttribPointer(posIndex, 2, gl.FLOAT, false, 0, 0);
                 
                 gl.bindBuffer(gl.ARRAY_BUFFER, null);
             }
@@ -150,15 +139,35 @@
             function render() {
                 gl.clear(gl.COLOR_BUFFER_BIT);
                 
-                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 8);
-                gl.drawArrays(gl.POINTS, 0, 8);
+                var location = gl.getUniformLocation(gl.program, "uColor");
+                
+                // triangle fan
+                gl.uniform4f(location, 0.6, 0.4, 0.8, 1.0);
+                
+                gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
+                var posIndex = gl.getAttribLocation(gl.program, "aPosition");
+                gl.vertexAttribPointer(posIndex, 2, gl.FLOAT, false, 0, 0);
+                
+                gl.drawArrays(gl.TRIANGLE_FAN, 0, verticesNum + 1);
+                
+                gl.uniform4f(location, 1.0, 1.0, 1.0, 1.0);
+                gl.drawArrays(gl.POINTS, 0, verticesNum + 1);
+                
+                // lines
+                gl.uniform4f(location, 0.0, 0.0, 1.0, 1.0);
+                
+                gl.bindBuffer(gl.ARRAY_BUFFER, lineBuffer);
+                var posIndex = gl.getAttribLocation(gl.program, "aPosition");
+                gl.vertexAttribPointer(posIndex, 2, gl.FLOAT, false, 0, 0);
+                
+                gl.drawArrays(gl.LINES, 0, 8);
             }
 
             window.addEventListener("DOMContentLoaded", init);
         </script>
     </head>
     <body>
-        <h1>Primatives - Triangle Strip 2</h1>
+        <h1>Primatives - Triangle Fan</h1>
         
         <div id="container">
             <canvas id="webgl-canvas" width="500" height="500">Your browser does not support HTML5 Canvas!</canvas>

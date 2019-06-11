@@ -1,3 +1,7 @@
+function Point(x, y) {
+    return {x:x, y:y};
+}
+
 webglUtils = {};
 
 webglUtils.initContext = function(canvasId) {
@@ -170,4 +174,11 @@ webglUtils.rotateVectorAroundZ = function(vector, angle) {
 
 webglUtils.radianFromDegree = function(angle) {
     return Math.PI / 180 * angle;
+};
+
+webglUtils.NDCToCanvas = function(point, canvasWidth, canvasHeight) {
+    var x = canvasWidth / 2 + canvasWidth / 2  * point.x ;
+    var y = canvasHeight / 2 - canvasHeight / 2  * point.y;
+
+    return Point(x, y);
 };
