@@ -104,7 +104,7 @@
                 posBuffer = gl.createBuffer();
                 gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
                 
-                positions = webglUtils.genRegularPolygonVertices(verticesNum, 0.8, -54.5);
+                positions = webglUtils.genRegularPolygonVertices(verticesNum, 0.6, -54.5);
                 positions.unshift(0.0, 0.0);
                 
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
@@ -119,7 +119,7 @@
                 var lines = [];
                 
                 for (var i = 0; i < positions.length; i+=2) {
-                    if (i/2 === 0 || i/2 === 2 || i/2 === 3 || i/2 === 4) {
+                    if (i/2 === 2 || i/2 === 3 || i/2 === 4) {
                         lines.push(0.0);
                         lines.push(0.0);
                         lines.push(positions[i]);
@@ -139,10 +139,10 @@
             function render() {
                 gl.clear(gl.COLOR_BUFFER_BIT);
                 
-                var location = gl.getUniformLocation(gl.program, "uColor");
+                var colorLoc = gl.getUniformLocation(gl.program, "uColor");
                 
                 // triangle fan
-                gl.uniform4f(location, 0.6, 0.4, 0.8, 1.0);
+                gl.uniform4f(colorLoc, 0.6, 0.4, 0.8, 1.0);
                 
                 gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
                 var posIndex = gl.getAttribLocation(gl.program, "aPosition");
@@ -150,17 +150,17 @@
                 
                 gl.drawArrays(gl.TRIANGLE_FAN, 0, verticesNum + 1);
                 
-                gl.uniform4f(location, 1.0, 1.0, 1.0, 1.0);
+                gl.uniform4f(colorLoc, 1.0, 1.0, 1.0, 1.0);
                 gl.drawArrays(gl.POINTS, 0, verticesNum + 1);
                 
                 // lines
-                gl.uniform4f(location, 0.0, 0.0, 1.0, 1.0);
+                gl.uniform4f(colorLoc, 0.0, 0.0, 1.0, 1.0);
                 
                 gl.bindBuffer(gl.ARRAY_BUFFER, lineBuffer);
                 var posIndex = gl.getAttribLocation(gl.program, "aPosition");
                 gl.vertexAttribPointer(posIndex, 2, gl.FLOAT, false, 0, 0);
                 
-                gl.drawArrays(gl.LINES, 0, 8);
+                gl.drawArrays(gl.LINES, 0, 6);
             }
 
             window.addEventListener("DOMContentLoaded", init);
@@ -170,8 +170,8 @@
         <h1>Primatives - Triangle Fan</h1>
         
         <div id="container">
-            <canvas id="webgl-canvas" width="500" height="500">Your browser does not support HTML5 Canvas!</canvas>
-            <canvas id="text-canvas" width="500" height="500">Your browser does not support HTML5 Canvas!</canvas>
+            <canvas id="webgl-canvas" width="300" height="300">Your browser does not support HTML5 Canvas!</canvas>
+            <canvas id="text-canvas" width="300" height="300">Your browser does not support HTML5 Canvas!</canvas>
         </div>
     </body>
 </html>
