@@ -420,42 +420,109 @@
                 <div class="keynotes">
                     <h1>Key Notes:</h1>
                     <ul>
-                        <li>gl.TRIANGLE_STRIP</li>
-                        <li></li>
-                        <li></li>
+                        <li>gl.TRIANGLE_FAN</li>
+                        <li>2 exclusive buffers</li>
+                        <li>rebind buffers in rendering</li>
                     </ul>
                     
                     <h1>New WebGL Functions</h1>
                     <ul>
-                        <li></li>
-                        <li></li>
+                        <li>N/A</li>
                     </ul>
                 </div>
                 <div class="description">
-                    <p>Not so many colors flaring.</p>
+                    <p>Use a second exclusive vertex attribute array to draw the blues lines.</p>
                     <p>View <a href="articles/demos/primitives-triangle-fan.html" target="_blank">demo</a>.</p>
                 </div>
             </div>
             
             <div class="subsubject">
                 <h1>13</h1>
-                <h2>drawElements</h2>
-                <a href="articles/pipelines.html"><img src="images/two-vbos.png" alt="Two VBOs" /></a>
+                <h2>Rectangle: Using gl.TRIANGLES</h2>
+                <a href="articles/pipelines.html"><img src="images/rectangle-triangles.png" alt="Rectangle" /></a>
                 <div class="keynotes">
                     <h1>Key Notes:</h1>
                     <ul>
-                        <li>2 seperate VBOs</li>
-                        <li>2 primitives</li>
+                        <li>6 vertices, 2 triangles</li>
+                        <li>v0 overrided with v3, v2 overrided with v4</li>
                     </ul>
                     
-                    <h1>WebGL Functions</h1>
+                    <h1>New WebGL Functions</h1>
                     <ul>
                         <li>N/A</li>
                     </ul>
                 </div>
                 <div class="description">
-                    <p>Put position and color information in an array and pass them to shaders.</p>
-                    <p>View <a href="articles/demos/two-vbos.html" target="_blank">demo</a>.</p>
+                    <p>Use 6 vertices to construct 2 adjacent triangles to be appeared as a rectangle.</p>
+                    <p>View <a href="articles/demos/primitives-rectangle-triangles.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+            
+            <div class="subsubject">
+                <h1>14</h1>
+                <h2>Rectangle: Using gl.TRIANGLE_FAN</h2>
+                <a href="articles/pipelines.html"><img src="images/rectangle-triangle-fan.png" alt="Rectangle" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>4 vertices, 2 triangles</li>
+                        <li>addtional positions in VBO to draw a line</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>N/A</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Use 4 vertices to construct 2 adjacent triangles to be appeared as a rectangle, adding 2 vertices by repeating v0 and v2.</p>
+                    <p>View <a href="articles/demos/primitives-rectangle-triangle-fan.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+            
+            <div class="subsubject">
+                <h1>15</h1>
+                <h2>Rectangle - drawElements</h2>
+                <a href="articles/pipelines.html"><img src="images/rectangle-drawElements.png" alt="Rectangle" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>seperate buffers initializing into initVBOs and initIBOs</li>
+                        <li>always rebind IBOs before invoking drawElements</li>
+                        <li>Uint8Array and UNSIGNED_BYTE</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>drawElements</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Draw a rectangle using the convenient and powerful drawElements method.</p>
+                    <p>View <a href="articles/demos/primitives-rectangle-drawElements.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+            
+            <div class="subsubject">
+                <h1>16</h1>
+                <h2>Rectangle - drawElements 2</h2>
+                <a href="articles/pipelines.html"><img src="images/rectangle-drawElements-2.png" alt="Rectangle" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>2 IBOs to draw 3 primitives</li>
+                        <li>drawElements combined with drawArrays</li>
+                        <li>switch back to non-varying color</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>N/A</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Make full use of each vertex we defined.</p>
+                    <p>View <a href="articles/demos/primitives-rectangle-drawElements-2.html" target="_blank">demo</a>.</p>
                 </div>
             </div>
         </div>

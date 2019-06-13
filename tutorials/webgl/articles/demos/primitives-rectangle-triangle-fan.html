@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Primitives - Rectangle</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <style type="text/css">
+            #container {
+                position: relative;
+            }
+            
+            #text-canvas {
+                position: absolute;
+                left: 0;
+                top: 0;
+                z-index: 1;
+            }
+        </style>
+        
+        <script src="../../../../js/J3DIMath.js"></script>
+        <script src="../../../../js/webgl-utils.js"></script>
+
+        <script id="vshader" type="x-shader/x-vertex">
+            attribute vec4 aPosition;
+
+            void main()
+            {
+                gl_PointSize = 5.0;
+                gl_Position = aPosition;
+            }
+        </script>
+
+        <script id="fshader" type="x-shader/x-fragment">
+            precision mediump float;
+            
+            uniform vec4 uColor;
+
+            void main()
+            {
+                gl_FragColor = uColor;
+            }
+        </script>
+
+        <script type="text/javascript">
+            var gl;
+            var positions;
+
+            function init() {
+                gl = webglUtils.initContext("webgl-canvas");
+                
+                gl.program = webglUtils.prepareProgram(gl, "vshader", "fshader");
+                
+                initVBOs();
+                
+                gl.clearColor(0.0, 0.0, 0.0, 1.0);
+                
+                render();
+                
+                drawTexts();
+            }
+            
+            function drawTexts() {
+                var canvas = document.getElementById("text-canvas");
+                var ctx = canvas.getContext("2d");
+                
+                ctx.fillStyle = "white";
+                ctx.font = "18px Arial";
+                
+                var yMargin = 15;
+                
+                for (var i = 0; i < positions.length; i+=2) {
+                    if (i / 2 === 4 || i / 2 === 5) {
+                        continue;
+                    }
+                    
+                    var x = positions[i];
+                    var y = positions[i+1];
+                    
+                    var pt = webglUtils.NDCToCanvas(Point(x, y), canvas.width, canvas.height);
+                    
+                    if (i / 2 === 0 || i / 2 === 1) {
+                        ctx.textBaseline = 'top';
+                        ctx.textAlign = "center";
+                        pt.y += yMargin;
+                    } else if (i / 2 === 2 || i / 2 === 3) {
+                        ctx.textBaseline = 'bottom';
+                        ctx.textAlign = "center";
+                        pt.y -= yMargin;
+                    }
+                    
+                    ctx.fillText("V"+i/2, pt.x, pt.y);
+                }
+            }
+            
+            function initVBOs() {
+                var buffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                
+                positions = [
+                    // for rectangle
+                    -0.5, -0.5,    // v0
+                     0.5, -0.5,    // v1
+                     0.5,  0.5,    // v2
+                    -0.5,  0.5,    // v3
+                    
+                    // for line
+                    -0.5, -0.5,    // v0
+                     0.5,  0.5     // v2
+                ];
+                
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+                
+                var posIndex = gl.getAttribLocation(gl.program, "aPosition");
+                gl.enableVertexAttribArray(posIndex);
+                gl.vertexAttribPointer(posIndex, 2, gl.FLOAT, false, 0, 0);
+                
+                gl.bindBuffer(gl.ARRAY_BUFFER, null);
+            }
+            
+            function render() {
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                
+                var colorLoc = gl.getUniformLocation(gl.program, "uColor");
+                
+                gl.uniform4f(colorLoc, 0.0, 1.0, 0.4, 1.0);
+                gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
+                
+                gl.uniform4f(colorLoc, 0.8, 0.8, 0.8, 1.0);
+                gl.drawArrays(gl.LINES, 4, 2);
+            }
+
+            window.addEventListener("DOMContentLoaded", init);
+        </script>
+    </head>
+    <body>
+        <h1>Rectangle, using gl.TRIANGLE_FAN</h1>
+        
+        <div id="container">
+            <canvas id="webgl-canvas" width="300" height="300">Your browser does not support HTML5 Canvas!</canvas>
+            <canvas id="text-canvas" width="300" height="300">Your browser does not support HTML5 Canvas!</canvas>
+        </div>
+    </body>
+</html>
