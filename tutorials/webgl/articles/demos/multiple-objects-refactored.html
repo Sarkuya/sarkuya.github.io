@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Multiple Objects - Refactored</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="../../../../js/J3DIMath.js"></script>
+        <script src="../../../../js/webgl-utils.js"></script>
+
+        <script id="vshader" type="x-shader/x-vertex">
+            attribute vec4 aPosition;
+            
+            void main()
+            {
+                gl_Position = aPosition;
+            }
+        </script>
+
+        <script id="fshader" type="x-shader/x-fragment">
+            precision mediump float;
+            
+            uniform vec4 uColor;
+
+            void main()
+            {
+                gl_FragColor = uColor;
+            }
+        </script>
+
+        <script type="text/javascript">
+            var gl;
+            
+            var diamondObject;
+            var pentagramObject;
+            var triangleObject;
+            var flagObject;
+
+            function init() {
+                gl = webglUtils.initContext("webgl-canvas");
+                
+                gl.program = webglUtils.prepareProgram(gl, "vshader", "fshader");
+                
+                initWebGLBuffers();
+                
+                gl.clearColor(0.0, 0.0, 0.0, 1.0);
+                render();
+            }
+            
+            function initWebGLBuffers() {
+                initVBOs();
+                
+                gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+            }
+            
+            function initVBOs() {
+                // pentagram
+                
+                var vertices = webglUtils.genRegularPolygonVertices(5, 0.3, 90);
+                for (var i = 0; i < vertices.length; i+=2) {
+                    vertices[i] -= 0.5;
+                    vertices[i+1] += 0.5;
+                }
+                
+                var indices = [
+                    0, 1, 2,
+                    0, 2, 3,
+                    0, 3, 4
+                ];
+                
+                pentagramObject = createObject(vertices, 2, indices, gl.TRIANGLES, 9);
+                
+                // diamond
+                
+                var vertices = webglUtils.genRegularPolygonVertices(4, 0.3, 45);
+                for (var i = 0; i < vertices.length; i+=2) {
+                    vertices[i] += 0.5;
+                    vertices[i+1] -= 0.5;
+                }
+                
+                var indices = [
+                    0, 1, 2,
+                    0, 2, 3
+                ];
+                
+                diamondObject = createObject(vertices, 2, indices, gl.TRIANGLES, 6);
+                
+                // triangle
+                
+                var vertices = webglUtils.genRegularPolygonVertices(3, 0.3, -135);
+                for (var i = 0; i < vertices.length; i+=2) {
+                    vertices[i] += 0.5;
+                    vertices[i+1] += 0.5;
+                }
+                
+                var indices = [
+                    0, 1, 2
+                ];
+                
+                triangleObject = createObject(vertices, 2, indices, gl.TRIANGLES, 3);
+                
+                // flag
+                
+                var vertices = webglUtils.genRegularPolygonVertices(4, 0.3, 90);
+                for (var i = 0; i < vertices.length; i+=2) {
+                    vertices[i] -= 0.5;
+                    vertices[i+1] -= 0.5;
+                }
+                
+                var indices = [
+                    0, 1, 2, 3
+                ];
+                
+                flagObject = createObject(vertices, 2, indices, gl.TRIANGLE_STRIP, 4);
+            }
+            
+            function createObject(vertices, vertexSize, indices, primitiveType, indicesNum) {
+                verticesBuffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, verticesBuffer);
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+                
+                var posIndex = gl.getAttribLocation(gl.program, "aPosition");
+                gl.enableVertexAttribArray(posIndex);
+                
+                indicesBuffer = gl.createBuffer();
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicesBuffer);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint8Array(indices), gl.STATIC_DRAW);
+                
+                var obj = {};
+                obj.verticesBuffer = verticesBuffer;
+                obj.vertexSize = vertexSize;
+                obj.indicesBuffer = indicesBuffer;
+                obj.primitiveType = primitiveType;
+                obj.indicesNum = indicesNum;
+                
+                return obj;
+            }
+            
+            function render() {
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                
+                var colorLoc = gl.getUniformLocation(gl.program, "uColor");
+                
+                gl.uniform4f(colorLoc, 0.6, 0.4, 0.8, 1.0);
+                drawObject(pentagramObject);
+                
+                gl.uniform4f(colorLoc, 0.3, 0.7, 0.2, 1.0);
+                drawObject(diamondObject);
+                
+                gl.uniform4f(colorLoc, 0.3, 0.3, 0.8, 1.0);
+                drawObject(triangleObject);
+                
+                gl.uniform4f(colorLoc, 0.9, 0.8, 0.2, 1.0);
+                drawObject(flagObject);
+            }
+            
+            function drawObject(object) {
+                var posIndex = gl.getAttribLocation(gl.program, "aPosition");
+                gl.bindBuffer(gl.ARRAY_BUFFER, object.verticesBuffer);
+                gl.vertexAttribPointer(posIndex, object.vertexSize, gl.FLOAT, false, 0, 0);
+                
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, object.indicesBuffer);
+                gl.drawElements(object.primitiveType, object.indicesNum, gl.UNSIGNED_BYTE, 0);
+            }
+            
+            window.addEventListener("DOMContentLoaded", init);
+        </script>
+    </head>
+    <body>
+        <h1>Multiple Objects - Refactored</h1>
+        
+        <div id="container">
+            <canvas id="webgl-canvas" width="300" height="300">Your browser does not support HTML5 Canvas!</canvas>
+        </div>
+    </body>
+</html>

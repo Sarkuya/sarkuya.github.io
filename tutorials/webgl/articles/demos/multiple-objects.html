@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Multiple Objects</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="../../../../js/J3DIMath.js"></script>
+        <script src="../../../../js/webgl-utils.js"></script>
+
+        <script id="vshader" type="x-shader/x-vertex">
+            attribute vec4 aPosition;
+            
+            void main()
+            {
+                gl_Position = aPosition;
+            }
+        </script>
+
+        <script id="fshader" type="x-shader/x-fragment">
+            precision mediump float;
+            
+            uniform vec4 uColor;
+
+            void main()
+            {
+                gl_FragColor = uColor;
+            }
+        </script>
+
+        <script type="text/javascript">
+            var gl;
+            
+            var pentagramBuffer;
+            var diamondBuffer;
+            
+            var pentagramIndicesBuffer;
+            var diamondIndicesBuffer;
+
+            function init() {
+                gl = webglUtils.initContext("webgl-canvas");
+                
+                gl.program = webglUtils.prepareProgram(gl, "vshader", "fshader");
+                
+                initWebGLBuffers();
+                
+                gl.clearColor(0.0, 0.0, 0.0, 1.0);
+                render();
+            }
+            
+            function initWebGLBuffers() {
+                initVBOs();
+                
+                gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+            }
+            
+            function initVBOs() {
+                // pentagram
+                var pentagramVertices = webglUtils.genRegularPolygonVertices(5, 0.3, 90);
+                
+                for (var i = 0; i < pentagramVertices.length; i+=2) {
+                    pentagramVertices[i] -= 0.5;
+                    pentagramVertices[i+1] += 0.5;
+                }
+                
+                pentagramBuffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, pentagramBuffer);
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(pentagramVertices), gl.STATIC_DRAW);
+                
+                var posIndex = gl.getAttribLocation(gl.program, "aPosition");
+                gl.enableVertexAttribArray(posIndex);
+                //gl.vertexAttribPointer(posIndex, 2, gl.FLOAT, false, 0, 0);
+                
+                var pentagramIndices = [
+                    0, 1, 2,
+                    0, 2, 3,
+                    0, 3, 4
+                ];
+                pentagramIndicesBuffer = gl.createBuffer();
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, pentagramIndicesBuffer);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint8Array(pentagramIndices), gl.STATIC_DRAW);
+                
+                // diamond
+                var diamondVertices = webglUtils.genRegularPolygonVertices(4, 0.3, 90);
+                
+                for (var i = 0; i < diamondVertices.length; i+=2) {
+                    diamondVertices[i] += 0.5;
+                    diamondVertices[i+1] -= 0.5;
+                }
+                
+                diamondBuffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, diamondBuffer);
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(diamondVertices), gl.STATIC_DRAW);
+                
+                var posIndex = gl.getAttribLocation(gl.program, "aPosition");
+                gl.enableVertexAttribArray(posIndex);
+                //gl.vertexAttribPointer(posIndex, 2, gl.FLOAT, false, 0, 0);
+                
+                var diamondIndices = [
+                    0, 1, 2,
+                    0, 2, 3
+                ];
+                diamondIndicesBuffer = gl.createBuffer();
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, diamondIndicesBuffer);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint8Array(diamondIndices), gl.STATIC_DRAW);
+            }
+            
+            function render() {
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                
+                var colorLoc = gl.getUniformLocation(gl.program, "uColor");
+                gl.uniform4f(colorLoc, 0.6, 0.4, 0.8, 1.0);
+                
+                var posIndex = gl.getAttribLocation(gl.program, "aPosition");
+                gl.bindBuffer(gl.ARRAY_BUFFER, pentagramBuffer);
+                gl.vertexAttribPointer(posIndex, 2, gl.FLOAT, false, 0, 0);
+                
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, pentagramIndicesBuffer);
+                gl.drawElements(gl.TRIANGLES, 9, gl.UNSIGNED_BYTE, 0);
+                
+                var colorLoc = gl.getUniformLocation(gl.program, "uColor");
+                gl.uniform4f(colorLoc, 0.3, 0.7, 0.2, 1.0);
+                
+                var posIndex = gl.getAttribLocation(gl.program, "aPosition");
+                gl.bindBuffer(gl.ARRAY_BUFFER, diamondBuffer);
+                gl.vertexAttribPointer(posIndex, 2, gl.FLOAT, false, 0, 0);
+                
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, diamondIndicesBuffer);
+                gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_BYTE, 0);
+            }
+
+            window.addEventListener("DOMContentLoaded", init);
+        </script>
+    </head>
+    <body>
+        <h1>Multiple Objects</h1>
+        
+        <div id="container">
+            <canvas id="webgl-canvas" width="300" height="300">Your browser does not support HTML5 Canvas!</canvas>
+        </div>
+    </body>
+</html>
