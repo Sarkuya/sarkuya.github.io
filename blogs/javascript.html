@@ -8,6 +8,8 @@
         
         <link rel="stylesheet" href="../css/style.css">
         <link rel="stylesheet" href="../css/document.css">
+        <link rel="stylesheet" href="../css/domtree.css">
+        
         
         <script src="../js/htmlDocUtils.js"></script>
     </head>
@@ -143,6 +145,38 @@ fetch("test.json")
         console.log(data.name);
     });
 </pre>
+            </section>
+            
+            <section class="chapter">
+                <h1>相对路径的指定</h1>
+                <p>每个文件均有一个所在的路径。这个文件的父路径不是这个所在的路径。</p>
+                <ul class="domtree">
+                    <li><span style="color: magenta;">root</span>
+                        <ul>
+                            <li><span style="color: magenta;">html</span>
+                                <ul>
+                                    <li>docs
+                                        <ul>
+                                            <li>programming.html</li>
+                                        </ul>
+                                    </li>
+                                    <li>pages</li>
+                                </ul>
+                            </li>
+                            <li>images
+                                <ul>
+                                    <li>circle.png</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>如果programming.html要引用cirecle.png, 则引用的相对路径为：</p>
+                <pre class="highlight">
+../../images/circle.png
+</pre>
+                <p>第一个父路径为"html"，第二个父路径为"root"，"images"为"root"的子路径。</p>
+                     
             </section>
 
             <section class="chapter">

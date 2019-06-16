@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Texture Essentials</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <style type="text/css">
+            #container {
+                position: relative;
+            }
+            
+            #text-canvas {
+                position: absolute;
+                left: 0;
+                top: 0;
+                z-index: 1;
+            }
+        </style>
+        
+        <script src="../../../../../js/webgl-utils.js"></script>
+
+        <script id="vshader" type="x-shader/x-vertex">
+            attribute vec4 aPosition;
+            attribute vec2 aTexCoord;
+            
+            varying vec2 vTexCoord;
+
+            void main()
+            {
+                gl_Position = aPosition;
+                vTexCoord = aTexCoord;
+            }
+        </script>
+
+        <script id="fshader" type="x-shader/x-fragment">
+            precision mediump float;
+            
+            uniform sampler2D uSampler;
+            varying vec2 vTexCoord;
+
+            void main()
+            {
+                gl_FragColor = texture2D(uSampler, vTexCoord);
+            }
+        </script>
+
+        <script type="text/javascript">
+            var gl;
+            var indicesBuffer;
+
+            function init() {
+                gl = webglUtils.initContext("webgl-canvas");
+                
+                gl.program = webglUtils.prepareProgram(gl, "vshader", "fshader");
+                
+                initWebGLBuffers();
+                
+                gl.clearColor(0.0, 0.0, 0.0, 1.0);
+                
+                var image = new Image();
+                image.src = "../../images/textures/bricks_256_256.jpg";
+                //image.src = "../../images/textures/webgl.png";
+                image.onload = () => {
+                    initTextures(image);
+                    render();
+                };
+                
+                drawTexts();
+            }
+            
+            function initWebGLBuffers() {
+                initVBOs();
+                initIBOs();
+                
+                gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+            }
+            
+            function initVBOs() {
+                var vertices = [
+                  // positions          texCoords 
+                    -0.5, -0.5, 0.0,    0.0, 0.0,    // v0
+                     0.5, -0.5, 0.0,    1.0, 0.0,    // v1
+                     0.5,  0.5, 0.0,    1.0, 1.0,    // v2
+                    -0.5,  0.5, 0.0,    0.0, 1.0     // v3
+                ];
+                var buffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+                
+                var posIndex = gl.getAttribLocation(gl.program, "aPosition");
+                gl.enableVertexAttribArray(posIndex);
+                gl.vertexAttribPointer(posIndex, 3, gl.FLOAT, false, Float32Array.BYTES_PER_ELEMENT * 5, 0);
+                
+                var texIndex = gl.getAttribLocation(gl.program, "aTexCoord");
+                gl.enableVertexAttribArray(texIndex);
+                gl.vertexAttribPointer(texIndex, 2, gl.FLOAT, false, Float32Array.BYTES_PER_ELEMENT * 5, Float32Array.BYTES_PER_ELEMENT * 3);
+            }
+            
+            function initIBOs() {
+                var indices = [
+                    0, 1, 2,
+                    0, 2, 3
+                ];
+                
+                indicesBuffer = gl.createBuffer();
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicesBuffer);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint8Array(indices), gl.STATIC_DRAW);
+            }
+            
+            function initTextures(image) {
+                // setup texture
+                gl.activeTexture(gl.TEXTURE0);
+                var texture = gl.createTexture();
+                gl.bindTexture(gl.TEXTURE_2D, texture);
+                
+                // pixelStorei should be invoked before texImage2D
+                gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
+                
+                gl.generateMipmap(gl.TEXTURE_2D);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_LINEAR);
+                //gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+                
+                // setup sampler
+                var uSampler = gl.getUniformLocation(gl.program, "uSampler");
+                gl.uniform1i(uSampler, 0);
+                
+                console.log(gl.TEXTURE0.toString(16));
+            }
+            
+            function render() {
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicesBuffer);
+                gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_BYTE, 0);
+            }
+            
+            function drawTexts() {
+                var canvas = document.getElementById("text-canvas");
+                var ctx = canvas.getContext("2d");
+                
+                ctx.fillStyle = "white";
+                ctx.font = "16px Arial";
+                
+                var yMargin = 20;
+                
+                var vertices = [
+                    -0.5, -0.5,    // v0
+                     0.5, -0.5,    // v1
+                     0.5,  0.5,    // v2
+                    -0.5,  0.5     // v3
+                ];
+                
+                var texLabels = [
+                    "(0.0, 0.0)",
+                    "(1.0, 0.0)",
+                    "(1.0, 1.0)",
+                    "(0.0, 1.0)"
+                ];
+                
+                for (var i = 0; i < vertices.length; i+=2) {
+                    var x = vertices[i];
+                    var y = vertices[i+1];
+                    
+                    var pt = webglUtils.NDCToCanvas(Point(x, y), canvas.width, canvas.height);
+                    
+                    if (i / 2 === 0 || i / 2 === 1) {
+                        ctx.textBaseline = 'top';
+                        ctx.textAlign = "center";
+                        pt.y += yMargin;
+                    } else if (i / 2 === 2 || i / 2 === 3) {
+                        ctx.textBaseline = 'bottom';
+                        ctx.textAlign = "center";
+                        pt.y -= yMargin;
+                    }
+                    
+                    ctx.fillStyle = "white";
+                    ctx.fillText("V"+ i / 2, pt.x - 35, pt.y);
+                    ctx.fillStyle = "lightgreen";
+                    ctx.fillText(texLabels[i / 2], pt.x + 15, pt.y);
+                }
+            }
+
+            window.addEventListener("DOMContentLoaded", init);
+        </script>
+    </head>
+    <body>
+        <h1>Texture Essentials</h1>
+        
+        <div id="container">
+            <canvas id="webgl-canvas" width="300" height="300">Your browser does not support HTML5 Canvas!</canvas>
+            <canvas id="text-canvas" width="300" height="300">Your browser does not support HTML5 Canvas!</canvas>
+        </div>
+    </body>
+</html>

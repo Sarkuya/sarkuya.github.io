@@ -155,7 +155,6 @@ geoGrp.rectFromUserToCanvas = function(rect) {
 geoGrp.drawBoundary = function() {
     var ctx = this.ctx;
 
-    ctx.strokeStyle = "red";
     ctx.strokeRect(this.PADDING, this.PADDING, this.canvas.width - this.PADDING * 2, this.canvas.height - this.PADDING * 2);
 };
 
@@ -534,13 +533,15 @@ geoGrp.drawColorWheel = function(orgPoint, outterRadius, innerRadius, blocksNum)
 };
 
 geoGrp.drawGoldenRect = function(point, width, arcNums, isDrawGrid) {
-    
-    
     var localPoint = this.pointFromUserToCanvas(point);
     var localWidth = width * this.X_UNIT_LENGTH;
     var localHeight = localWidth * GOLDEN_RATE;
     
     var ctx = this.ctx;
+    
+    ctx.save();
+    
+    var oldStrokeStyle = ctx.strokeStyle;
     
     ctx.strokeStyle = '#ccc';
     
@@ -631,7 +632,7 @@ geoGrp.drawGoldenRect = function(point, width, arcNums, isDrawGrid) {
     ctx.closePath();
     
     // draw arcs
-    ctx.strokeStyle = 'brown';
+    ctx.strokeStyle = oldStrokeStyle;
     ctx.beginPath();
     
     var factor = Math.PI / 180;
@@ -644,6 +645,8 @@ geoGrp.drawGoldenRect = function(point, width, arcNums, isDrawGrid) {
     
     ctx.stroke();
     ctx.closePath();
+    
+    ctx.restore();
 };
 
 geoGrp.drawRegularPolygon = function(orgPoint, radius, verticesNum, isDrawAroundedCircle, isDrawPolygon, isDrawConnectedVertices, isDrawCenterPoint) {
@@ -670,7 +673,7 @@ geoGrp.drawRegularPolygon = function(orgPoint, radius, verticesNum, isDrawAround
             break;
     }
 
-    ctx.strokeStyle = 'black';
+    //ctx.strokeStyle = 'black';
     
     ctx.beginPath();
     
@@ -732,9 +735,6 @@ geoGrp.drawRegularPolygon = function(orgPoint, radius, verticesNum, isDrawAround
 geoGrp.drawText = function(text, point) {
     var ctx = this.ctx;
     
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'top';
-    
     var localPoint = this.pointFromUserToCanvas(point);
     
     ctx.strokeText(text, localPoint.x, localPoint.y);
@@ -743,15 +743,19 @@ geoGrp.drawText = function(text, point) {
 geoGrp.drawCenteredTextInRect = function(text, rect) {
     var ctx = this.ctx;
     
+    ctx.save();
+    
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
     var localRect = this.rectFromUserToCanvas(rect);
     
     ctx.strokeText(text, localRect.x + localRect.width / 2, localRect.y + localRect.height / 2);
+    
+    ctx.restore();
 };
 
-geoGrp.drawTextAlignLineSegment = function(text, point1, point2, atLinePos, atLineSide, padding, isDrawLineSegment) {
+geoGrp.fillTextAlignLineSegment = function(text, point1, point2, atLinePos, atLineSide, padding, isDrawLineSegment) {
     var _point1 = this.pointFromUserToCanvas(point1);
     var _point2 = this.pointFromUserToCanvas(point2);
     var _padding = padding * this.Y_UNIT_LENGTH;
@@ -812,15 +816,15 @@ geoGrp.drawTextAlignLineSegment = function(text, point1, point2, atLinePos, atLi
 geoGrp.fillText = function(text, point) {
     var ctx = this.ctx;
     
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'top';
+//    ctx.textAlign = 'left';
+//    ctx.textBaseline = 'top';
     
     var localPoint = this.pointFromUserToCanvas(point);
     
     ctx.fillText(text, localPoint.x, localPoint.y);
 };
 
-geoGrp.fillCenteredTextInRect = function(text, rect) {
+geoGrp.fillCenteredTextInRect = function(text, rect, isDrawRect) {
     var ctx = this.ctx;
     
     ctx.textAlign = 'center';
@@ -828,8 +832,11 @@ geoGrp.fillCenteredTextInRect = function(text, rect) {
     
     var localRect = this.rectFromUserToCanvas(rect);
     
-    //ctx.strokeRect(localRect.x, localRect.y, localRect.width, localRect.height);
     ctx.fillText(text, localRect.x + localRect.width / 2, localRect.y + localRect.height / 2);
+    
+    if (isDrawRect) {
+        ctx.strokeRect(localRect.x, localRect.y, localRect.width, localRect.height);
+    }
 };
 
 geoGrp.drawTriangle = function(pt1, pt2, pt3) {
@@ -882,7 +889,11 @@ geoGrp.drawArcInIntersectAngle = function(radialSrcPoint, radialDstPoint1, radia
     ctx.restore();
 };
 
-geoGrp.drawTextInIntersectAngle = function(text, radialSrcPoint, radialDstPoint1, radialDstPoint2, radius) {
+
+/*
+ * TODO: Bug: if radialDstPoint2's value is not big enough, rotated angle error occurs
+ */
+geoGrp.fillTextInIntersectAngle = function(text, radialSrcPoint, radialDstPoint1, radialDstPoint2, radius) {
     var _srcPoint = this.pointFromUserToCanvas(radialSrcPoint);
     var _dstPoint1 = this.pointFromUserToCanvas(radialDstPoint1);
     var _dstPoint2 = this.pointFromUserToCanvas(radialDstPoint2);
@@ -1031,7 +1042,7 @@ geoGrp.drawArcWithArrow = function(orgPoint, radius, startAngle, endAngle, isCou
     ctx.closePath();
 };
 
-geoGrp.drawRotatedTextAroundPoint = function(text, orgPoint, radius, angle) {
+geoGrp.fillRotatedTextAroundPoint = function(text, orgPoint, radius, angle) {
     var _orgPoint = this.pointFromUserToCanvas(orgPoint);
     var _radius = radius * Math.min(this.X_UNIT_LENGTH, this.Y_UNIT_LENGTH);
     var _angle = degreeToRadian(angle);

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>geoGrp Guide</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/document.css">
+        
+        <style type="text/css">
+            canvas {
+                border: 1px solid lightgray;
+            }
+        </style>
+        
+        <script src="../js/htmlDocUtils.js"></script>
+        <script src="../js/geoGrp.js"></script>
+        
+        <script type="text/javascript">
+            function init() {
+                doInCanvas1();
+                
+                
+                doInCanvas10();
+                
+                doInCanvas20();
+                
+                
+                doInCanvas60();
+                
+                doInCanvas65();
+                
+                doInCanvas70();
+                
+                doInCanvas80();
+                
+                // Texts
+                doInCanvas90();
+                
+                // other shapes
+                doInCanvas100();
+                doInCanvas105();
+                
+                // other facilities
+                doInCanvas205();
+            }
+            
+            function doInCanvas1() {
+                var canvas = document.getElementById("canvas1");
+                
+                geoGrp.setupCanvas(canvas);
+                geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), 1, 2, 1, 2, true);
+                
+                geoGrp.ctx.fillStyle = "hsla(150, 50%, 50%, 0.2)";
+                geoGrp.fillRoundedRect(Rect(-0.4, 0.4, 0.8, 0.8), 0.05);
+            }
+            
+            function doInCanvas10() {
+                var canvas = document.getElementById("canvas10");
+                
+                geoGrp.setupCanvas(canvas);
+                geoGrp.setupCoordinate("up", geoGrp.getLeftBottomCorner(), 10, 10, 10, 10, true);
+                
+                geoGrp.ctx.strokeStyle = "black";
+                geoGrp.drawLine(Point(1, 9), Point(9, 9));
+                geoGrp.drawLineWithArrow(Point(8, 5), Point(1, 5), 32, 0.5);
+            }
+            
+            function doInCanvas20() {
+                var canvas = document.getElementById("canvas20");
+                
+                geoGrp.setupCanvas(canvas);
+                geoGrp.setupCoordinate("up", geoGrp.getLeftBottomCorner(), 10, 10, 10, 10, true);
+                
+                geoGrp.ctx.strokeStyle = "black";
+                geoGrp.drawRoundedRect(Rect(2, 9, 5, 5), 0.3);
+                
+                geoGrp.ctx.fillStyle = "lightgray";
+                geoGrp.fillRoundedRect(Rect(3, 3, 3, 1), 0.1);
+            }
+            
+            function doInCanvas60() {
+                var canvas = document.getElementById("canvas60");
+                
+                geoGrp.setupCanvas(canvas);
+                geoGrp.setupCoordinate("up", geoGrp.getLeftBottomCorner(), 10, 10, 10, 10, true);
+                
+                geoGrp.ctx.strokeStyle = "black";
+                geoGrp.drawTriangle(Point(2, 2), Point(8, 2), Point(5, 9));
+            }
+            
+            function doInCanvas65() {
+                var canvas = document.getElementById("canvas65");
+                
+                geoGrp.setupCanvas(canvas);
+                geoGrp.setupCoordinate("up", geoGrp.getLeftBottomCorner(), 10, 10, 10, 10, true);
+                
+                geoGrp.ctx.strokeStyle = "black";
+                geoGrp.drawCircle(Point(5, 5), 3);
+            }
+            
+            function doInCanvas70() {
+                var canvas = document.getElementById("canvas70");
+                
+                geoGrp.setupCanvas(canvas);
+                geoGrp.setupCoordinate("up", geoGrp.getLeftBottomCorner(), 10, 10, 10, 10, false);
+                
+                geoGrp.ctx.strokeStyle = "blue";
+                geoGrp.drawRegularPolygon(Point(5, 5), 3, 6, false, true, true, true);
+            }
+            
+            function doInCanvas80() {
+                var canvas = document.getElementById("canvas80");
+                
+                geoGrp.setupCanvas(canvas);
+                geoGrp.setupCoordinate("up", geoGrp.getLeftBottomCorner(), 10, 10, 10, 10, true);
+                
+                geoGrp.ctx.strokeStyle = "black";
+                geoGrp.drawTriangle(Point(2, 2), Point(8, 2), Point(5, 9));
+                
+                geoGrp.ctx.strokeStyle = "red";
+                geoGrp.drawArcInIntersectAngle(Point(2, 2), Point(8, 2), Point(5, 9), 1);
+                
+                geoGrp.ctx.strokeStyle = "green";
+                geoGrp.drawArcWithArrow(Point(5, 5), 4, 180, 0, false, 30, 0.3);
+            }
+            
+            function doInCanvas90() {
+                var canvas = document.getElementById("canvas90");
+                var ctx = canvas.getContext("2d");
+                
+                geoGrp.setupCanvas(canvas);
+                geoGrp.setupCoordinate("up", geoGrp.getLeftBottomCorner(), 20, 10, 20, 10, true);
+                
+                ctx.strokeStyle = "black";
+                geoGrp.drawText("Hello", Point(2, 14));
+                
+                ctx.font = "28px Arial";
+                ctx.fillStyle = "brown";
+                geoGrp.fillText("Hello", Point(3, 7));
+                
+                geoGrp.fillCenteredTextInRect("vertices", Rect(8, 18, 5, 2), true);
+                
+                ctx.font = "18px Arial";
+                ctx.fillStyle = "blue";
+                for (var angle = 0; angle < 360; angle += 45) {
+                    geoGrp.fillRotatedTextAroundPoint("Home", Point(10, 10), 1, angle);
+                }
+                
+                ctx.fillStyle = "magenta";
+                var pt1 = Point(13, 13);
+                var pt2 = Point(20, 20);
+                geoGrp.fillTextAlignLineSegment("Fly to Mars", pt1, pt2, "center", "up", 0.2, false);
+                geoGrp.drawLineWithArrow(pt1, pt2, 30, 0.5);
+                
+                var pt1 = Point(2, 2);
+                var pt2 = Point(6, 6);
+                var pt3 = Point(10, 2);
+                
+                ctx.strokeStyle = "black";
+                geoGrp.drawLine(pt1, pt2);
+                geoGrp.drawLine(pt1, pt3);
+                
+                geoGrp.drawArcInIntersectAngle (pt1, pt2, pt3, 1);
+                geoGrp.fillTextInIntersectAngle("angle", pt1, pt2, pt3, 1.5);
+            }
+            
+            function doInCanvas100() {
+                var canvas = document.getElementById("canvas100");
+                
+                geoGrp.setupCanvas(canvas);
+                geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), 20, 10, 20, 10, false);
+                
+                geoGrp.drawColorWheel(Point(0, 0), 18, 8, 7);
+            }
+            
+            function doInCanvas105() {
+                var canvas = document.getElementById("canvas105");
+                
+                geoGrp.setupCanvas(canvas);
+                geoGrp.setupCoordinate("up", geoGrp.getLeftBottomCorner(), 20, 10, 20, 10, false);
+                
+                geoGrp.ctx.strokeStyle = "darkorange";
+                geoGrp.drawGoldenRect(Point(0, 17), 18, 7, true);
+            }
+            
+            function doInCanvas205() {
+                var canvas = document.getElementById("canvas205");
+                
+                geoGrp.setupCanvas(canvas);
+                geoGrp.setupCoordinate("up", geoGrp.getLeftBottomCorner(), 20, 10, 20, 10, true);
+                
+                geoGrp.ctx.strokeStyle = "darkorange";
+                
+                geoGrp.drawBoundary();
+            }
+            
+            window.addEventListener("DOMContentLoaded", init);
+        </script>
+        
+    </head>
+    <body>
+        <article>
+            <header>
+                <h1>geoGrp Guide</h1>
+                <p class='authorinfo'>Sarkuya, <time>2019-06-16</time></p>
+            </header>
+
+            <section class="chapter">
+                <h1>Basic Usage</h1>
+                <canvas id="canvas1" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                <pre class="highlight">
+var canvas = document.getElementById("canvas1");
+
+geoGrp.setupCanvas(canvas);
+geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), 1, 2, 1, 2, true);
+
+geoGrp.ctx.fillStyle = "hsla(150, 50%, 50%, 0.2)";
+geoGrp.fillRoundedRect(Rect(-0.4, 0.4, 0.8, 0.8), 0.05);
+</pre>
+                <p>Since geoGrp supports multiple canvas in one page, you can build a big library of many vector images. Save each of them in Firefox or Chrome if needed.</p>
+            </section>
+            
+            <section class="chapter">
+                <h1>Drawing Geometries</h1>
+                
+                <section>
+                    <h1>Drawing Line</h1>
+                    <canvas id="canvas10" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                    <pre class="synopsis">
+drawLine (
+    pt1,
+    pt2
+);
+
+drawLineWithArrow (
+    startPoint,
+    endPoint,
+    arrowAngle,
+    arrowLength
+);
+</pre>
+                </section>
+                
+                <section>
+                    <h1>Drawing Rectangle</h1>
+                    <canvas id="canvas20" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                    <pre class="synopsis">
+drawRect {
+    rect
+};
+
+drawRoundedRect (
+    rect,
+    r
+);
+
+fillRect {
+    rect
+};
+
+fillRoundedRect (
+    rect,
+    r
+);
+</pre>
+                </section>
+                
+                <section>
+                    <h1>Drawing Triangle</h1>
+                    <canvas id="canvas60" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                    <pre class="synopsis">
+drawTriangle (
+    pt1,
+    pt2,
+    pt3
+);
+</pre>
+                </section>
+                
+                <section>
+                    <h1>Drawing Circle</h1>
+                    <canvas id="canvas65" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                    <pre class="synopsis">
+drawCircle (
+    orgPoint,
+    radius
+);
+
+fillCircle (
+    orgPoint,
+    radius
+);
+</pre>
+                </section>
+                
+                <section>
+                    <h1>Drawing Regular Polygons</h1>
+                    <canvas id="canvas70" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                    <p>Codes:</p>
+                    <pre class="highlight">
+geoGrp.drawRegularPolygon(Point(5, 5), 3, 6, false, true, true, true);
+</pre>
+                    <p>Synopsis:</p>
+                    <pre class="synopsis">
+drawRegularPolygon (
+    orgPoint,
+    radius,
+    verticesNum,
+    isDrawAroundedCircle,
+    isDrawPolygon,
+    isDrawConnectedVertices,
+    isDrawCenterPoint
+)
+</pre>
+                </section>
+                
+                <section>
+                    <h1>Drawing Arcs</h1>
+                    <canvas id="canvas80" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                    <p>Codes:</p>
+                    <pre class="highlight">
+geoGrp.ctx.strokeStyle = "black";
+geoGrp.drawTriangle(Point(2, 2), Point(8, 2), Point(5, 9));
+
+geoGrp.ctx.strokeStyle = "red";
+geoGrp.drawArcInIntersectAngle(Point(2, 2), Point(8, 2), Point(5, 9), 1);
+
+geoGrp.ctx.strokeStyle = "green";
+geoGrp.drawArcWithArrow(Point(5, 5), 4, 180, 0, false, 30, 0.3);
+</pre>
+                    <p>Synopsis:</p>
+                    <pre class="synopsis">
+drawArcInIntersectAngle (
+    radialSrcPoint,
+    radialDstPoint1,
+    radialDstPoint2,
+    radius
+);
+
+drawArcWithArrow (
+    orgPoint,
+    radius,
+    startAngle,
+    endAngle,
+    isCounterClockwise,
+    arrowAngle,
+    arrowLength
+);
+</pre>
+                </section>
+                
+            </section>
+            
+            <section class="chapter">
+                <h1>Drawing Texts</h1>
+                <canvas id="canvas90" width="500" height="500">Your browser does not support HTML5 Canvas.</canvas>
+                <pre class="synopsis">
+drawCenteredTextInRect (
+    text,
+    rect
+);
+
+drawText (
+    text,
+    point
+);
+
+fillText (
+    text,
+    point
+);
+
+fillTextInIntersectAngle (
+    text,
+    radialSrcPoint,
+    radialDstPoint1,
+    radialDstPoint2,
+    radius
+);
+
+fillCenteredTextInRect (
+    text,
+    rect,
+    isDrawRect
+);
+
+fillRotatedTextAroundPoint (
+    text,
+    orgPoint,
+    radius,
+    angle
+);
+
+fillTextAlignLineSegment (
+    text,
+    point1,
+    point2,
+    atLinePos,
+    atLineSide,
+    padding,
+    isDrawLineSegment
+);
+</pre>
+            </section>
+            
+            <section class="chapter">
+                <h1>Drawing Other Shapes</h1>
+                
+                <section>
+                    <h1>Color Wheel</h1>
+                    <canvas id="canvas100" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                    <pre class="synopsis">
+drawColorWheel (
+    orgPoint,
+    outterRadius,
+    innerRadius,
+    blocksNum
+);
+</pre>
+                </section>
+                
+                <section>
+                    <h1>Golden Rect</h1>
+                    <canvas id="canvas105" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                    <pre class="synopsis">
+drawGoldenRect (
+    point,
+    width,
+    arcNums,
+    isDrawGrid
+);
+</pre>
+                </section>
+            </section>
+            
+            <section class="chapter">
+                <h1>Other Facilities</h1>
+                <canvas id="canvas205" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                <pre class="synopsis">
+getBoundingRect();
+drawBoundary();
+getCenterPoint();
+getLeftBottomCorner();
+getLeftTopCorner();
+getLineLength();
+pointFromUserToCanvas();
+rectFromUserToCanvas();
+</pre>
+            </section>
+            
+            <section class="chapter">
+                <h1>Global Constructors and Functions</h1>
+                <pre class="synopsis">
+Point(x, y);
+Rect(x, y, width, height);
+degreeToRadian(degree);
+radianToDegree(radian);
+</pre>
+            </section>
+            
+            <section class="reference">
+                <h1>参考资料</h1>
+                
+                <section>
+                    <h1>网络资源</h1>
+                    <ol>
+                        <li><a href="" target="_blank">aaa</a></li>
+                    </ol>
+                </section>
+            </section>
+
+            <footer><p class="copyright">All rights reserved.</p></footer>
+        </article>
+    </body>
+</html>
