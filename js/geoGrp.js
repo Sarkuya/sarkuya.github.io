@@ -894,13 +894,21 @@ geoGrp.drawArcInIntersectAngle = function(radialSrcPoint, radialDstPoint1, radia
  * TODO: Bug: if radialDstPoint2's value is not big enough, rotated angle error occurs
  */
 geoGrp.fillTextInIntersectAngle = function(text, radialSrcPoint, radialDstPoint1, radialDstPoint2, radius) {
+    
+    
     var _srcPoint = this.pointFromUserToCanvas(radialSrcPoint);
     var _dstPoint1 = this.pointFromUserToCanvas(radialDstPoint1);
     var _dstPoint2 = this.pointFromUserToCanvas(radialDstPoint2);
     var _radius = radius * Math.min(this.X_UNIT_LENGTH, this.Y_UNIT_LENGTH);
+    
+    console.log(_srcPoint, _dstPoint1, _dstPoint2);
 
     var angle = Math.acos(this.getLineLength(_srcPoint, _dstPoint1) / this.getLineLength(_srcPoint, _dstPoint2)) / 2;
     angle = this.Y_AXIS_POSIVE === 'up' ? angle : -angle;
+    
+    console.log(this.getLineLength(_srcPoint, _dstPoint1));
+    console.log(this.getLineLength(_srcPoint, _dstPoint2));
+    
     
     var ctx = this.ctx;
     
@@ -937,12 +945,16 @@ geoGrp.fillCircle = function(orgPoint, radius) {
     
     var ctx = this.ctx;
     
+    ctx.save();
+    
     ctx.beginPath();
     
     ctx.arc(_orgPoint.x, _orgPoint.y, _radius, 0, Math.PI * 2, false);
     
     ctx.fill();
     ctx.closePath();
+    
+    ctx.restore();
 };
 
 geoGrp.drawLineWithArrow = function(startPoint, endPoint, arrowAngle, arrowLength) {

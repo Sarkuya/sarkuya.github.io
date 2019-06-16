@@ -7,17 +7,109 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <style>
+            canvas {
+                border: 1px solid gray;
+            }
         </style>
+        
+        <script src="../../js/canvas-grid.js"></script>
         
         <script>
             function init() {
-                var data = [-5, 8, 259, 376];
-                var array = new Uint8ClampedArray(data);
+                var canvas = document.getElementById("canvas");
+                var ctx = canvas.getContext("2d");
+                
+                var pt1 = Point(50, 150);
+                
+                var pt2 = Point(100, 150);
+                
+                
+                var pt3 = Point(25, 100);
+                
+                ctx.beginPath();
+                
+                ctx.moveTo(pt1.x, pt1.y);
+                ctx.lineTo(pt2.x, pt2.y);
+                
+                ctx.moveTo(pt1.x, pt1.y);
+                ctx.lineTo(pt3.x, pt3.y);
+                
+                ctx.stroke();
+                ctx.closePath();
+                
+                
+                var angle1 = Math.atan((pt2.y - pt1.y) / (pt2.x - pt1.x));
+                var angle2 = Math.atan((pt3.y - pt1.y) / (pt3.x - pt1.x));
+                
+                if (angle2 > 0) {
+                    angle2 = Math.PI - angle2;
+                }
+                
+                var intersectAngle = angle2 - angle1;
+                
+                
+                
+                
+                
+                var radious = 25;
+                
+                //var radian = getIntersectAngle(pt1, pt2, pt3);
 
-                array.forEach(element => {
-                    console.log(element);
-                });
+                var degree = radianToDegree(intersectAngle);
+                
+                console.log(radianToDegree(angle1), radianToDegree(angle2), radianToDegree(intersectAngle));
+                
+                ctx.translate(pt1.x, pt1.y);
+                ctx.rotate(Math.atan((pt2.y - pt1.y) / (pt2.x - pt1.x)));
+                
+                //ctx.rotate(degreeToRadian(-90));
+                
+                ctx.rotate(intersectAngle/2);
+                
+
+                
+                ctx.textAlign = "left";
+                ctx.textBaseline = "middle";
+                
+                ctx.font = "12px Arial";
+                ctx.fillText("angle", radious, 0);
             }
+            
+            function getIntersectAngle(radialSrcPoint, radialDstPoint1, radialDstPoint2) {
+//                if (radialDstPoint2.x === radialSrcPoint.x) {
+//                    var slop1 = (radialDstPoint1.y - radialSrcPoint.y) / (radialDstPoint1.x - radialSrcPoint.x);
+//                    
+//                    console.log("slop = " + slop1);
+//                    
+//                    var degree = 90 + radianToDegree(slop1);
+//                    console.log("degree = " + degree);
+//                    
+//                    return degreeToRadian(degree);
+//                }
+                
+                var slop1 = (radialDstPoint1.y - radialSrcPoint.y) / (radialDstPoint1.x - radialSrcPoint.x);
+                var slop2 = (radialDstPoint2.y - radialSrcPoint.y) / (radialDstPoint2.x - radialSrcPoint.x);
+                
+                // slop = 0  -> parallel to x axis
+                // 
+                // 斜线与正半轴的夹角 < 90度，且终点位于于第一象限，slop < 0, 与X轴正半轴的角度越小， slop 越接近于0
+                // 斜线与正半轴的夹角 < 90度，且终点位于于第四象限，slop > 0, 与X轴正半轴的角度越小， slop 越接近于0
+                // 斜线与正半轴的夹角 > 90度，且终点位于于第二象限，slop > 0, 与X轴正半轴的角度越大， slop 越接近于0
+                // 斜线与正半轴的夹角 > 90度，且终点位于于第三象限，slop < 0, 与X轴正半轴的角度越大， slop 越接近于0
+                // 
+                // slop < 0  -> 
+                
+                console.log("slop1 = " + slop1);
+                console.log("slop2 = " + slop2);
+                
+                
+                var radian = Math.atan((slop1 - slop2)/(1 + slop1 * slop2));
+                
+                
+                return radian;
+
+            }
+            
             
             window.addEventListener("DOMContentLoaded", init);
         </script>
