@@ -73,7 +73,7 @@ geoGrp.setupCanvas = function(canvas) {
     //console.log("in geo, ctx = " + this.ctx);
 };
 
-geoGrp.setupCoordinate = function(yAxisPositive, orgPoint, xPositiveMarksMaxValue, xPositiveMarksNum, yPositiveMarksMaxValue, yPositiveMarksNum, isDrawAxis) {
+geoGrp.setupCoordinate = function(yAxisPositive, orgPoint, xPositiveMarksMaxValue, xPositiveMarksNum, yPositiveMarksMaxValue, yPositiveMarksNum, isDrawAxis, isDrawMarks) {
     this.Y_AXIS_POSIVE = yAxisPositive;
     
     this.ORIGIN_POINT_USER = orgPoint;
@@ -100,8 +100,8 @@ geoGrp.setupCoordinate = function(yAxisPositive, orgPoint, xPositiveMarksMaxValu
     this.Y_UNIT_LENGTH = this.Y_UNIT_MARK_LENGTH / (this.Y_POSITIVE_MARKS_MAX_VALUE / this.Y_POSITIVE_MARKS_NUM);
     
     if (isDrawAxis) {
-        this.drawXAxis();
-        this.drawYAxis();
+        this.drawXAxis(isDrawMarks);
+        this.drawYAxis(isDrawMarks);
     }
 };
 
@@ -158,7 +158,7 @@ geoGrp.drawBoundary = function() {
     ctx.strokeRect(this.PADDING, this.PADDING, this.canvas.width - this.PADDING * 2, this.canvas.height - this.PADDING * 2);
 };
 
-geoGrp.drawXAxisLines = function() {
+geoGrp.drawXAxisLines = function(isDrawMarks) {
     var ctx = this.ctx;
     
     ctx.beginPath();
@@ -176,22 +176,24 @@ geoGrp.drawXAxisLines = function() {
     ctx.lineTo(this.canvas.width - this.PADDING, org.y);
     ctx.lineTo(this.canvas.width - this.PADDING - this.AXIS_ARROW_LENGTH * Math.cos(Math.PI / 180 * this.AXIS_ARROW_INTER_ANGLE), org.y + this.AXIS_ARROW_LENGTH * Math.sin(Math.PI / 180 * this.AXIS_ARROW_INTER_ANGLE));
 
-    // x positive axis marks
-    var startX = 0, startY = 0;
-    var endX = 0, endY = 0;
+    if (isDrawMarks) {
+        // x positive axis marks
+        var startX = 0, startY = 0;
+        var endX = 0, endY = 0;
 
-    startX = org.x;
+        startX = org.x;
 
-    for (var i = 1; i <= this.X_POSITIVE_MARKS_NUM; i++) {
-        startX += this.X_UNIT_MARK_LENGTH;
-        startY = org.y - this.MARK_HEIGHT / 2;
+        for (var i = 1; i <= this.X_POSITIVE_MARKS_NUM; i++) {
+            startX += this.X_UNIT_MARK_LENGTH;
+            startY = org.y - this.MARK_HEIGHT / 2;
 
-        endX = startX;
-        endY = startY + this.MARK_HEIGHT;
+            endX = startX;
+            endY = startY + this.MARK_HEIGHT;
 
-        if (i !== this.X_POSITIVE_MARKS_NUM) {
-            ctx.moveTo(startX, startY);
-            ctx.lineTo(endX, endY);
+            if (i !== this.X_POSITIVE_MARKS_NUM) {
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+            }
         }
     }
 
@@ -199,22 +201,24 @@ geoGrp.drawXAxisLines = function() {
     ctx.moveTo(org.x, org.y);
     ctx.lineTo(this.PADDING, org.y);
 
-    // x negative axis marks
-    startX = org.x;
+    if (isDrawMarks) {
+        // x negative axis marks
+        startX = org.x;
 
-    var index = 1;
+        var index = 1;
 
-    while (startX - this.X_UNIT_MARK_LENGTH >= this.PADDING) {
-        startX -= this.X_UNIT_MARK_LENGTH;
-        startY = org.y - this.MARK_HEIGHT / 2;
+        while (startX - this.X_UNIT_MARK_LENGTH >= this.PADDING) {
+            startX -= this.X_UNIT_MARK_LENGTH;
+            startY = org.y - this.MARK_HEIGHT / 2;
 
-        endX = startX;
-        endY = startY + this.MARK_HEIGHT;
+            endX = startX;
+            endY = startY + this.MARK_HEIGHT;
 
-        ctx.moveTo(startX, startY);
-        ctx.lineTo(endX, endY);
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
 
-        index++;
+            index++;
+        }
     }
     
     ctx.stroke();
@@ -314,7 +318,7 @@ geoGrp.drawYAxisMarkLabels = function() {
     }
 };
 
-geoGrp.drawYAxisLines = function() {
+geoGrp.drawYAxisLines = function(isDrawMarks) {
     var ctx = this.ctx;
     
     ctx.beginPath();
@@ -342,27 +346,29 @@ geoGrp.drawYAxisLines = function() {
         ctx.lineTo(org.x + this.AXIS_ARROW_LENGTH * Math.sin(Math.PI / 180 * this.AXIS_ARROW_INTER_ANGLE), this.canvas.height - this.PADDING - this.AXIS_ARROW_LENGTH * Math.cos(Math.PI / 180 * this.AXIS_ARROW_INTER_ANGLE));
     }
     
-    // y positive axis marks
-    var startX = 0, startY = 0;
-    var endX = 0, endY = 0;
-    
-    startX = org.x - this.MARK_HEIGHT / 2;
-    endX = startX + this.MARK_HEIGHT;
+    if (isDrawMarks) {
+        // y positive axis marks
+        var startX = 0, startY = 0;
+        var endX = 0, endY = 0;
 
-    startY = org.y;
-    
-    for (var i = 1; i <= this.Y_POSITIVE_MARKS_NUM; i++) {
-        if (this.Y_AXIS_POSIVE === 'up') {
-            startY -= this.Y_UNIT_MARK_LENGTH;
-        } else if (this.Y_AXIS_POSIVE === 'down') {
-            startY += this.Y_UNIT_MARK_LENGTH;
-        }
-        
-        endY = startY;
+        startX = org.x - this.MARK_HEIGHT / 2;
+        endX = startX + this.MARK_HEIGHT;
 
-        if (i !== this.Y_POSITIVE_MARKS_NUM) {
-            ctx.moveTo(startX, startY);
-            ctx.lineTo(endX, endY);
+        startY = org.y;
+
+        for (var i = 1; i <= this.Y_POSITIVE_MARKS_NUM; i++) {
+            if (this.Y_AXIS_POSIVE === 'up') {
+                startY -= this.Y_UNIT_MARK_LENGTH;
+            } else if (this.Y_AXIS_POSIVE === 'down') {
+                startY += this.Y_UNIT_MARK_LENGTH;
+            }
+
+            endY = startY;
+
+            if (i !== this.Y_POSITIVE_MARKS_NUM) {
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+            }
         }
     }
 
@@ -375,33 +381,35 @@ geoGrp.drawYAxisLines = function() {
         ctx.lineTo(org.x, this.PADDING);
     }
 
-    // y negative axis marks
-    startX = org.x - this.MARK_HEIGHT / 2;
-    endX = startX + this.MARK_HEIGHT;
-    
-    startY = org.y;
+    if (isDrawMarks) {
+        // y negative axis marks
+        startX = org.x - this.MARK_HEIGHT / 2;
+        endX = startX + this.MARK_HEIGHT;
 
-    var index = 1;
-    
-    if (this.Y_AXIS_POSIVE === 'up') {
-        while (startY + this.Y_UNIT_MARK_LENGTH <= this.canvas.height - this.PADDING) {
-            startY += this.Y_UNIT_MARK_LENGTH;
-            endY = startY;
+        startY = org.y;
 
-            ctx.moveTo(startX, startY);
-            ctx.lineTo(endX, endY);
+        var index = 1;
 
-            index++;
-        }
-    } else if (this.Y_AXIS_POSIVE === 'down') {
-        while (startY - this.Y_UNIT_MARK_LENGTH >= this.PADDING) {
-            startY -= this.Y_UNIT_MARK_LENGTH;
-            endY = startY;
+        if (this.Y_AXIS_POSIVE === 'up') {
+            while (startY + this.Y_UNIT_MARK_LENGTH <= this.canvas.height - this.PADDING) {
+                startY += this.Y_UNIT_MARK_LENGTH;
+                endY = startY;
 
-            ctx.moveTo(startX, startY);
-            ctx.lineTo(endX, endY);
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
 
-            index++;
+                index++;
+            }
+        } else if (this.Y_AXIS_POSIVE === 'down') {
+            while (startY - this.Y_UNIT_MARK_LENGTH >= this.PADDING) {
+                startY -= this.Y_UNIT_MARK_LENGTH;
+                endY = startY;
+
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+
+                index++;
+            }
         }
     }
 
@@ -410,14 +418,20 @@ geoGrp.drawYAxisLines = function() {
     ctx.closePath();
 };
 
-geoGrp.drawXAxis = function () {
-    this.drawXAxisLines();
-    this.drawXAxisMarkLabels();
+geoGrp.drawXAxis = function (isDrawMarks) {
+    this.drawXAxisLines(isDrawMarks);
+    
+    if (isDrawMarks) {
+        this.drawXAxisMarkLabels();
+    }
 };
 
-geoGrp.drawYAxis = function () {
-    this.drawYAxisLines();
-    this.drawYAxisMarkLabels();
+geoGrp.drawYAxis = function (isDrawMarks) {
+    this.drawYAxisLines(isDrawMarks);
+    
+    if (isDrawMarks) {
+        this.drawYAxisMarkLabels();
+    }
 };
 
 geoGrp.drawLine = function(pt1, pt2) {
@@ -901,13 +915,13 @@ geoGrp.fillTextInIntersectAngle = function(text, radialSrcPoint, radialDstPoint1
     var _dstPoint2 = this.pointFromUserToCanvas(radialDstPoint2);
     var _radius = radius * Math.min(this.X_UNIT_LENGTH, this.Y_UNIT_LENGTH);
     
-    console.log(_srcPoint, _dstPoint1, _dstPoint2);
+    //console.log(_srcPoint, _dstPoint1, _dstPoint2);
 
     var angle = Math.acos(this.getLineLength(_srcPoint, _dstPoint1) / this.getLineLength(_srcPoint, _dstPoint2)) / 2;
     angle = this.Y_AXIS_POSIVE === 'up' ? angle : -angle;
     
-    console.log(this.getLineLength(_srcPoint, _dstPoint1));
-    console.log(this.getLineLength(_srcPoint, _dstPoint2));
+    //console.log(this.getLineLength(_srcPoint, _dstPoint1));
+    //console.log(this.getLineLength(_srcPoint, _dstPoint2));
     
     
     var ctx = this.ctx;

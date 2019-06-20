@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Maths Notes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/document.css">
+        
+        <style type="text/css">
+            canvas {
+                border: 0px solid lightgray;
+            }
+        </style>
+        
+        <script src="../js/htmlDocUtils.js"></script>
+        <script src="../js/geoGrp.js"></script>
+        
+        <script type="text/javascript">
+            function init() {
+                doInCanvas10();
+                
+                doInCanvas20();
+                doInCanvas30();
+                
+                doInCanvas40();
+            }
+            
+            function doInCanvas10() {
+                var canvas = document.getElementById("canvas10");
+                var ctx = canvas.getContext("2d");
+
+                geoGrp.setupCanvas(canvas);
+                geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), 10, 5, 10, 5, false);
+                
+                var pt1 = Point(-8, -2);
+                var pt2 = Point(7, -2);
+                var pt3 = Point(7, 7);
+
+                ctx.strokeStyle = "black";
+                geoGrp.drawTriangle(pt1, pt2, pt3);
+                
+                geoGrp.drawArcInIntersectAngle(pt1, pt3, pt2, 2);
+                
+                ctx.font = "18px Atrial";
+                geoGrp.fillTextAlignLineSegment("斜边 c", pt1, pt3, "center", "up", 0.2, false);
+                geoGrp.fillTextAlignLineSegment("邻边 b", pt1, pt2, "center", "down", 0.2, false);
+                geoGrp.fillTextAlignLineSegment("对边 a", pt3, pt2, "center", "up", 0.2, false);
+                
+                geoGrp.fillTextInIntersectAngle("θ", pt1, pt2, pt3, 2.5);
+            }
+            
+            function doInCanvas20() {
+                var canvas = document.getElementById("canvas20");
+                var ctx = canvas.getContext("2d");
+
+                geoGrp.setupCanvas(canvas);
+                geoGrp.MARK_HEIGHT = 5;
+                geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), 10, 5, 10, 5, true, false);
+                
+                
+                var orgPt = Point(0, 0);
+                var radius = 8;
+                
+                var angleDegree = 60;
+                
+                var x = radius * Math.cos(degreeToRadian(angleDegree));
+                var y = radius * Math.sin(degreeToRadian(angleDegree));
+                
+                var pt2 = Point(x, 0);
+                var pt3 = Point(x, y);
+                
+                ctx.strokeStyle = "#666";
+                geoGrp.drawCircle(orgPt, radius);
+                
+                ctx.font = "10pt Arial";
+                ctx.fillStyle = "#999";
+                
+                ctx.textAlign = "center";
+                ctx.textBaseline = "top";
+                geoGrp.fillText("(0, 0)", Point(0, 0));
+                
+                ctx.fillStyle = "blue";
+                geoGrp.fillCircle(orgPt, 0.3);
+                
+                ctx.strokeStyle = "black";
+                geoGrp.drawLine(orgPt, pt3);
+                
+                ctx.fillStyle = "red";
+                geoGrp.fillTextAlignLineSegment("r", orgPt, pt3, "center", "up", 0.1, false);
+            }
+            
+            function doInCanvas30() {
+                var canvas = document.getElementById("canvas30");
+                var ctx = canvas.getContext("2d");
+
+                geoGrp.setupCanvas(canvas);
+                geoGrp.MARK_HEIGHT = 5;
+                geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), 10, 5, 10, 5, true, false);
+                
+                
+                var orgPt = Point(0, 0);
+                var radius = 8;
+                
+                var angleDegree = 60;
+                
+                var x = radius * Math.cos(degreeToRadian(angleDegree));
+                var y = radius * Math.sin(degreeToRadian(angleDegree));
+                
+                var pt2 = Point(x, 0);
+                var pt3 = Point(x, y);
+                
+                ctx.strokeStyle = "#666";
+                geoGrp.drawCircle(orgPt, radius);
+                
+                ctx.strokeStyle = "black";
+                geoGrp.drawTriangle(orgPt, pt2, pt3);
+                
+                ctx.font = "10pt Arial";
+                ctx.fillStyle = "#999";
+                
+                ctx.textAlign = "center";
+                ctx.textBaseline = "top";
+                geoGrp.fillText("(0, 0)", Point(0, 0));
+                
+                geoGrp.fillText("(x, 0)", pt2);
+                
+                ctx.textBaseline = "bottom";
+                geoGrp.fillText("P (x, y)", Point(pt3.x, pt3.y + 0.5));
+                
+                ctx.fillStyle = "red";
+                ctx.strokeStyle = "red";
+                geoGrp.drawArcInIntersectAngle(orgPt, pt2, pt3, 1);
+                
+                ctx.textBaseline = "top";
+                geoGrp.fillText("x", Point(orgPt.x + x / 2, orgPt.y));
+                
+                ctx.textAlign = "left";
+                ctx.textBaseline = "middle";
+                geoGrp.fillText("y", Point(pt2.x + 0.5, pt2.y + y / 2));
+                
+                geoGrp.fillTextInIntersectAngle("θ", orgPt, pt2, pt3, 1.5);
+                
+                geoGrp.fillTextAlignLineSegment("r", orgPt, pt3, "center", "up", 0.1, false);
+                
+                ctx.fillStyle = "blue";
+                geoGrp.fillCircle(orgPt, 0.3);
+                geoGrp.fillCircle(pt2, 0.3);
+                geoGrp.fillCircle(pt3, 0.3);
+            }
+            
+            function doInCanvas40() {
+                var canvas = document.getElementById("canvas40");
+                var ctx = canvas.getContext("2d");
+
+                geoGrp.setupCanvas(canvas);
+                geoGrp.MARK_HEIGHT = 5;
+                geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), 12, 6, 12, 6, true, true);
+                
+                var orgPt = Point(0, 0);
+                var pt2 = Point(8, 0);
+                var pt3 = Point(8, 6);
+                var radius = geoGrp.getLineLength(orgPt, pt3);
+                
+                ctx.strokeStyle = "#666";
+                geoGrp.drawCircle(orgPt, radius);
+                
+                ctx.strokeStyle = "black";
+                geoGrp.drawTriangle(orgPt, pt2, pt3);
+                
+                ctx.font = "10pt Arial";
+                ctx.fillStyle = "#999";
+                
+                ctx.textAlign = "center";
+                ctx.textBaseline = "top";
+                geoGrp.fillText("(0, 0)", Point(0, 0));
+                
+                geoGrp.fillText(`(${pt2.x}, ${pt2.y})`, pt2);
+                
+                ctx.textBaseline = "bottom";
+                geoGrp.fillText(`(${pt3.x}, ${pt3.y})`, Point(pt3.x, pt3.y + 0.5));
+                
+                ctx.fillStyle = "red";
+                ctx.strokeStyle = "red";
+                geoGrp.drawArcInIntersectAngle(orgPt, pt2, pt3, 1);
+                
+//                ctx.textBaseline = "top";
+//                geoGrp.fillText("x", Point(orgPt.x + x / 2, orgPt.y));
+                
+//                ctx.textAlign = "left";
+//                ctx.textBaseline = "middle";
+//                geoGrp.fillText("y", Point(pt2.x + 0.5, pt2.y + y / 2));
+                
+                geoGrp.fillTextInIntersectAngle("θ", orgPt, pt2, pt3, 1.5);
+                
+                geoGrp.fillTextAlignLineSegment("r", orgPt, pt3, "center", "up", 0.1, false);
+                
+                ctx.fillStyle = "blue";
+                geoGrp.fillCircle(orgPt, 0.3);
+                geoGrp.fillCircle(pt2, 0.3);
+                geoGrp.fillCircle(pt3, 0.3);
+            }
+            
+            
+            window.addEventListener("DOMContentLoaded", init);
+        </script>
+        
+    </head>
+    <body>
+        <article>
+            <header>
+                <h1>Maths Notes</h1>
+                <p class='authorinfo'>Sarkuya, <time>2019-06-20</time></p>
+            </header>
+
+            <section class="chapter">
+                <h1>直角三角形的三角函数</h1>
+                <canvas id="canvas10" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+
+                <table>
+                    <thead>
+                        <tr><th>名称</th><th>公式</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>正弦函数</td>
+                            <td>
+                                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                    <mrow>
+                                        <mi>sin</mi><mn>θ</mn><mo>=</mo><mfrac><mi>a</mi><mi>c</mi></mfrac>
+                                    </mrow>
+                                </math>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>余弦函数</td>
+                            <td>
+                                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                    <mrow>
+                                        <mi>cos</mi><mn>θ</mn><mo>=</mo><mfrac><mi>b</mi><mi>c</mi></mfrac>
+                                    </mrow>
+                                </math>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>正切函数</td>
+                            <td>
+                                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                    <mrow>
+                                        <mi>tan</mi><mn>θ</mn><mo>=</mo><mfrac><mi>a</mi><mi>b</mi></mfrac>
+                                    </mrow>
+                                </math>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>余切函数</td>
+                            <td>
+                                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                    <mrow>
+                                        <mi>cot</mi><mn>θ</mn><mo>=</mo><mfrac><mi>b</mi><mi>a</mi></mfrac>
+                                    </mrow>
+                                </math>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>正割函数</td>
+                            <td>
+                                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                    <mrow>
+                                        <mi>sec</mi><mn>θ</mn><mo>=</mo><mfrac><mi>c</mi><mi>b</mi></mfrac>
+                                    </mrow>
+                                </math>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>余割函数</td>
+                            <td>
+                                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                    <mrow>
+                                        <mi>csc</mi><mn>θ</mn><mo>=</mo><mfrac><mi>c</mi><mi>a</mi></mfrac>
+                                    </mrow>
+                                </math>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            
+            <section class="chapter">
+                <h1>圆上的三角函数</h1>
+                
+                <section>
+                    <h1>圆的定义</h1>
+                    <p>圆是定点到定长的所有点的集合。给定圆点与半径r, 可在坐标系中唯一地绘制一个圆。</p>
+                    <canvas id="canvas20" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                </section>
+                
+                
+                <section>
+                    <h1>圆的三角函数</h1>
+                    <p>将圆放在坐标系中，可通过直角三角形的三角函数求出圆上各点的坐标值。</p>
+                    <canvas id="canvas30" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                    <p>对于圆上任一点P, 其坐标值x和y, 分别对应于直角三角形的三角函数中∠θ的邻边和对边。因此，三角函数可转换为：</p>
+                    <table>
+                        <thead>
+                            <tr><th>名称</th><th>公式</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>正弦函数</td>
+                                <td>
+                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                        <mrow>
+                                            <mi>sin</mi><mn>θ</mn><mo>=</mo><mfrac><mi>y</mi><mi>r</mi></mfrac>
+                                        </mrow>
+                                    </math>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>余弦函数</td>
+                                <td>
+                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                        <mrow>
+                                            <mi>cos</mi><mn>θ</mn><mo>=</mo><mfrac><mi>x</mi><mi>r</mi></mfrac>
+                                        </mrow>
+                                    </math>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>正切函数</td>
+                                <td>
+                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                        <mrow>
+                                            <mi>tan</mi><mn>θ</mn><mo>=</mo><mfrac><mi>y</mi><mi>x</mi></mfrac>
+                                        </mrow>
+                                    </math>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>余切函数</td>
+                                <td>
+                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                        <mrow>
+                                            <mi>cot</mi><mn>θ</mn><mo>=</mo><mfrac><mi>x</mi><mi>y</mi></mfrac>
+                                        </mrow>
+                                    </math>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>正割函数</td>
+                                <td>
+                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                        <mrow>
+                                            <mi>sec</mi><mn>θ</mn><mo>=</mo><mfrac><mi>r</mi><mi>x</mi></mfrac>
+                                        </mrow>
+                                    </math>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>余割函数</td>
+                                <td>
+                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                        <mrow>
+                                            <mi>csc</mi><mn>θ</mn><mo>=</mo><mfrac><mi>r</mi><mi>y</mi></mfrac>
+                                        </mrow>
+                                    </math>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>图中θ是特定点与原点的连线，与X轴正半轴的夹角。</p>
+                    <p>此时便有2种应用：一是根据坐标值求夹角，二是根据夹角求坐标值。</p>
+                    
+                    <section>
+                        <h1>根据坐标值求夹角</h1>
+                        <p>公式：</p>
+                        <pre>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+    <mrow>
+        <mi>x</mi><mo>=</mo><mi>r</mi><mo>×</mo><mi>cos</mi><mn>θ</mn>
+    </mrow>
+</math>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+    <mrow>
+        <mi>y</mi><mo>=</mo><mi>r</mi><mo>×</mo><mi>sin</mi><mn>θ</mn>
+    </mrow>
+</math></pre>
+                        <p>例题1: 已知 r = 5, 点P坐标(5, 5)，求夹角θ。</p>
+                        <canvas id="canvas40" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                    </section>
+                    
+                    <section>
+                        <h1>根据夹角求坐标值</h1>
+                        <p></p>
+                        <pre>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+    <mrow>
+        <mi>x</mi><mo>=</mo><mi>r</mi><mo>×</mo><mi>cos</mi><mn>θ</mn>
+    </mrow>
+</math>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+    <mrow>
+        <mi>y</mi><mo>=</mo><mi>r</mi><mo>×</mo><mi>sin</mi><mn>θ</mn>
+    </mrow>
+</math></pre>
+                    </section>
+                </section>
+                
+                <section>
+                    <h1>半径为r, 围绕原点旋转θ的坐标值</h1>
+                    <p>对于圆上任意一点，只要知道该点与原点之线段与X轴正半轴的夹角θ, 及其半径r，就能求出其坐标值。</p>
+                    <p>也即，给定半径r, 当一个点围绕原点旋转特定角度时，总能求出其坐标值。下面分别对各象限进行考证。</p>
+                    
+                    
+                    <section>
+                        <h1>aaa</h1>
+                        <p>bbb</p>
+                    </section>
+                </section>
+            </section>
+            
+            <section class="reference">
+                <h1>参考资料</h1>
+                
+                <section>
+                    <h1>网络资源</h1>
+                    <ol>
+                        <li><a href="https://www.w3.org/TR/MathML/" target="_blank">MathML V3.0</a></li>
+                        <li><a href="https://www.intmath.com/help/send-math-email-syntax.php" target="_blank">Interactive Mathematics</a></li>
+                    </ol>
+                </section>
+            </section>
+
+            <footer><p class="copyright">All rights reserved.</p></footer>
+        </article>
+    </body>
+</html>
