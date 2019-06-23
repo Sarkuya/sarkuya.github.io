@@ -9,9 +9,16 @@ var GOLDEN_RATE = (Math.sqrt(5) - 1) / 2;
 function radianToDegree(radian) {
     return 180 / Math.PI * radian;
 }
+function degreeFromRadian(radian) {
+    return radianToDegree(radian);
+}
 
 function degreeToRadian(degree) {
     return Math.PI / 180 * degree;
+}
+
+function radianFromDegree(degree) {
+    return degreeToRadian(degree);
 }
 
 function Point(x, y) {

@@ -17,19 +17,21 @@
         
         <script src="../js/htmlDocUtils.js"></script>
         <script src="../js/geoGrp.js"></script>
+        <script src="../js/multi-canvases-in-a-doc.js"></script>
         
-        <script type="text/javascript">
+        
+        <script type="text/javascript" id="changableScript">
             function init() {
-                doInCanvas10();
+                sortCanvasId();
                 
-                doInCanvas20();
-                doInCanvas30();
-                
-                doInCanvas40();
+                var num = sortRenderingNames("changableScript");
+                for (var i = 1; i<=num; i++) {
+                    eval("doInCanvas" + i + "()");
+                }
             }
             
-            function doInCanvas10() {
-                var canvas = document.getElementById("canvas10");
+            function doInCanvas() {
+                var canvas = document.getElementById("canvas0");
                 var ctx = canvas.getContext("2d");
 
                 geoGrp.setupCanvas(canvas);
@@ -52,8 +54,8 @@
                 geoGrp.fillTextInIntersectAngle("θ", pt1, pt2, pt3, 2.5);
             }
             
-            function doInCanvas20() {
-                var canvas = document.getElementById("canvas20");
+            function doInCanvas() {
+                var canvas = document.getElementById("canvas0");
                 var ctx = canvas.getContext("2d");
 
                 geoGrp.setupCanvas(canvas);
@@ -92,18 +94,16 @@
                 geoGrp.fillTextAlignLineSegment("r", orgPt, pt3, "center", "up", 0.1, false);
             }
             
-            function doInCanvas30() {
-                var canvas = document.getElementById("canvas30");
+            function doInCanvas() {
+                var canvas = document.getElementById("canvas0");
                 var ctx = canvas.getContext("2d");
 
                 geoGrp.setupCanvas(canvas);
                 geoGrp.MARK_HEIGHT = 5;
                 geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), 10, 5, 10, 5, true, false);
                 
-                
                 var orgPt = Point(0, 0);
                 var radius = 8;
-                
                 var angleDegree = 60;
                 
                 var x = radius * Math.cos(degreeToRadian(angleDegree));
@@ -151,13 +151,171 @@
                 geoGrp.fillCircle(pt3, 0.3);
             }
             
-            function doInCanvas40() {
-                var canvas = document.getElementById("canvas40");
+            function doInCanvas() {
+                var canvas = document.getElementById("canvas0");
+                var ctx = canvas.getContext("2d");
+                
+                geoGrp.setupCanvas(canvas);
+                geoGrp.MARK_HEIGHT = 5;
+                geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), 10, 5, 10, 5, true, false);
+                
+                var orgPt = Point(0, 0);
+                var radius = 8;
+                var angleDegree = 120;
+                
+                var x = radius * Math.cos(degreeToRadian(angleDegree));
+                var y = radius * Math.sin(degreeToRadian(angleDegree));
+                
+                var pt2 = Point(x, y);
+                var pt3 = Point(x, 0);
+                
+                ctx.strokeStyle = "#666";
+                geoGrp.drawCircle(orgPt, radius);
+                
+                ctx.strokeStyle = "black";
+                geoGrp.drawLine(orgPt, pt2);
+                
+                geoGrp.drawArcInIntersectAngle(orgPt, pt2, Point(5, 0), 1);
+                geoGrp.fillTextInIntersectAngle("θ", orgPt, pt2, Point(5, 0), 1.5);
+                
+                geoGrp.fillText("P", Point(x - 0.8, y + 0.8));
+                
+                ctx.fillStyle = "blue";
+                geoGrp.fillCircle(pt2, 0.3);
+                
+                ctx.strokeStyle = "red";
+                geoGrp.drawLine(pt2, pt3);
+            }
+            
+            function doInCanvas() {
+                var canvas = document.getElementById("canvas0");
+                var ctx = canvas.getContext("2d");
+                
+                geoGrp.setupCanvas(canvas);
+                geoGrp.MARK_HEIGHT = 5;
+                geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), 10, 5, 10, 5, true, false);
+                
+                var orgPt = Point(0, 0);
+                var radius = 8;
+                var angleDegree = 120;
+                
+                var x = radius * Math.cos(degreeToRadian(angleDegree));
+                var y = radius * Math.sin(degreeToRadian(angleDegree));
+                
+                var pt2 = Point(x, y);
+                var pt3 = Point(x, 0);
+                
+                ctx.strokeStyle = "#666";
+                geoGrp.drawCircle(orgPt, radius);
+                
+                ctx.strokeStyle = "black";
+                geoGrp.drawLine(orgPt, pt2);
+                geoGrp.drawLine(pt2, pt3);
+                geoGrp.drawLine(orgPt, pt3);
+                
+                geoGrp.drawArcInIntersectAngle(orgPt, pt2, Point(5, 0), 1);
+                geoGrp.fillText("θ", Point(0.5, 1.5));
+                
+                geoGrp.fillText("P", Point(x - 0.8, y + 0.8));
+                
+                ctx.fillStyle = "blue";
+                geoGrp.fillCircle(pt2, 0.3);
+                
+                ctx.strokeStyle = "red";
+                ctx.fillStyle = "red";
+                geoGrp.drawArcInIntersectAngle(orgPt, pt2, pt3, 1.5);
+                geoGrp.fillText("β", Point(-2.5, 1.2));
+                
+                ctx.textAlign = "right";
+                ctx.textBaseline = "middle";
+                geoGrp.fillText("y", Point(pt2.x - 0.5, pt2.y / 2));
+                
+                ctx.textAlign = "center";
+                ctx.textBaseline = "top";
+                geoGrp.fillText("x", Point(pt3.x / 2, 0));
+                
+                geoGrp.fillTextAlignLineSegment("r", pt2, orgPt, "center", "up", 0.1, false);
+            }
+            
+            function doInCanvas() {
+                var canvas = document.getElementById("canvas0");
+                var ctx = canvas.getContext("2d");
+                
+                geoGrp.setupCanvas(canvas);
+                geoGrp.MARK_HEIGHT = 5;
+                geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), 10, 5, 10, 5, true, false);
+                
+                var orgPt = Point(0, 0);
+                var radius = 8;
+                var angleDegree = 120;
+                
+                var x = radius * Math.cos(degreeToRadian(angleDegree));
+                var y = radius * Math.sin(degreeToRadian(angleDegree));
+                
+                var pt2 = Point(x, y);
+                var pt3 = Point(x, 0);
+                
+                
+                var angleInFirstQuadrant = 60;
+                
+                var x1 = radius * Math.cos(degreeToRadian(angleInFirstQuadrant));
+                var y1 = radius * Math.sin(degreeToRadian(angleInFirstQuadrant));
+                
+                var pt4 = Point(x1, 0);
+                var pt5 = Point(x1, y1);
+                
+                ctx.strokeStyle = "#666";
+                geoGrp.drawCircle(orgPt, radius);
+                
+                ctx.strokeStyle = "black";
+                geoGrp.drawLine(orgPt, pt2);
+                geoGrp.drawLine(pt2, pt3);
+                geoGrp.drawLine(orgPt, pt3);
+                
+                console.log(pt4, pt5);
+                geoGrp.drawTriangle(orgPt, pt4, pt5);
+                
+                geoGrp.drawArcInIntersectAngle(orgPt, pt2, Point(5, 0), 1);
+                geoGrp.fillText("θ", Point(0.5, 1.5));
+                
+                geoGrp.fillText("P", Point(x - 0.8, y + 0.8));
+                
+                ctx.textAlign = "left";
+                ctx.textBaseline = "middle";
+                geoGrp.fillText("y'", Point(pt4.x + 0.5, pt5.y / 2));
+                
+                ctx.textAlign = "center";
+                ctx.textBaseline = "top";
+                geoGrp.fillText("x'", Point(pt4.x / 2, 0));
+                
+                geoGrp.fillTextAlignLineSegment("r'", orgPt, pt5, "center", "up", 0.1, false);
+                
+                ctx.fillStyle = "blue";
+                geoGrp.fillCircle(pt2, 0.3);
+                
+                ctx.strokeStyle = "red";
+                ctx.fillStyle = "red";
+                geoGrp.drawArcInIntersectAngle(orgPt, pt2, pt3, 1.5);
+                geoGrp.fillText("β", Point(-2.5, 1.2));
+                
+                ctx.textAlign = "right";
+                ctx.textBaseline = "middle";
+                geoGrp.fillText("y", Point(pt2.x - 0.5, pt2.y / 2));
+                
+                ctx.textAlign = "center";
+                ctx.textBaseline = "top";
+                geoGrp.fillText("x", Point(pt3.x / 2, 0));
+                
+                geoGrp.fillTextAlignLineSegment("r", pt2, orgPt, "center", "up", 0.1, false);
+            }
+            
+            function doInCanvas() {
+                var canvas = document.getElementById("canvas0");
                 var ctx = canvas.getContext("2d");
 
                 geoGrp.setupCanvas(canvas);
                 geoGrp.MARK_HEIGHT = 5;
-                geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), 12, 6, 12, 6, true, true);
+                geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), 12, 6, 12, 6, true, false);
                 
                 var orgPt = Point(0, 0);
                 var pt2 = Point(8, 0);
@@ -171,31 +329,27 @@
                 geoGrp.drawTriangle(orgPt, pt2, pt3);
                 
                 ctx.font = "10pt Arial";
-                ctx.fillStyle = "#999";
                 
+                ctx.fillStyle = "black";
                 ctx.textAlign = "center";
                 ctx.textBaseline = "top";
-                geoGrp.fillText("(0, 0)", Point(0, 0));
+                geoGrp.fillText("O", Point(0, 0 - 0.5));
                 
-                geoGrp.fillText(`(${pt2.x}, ${pt2.y})`, pt2);
+                ctx.fillStyle = "#999";
+                geoGrp.fillText(`(${pt2.x}, ${pt2.y})`, Point(pt2.x, pt2.y - 0.5));
                 
+                ctx.fillStyle = "black";
                 ctx.textBaseline = "bottom";
-                geoGrp.fillText(`(${pt3.x}, ${pt3.y})`, Point(pt3.x, pt3.y + 0.5));
+                geoGrp.fillText(`P (${pt3.x}, ${pt3.y})`, Point(pt3.x, pt3.y + 0.5));
                 
                 ctx.fillStyle = "red";
                 ctx.strokeStyle = "red";
                 geoGrp.drawArcInIntersectAngle(orgPt, pt2, pt3, 1);
                 
-//                ctx.textBaseline = "top";
-//                geoGrp.fillText("x", Point(orgPt.x + x / 2, orgPt.y));
-                
-//                ctx.textAlign = "left";
-//                ctx.textBaseline = "middle";
-//                geoGrp.fillText("y", Point(pt2.x + 0.5, pt2.y + y / 2));
-                
                 geoGrp.fillTextInIntersectAngle("θ", orgPt, pt2, pt3, 1.5);
                 
-                geoGrp.fillTextAlignLineSegment("r", orgPt, pt3, "center", "up", 0.1, false);
+//                ctx.fillStyle = "black";
+//                geoGrp.fillTextAlignLineSegment(`r = ${radius}`, orgPt, pt3, "center", "up", 0.1, false);
                 
                 ctx.fillStyle = "blue";
                 geoGrp.fillCircle(orgPt, 0.3);
@@ -203,8 +357,54 @@
                 geoGrp.fillCircle(pt3, 0.3);
             }
             
+            function doInCanvas() {
+                var canvas = document.getElementById("canvas0");
+                var ctx = canvas.getContext("2d");
+
+                geoGrp.setupCanvas(canvas);
+                geoGrp.MARK_HEIGHT = 5;
+                geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), 10, 5, 10, 5, true, false);
+                
+                var orgPt = Point(0, 0);
+                var radius = 8;
+                
+                var angle = 60;
+                
+                var x = radius * Math.cos(radianFromDegree(angle));
+                var y = radius * Math.sin(radianFromDegree(angle));
+                
+                var pt = Point(x, y);
+                
+                ctx.strokeStyle = "#ccc";
+                geoGrp.drawCircle(orgPt, radius);
+                
+                ctx.strokeStyle = "black";
+                geoGrp.drawLine(orgPt, pt);
+                geoGrp.fillText("P", Point(pt.x, pt.y + 0.8));
+                geoGrp.fillTextAlignLineSegment(`r = ${radius}`, orgPt, pt, "center", "up", 0.1, false);
+                
+                ctx.fillStyle = "black";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "top";
+                geoGrp.fillText("x", Point(pt.x / 2, 0));
+                ctx.textAlign = "left";
+                geoGrp.fillText("y", Point(pt.x + 0.5, pt.y / 2));
+                
+                ctx.strokeStyle = "#666";
+                geoGrp.drawLine(pt, Point(pt.x, 0));
+                geoGrp.drawLine(orgPt, Point(pt.x, 0));
+                
+                ctx.fillStyle = "red";
+                ctx.strokeStyle = "red";
+                geoGrp.drawArcWithArrow(orgPt, 1, 0, 360-angle, true, 30, 0.5);
+                geoGrp.fillTextInIntersectAngle("θ", orgPt, Point(x, 0), pt, 2);
+                
+                ctx.fillStyle = "blue";
+                geoGrp.fillCircle(orgPt, 0.3);
+                geoGrp.fillCircle(pt, 0.3);
+            }
             
-            window.addEventListener("DOMContentLoaded", init);
+            window.addEventListener("load", init);
         </script>
         
     </head>
@@ -217,7 +417,7 @@
 
             <section class="chapter">
                 <h1>直角三角形的三角函数</h1>
-                <canvas id="canvas10" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                <canvas width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
 
                 <table>
                     <thead>
@@ -294,84 +494,182 @@
                 <section>
                     <h1>圆的定义</h1>
                     <p>圆是定点到定长的所有点的集合。给定圆点与半径r, 可在坐标系中唯一地绘制一个圆。</p>
-                    <canvas id="canvas20" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                    <canvas width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
                 </section>
-                
                 
                 <section>
                     <h1>圆的三角函数</h1>
+                    
                     <p>将圆放在坐标系中，可通过直角三角形的三角函数求出圆上各点的坐标值。</p>
-                    <canvas id="canvas30" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
-                    <p>对于圆上任一点P, 其坐标值x和y, 分别对应于直角三角形的三角函数中∠θ的邻边和对边。因此，三角函数可转换为：</p>
-                    <table>
-                        <thead>
-                            <tr><th>名称</th><th>公式</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>正弦函数</td>
-                                <td>
-                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
-                                        <mrow>
-                                            <mi>sin</mi><mn>θ</mn><mo>=</mo><mfrac><mi>y</mi><mi>r</mi></mfrac>
-                                        </mrow>
-                                    </math>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>余弦函数</td>
-                                <td>
-                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
-                                        <mrow>
-                                            <mi>cos</mi><mn>θ</mn><mo>=</mo><mfrac><mi>x</mi><mi>r</mi></mfrac>
-                                        </mrow>
-                                    </math>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>正切函数</td>
-                                <td>
-                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
-                                        <mrow>
-                                            <mi>tan</mi><mn>θ</mn><mo>=</mo><mfrac><mi>y</mi><mi>x</mi></mfrac>
-                                        </mrow>
-                                    </math>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>余切函数</td>
-                                <td>
-                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
-                                        <mrow>
-                                            <mi>cot</mi><mn>θ</mn><mo>=</mo><mfrac><mi>x</mi><mi>y</mi></mfrac>
-                                        </mrow>
-                                    </math>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>正割函数</td>
-                                <td>
-                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
-                                        <mrow>
-                                            <mi>sec</mi><mn>θ</mn><mo>=</mo><mfrac><mi>r</mi><mi>x</mi></mfrac>
-                                        </mrow>
-                                    </math>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>余割函数</td>
-                                <td>
-                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
-                                        <mrow>
-                                            <mi>csc</mi><mn>θ</mn><mo>=</mo><mfrac><mi>r</mi><mi>y</mi></mfrac>
-                                        </mrow>
-                                    </math>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p>图中θ是特定点与原点的连线，与X轴正半轴的夹角。</p>
-                    <p>此时便有2种应用：一是根据坐标值求夹角，二是根据夹角求坐标值。</p>
+                    
+                    <section>
+                        <h1>第一象限</h1>
+                        <canvas width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                        <p>对于圆上任一点P, 其坐标值x和y, 分别对应于直角三角形的三角函数中∠θ的邻边和对边。因此，三角函数可转换为：</p>
+                        <table>
+                            <thead>
+                                <tr><th>名称</th><th>公式</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>正弦函数</td>
+                                    <td>
+                                        <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                            <mrow>
+                                                <mi>sin</mi><mn>θ</mn><mo>=</mo><mfrac><mi>y</mi><mi>r</mi></mfrac>
+                                            </mrow>
+                                        </math>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>余弦函数</td>
+                                    <td>
+                                        <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                            <mrow>
+                                                <mi>cos</mi><mn>θ</mn><mo>=</mo><mfrac><mi>x</mi><mi>r</mi></mfrac>
+                                            </mrow>
+                                        </math>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>正切函数</td>
+                                    <td>
+                                        <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                            <mrow>
+                                                <mi>tan</mi><mn>θ</mn><mo>=</mo><mfrac><mi>y</mi><mi>x</mi></mfrac>
+                                            </mrow>
+                                        </math>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>余切函数</td>
+                                    <td>
+                                        <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                            <mrow>
+                                                <mi>cot</mi><mn>θ</mn><mo>=</mo><mfrac><mi>x</mi><mi>y</mi></mfrac>
+                                            </mrow>
+                                        </math>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>正割函数</td>
+                                    <td>
+                                        <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                            <mrow>
+                                                <mi>sec</mi><mn>θ</mn><mo>=</mo><mfrac><mi>r</mi><mi>x</mi></mfrac>
+                                            </mrow>
+                                        </math>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>余割函数</td>
+                                    <td>
+                                        <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                            <mrow>
+                                                <mi>csc</mi><mn>θ</mn><mo>=</mo><mfrac><mi>r</mi><mi>y</mi></mfrac>
+                                            </mrow>
+                                        </math>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>图中θ是特定点与原点的连线，与X轴正半轴的夹角。</p>
+
+                        <p>特殊的值：</p>
+                        <pre>
+sin(0<sup>o</sup>) = 0
+sin(90<sup>o</sup>) = 1
+
+cos(0<sup>o</sup>) = 1
+cos(90<sup>o</sup>) = 0
+
+tan(0<sup>o</sup>) = 0
+tan(90<sup>o</sup>) : invalid
+</pre>
+                    </section>
+                    
+                    <section>
+                        <h1>第二象限</h1>
+                        <p>当θ为120<sup>o</sup>时，图像：</p>
+                        <canvas width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                        <p>此时，点P在X轴上的投影落在X轴的负半轴上，而在正半轴上无法形成一个直角三角形。</p>
+                        <p>考查在X轴的负半轴上的直角三角形的三角函数的情况。</p>
+                        <canvas width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                        <p>此时，有以下公式：</p>
+                        <pre>
+sin(β) = y / r;
+cos(β) = x / r;
+tan(β) = y / x;
+cot(β) = x / y;
+sec(β) = r / x;
+csc(β) = r / y;
+</pre>
+                        <p>这些公式与第一象限中的公式完全一样。不一样的是，由于在第二象限中，β的值变成180<sup>o</sup> - θ = 180<sup>o</sup> - 120<sup>o</sup> = 60<sup>o</sup>. 且x的值变成了负数。</p>
+                        <p>现在来看，β与落在第一象限的角度为60<sup>o</sup>的三角函数的情况。</p>
+                        <canvas width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                        <p>可以看出：</p>
+                        <pre>
+sin(120<sup>o</sup>) = y / r = y' / r' = sin(60<sup>o</sup>)
+cos(120<sup>o</sup>) = x / r = -x' / r' = -cos(60<sup>o</sup>)
+tan(120<sup>o</sup>) = y / x = y' / -x = -tan(60<sup>o</sup>)
+cot(120<sup>o</sup>) = x / y = -x / y' = -cot(60<sup>o</sup>)
+sec(120<sup>o</sup>) = r / x = r' / -x' = -sec(60<sup>o</sup>)
+csc(120<sup>o</sup>) = r / y = r' / y' = csc(60<sup>o</sup>);
+</pre>
+                        <p>也即，</p>
+                        <pre>
+sin(180<sup>o</sup> - θ) = sin(θ)
+cos(180<sup>o</sup> - θ) = -cos(θ)
+tan(180<sup>o</sup> - θ) = -tan(θ)
+cot(180<sup>o</sup> - θ) = -cot(θ)
+sec(180<sup>o</sup> - θ) = -sec(θ)
+csc(180<sup>o</sup> - θ) = csc(θ);
+</pre>
+                        <p>同理，在第三象限中，</p>
+                        <pre>
+sin(180<sup>o</sup> + θ) = -sin(θ)
+cos(180<sup>o</sup> + θ) = -cos(θ)
+tan(180<sup>o</sup> + θ) = tan(θ)
+cot(180<sup>o</sup> + θ) = cot(θ)
+sec(180<sup>o</sup> + θ) = -sec(θ)
+csc(180<sup>o</sup> + θ) = -csc(θ);
+</pre>
+                        <p>同理，在第四象限中，</p>
+                        <pre>
+sin(360<sup>o</sup> - θ) = -sin(θ)
+cos(360<sup>o</sup> - θ) = cos(θ)
+tan(360<sup>o</sup> - θ) = -tan(θ)
+cot(360<sup>o</sup> - θ) = -cot(θ)
+sec(360<sup>o</sup> - θ) = sec(θ)
+csc(360<sup>o</sup> - θ) = -csc(θ);
+</pre>
+                        <p>可见，当角度在0至360度的范围的变化时，三角函数总能自动地反映出坐标值的正负值。</p>
+                    </section>
+                    
+                    
+                    <section>
+                        <h1>根据夹角求坐标值</h1>
+                        <p>三角函数可以转换为以下形式：</p>
+                        <pre>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+    <mrow>
+        <mi>x</mi><mo>=</mo><mi>r</mi><mo>×</mo><mi>cos</mi><mn>θ</mn>
+    </mrow>
+</math>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+    <mrow>
+        <mi>y</mi><mo>=</mo><mi>r</mi><mo>×</mo><mi>sin</mi><mn>θ</mn>
+    </mrow>
+</math></pre>
+                        <p>这表示，当知道半径r, 以及角度θ, 我们总能求出在坐标系中的坐标值。</p>
+                        <p>这一点有2个主要应用：</p>
+                        <ol>
+                            <li>将圆弧等分为n段，则圆弧上每个节点可确定</li>
+                            <li>将某线段围绕原点旋转特定角度，则旋转后的坐标值可确定</li>
+                        </ol>
+                    </section>
+                </section>
                     
                     <section>
                         <h1>根据坐标值求夹角</h1>
@@ -379,22 +677,26 @@
                         <pre>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
     <mrow>
-        <mi>x</mi><mo>=</mo><mi>r</mi><mo>×</mo><mi>cos</mi><mn>θ</mn>
+        <mi>θ</mi><mo>=</mo><mo>arctan</mo><mfenced><mfrac><mi>y</mi><mi>x</mi></mfrac></mfenced>
     </mrow>
 </math>
-
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-    <mrow>
-        <mi>y</mi><mo>=</mo><mi>r</mi><mo>×</mo><mi>sin</mi><mn>θ</mn>
-    </mrow>
-</math></pre>
-                        <p>例题1: 已知 r = 5, 点P坐标(5, 5)，求夹角θ。</p>
-                        <canvas id="canvas40" width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+</pre>
+                        <p>例题1: 已知点P坐标(8, 6), 求其到原点的线段OP与X轴正半轴的夹角θ。</p>
+                        <canvas width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
                     </section>
                     
+                    
+                
+                <section>
+                    <h1>半径为r, 围绕原点旋转θ的坐标值</h1>
+                    <p>对于圆上任意一点，只要知道该点与原点之线段与X轴正半轴的夹角θ, 及其半径r，就能求出其坐标值。</p>
+                    <p>也即，给定半径r, 当一个点围绕原点旋转特定角度时，总能求出其坐标值。下面分别对各象限进行考证。</p>
+                    
                     <section>
-                        <h1>根据夹角求坐标值</h1>
-                        <p></p>
+                        <h1>第一象限</h1>
+                        <p>让点P围绕原点逆时针旋转特定角度θ。当θ为60<sup>o</sup>时，图像如下。</p>
+                        <canvas width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                        <p>此时函数图像与直角三角形的三角函数图像完全一致。因此不难推出坐标值的公式：</p>
                         <pre>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
     <mrow>
@@ -407,18 +709,7 @@
         <mi>y</mi><mo>=</mo><mi>r</mi><mo>×</mo><mi>sin</mi><mn>θ</mn>
     </mrow>
 </math></pre>
-                    </section>
-                </section>
-                
-                <section>
-                    <h1>半径为r, 围绕原点旋转θ的坐标值</h1>
-                    <p>对于圆上任意一点，只要知道该点与原点之线段与X轴正半轴的夹角θ, 及其半径r，就能求出其坐标值。</p>
-                    <p>也即，给定半径r, 当一个点围绕原点旋转特定角度时，总能求出其坐标值。下面分别对各象限进行考证。</p>
-                    
-                    
-                    <section>
-                        <h1>aaa</h1>
-                        <p>bbb</p>
+                        
                     </section>
                 </section>
             </section>
