@@ -57,6 +57,54 @@
             function doInCanvas() {
                 var canvas = document.getElementById("canvas0");
                 var ctx = canvas.getContext("2d");
+                
+                var xPositveLen = Math.PI * 5;
+
+                geoGrp.setupCanvas(canvas);
+                geoGrp.MARK_HEIGHT = 5;
+                geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), xPositveLen, 6, xPositveLen, 6, true, false);
+                
+                var x, y;
+                
+                ctx.strokeStyle = "black";
+                
+                ctx.beginPath();
+                
+                geoGrp.moveTo(Point(-4 * Math.PI, 0));
+                
+                for (var x = -4 * Math.PI; x < 4 * Math.PI; x += 2 * Math.PI / 30) {
+                    y = Math.sin(x);
+                    geoGrp.lineTo(Point(x, y));
+                }
+                
+                ctx.stroke();
+                ctx.closePath();
+                
+                ctx.font = "8pt Arial";
+                
+                ctx.textAlign = "center";
+                ctx.textBaseline = "top";
+                geoGrp.fillText("π", Point(Math.PI, -1.5));
+                geoGrp.fillText("2π", Point(Math.PI * 2, -1.5));
+                geoGrp.fillText("3π", Point(Math.PI * 3, -1.5));
+                geoGrp.fillText("4π", Point(Math.PI * 4, -1.5));
+                
+                ctx.strokeStyle = "gray";
+                ctx.beginPath();
+                
+                geoGrp.moveTo(Point(-0.5, 1));
+                geoGrp.lineTo(Point(0.5, 1));
+                
+                geoGrp.moveTo(Point(-0.5, -1));
+                geoGrp.lineTo(Point(0.5, -1));
+                
+                ctx.stroke();
+                ctx.closePath();
+            }
+            
+            function doInCanvas() {
+                var canvas = document.getElementById("canvas0");
+                var ctx = canvas.getContext("2d");
 
                 geoGrp.setupCanvas(canvas);
                 geoGrp.MARK_HEIGHT = 5;
@@ -272,7 +320,6 @@
                 geoGrp.drawLine(pt2, pt3);
                 geoGrp.drawLine(orgPt, pt3);
                 
-                console.log(pt4, pt5);
                 geoGrp.drawTriangle(orgPt, pt4, pt5);
                 
                 geoGrp.drawArcInIntersectAngle(orgPt, pt2, Point(5, 0), 1);
@@ -417,75 +464,90 @@
 
             <section class="chapter">
                 <h1>直角三角形的三角函数</h1>
-                <canvas width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
-
-                <table>
-                    <thead>
-                        <tr><th>名称</th><th>公式</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>正弦函数</td>
-                            <td>
-                                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                                    <mrow>
-                                        <mi>sin</mi><mn>θ</mn><mo>=</mo><mfrac><mi>a</mi><mi>c</mi></mfrac>
-                                    </mrow>
-                                </math>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>余弦函数</td>
-                            <td>
-                                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                                    <mrow>
-                                        <mi>cos</mi><mn>θ</mn><mo>=</mo><mfrac><mi>b</mi><mi>c</mi></mfrac>
-                                    </mrow>
-                                </math>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>正切函数</td>
-                            <td>
-                                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                                    <mrow>
-                                        <mi>tan</mi><mn>θ</mn><mo>=</mo><mfrac><mi>a</mi><mi>b</mi></mfrac>
-                                    </mrow>
-                                </math>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>余切函数</td>
-                            <td>
-                                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                                    <mrow>
-                                        <mi>cot</mi><mn>θ</mn><mo>=</mo><mfrac><mi>b</mi><mi>a</mi></mfrac>
-                                    </mrow>
-                                </math>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>正割函数</td>
-                            <td>
-                                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                                    <mrow>
-                                        <mi>sec</mi><mn>θ</mn><mo>=</mo><mfrac><mi>c</mi><mi>b</mi></mfrac>
-                                    </mrow>
-                                </math>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>余割函数</td>
-                            <td>
-                                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                                    <mrow>
-                                        <mi>csc</mi><mn>θ</mn><mo>=</mo><mfrac><mi>c</mi><mi>a</mi></mfrac>
-                                    </mrow>
-                                </math>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                
+                <section>
+                    <h1>基本公式</h1>
+                    <canvas width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                    <table>
+                        <thead>
+                            <tr><th>名称</th><th>公式</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>正弦函数</td>
+                                <td>
+                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                        <mrow>
+                                            <mi>sin</mi><mn>θ</mn><mo>=</mo><mfrac><mi>a</mi><mi>c</mi></mfrac>
+                                        </mrow>
+                                    </math>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>余弦函数</td>
+                                <td>
+                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                        <mrow>
+                                            <mi>cos</mi><mn>θ</mn><mo>=</mo><mfrac><mi>b</mi><mi>c</mi></mfrac>
+                                        </mrow>
+                                    </math>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>正切函数</td>
+                                <td>
+                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                        <mrow>
+                                            <mi>tan</mi><mn>θ</mn><mo>=</mo><mfrac><mi>a</mi><mi>b</mi></mfrac>
+                                        </mrow>
+                                    </math>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>余切函数</td>
+                                <td>
+                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                        <mrow>
+                                            <mi>cot</mi><mn>θ</mn><mo>=</mo><mfrac><mi>b</mi><mi>a</mi></mfrac>
+                                        </mrow>
+                                    </math>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>正割函数</td>
+                                <td>
+                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                        <mrow>
+                                            <mi>sec</mi><mn>θ</mn><mo>=</mo><mfrac><mi>c</mi><mi>b</mi></mfrac>
+                                        </mrow>
+                                    </math>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>余割函数</td>
+                                <td>
+                                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                        <mrow>
+                                            <mi>csc</mi><mn>θ</mn><mo>=</mo><mfrac><mi>c</mi><mi>a</mi></mfrac>
+                                        </mrow>
+                                    </math>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                
+                <section>
+                    <h1>三角函数的图像</h1>
+                    <p></p>
+                    
+                    <section>
+                        <h1>正弦函数的图像</h1>
+                        <p></p>
+                        <canvas width="300" height="300">Your browser does not support HTML5 Canvas.</canvas>
+                        <p>可以看出，y值从x = 0到 x = 2π为一个周期。峰顶为1, 峰谷为-1. 即 -1 <= sinθ <= 1.</p>
+                    </section>
+                </section>
             </section>
             
             <section class="chapter">

@@ -441,6 +441,19 @@ geoGrp.drawYAxis = function (isDrawMarks) {
     }
 };
 
+geoGrp.moveTo = function(pt) {
+    var point = this.pointFromUserToCanvas(pt);
+    
+    this.ctx.moveTo(point.x, point.y);
+};
+
+geoGrp.lineTo = function(pt) {
+    var point = this.pointFromUserToCanvas(pt);
+    
+    this.ctx.lineTo(point.x, point.y);
+};
+
+
 geoGrp.drawLine = function(pt1, pt2) {
     var point1 = this.pointFromUserToCanvas(pt1);
     var point2 = this.pointFromUserToCanvas(pt2);
