@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Grid Plane</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="../css/main.css" type="text/css">
+        <link rel="stylesheet" href="../css/dat.gui.css" type="text/css">
+        
+        <style type="text/css">
+            body {
+                margin: 0;
+                overflow: hidden;
+            }
+        </style>
+        
+        <script type="text/javascript" src="../js/three.js"></script>
+        <script type="text/javascript" src="../js/OrbitControls.js"></script>
+        <script type="text/javascript" src="../js/TransformControls.js"></script>
+        <script type="text/javascript" src="../js/dat.gui.js"></script>
+        
+        <script type="text/javascript">
+            var renderer;
+            var scene;
+            var camera;
+            
+            var gui;
+            var cameraLookatControl;
+            
+            var animateObjs = [];
+            var controlsPanel;
+            
+            var transformControl;
+            
+            function init() {
+                initScene();
+                initLights();
+                initCamera();
+                
+                initRenderer();
+                
+                initTransformControl();
+                
+                animate();
+            }
+            
+            function initTransformControl() {
+                transformControl = new THREE.TransformControls(camera, renderer.domElement);
+                transformControl.addEventListener("change", render);
+                
+                transformControl.addEventListener("mouseDown", function(){
+                    console.log("mouse down");
+                });
+            }
+            
+            function initLights() {
+                var ambientLight = new THREE.AmbientLight(0xF0F0F0);
+                scene.add(ambientLight);
+                
+                var spotLight = new THREE.SpotLight(0xFFFFFF, 1.5);
+                spotLight.position.set(0, 1500, 200);
+                spotLight.castShadow = true;
+                spotLight.shadow = new THREE.LightShadow(new THREE.PerspectiveCamera(70, 1, 200, 2000));
+                spotLight.shadow.bias = -0.000222;
+                spotLight.shadow.mapSize.width = 1024;
+                spotLight.shadow.mapSize.height = 1024;
+                scene.add(spotLight);
+                
+                animateObjs.push(ambientLight);
+            }
+            
+            function initScene() {
+                scene = new THREE.Scene();
+                //scene.background = new THREE.Color(0xF0F0F0);
+                
+                var planeGeometry = new THREE.PlaneBufferGeometry( 2000, 2000 );
+                planeGeometry.rotateX(-Math.PI / 2);
+                var planeMaterial = new THREE.MeshLambertMaterial({color: 0xC0C0C0});
+                //var planeMaterial = new THREE.ShadowMaterial( { opacity: 0.2 } );
+                
+                var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+                plane.position.y = -400;
+                plane.receiveShadow = true;
+                scene.add(plane);
+                
+                
+                var helper = new THREE.GridHelper(2000, 100);
+                helper.position.y = plane.position.y + 1;
+                helper.material.opacity = 0.25;
+                helper.material.transparent = true;
+                scene.add(helper);
+                
+                
+                
+                
+                var geometry = new THREE.BoxGeometry(200, 200, 200);
+                var material = new THREE.MeshLambertMaterial({color: Math.random() * 0xFFFFFF});
+                var cube = new THREE.Mesh(geometry, material);
+                
+                cube.position.x = 0;
+                cube.position.y = 0;
+                cube.position.z = 0;
+                
+                cube.castShadow = true;
+                cube.receiveShadow = true;
+                
+                scene.add(cube);
+                
+                var axes = new THREE.AxesHelper(500);
+                scene.add(axes);
+                
+                animateObjs.push(cube);
+                
+            }
+            
+            function initCameraControlsPanel() {
+                var cameraControl = {
+                    fov: camera.fov
+                };
+                
+                var cameraPosControl = {
+                    x: camera.position.x,
+                    y: camera.position.y,
+                    z: camera.position.z
+                };
+                
+                if (!gui) {
+                    gui = new dat.GUI();
+                }
+                
+                var folderCamera = gui.addFolder("Camera");
+                
+                folderCamera.add(cameraControl, "fov", [30, 45, 70, 75, 120]).onChange((value) => {
+                    camera.fov = value;
+                    camera.updateProjectionMatrix();
+                });
+                
+                var folderCameraPos = folderCamera.addFolder("Position");
+                folderCameraPos.add(cameraPosControl, "x", -20, 20).step(1).onChange((value) => {
+                    camera.position.x = value;
+                    camera.updateProjectionMatrix();
+                });
+                folderCameraPos.add(cameraPosControl, "y", -20, 20).step(1).onChange((value) => {
+                    camera.position.y = value;
+                    camera.updateProjectionMatrix();
+                });
+                folderCameraPos.add(cameraPosControl, "z", -20, 40).step(1).onChange((value) => {
+                    camera.position.z = value;
+                    camera.updateProjectionMatrix();
+                });
+                
+                var folderCameraLookat = folderCamera.addFolder("Lookat");
+                folderCameraLookat.add(cameraLookatControl, "x", -10, 10).step(1).onChange((value) => {
+                    camera.lookAt(new THREE.Vector3(value, cameraLookatControl.y, cameraLookatControl.z));
+                    camera.updateProjectionMatrix();
+                });
+                folderCameraLookat.add(cameraLookatControl, "y", -10, 10).step(1).onChange((value) => {
+                    camera.lookAt(new THREE.Vector3(cameraLookatControl.x, value, cameraLookatControl.z));
+                    camera.updateProjectionMatrix();
+                });
+                folderCameraLookat.add(cameraLookatControl, "z", -10, 10).step(1).onChange((value) => {
+                    camera.lookAt(new THREE.Vector3(cameraLookatControl.x, cameraLookatControl.y, value));
+                    camera.updateProjectionMatrix();
+                });
+                
+//                console.log(gui);
+//                console.log(gui.__folders["Camera Position"].__controllers[0].object);
+            }
+            
+            function setAnimationAction() {
+                //animateObjs[0].rotation.x += controlsPanel.rotationSpeed;
+                //animateObjs[0].rotation.y += controlsPanel.rotationSpeed;
+            }
+            
+            function animate() {
+                requestAnimationFrame(animate);
+
+                render();
+            }
+            
+            function render () {
+                setAnimationAction();
+
+                renderer.render(scene, camera);
+            }
+            
+            function initCamera() {
+                camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000);
+                
+                camera.position.set(0, 250, 1000);
+                
+                cameraLookatControl = {
+                    x: 0.0,
+                    y: 0.0,
+                    z: 0.0
+                };
+                
+                //scene.add(camera);
+                
+                //camera.lookAt(new THREE.Vector3(cameraLookatControl.x, cameraLookatControl.y, cameraLookatControl.z));
+                
+                //initCameraControlsPanel();
+            }
+            
+            function initRenderer() {
+                renderer = new THREE.WebGLRenderer({antialias: true});
+                renderer.setPixelRatio(window.devicePixelRatio);
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.shadowMap.enabled = true;
+                document.body.appendChild(renderer.domElement);
+            }
+            
+            function onResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+            
+            window.addEventListener("DOMContentLoaded", init);
+            window.addEventListener("resize", onResize);
+        </script>
+    </head>
+    <body>
+        <div id="info">Demo: <a href="https://threejs.org/examples/#misc_controls_transform" target="_blank">cotrols/transform</a></div>
+    </body>
+</html>

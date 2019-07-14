@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>CSS Tab Demo</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <style type="text/css">
+            body {
+                font-family: Arial;
+                color: #333;
+            }
+            
+            section {
+                display: flex;
+                flex-wrap: wrap;
+            }
+            
+            label {
+                background: #eee;
+                border: 1px solid #ddd;
+                padding: .7em 1em;
+                cursor: pointer;
+                z-index: 1;
+                margin-left: -1px;
+            }
+            
+            label:first-of-type {
+                margin-left: 0;
+            }
+            
+            div {
+                width: 100%;
+                margin-top: -1px;
+                padding: 1em;
+                border: 1px solid #ddd;
+                order: 1;
+            }
+            
+            input[type=radio], div {
+                display: none;
+            }
+            
+            input[type=radio]:checked + label {
+                background: #fff;
+                border-bottom: 1px solid #fff;
+            }
+            
+            input[type=radio]:checked + label + div {
+                display: block;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>CSS Tab Demo</h1>
+        
+        <section>
+            <input id="tab-one" type="radio" name="grp" checked="checked" />
+            <label for="tab-one">Tab One</label>
+            <div>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
+            
+            <input id="tab-two" type="radio" name="grp" />
+            <label for="tab-two">Tab Two</label>
+            <div>This is content of tab two.</div>
+            
+            <input id="tab-three" type="radio" name="grp" />
+            <label for="tab-three">Tab Three</label>
+            <div>This is content of tab three.</div>
+        </section>
+    </body>
+</html>
