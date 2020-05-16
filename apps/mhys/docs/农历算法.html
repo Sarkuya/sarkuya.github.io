@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>农历算法</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="../css/style.css" type="text/style">
+        
+        
+        <style>
+            table#nayinbiao tr:nth-child(even) td {
+                color: #aaa;
+                text-align: center;
+            }
+        </style>
+        
+        <script type="text/javascript" src="../js/dateutils.js"></script>
+        <script type="text/javascript" src="../js/六十甲子纳音表.js"></script>
+        <script type="text/javascript" src="../js/农历Utils.js"></script>
+        
+        <!--<script type="text/javascript" src="../js/DateUtilsTest.js"></script>-->
+        
+        <script type="text/javascript">
+            window.addEventListener("load", init);
+            
+            /* 1970年1月6日， 开始从丙子月变为丁丑月 */
+            /* 1970年2月6日， 大年初一 */
+            /* 立春交节为首建寅 */
+            var 日干支标准时间 = {
+                date: new Date("1969/12/31 23:00:00"),
+                年干支: '己酉',
+                月干支: '丙子',
+                日干支: '辛巳'
+            };
+            
+            var 农历 = {
+                1900: {
+                    首日: 1900-01-31,
+                    干支: "甲辰",
+                    大月: [2, 5, 7, 8, 10, 11, 13],
+                    闰月: 8
+                },
+                1901: {
+                    首日: 1901-02-19,
+                    干支: "戊辰",
+                    大月: [2, 5, 7, 9, 10, 11]
+                },
+            };
+            
+            function get月干支(date) {
+                var diff = DateUtils.dateDiff(date, 日干支标准时间.date, DateUnit.MONTH);
+                
+                var 干支 = 六十甲子纳音表Utils.get干支From流逝时辰(日干支标准时间.月干支, diff);
+                return 干支;
+            }
+            
+            function get日干支(date) {
+                var diff = DateUtils.dateDiff(date, 日干支标准时间.date, DateUnit.DAY);
+                
+                var 干支 = 六十甲子纳音表Utils.get干支From流逝时辰(日干支标准时间.日干支, diff);
+                return 干支;
+            }
+            
+            function displayFormatNumber(num) {
+                var isNegative = false;
+                
+                if (num < 0) {
+                    isNegative = true;
+                    num = Math.abs(num);
+                }
+                
+                var str = num + "";
+                
+                var result = [];
+                
+                while (str.length > 3) {
+                    var first = str.slice(0, str.length-3);
+                    var second = str.slice(str.length-3);
+                    
+                    result.push("," + second);
+                    
+                    str = first;
+                }
+                
+                result.reverse();
+                
+                result.forEach((element) => {
+                    str += element;
+                });
+                
+                if (isNegative) {
+                    str = "-" + str;
+                }
+                
+                console.log(str);
+            }
+            
+            function init() {
+                var date = new Date("2020/1/24 0:0:0");
+                农历Utils.开始预测(date);
+                
+            }
+            
+        </script>
+    </head>
+    <body>
+        <h1>农历算法</h1>
+        
+        <h2>十天干</h2>
+        <pre><code>甲、乙、丙、丁、戊、己、庚、辛、壬、癸</code></pre>
+        
+        <h2>二十地支</h2>
+        <pre><code>子、丑、寅、卯、辰、巳、午、未、申、酉、戌、亥</code></pre>
+        
+        <h2>六十甲子纳音表</h2>
+        <p>每行各取天干、地支各10个，余2个地支，顺排在下一行。</p>
+        <table>
+            <thead>
+                <tr><th></th><th>甲</th><th>乙</th><th>丙</th><th>丁</th><th>戊</th><th>己</th><th>庚</th><th>辛</th><th>壬</th><th>癸</th></tr>
+            </thead>
+            <tbody>
+                <tr><th>第一甲</th><td>甲子</td><td>乙丑</td><td>丙寅</td><td>丁卯</td><td>戊辰</td><td>己巳</td><td>庚午</td><td>辛未</td><td>壬申</td><td>癸酉</td></tr>
+            </tbody>
+            <tfoot>
+                <tr><th></th><th>子</th><th>丑</th><th>寅</th><th>卯</th><th>辰</th><th>巳</th><th>午</th><th>未</th><th>申</th><th>酉</th></tr>
+            </tfoot>
+        </table>
+        
+        <p></p>
+        
+        <table>
+            <thead>
+                <tr><th></th><th>甲</th><th>乙</th><th>丙</th><th>丁</th><th>戊</th><th>己</th><th>庚</th><th>辛</th><th>壬</th><th>癸</th></tr>
+            </thead>
+            <tbody>
+                <tr><th>第二甲</th><td>甲戌</td><td>乙亥</td><td>丙子</td><td>丁丑</td><td>戊寅</td><td>己卯</td><td>庚辰</td><td>辛巳</td><td>壬午</td><td>癸未</td></tr>
+            </tbody>
+            <tfoot>
+                <tr><th></th><th>戌</th><th>亥</th><th>子</th><th>丑</th><th>寅</th><th>卯</th><th>辰</th><th>巳</th><th>午</th><th>未</th></tr>
+            </tfoot>
+        </table>
+        
+        <p></p>
+        
+        <table>
+            <thead>
+                <tr><th></th><th>甲</th><th>乙</th><th>丙</th><th>丁</th><th>戊</th><th>己</th><th>庚</th><th>辛</th><th>壬</th><th>癸</th></tr>
+            </thead>
+            <tbody>
+                <tr><th>第三甲</th><td>甲申</td><td>乙酉</td><td>丙戌</td><td>丁亥</td><td>戊子</td><td>己丑</td><td>庚寅</td><td>辛卯</td><td>壬辰</td><td>癸巳</td></tr>
+            </tbody>
+            <tfoot>
+                <tr><th></th><th>申</th><th>酉</th><th>戌</th><th>亥</th><th>子</th><th>丑</th><th>寅</th><th>卯</th><th>辰</th><th>巳</th></tr>
+            </tfoot>
+        </table>
+        
+        <p></p>
+        
+        <table>
+            <thead>
+                <tr><th></th><th>甲</th><th>乙</th><th>丙</th><th>丁</th><th>戊</th><th>己</th><th>庚</th><th>辛</th><th>壬</th><th>癸</th></tr>
+            </thead>
+            <tbody>
+                <tr><th>第四甲</th><td>甲午</td><td>乙未</td><td>丙申</td><td>丁酉</td><td>戊戌</td><td>己亥</td><td>庚子</td><td>辛丑</td><td>壬寅</td><td>癸卯</td></tr>
+            </tbody>
+            <tfoot>
+                <tr><th></th><th>午</th><th>未</th><th>申</th><th>酉</th><th>戌</th><th>亥</th><th>子</th><th>丑</th><th>寅</th><th>卯</th></tr>
+            </tfoot>
+        </table>
+        
+        <p></p>
+        
+        <table>
+            <thead>
+                <tr><th></th><th>甲</th><th>乙</th><th>丙</th><th>丁</th><th>戊</th><th>己</th><th>庚</th><th>辛</th><th>壬</th><th>癸</th></tr>
+            </thead>
+            <tbody>
+                <tr><th>第五甲</th><td>甲辰</td><td>乙巳</td><td>丙午</td><td>丁未</td><td>戊申</td><td>己酉</td><td>庚戌</td><td>辛亥</td><td>壬子</td><td>癸丑</td></tr>
+            </tbody>
+            <tfoot>
+                <tr><th></th><th>辰</th><th>巳</th><th>午</th><th>未</th><th>申</th><th>酉</th><th>戌</th><th>亥</th><th>子</th><th>丑</th></tr>
+            </tfoot>
+        </table>
+        
+        <p></p>
+        
+        <table>
+            <thead>
+                <tr><th></th><th>甲</th><th>乙</th><th>丙</th><th>丁</th><th>戊</th><th>己</th><th>庚</th><th>辛</th><th>壬</th><th>癸</th></tr>
+            </thead>
+            <tbody>
+                <tr><th>第六甲</th><td>甲寅</td><td>乙卯</td><td>丙辰</td><td>丁巳</td><td>戊午</td><td>己未</td><td>庚申</td><td>辛酉</td><td>壬戌</td><td>癸亥</td></tr>
+            </tbody>
+            <tfoot>
+                <tr><th></th><th>寅</th><th>卯</th><th>辰</th><th>巳</th><th>午</th><th>未</th><th>申</th><th>酉</th><th>戌</th><th>亥</th></tr>
+            </tfoot>
+        </table>
+        
+        <p>则可演变为以下的六十甲子纳音表:</p>
+        <table id="nayinbiao">
+            <tbody>
+                <tr><th rowspan="2">第一甲</th><td>甲子</td><td>乙丑</td><td>丙寅</td><td>丁卯</td><td>戊辰</td><td>己巳</td><td>庚午</td><td>辛未</td><td>壬申</td><td>癸酉</td></tr>
+                <tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>
+                <tr><th rowspan="2">第二甲</th><td>甲戌</td><td>乙亥</td><td>丙子</td><td>丁丑</td><td>戊寅</td><td>己卯</td><td>庚辰</td><td>辛巳</td><td>壬午</td><td>癸未</td></tr>
+                <tr><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td></tr>
+                <tr><th rowspan="2">第三甲</th><td>甲申</td><td>乙酉</td><td>丙戌</td><td>丁亥</td><td>戊子</td><td>己丑</td><td>庚寅</td><td>辛卯</td><td>壬辰</td><td>癸巳</td></tr>
+                <tr><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td></tr>
+                <tr><th rowspan="2">第四甲</th><td>甲午</td><td>乙未</td><td>丙申</td><td>丁酉</td><td>戊戌</td><td>己亥</td><td>庚子</td><td>辛丑</td><td>壬寅</td><td>癸卯</td></tr>
+                <tr><td>31</td><td>32</td><td>33</td><td>34</td><td>35</td><td>36</td><td>37</td><td>38</td><td>39</td><td>40</td></tr>
+                <tr><th rowspan="2">第五甲</th><td>甲辰</td><td>乙巳</td><td>丙午</td><td>丁未</td><td>戊申</td><td>己酉</td><td>庚戌</td><td>辛亥</td><td>壬子</td><td>癸丑</td></tr>
+                <tr><td>41</td><td>42</td><td>43</td><td>44</td><td>45</td><td>46</td><td>47</td><td>48</td><td>49</td><td>50</td></tr>
+                <tr><th rowspan="2">第六甲</th><td>甲寅</td><td>乙卯</td><td>丙辰</td><td>丁巳</td><td>戊午</td><td>己未</td><td>庚申</td><td>辛酉</td><td>壬戌</td><td>癸亥</td></tr>
+                <tr><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td><td>56</td><td>57</td><td>58</td><td>59</td><td>60</td></tr>
+            </tbody>
+        </table>
+        
+        <p>规律：</p>
+        <ol>
+            <li>从横行来看，每隔10年，为一甲。</li>
+            <li>每一列的天干都是相同的。也即是说，任取一年，每到10年，都会遇到相同的天干循环来管你。</li>
+            <li>每12年，地支都是一样的。</li>
+            <li>从竖行来看，并非每个天干都能与每个地支有机会组合。每个天干都依序与地支左循环隔一位组合，故每天干都与固定的6个地支组合。</li>
+            <li>60一循环。每60年，天干与地支又循环回来了。</li>
+        </ol>
+        
+        
+        <h2>农历的表示方法</h2>
+        <h3>历法的不同表示</h3>
+        <p>公历：</p>
+        <p>2020年5月3日</p>
+        <p>农历：</p>
+        <p>二〇二〇年四月初九</p>
+        <p>四柱：</p>
+        <p>庚子 庚辰 丙午 辰时</p>
+        
+        <h3>农历的规律</h3>
+        <ol>
+            <li>农历新年始于正月初一，即日期上所标注的"春节"。</li>
+            <li>从春节开始，年的干支开始变为新的年支，如从"庚子"年变为""辛丑"年。</li>
+            <li>每月分为大月和小月，大月的天数为30天，小月的天数为29天。</li>
+            <li>一年可能有闰月</li>
+            <li></li>
+            
+            
+        </ol>
+        
+        <p>2000年1月1日的农历为：</p>
+        <pre><code>己卯年 丙子月 戊午日 （十一月廿五）</code></pre>
+        <p>更可简单地表示为：</p>
+        <pre><code>己卯 丙子 戊午 （十一月廿五）</code></pre>
+        <p>而2000年1月2日的农历为：</p>
+        <pre><code>己卯 丙子 己未 （十一月廿六）</code></pre>
+        
+        <p>戊午的次序为55，己未的次序为56，则说明每天都以一个纳音表元素来表示。所以，如果知道某一天的日干支，则过了特定的天数后，其日干支是可以求得出来的。</p>
+        <p>例如，2000年1月1日的日干支为戊午，28日，其日干支是什么？</p>
+        <p>我们先看值为0时，该时间的北京时间的日干支是什么。</p>
+        <pre><code>var date = new Date(0);
+console.log(date.toLocaleString());  // 1970/1/1 上午8:00:00
+</code></pre>
+        <p>我们也可以用于字符串的方式来构造同一时间：</p>
+        <pre><code>var date = new Date("1970-01-01");
+console.log(date.toLocaleString());  // 1970/1/1 上午8:00:00
+</code></pre>
+        <p>查万年历，其日干支为辛巳。纳音值为18.</p>
+        <p>但这有个问题。日干支何时起变化？</p>
+        <p>公历1970年1月1日0:0－1970年1月1日23:59是1月1日。再加1秒，则变成1970年1月2日的0:0了。而在农历中，一日的开始并非始于0:0，而是始于子时，即公历的前一天的23:00。例如，1970年1月1日，其日干支为辛巳，则辛巳始于前一日1969年12月31日的23:00，终于1月1日的22:59。</p>
+        <p>由此可见，对于时间值为0的时间，其北京时间应是1969年12月31日23:00。</p>
+        <p>先列出时间值为0的格林尼治标准时间及对应的北京标准时间。</p>
+        <table>
+            <thead>
+                <tr><th>时间值为0的时间</th><th>格林尼治时间</th><th>北京时间</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>new Date(0)</td><td>1970年1月1日 上午0:0:0</td><td>1970/1/1 上午8:00:00</td></tr>
+            </tbody>
+        </table>
+        <p>现在，将北京时间调为1969/12/31 下午23:00:00。毕竟，周易的时间以北京时间为准。</p>
+        <table>
+            <thead>
+                <tr><th>日干支开始</th><th>格林尼治时间</th><th>北京时间</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>辛巳</td><td>1969/12/31 下午15:00:00</td><td>1969/12/31 下午23:00:00</td></tr>
+            </tbody>
+        </table>
+        <p>现在，以此时间来创建一个日期，并进行验证：</p>
+        <pre><code>var date = new Date("1969-12-31T15:00:00.000Z");
+console.log(date.toUTCString());  // Wed, 31 Dec 1969 15:00:00 GMT
+console.log(date.toLocaleString());  // 1969/12/31 下午11:00:00
+</code></pre>
+        <p>可见，字符串"1969-12-31T15:00:00.000Z"所创建的时间，正对应于北京时间"1969/12/31 下午11:00:00"。</p>
+        
+        <h3>日干支的变化</h3>
+        <p>每个时辰2个小时，不会随着农历初几的变化而变化。</p>
+        
+        <h3>农历2月的天数</h3>
+        <p>农历2月的天数有29、30天之分，即二月廿九、二月三十。</p>
+        
+        <h3>农历闰月的干支</h3>
+        <p>闰月的干支与本月的干支相同。例如，四月的干支为壬辰，则闰四月的干支也为壬辰。</p>
+        
+        <h2>日期的显示</h2>
+        <p>对于代码：</p>
+        <pre><code>var date = new date()
+console.log(date);
+</code></pre>
+        <p>显示：</p>
+        <pre><code>Thu Apr 23 2020 07:41:13 GMT+0800 (CST)</code></pre>
+        <p>GMT, Greenwich Mean Time, 格林尼治标准时间, 是指位于伦敦郊区的皇家格林尼治天文台的标准时间，因为本初子午线被定义在通过那里的经线。 </p>
+        <p>UTC, 协调世界时，协调世界时是以原子时秒长为基础，在时刻上尽量接近于世界时的一种时间计量系统。</p>
+        <p>Gregorian Calender, 格列高利历，也即公历。</p>
+        
+        <p>与代码：</p>
+        <pre><code>var date = new date()
+console.log(date.toString());
+</code></pre>
+        <p>的效果是一样的。</p>
+        
+        <p><code>toDateString()</code>则显示为：</p>
+        <pre><code>Sat Apr 25 2020</code></pre>
+        
+        <p><code>toTimeString()</code>则显示为：</p>
+        <pre><code>01:43:21 GMT+0800 (CST)</code></pre>
+        <p>这是东八区的时间，而非GMT时间。</p>
+        
+        <p><code>toISOString()</code>则显示为：</p>
+        <pre><code>2020-04-24T17:34:43.314Z</code></pre>
+        
+        <p><code>toUTCString()</code>则显示为：</p>
+        <pre><code>Fri, 24 Apr 2020 17:45:03 GMT</code></pre>
+        <p>GMT表示这是格林尼治标准时间，而不是本地时间。</p>
+        
+        <p><code>toLocaleDateString()</code>则显示为：</p>
+        <pre><code>2020/4/25</code></pre>
+        <p>此方法还可带有两个可选的参数：reserved1, reserved2.</p>
+        
+        <p><code>toLocaleTimeString()</code>则显示为：</p>
+        <pre><code>上午1:40:50</code></pre>
+        <p>此方法还可带有两个可选的参数：reserved1, reserved2.</p>
+        
+        <p><code>toLocaleString()</code>则显示为：</p>
+        <pre><code>2020/4/25 上午1:39:38</code></pre>
+        <p>此方法还可带有两个可选的参数：reserved1, reserved2.</p>
+        
+        <h2>日期的本质</h2>
+        <p>对于Date对象，其内部存储了一个数值。其数值相对于1970年1月1日的格林尼治天文台旧址所在的零时区的零时。</p>
+        <h3>1. 同一时间的不同显示</h3>
+        <pre><code>var date = new Date(0);
+
+console.log(date.valueOf());  // 0
+
+console.log(date.toISOString());  // 1970-01-01T00:00:00.000Z
+console.log(date.toUTCString());  // Thu, 01 Jan 1970 00:00:00 GMT
+console.log(date.toLocaleString());  // 1970/1/1 上午8:00:00
+</code></pre>
+        <p>构造一个值为0的时间。<code>valueOf()</code>方法可取出存储对Date对象中的这个值。</p>
+        <p><code>toISOString()</code>方法，可精确地显示该时间的毫秒级。即是说，对于值为0的时间，为1970年1月1日00:00:00.000。</p>
+        <p><code>toUTCString()</code>方法，可显示星期几，以及精确到秒的时间。GMT，表示这是格林尼治标准时间，即零时区的时间。</p>
+        <p><code>toLocaleString()</code>方法，以本地表示时间的方法来显示时间。这里显示"1970/1/1 上午8:00:00"，表明，当格林尼治标准时间为"1970/1/1 上午0:00:00"时，北京时间在东8区，多8个小时，因此本地的北京为"1970/1/1 上午8:00:00"。</p>
+        <p>所以这里应注意，1970年1月1日上午08:00的北京时间，才是值为0的时间。而北京时间为1970年1月1日上午0:00的时间，其时间并不等于0！</p>
+        
+        <h3>2. 相隔一天的时间值各是多少</h3>
+        <pre><code>var date1 = new Date("1970-01-01");
+var date2 = new Date("1970-01-02");
+
+console.log(date1.valueOf());  // 0
+console.log(date2.valueOf());  // 86,400,000
+
+var ms = 24 * 60 * 60 * 1000;
+console.log(ms);  // 86,400,000
+</code></pre>
+        
+        <p>对于1970年1月2日的零时，此值为86,400,000。这两个日期相差1天。</p>
+        <p>1天有多少毫秒？<code>var ms = 24 * 60 * 60 * 1000;</code>给出了答案：也是86,400,000。这说明了，此值随着时间的流逝，以毫秒作为单位而加1。既，每经过1毫秒，此值加1。</p>
+        
+        <h3>3. 时间相减</h3>
+        <pre><code>var date1 = new Date("1970-01-01");
+var date2 = new Date("1970-01-02");
+var diff = date2 - date1;
+console.log(diff);  // 86,400,000
+</code></pre>
+        <p>日期相减的意义在于，可求出这两个日期相差多少毫秒。将此毫秒转化为相应的秒、分、时、天，就可以知道两个日期相差多少个相应的单位。</p>
+        
+        <h3>4. 时间的比较</h3>
+        <p>时间可以使用逻辑比较。比如大于，小于，等等。</p>
+        <pre><code>var date1 = new Date("1970-01-01");
+var date2 = new Date("1970-01-02");
+if (date1 < date2) {
+    ...
+}
+</code></pre>
+        
+        <h2>JavaScript Date构造方法</h2>
+        <p>共有这几种构造方法</p>
+        
+        <h3>1. 无参数的构造</h3>
+        <p>返回现在的时间。</p>
+        <pre><code>var date = new Date();
+console.log(date.toLocaleString());  // 2020/4/25 上午2:51:09
+</code></pre>
+        
+        <h3>2. 参数为一个数值的构造</h3>
+        <p>构造一个时间，其值为该参数。</p>
+        <pre><code>var date = new Date(0);
+console.log(date.toLocaleString());  // 1970/1/1 上午8:00:00
+</code></pre>
+        <p>参数为0, 对应于1970/1/1 上午8:00:00所存储的值。8:00，这是因为北京在于东八区，多了8小时。此时，格林尼治天文台的标准时间为1970/1/1 上午0:00:00。</p>
+        <p>此参数表示毫秒。如果需要构造上面日期的第二天，则需要将此值为多少毫秒。</p>
+        <pre><code>var date = new Date(24 * 60 * 60 * 1000);  // 1天=24小时，1小时=60分，1分=60秒，1秒=1000毫秒
+console.log(date.toLocaleString());  // 1970/1/2 上午8:00:00
+</code></pre>
+        
+        <h3>3. 参数为2个数值以上的构造</h3>
+        <p>构造一个时间，参数格式为year, month, date, hours, minutes, seconds, ms。</p>
+        <pre><code>var date = new Date(2020, 1, 3, 23, 15, 37, 735);  // 本地时间
+console.log(date.toLocaleString());  // 2020/2/3 下午11:15:37
+</code></pre>
+        <p>注意表示月份的参数。实际的月份需要加在表示月份的参数数值上加1。这是因为其内部表示月份的数值是从0开始的。所以0就表示1月份。</p>
+        <p></p>
+        
+        <h3>4. 参数为字符串的构造</h3>
+        <p>返回以字符串表示的时间的日期。</p>
+        <pre><code>var date = new Date("2020-04-01");  // GMT
+console.log(date.toLocaleString());  // 2020/4/1 上午8:00:00
+
+var date = new Date("2020/04/01");  // 本地时间
+console.log(date.toLocaleString());  // 2020/4/1 上午12:00:00
+</code></pre>
+        <p>注意，当使用"2020/04/01"时，时间改变为"上午12:00"。上午12:00即当日的零时。如果是中午12:00，则显示为"下午12:00"。因此，如果需要以本地时间的零时，则应以"2020/04/01"的方式。</p>
+        <p>可以使用完整的字符串来表示：</p>
+        <pre><code>var date = new Date("2020-07-22T00:00:00.000Z");
+console.log(date.toLocaleString());  // 2020/7/22 上午8:00:00
+</code></pre>
+        <p>其格式是"<code>YYYY-MM-DDTHH:mm:ss.sssZ</code>"。"T"用以表示随后部分是时间。"Z", 只能是大写，也可以省略。这种格式创以UTC时间来创建。</p>
+        <p>还有另外一种字符串的构造方法。</p>
+        <pre><code>var date = new Date("2020/04/01 09:00:15");
+console.log(date.toLocaleString());  // 2020/4/1 上午9:00:15
+</code></pre>
+        <p>这种格式以本地时间来创建。但不能指定毫秒。</p>
+        
+        <h3>5. 参数为另一Date的构造</h3>
+        <pre><code>var date = new Date("2020-07-22");
+var newDate = new Date(date);
+console.log(date === newDate);  // false
+</code></pre>
+        
+        <h2>Date的方法</h2>
+        <h3>get</h3>
+        <ul>
+            <li>getDate(): 返回本地时间的多少日。如2020年4月26日，返回26。</li>
+            <li>getDay(): 返回本地时间的星期几。如2020年4月26日，返回0，代表星期天。
+                <table>
+                    <thead>
+                        <tr><th>数值</th><th>星期几</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>0</td><td>星期日</td></tr>
+                        <tr><td>1</td><td>星期一</td></tr>
+                        <tr><td>2</td><td>星期二</td></tr>
+                        <tr><td>3</td><td>星期三</td></tr>
+                        <tr><td>4</td><td>星期四</td></tr>
+                        <tr><td>5</td><td>星期五</td></tr>
+                        <tr><td>6</td><td>星期六</td></tr>
+                    </tbody>
+                </table>
+            </li>
+            <li>getFullYear(): 返回本地时间的年数。如2020年4月26日，返回2020。</li>
+            <li>getHours(): 返回本地时间的小时。如2020年4月26日15:00，返回15。</li>
+            <li>getMilliseconds(): 返回本地时间的微秒。如2020年4月26日15:00:00.823，返回823。</li>
+            <li>getMinutes(): 返回本地时间的分钟。如2020年4月26日15:40:00，返回40。</li>
+            <li>getMonth(): 返回本地时间的月份。如2020年4月26日，返回3，代表4月份。
+                <table>
+                    <thead>
+                        <tr><th>数值</th><th>月份</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>0</td><td>1</td></tr>
+                        <tr><td>1</td><td>2</td></tr>
+                        <tr><td>2</td><td>3</td></tr>
+                        <tr><td>3</td><td>4</td></tr>
+                        <tr><td>4</td><td>5</td></tr>
+                        <tr><td>5</td><td>6</td></tr>
+                        <tr><td>6</td><td>7</td></tr>
+                        <tr><td>7</td><td>8</td></tr>
+                        <tr><td>8</td><td>9</td></tr>
+                        <tr><td>9</td><td>10</td></tr>
+                        <tr><td>10</td><td>11</td></tr>
+                        <tr><td>11</td><td>12</td></tr>
+                    </tbody>
+                </table>
+            </li>
+            <li>getSeconds(): 返回本地时间的秒数。如2020年4月26日15:40:25，返回25。</li>
+            <li>getTime(): 返回时间值。如1970年1月1日上午8:00，返回0。</li>
+            <li>getTimezoneOffset(): 返回零时区与本地时区的差，即零时区 - 本地时区，以分钟为单位。如东八区的北京时间，返回-480，代表相差480分钟。将其值除以60，得到-8小时。</li>
+            <li>getUTCDate(): 返回UTC的多少日。如2020年4月26日00:00:00，返回31。</li>
+            <li>getUTCDay(): 返回UTC的星期几。如2020年4月26日00:00:00，返回6，代表星期六。
+                <table>
+                    <thead>
+                        <tr><th>数值</th><th>星期几</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>0</td><td>星期日</td></tr>
+                        <tr><td>1</td><td>星期一</td></tr>
+                        <tr><td>2</td><td>星期二</td></tr>
+                        <tr><td>3</td><td>星期三</td></tr>
+                        <tr><td>4</td><td>星期四</td></tr>
+                        <tr><td>5</td><td>星期五</td></tr>
+                        <tr><td>6</td><td>星期六</td></tr>
+                    </tbody>
+                </table>
+            </li>
+            <li>getUTCFullYear(): 返回UTC的年数。如2020年4月26日，返回2020。</li>
+            <li>getUTCHours(): 返回UTC的小时。如2020年4月26日00:00，返回16。</li>
+        </ul>
+        
+        <h2>Date的不便利的地方</h2>
+        <p>由于存在UTC时间与本地时间两种时间，编程人员需时刻注意你在与哪个时间打交道。</p>
+        <h3>1. 以UTC时间来创建日期</h3>
+        <p>在创建一个新日期时，下面的方法是以UTC时间来创建的。</p>
+        <pre><code>var date = new Date(0);
+console.log(date.getHours());  // 8
+
+var date = new Date("2020-04-01");
+console.log(date.getHours());  // 8
+
+var date = new Date("2020-04-01T00:00:00.000Z");
+console.log(date.getHours());  // 8
+</code></pre>
+        <h3>2. 以本地时间来创建日期</h3>
+        <p>在创建一个新日期时，下面的方法是以本地时间来创建的。</p>
+        <pre><code>var date = new Date(2020, 3, 1);
+console.log(date.getHours());  // 0
+
+var date = new Date("2020/04/01");
+console.log(date.getHours());  // 0
+
+var date = new Date("2020/04/01 09:00:15");
+console.log(date.getHours());  // 9
+</code></pre>
+        <p>而我们较多数情况下，应是使用本地时间来创建日期。</p>
+        
+        <h2>JavaScript技巧</h2>
+        <h3>1. assert</h3>
+        <pre><code>console.assert(1===2, "Fail", [1, 2, 3]);</code></pre>
+        
+        <h3>2. 访问函数的参数</h3>
+        <pre><code>function aa(var1) {
+    console.log(arguments);  // Arguments [1]
+}</code></pre>
+        
+        <h3>3. 访问浏览器</h3>
+        <pre><code>console.log(this.navigator.userAgent);
+</code></pre>
+        <p>显示：</p>
+        <pre><code>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1 Safari/605.1.15</code></pre>
+        
+        <h3>4. 关于取模</h3>
+        <p>从数学上，取模<code>%</code>即求余数。如：</p>
+        <pre><code>5 ％ 3 = 2</code></pre>
+        <p>5除以3，商为1，余2。这是单个数的取模。因此不难理解。</p>
+        <p>取模有一重要应用，即可实现当超过特定的数字时，自动反转，即将值限定在取值范围内。</p>
+        <pre><code>for (var i = 1; i <= 30; i++) {
+    var result = i % 5;
+    console.log(result);
+}
+</code></pre>
+        
+        <p>可以看出，其值都在[1, 2, 3, 4, 0]范围内翻转。即当值为5的倍数时，结果就变为0。也可以说，其结果不会超过4。</p>
+        <p>一般的，当用n来取模时，其值在[0, 1, 2, 3, ..., n-1]内翻转。</p>
+        <p>这是仅从值域范围来看。但有时我们还需要精确地控制，当原值为多少，转换值应为多少。</p>
+        <p>例如，对于十六进制的转换：</p>
+        <pre><code>for (var i = 0; i <= 100; i++) {
+    var result = i % 16;
+    console.log(result);
+}
+</code></pre>
+        <p>注意变量<code>i</code>，从0值开始，而不是从1值开始。这时，0转换为0，其他值转换为[1, 15]内的值，16的倍数转换为0，非常完美地应用于十六进制的转换。</p>
+        <p>看看月份的用例。对于特定的一个数值，它是多少月？</p>
+        
+        <p>由于不会出现0月，因此，变量<code>i</code>从1值开始，先写出以下代码：</p>
+        <pre><code>for (var i = 1; i <= 100; i++) {
+    var result = i % 13;
+    console.log(result);
+}
+</code></pre>
+        <p>值域为[0, 12]。注意，每个周期共有13个数，这不对。此外，13的倍数变为0。结果中出现了0月，逻辑不对。13的倍数应变为1。</p>
+        <p>先将13调为12。</p>
+        <pre><code>for (var i = 1; i <= 100; i++) {
+    var result = i % 12;
+    console.log(result);
+}
+</code></pre>
+        <p>结果是，值域为[0, 11]，12变为0。13变为1, 14变为2。除了12的倍数不对，其他的均符合要求。这种情况下，只需将结果0变为12就行了。</p>
+        <pre><code>for (var i = 1; i <= 100; i++) {
+    var result = i % 12;
+    if (result === 0) {
+        result = 12;
+    }
+    console.log(result);
+}
+</code></pre>
+        <p>转换星期几的方法与上面的方法完全一致。只需将12改为7即可。</p>
+        <p>小时：[0, 23]。分钟、秒钟：[0, 59]。由于可以允许0值出现，此时可非常完美地应用简单地取模。</p>
+        <pre><code>for (var i = 0; i <= 100; i++) {
+    var result = i % 24;
+    console.log(result);
+}
+
+for (var i = 0; i <= 100; i++) {
+    var result = i % 60;
+    console.log(result);
+}
+</code></pre>
+        <p>总结如下：</p>
+        <ol>
+            <li>y = x % n, y的值域为[0, 1, 2, 3, ..., n-1]。</li>
+            <li>如果值域允许0出现，简单地取模进行。</li>
+            <li>如果值域不允许0出现，只需简单地将0值设为值域最大值即可。</li>
+        </ol>
+        
+        <h3>5. 打印数组</h3>
+        <pre><code>var a = [1, 2, 3];
+console.table(a);
+
+var b = {a:"aa", b:"bb"};
+console.table(b);
+</code></pre>
+        
+        <h3>6. 数组是否包含某数</h3>
+        <pre><code>var a = [1, 2, 3];
+if (a.includes(5)) {
+    ...
+}
+</code></pre>
+        
+        <h3>7. 成员的遍历</h3>
+        <pre><code>var str = "Hello, World";
+for (var char of str) {
+    console.log(char);
+}
+</code></pre>
+        
+        <h3>8. 正则表达式中中文字符的匹配</h3>
+        <pre><code>[\u4e00-\u9fa5]
+</code></pre>
+        
+        <h3>8. 正则表达式中中文字符的替换</h3>
+        <p>Find What:</p>
+        <pre><code>(([\u4e00-\u9fa5])+), 
+</code></pre>
+        <p>后面还有一空格。</p>
+        <p>Replace With:</p>
+        <pre><code>"$1", 
+</code></pre>
+        <p>后面还有一空格。</p>
+        
+        <script>
+console.log("This is script place");
+        </script>
+        
+        
+        <h2>进度</h2>
+        <p>正在检查到1982年的农历。似乎正在看的参考书籍有问题。1982年，书上没有闰月。但网上查却有。</p>
+        
+        <h2>References</h2>
+        <ul>
+            <li><a href="https://tc39.es/ecma262/#sec-date-objects" target="_blank">ECMA262 Date Objects, 20.4 Date Objects</a></li>
+            <li><a href="http://www.yangyide.net/lifa/5083.html" target="_blank">十二地支中正月为何建寅不建子</a></li>
+            <li><a href="https://www.jb51.net/article/85837.htm" target="_blank">简单了解JavaScript操作XPath的一些基本方法</a></li>
+            <li><a href="https://zhidao.baidu.com/question/200518269475395245.html?qbl=relate_question_0&word=%C4%EA%C9%CF%C6%F0%D4%C2%B7%A8" target="_blank">四柱预测学中如何月上起日?有什么捷诀?</a></li>
+        </ul>
+    </body>
+</html>

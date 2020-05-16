@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Golden Rate</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <style type="text/css">
+            canvas {
+                border: 1px solid black;
+            }
+        </style>
+        
+        <script type="text/javascript">
+            var GOLDEN_RATE = (Math.sqrt(5) - 1) / 2;
+            
+            var 阳爻宽度 = 100;
+            var 爻高度 = 阳爻宽度 / GOLDEN_RATE / 11 * 5 / 6;
+            
+            
+            var 爻垂直间距 = (阳爻宽度 / GOLDEN_RATE - 爻高度 * 6) / 5;
+            
+            var 阴爻间距 = 阳爻宽度 / 5;
+            var 阴爻宽度 = (阳爻宽度 - 阴爻间距) / 2;
+            
+
+            
+            
+            window.addEventListener("load", init);
+            
+            function init() {
+                var canvas = document.getElementById("mycanvas");
+                canvas.width = window.innerWidth - 20;
+                canvas.height = canvas.width / 0.618;
+
+              
+                
+                var ctx = canvas.getContext("2d");
+                
+                ctx.fillStyle = "darkmagenta";
+                
+                var x = 10;
+                var y = 10;
+                
+                var 阴阳爻 = [1, 0, 1, 0, 1, 0];
+                
+                var 爻index = 0;
+                
+                for (var row = 1; row <= 11; row++) {
+                    
+                    
+                    if (row % 2 !== 0) {
+                        
+                        y += 爻高度 + 爻垂直间距;
+                        
+                        var 爻 = 阴阳爻[爻index];
+                        console.log(爻);
+                        
+                        if (爻 === 1) {
+                            ctx.fillRect(x, y, 阳爻宽度, 爻高度);
+                        } else {
+                            ctx.fillRect(x, y, 阴爻宽度, 爻高度);
+                            ctx.fillRect(x + 阴爻宽度 + 阴爻间距, y, 阴爻宽度, 爻高度);
+                        }
+                        
+                        
+                        
+                        爻index++;
+                    }
+                    
+
+                }
+                
+                
+
+                
+                
+            }
+            
+        </script>
+    </head>
+    <body>
+        <h1>Golden Rate</h1>
+        
+        <canvas id="mycanvas"></canvas>
+    </body>
+</html>
