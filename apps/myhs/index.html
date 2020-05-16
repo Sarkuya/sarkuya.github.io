@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>梅花易数</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width = device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="css/style.css" type="text/style">
+        
+        <script type="text/javascript">
+            window.addEventListener("load", init);
+            
+            function init() {
+                var date = new Date();
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var dateday = date.getDate();
+                
+                if (month < 10) {
+                    month = "0" + month;
+                }
+                
+                if (dateday < 10) {
+                    dateday = "0" + dateday;
+                }
+                
+                document.querySelector("form tr input[type=date]").value = "" + year + "-" + month + "-" + dateday;
+                document.querySelector("form tr input[type=text]").value = "" + date.getHours() + ":" + date.getMinutes();
+            }
+        </script>
+        
+    </head>
+    <body>
+        <h1>梅花易数 V0.1</h1>
+        <h2 style="text-align: right">Sarkuya</h2>
+        
+        <form action="jiegua.html" method="get">
+            <table>
+                <tbody>
+                    <tr><th>日期</th><td><input name="date" type="date" /></td></tr>
+                    <tr><th>时分</th><td><input name="hour" type="text" value="15:20" /></td></tr>
+                    <tr><td></td><td><input type="submit" /></td></tr>
+                </tbody>
+            </table>
+        </form>
+    </body>
+</html>
