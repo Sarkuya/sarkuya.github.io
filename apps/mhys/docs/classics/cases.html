@@ -42,6 +42,8 @@
         <script src="../../../../js/htmlDocUtils.js"></script>
         
         <script type="text/javascript" src="../../js/八卦.js"></script>
+        <script type="text/javascript" src="../../js/六十甲子纳音表.js"></script>
+        <script type="text/javascript" src="../../js/农历Utils.js"></script>
         <script type="text/javascript" src="../../js/梅花易数.js"></script>
         <script type="text/javascript" src="../../js/周易图形.js"></script>
     </head>
@@ -242,11 +244,122 @@
                             }
                         </script>
                         <p>这样，本卦中的兑离两卦，就变为互卦中的乾、巽两卦，重卦组成六十四卦中的天风姤：<span class="liushisiguaXiang">&#x4DEB;</span></p>
-                        
                     </section>
                     
-                    
-
+                    <section>
+                        <h1>排出变卦</h1>
+                        <p>再看本卦中的几爻动，进而排出变卦。</p>
+                        <p>求动爻时，以年月日时总数除以6，求余数。</p>
+                        <pre>年数 + 月数 + 日数 + 时数 = 43
+43 &#x00F7; 6 = 7，取余数1</pre>
+                        <p>余数为1，初爻变。</p>
+                        <canvas id="canvas4"></canvas>
+                        <script type="text/javascript">
+                            var canvas = document.querySelector("#canvas4");
+                            var ctx = canvas.getContext('2d');
+                            
+                            canvas.height = 155;
+                            
+                            ctx.transform(1.5, 0, 0, 1.5, 0, 0);
+                            
+                            var 兑卦 = 八卦Utils.get八卦(2);
+                            var 离卦 = 八卦Utils.get八卦(3);
+                            
+                            var x1 = 25
+                            var y1 = 10;
+                            zygrc.draw重卦(ctx, x1, y1, 兑卦, 离卦);
+                            
+                            ctx.fillStyle = "white";
+                            zygrc.draw爻(ctx, x1, y1 + zygrc.爻高度 * 5 + zygrc.爻垂直间距 * 5, true);
+                            ctx.fillStyle = "red";
+                            zygrc.draw爻(ctx, x1, y1 + zygrc.爻高度 * 5 + zygrc.爻垂直间距 * 5, true);
+                            
+                            ctx.font = "16px Arail";
+                            ctx.fillStyle = "magenta";
+                            ctx.textBaseline = "middle";
+                            ctx.textAlign = "right";
+                            ctx.fillText("兑", x1 - zygrc.阴爻间距 * 0.5, y1 + zygrc.爻高度 * 1.5 + zygrc.爻垂直间距);
+                            ctx.fillText("离", x1 - zygrc.阴爻间距 * 0.5, y1 + zygrc.爻高度 * 4.5 + zygrc.爻垂直间距 * 4);
+                            
+                            ctx.fillStyle = "black";
+                            var x2 = x1 + 100;
+                            var y2 = y1;
+                            //var 乾卦 = 八卦Utils.get八卦(1);
+                            var 艮卦 = 八卦Utils.get八卦(7);
+                            zygrc.draw重卦(ctx, x2, y2, 兑卦, 艮卦);
+                            
+                            
+                            ctx.fillStyle = "magenta";
+                            ctx.textAlign = "left";
+                            ctx.fillText("兑", x2 + zygrc.阳爻宽度 + zygrc.阴爻间距 * 0.5, y2 + zygrc.爻高度 * 1.5 + zygrc.爻垂直间距);
+                            ctx.fillText("艮", x2 + zygrc.阳爻宽度 + zygrc.阴爻间距 * 0.5, y2 + zygrc.爻高度 * 4.5 + zygrc.爻垂直间距 * 4);
+                            
+                            x1 = x1 + zygrc.阳爻宽度 + zygrc.阴爻间距/2;
+                            y1 = y1 + zygrc.爻高度 * 4.5 + zygrc.爻垂直间距 * 4;
+                            x2 = x2 - zygrc.阴爻间距/2;
+                            y2 = y1;
+                            ctx.moveTo(x1, y1);
+                            ctx.lineTo(x2, y2);
+                            ctx.lineTo(x2 - 5, y2 - 3);
+                            ctx.lineTo(x2, y2);
+                            ctx.lineTo(x2 - 5, y2 + 3);
+                            ctx.stroke();
+                        </script>
+                        <p>初爻在本卦下卦离卦的初爻，为阳爻，此爻变为阴爻，离卦则变为艮卦。本卦上卦不变，依旧为兑卦，与艮卦组成复卦咸卦：<span class="liushisiguaXiang">&#x4DEC;</span></p>
+                        <p>在本卦中，动爻所在的八卦为用卦，不动的八卦为体卦。这里，动爻在离卦，故离为用卦，兑为体卦。</p>
+                        <p>至此，本卦、互卦、变卦全部排毕。</p>
+                    </section>
+                </section>
+                
+                <section>
+                    <h1>解卦</h1>
+                    <p>先排出本卦、互卦、变卦的卦象如下：</p>
+                    <canvas id="canvas5"></canvas>
+                    <script type="text/javascript">
+                        var canvas = document.querySelector("#canvas5");
+                        var ctx = canvas.getContext('2d');
+                        
+                        canvas.width = 355;
+                        canvas.height = canvas.width * GOLDEN_RATE;
+                        
+                        var 梅花易数Obj = mhysUtils.get梅花易数From简易农历Str("辰年十二月十七日申时");
+                        
+                        zygrc.draw梅花卦象(ctx, 梅花易数Obj);
+                    </script>
+                    <p>根据卦象，进行分析：</p>
+                    <ol>
+                        <li>体卦为兑金，用卦离火克之，为用克体。互卦中出现巽木，生起用卦离火，克体之卦气旺盛，体卦兑金容易受到伤害。兑为少女，故知是少女受到伤害。这一步，从体卦中确定了受到伤害的人物。</li>
+                        <li>互卦中的巽木，有乾兑金克之，巽受伤。巽代表大腿，故知少女的大腿受伤。这一步，从互卦中确定了少女受伤的部位。</li>
+                        <li>变卦为艮土，土生体卦兑金，体卦兑金得生，事情朝着好的方向发展，事态不会凶险。这一步，从变卦中得出受伤程度的结论。</li>
+                    </ol>
+                </section>
+                
+                <section>
+                    <h1>规律总结</h1>
+                    <ol>
+                        <li>梅花易数的核心是通过五行生克的规律来进行预测。</li>
+                        <li>本卦、互卦、变卦可分别代表事物的发展轨迹，本卦为开始，互卦为中间过程，变卦为结果。</li>
+                        <li>本卦中的体卦，是最关键的部分，是我们预测所要关心的主体。用卦为外部诸因素对其的影响。喜见用卦生体卦，不喜用卦克体卦。</li>
+                        <li>体卦、用卦均可受到互卦、变卦中各卦的影响。</li>
+                        <li>体卦代表人物，互卦代表身体的一部分。</li>
+                        <li>体卦需考虑生克，互卦也要考虑生克。</li>
+                        <li>每个八卦都代表了许多实体，如何精确地找出所对应的实体，需要恰当的分析与筛选。而这需要不断地练习，以提高悟性。</li>
+                    </ol>
+                    <p>此卦例没有分析到以下因素：</p>
+                    <ol>
+                        <li>用卦离火代表什么？能否看出是什么物体对少女造成伤害？</li>
+                        <li>能否看出是何人对少女进行伤害？</li>
+                        <li>互卦中的乾金代表什么？能发生什么样的作用？</li>
+                        <li>变卦中的上卦兑金，是从本卦中的体卦直接移动过来，此卦应否参加生克？</li>
+                        <li>没有考虑卦气生旺的问题。</li>
+                        <li>没有明确将会发生的时间。</li>
+                        <li>为何将事件发生的场所定于花园中？</li>
+                    </ol>
+                </section>
+                
+                <section>
+                    <h1>感悟</h1>
+                    <p>看见麻雀争斗而能预知园丁追赶少女而致少女受伤，且起卦与解卦都是如此简单，梅花易数有多神奇？！</p>
                 </section>
             </section>
 

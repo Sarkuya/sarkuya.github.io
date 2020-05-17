@@ -84,7 +84,7 @@
                 document.getElementById("nonglishijian").textContent = 农历Obj.toString();
                 document.getElementById("sizhuganzhi").textContent = 农历Obj.四柱.toString();
                 
-                var 梅花易数Obj = new 梅花易数(农历Obj);
+                var 梅花易数Obj = mhysUtils.get梅花易数From农历Obj(农历Obj);
                 document.getElementById("meihuasishu").textContent = 梅花易数Obj.年数 + ", " + 梅花易数Obj.月数 + ", " + 梅花易数Obj.日数 + ", " + 梅花易数Obj.时数; 
                 
                 drawGuaXiang(梅花易数Obj);
