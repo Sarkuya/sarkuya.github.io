@@ -1,4 +1,44 @@
 
+var 八卦Utils = {};
+
+八卦Utils.get八卦 = function(八卦序号) {
+    var map = ["乾", "兑", "离", "震", "巽", "坎", "艮", "坤"];
+    
+    var name = map[八卦序号-1]; 
+    
+    switch(name) {
+        case "乾":
+            return new 乾();
+            break;
+        case "兑":
+            return new 兑();
+            break;
+        case "离":
+            return new 离();
+            break;
+        case "震":
+            return new 震();
+            break;
+        case "巽":
+            return new 巽();
+            break;
+        case "坎":
+            return new 坎();
+            break;
+        case "艮":
+            return new 艮();
+            break;
+        case "坤":
+            return new 坤();
+            break;
+        default:
+            console.log("Error!");
+            break;
+    }
+};
+
+
+
 function 八卦() {
 }
 
@@ -13,6 +53,8 @@ function 八卦() {
 八卦.prototype.get三爻 = function() {
     return this.卦象[2];
 };
+
+
 
 function 乾() {
     this.名称 = "乾";
