@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>JavaScript日期</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/document.css">
+        
+        <script src="../js/htmlDocUtils.js"></script>
+        
+        <script type="text/javascript">
+            window.addEventListener("load", init);
+            
+            function init() {
+          
+
+var date = new Date("2020/05/03 19:15:00");
+var options = {
+    dateStyle: "full",
+    timeStyle: "full",
+    calendar: "chinese",
+    numberingSystem: "handidec",
+    
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    
+    weekday: "long",
+    
+    dayPeriod: "long",
+    
+    hour12: false,
+    hourCycle: "h24"
+};
+console.log(new Intl.DateTimeFormat("zh-Hans-CN-u-ca-chinese", options).format(date));
+
+
+
+
+                
+//                const locales1 = ['ban', 'id-u-co-pinyin', 'de-ID'];
+//                const options1 = { localeMatcher: 'lookup' };
+//
+//                console.log(Intl.DateTimeFormat.supportedLocalesOf(locales1, options1));
+                
+
+                
+
+                
+                
+            }
+        </script>
+    </head>
+    <body>
+        <article>
+            <header>
+                <h1>JavaScript日期</h1>
+                <p class='authorinfo'>Sarkuya, <time>2020-05-19</time></p>
+            </header>
+            
+            <section class="chapter">
+                <h1>本地化</h1>
+                <p>根据本地规则来进行显示、比较的一组规则。先看一例：</p>
+                <pre class="programlisting">
+var str1 = "伍";
+var str2 = "陈";
+
+console.log(str1 > str2);  // false
+
+var res = str1.localeCompare(str2);
+console.log(res);  // 1
+</pre>
+                <p>"伍"与"陈"进行排序。在中文习惯中，"伍"应排在"陈"的后面。</p>
+                <p>但在第一种比较中，却显示"伍"排在前面。这是因为默认情况下，是根据汉字的Unicode编码来排序的，而不是根据汉字拼音。</p>
+                <p>而在中文环境中，对汉字的排序一般根据汉字拼音来排序。第二种情况通过<code>str1.localeCompare()</code>方法，采用了本地化的比较方法，就得出了正确的结果。</p>
+            </section>
+            
+            <section class="chapter">
+                <h1>农历日期支持</h1>
+                <p></p>
+                <pre class="programlisting">
+var date = new Date();
+console.log(new Intl.DateTimeFormat("zh-Hans-CN-u-ca-chinese").format(date));  // 37/4/27
+</pre>
+                <p>在六十甲子纳音表中，序号为37的干支是"庚子"。4代表农历四月，27代表农历廿七。合起来，则表示"农历庚子年四月廿七"。喔！</p>
+                <pre class="programlisting">
+var date = new Date("2020/05/27 09:15:00");
+console.log(new Intl.DateTimeFormat("zh-Hans-CN-u-ca-chinese").format(date));  // 37/闰4/5
+</pre>
+                <p>没错，庚子年闰四月初五。</p>
+                
+                <section>
+                    <h1>Intl对象</h1>
+                    <p>Intl是专用于国际化的一个对象。可提供与语言相关的字符串比较、数字格式化，以及日期时间格式化。</p>
+                    
+                    <pre class="synopsis">
+new Intl.DateTimeFormat([locales[, options]])
+</pre>
+                    <p></p>
+                </section>
+                
+                <section>
+                    <h1>Intl的构造器属性</h1>
+                    <p>有以下构造器属性：</p>
+                    <ul>
+                        <li>Intl.<code>Collator</code>()</li>
+                        <li>Intl.<code>DateTimeFormat</code>()</li>
+                        <li>Intl.<code>DisplayNames</code>()</li>
+                        <li>Intl.<code>ListFormat</code>()</li>
+                        <li>Intl.<code>Locale</code>()</li>
+                        <li>Intl.<code>NumberFormat</code>()</li>
+                        <li>Intl.<code>PluralRules</code>()</li>
+                        <li>Intl.<code>RelativeTimeFormat</code>()</li>
+                    </ul>
+                </section>
+                
+                <section>
+                    <h1>Intl.Collator()构造器</h1>
+                    <pre class="programlisting">
+var array = ['一', '二', '三'];
+
+array.sort(new Intl.Collator("zh-Hans-CN-u-co-pinyin").compare);  // 使用中文拼音排序
+console.log(array);  // ["二", "三", "一"]
+
+array = ['1', '2', '10'];
+
+array.sort(new Intl.Collator("zh-Hans-CN-u-kn-false").compare);  // 表示数字的字符串不按其所代表的数值来排序
+console.log(array);  // ["1", "10", "2"]
+
+array = ['1', '2', '10'];
+
+array.sort(new Intl.Collator("zh-Hans-CN-u-kn-true").compare);  // 表示数字的字符串按其所代表的数值来排序
+console.log(array);  // ["1", "2", "10"]
+</pre>
+                    <p>其语法为：</p>
+                    <pre class="synopsis">
+new Intl.Collator([locales[, options]])
+</pre>
+                    <p><span class="parameter">locales</span>是一个BCP 47语言的标签，或是一个这样的字符串的数组。支持Unicode扩展的关键字。</p>
+                    
+                    <p>BCP 47语言的标签表示的一些标识：</p>
+                    <pre class="programlisting">
+zh-Hans-CN: 中国-简体汉字-大陆，语言-方言-地区
+
+// 以下的表示是相等的
+zh = zh-Hans = zh-CN = zh-Hans-CN
+
+zh-Hant-HK: 中国-繁体汉字-香港，语言-方言-地区
+zh-Hant-MO: 中国-繁体汉字-澳门，语言-方言-地区
+zh-Hant-TW: 中国-繁体汉字-台湾，语言-方言-地区
+
+zh-Hans-CN-u-ca-chinese: 中国汉字大陆，使用扩展，日历为中国日历，即农历
+</pre>
+                    
+                    <dl>
+                        <dt><code>co</code></dt>
+                        <dd>比较方法。支持的值有： "<code>big5han</code>", "<code>dict</code>", "<code>gb2312</code>", "<code>pinyin</code>"等。</dd>
+                        <dt><code>kn</code></dt>
+                        <dd>是否应用数值比较法来比较表示数值的字符串，如"1"<"2"<"10"。支持的值有： "<code>true</code>", "<code>false</code>"。</dd>
+                        <dt><code>kf</code></dt>
+                        <dd>先比较大写，还是先比较小写。支持的值有： "<code>upper</code>", "<code>lower</code>", "<code>false</code>"。</dd>
+                    </dl>
+                    <p><span class="parameter">options</span>，属性集。</p>
+                </section>
+                
+                <section>
+                    <h1>Intl.Locale()构造器</h1>
+                    <pre class="programlisting">
+const korean = new Intl.Locale('ko', {
+    script: 'Kore', region: 'KR', hourCycle: 'h24', calendar: 'gregory'
+});
+
+const chinese = new Intl.Locale('zh-Hans-CN-u-ca-chinese');
+</pre>
+                    <p>但Safari及IE均不支持Intl.Locale对象。Chrome及Firefox支持。</p>
+                    <p><code>Locale</code>有一些属性及方法。由于支持不普遍，这里不列举。</p>
+                </section>
+                
+                <section>
+                    <h1>Intl.DateTimeFormat()构造器</h1>
+                    
+                    <p>最简单的使用方法。</p>
+                    <pre class="programlisting">
+var date = new Date();
+console.log(new Intl.DateTimeFormat("zh").format(date));  // 2020/5/20
+</pre>
+                    <p>使用扩展数字系统(numbering system)。</p>
+                    <pre class="programlisting">
+var date = new Date();
+
+console.log(new Intl.DateTimeFormat("zh-Hans-CN-u-nu-fullwide").format(date));  // ２０２０/５/２０
+console.log(new Intl.DateTimeFormat("zh-Hans-CN-u-nu-hanidec").format(date));  // 二〇二〇/五/二〇
+</pre>
+                    <p>使用扩展日历</p>
+                    <pre class="programlisting">
+var date = new Date();
+
+console.log(new Intl.DateTimeFormat("zh-Hans-CN-u-ca-chinese").format(date));
+// 37/4/28, 37代表庚子，农历四月廿八
+
+console.log(new Intl.DateTimeFormat("zh-Hans-CN-u-ca-chinese-nu-hanidec").format(date));
+// 三七/四/二八, 用大写数字来表示农历
+</pre>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    
+                    
+                    <p>语法</p>
+                    <pre class="synopsis">
+new Intl.DateTimeFormat([locales[, options]])
+</pre>
+                    <p><span class="parameter">locales</span>的用法如上面的一些例子。</p>
+                    <p><span class="parameter">options</span>包含一些格式化因式。下面是一些例子。</p>
+                    <pre class="programlisting">
+var date = new Date("2020/05/03 19:15:00");
+var options = {
+    dateStyle: "full",
+    timeStyle: "full",
+    calendar: "chinese",
+    numberingSystem: "handidec",
+    
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    
+    weekday: "long",
+    
+    dayPeriod: "long",
+    
+    hour12: false,
+    hourCycle: "h24"
+};
+console.log(new Intl.DateTimeFormat("zh-Hans-CN-u-ca-chinese", options).format(date));
+// 37年4月11日 星期日 19时 : 打开 weekday
+// 37/4/11 19:15 : 打开 minute
+// 37/4/11 19时 : 关闭 weekday
+</pre>
+                </section>
+                
+                <section>
+                    <h1>Intl的方法</h1>
+                    <ul>
+                        <li>getCanonicalLocales()</li>
+                    </ul>
+                    
+                    <section>
+                        <h1>getCanonicalLocales()</h1>
+                        <p>对于本地化的字符，有时大小写容易混淆，可用此方法来返回规范的写法。</p>
+                        <pre class="programlisting">
+console.log(Intl.getCanonicalLocales('zh-cn'));  // ["zh-CN"]
+console.log(Intl.getCanonicalLocales(['zh-cn', 'EN-US', 'FR']));  // ["zh-CN", "en-US", "fr"]
+</pre>
+                    </section>
+                    
+                    
+                </section>
+            </section>
+
+            <section class="reference">
+                <h1>References</h1>
+                <ul>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat" target="_blank">MDN, Intl.DateTimeFormat() constructor</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation" target="_blank">MDN, Intl</a></li>
+                    <li><a href="https://www.unicode.org/reports/tr35/tr35.html#BCP_47_Conformance" target="_blank">UNICODE LOCALE DATA MARKUP LANGUAGE (LDML)</a></li>
+                    
+                </ul>
+            </section>
+            
+            <footer><p class="copyright">All rights reserved.</p></footer>
+        </article>
+    </body>
+</html>

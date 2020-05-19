@@ -98,8 +98,12 @@
             }
             
             function init() {
-                var date = new Date("2020/1/24 0:0:0");
+                var date = new Date();
                 农历Utils.开始预测(date);
+                
+var date = new Date("2020/05/27 09:15:00");
+//var options = 
+console.log(new Intl.DateTimeFormat("zh-Hans-CN-u-ca-chinese-hc-h24").format(date));
                 
             }
             
@@ -334,7 +338,9 @@ console.log(date.toString());
         
         <p><code>toLocaleDateString()</code>则显示为：</p>
         <pre><code>2020/4/25</code></pre>
-        <p>此方法还可带有两个可选的参数：reserved1, reserved2.</p>
+        <p>此方法还可带有两个可选的参数：locales, options.</p>
+        <pre><code>var dateOptions = {year: 'numeric', month: '2-digit', day: '2-digit'};
+console.log(date.toLocaleDateString("zh-Hans-CN", dateOptions));</code></pre>
         
         <p><code>toLocaleTimeString()</code>则显示为：</p>
         <pre><code>上午1:40:50</code></pre>
@@ -343,6 +349,17 @@ console.log(date.toString());
         <p><code>toLocaleString()</code>则显示为：</p>
         <pre><code>2020/4/25 上午1:39:38</code></pre>
         <p>此方法还可带有两个可选的参数：reserved1, reserved2.</p>
+        
+        <h2>JavaScript对农历的支持</h2>
+        <p>先看这一段代码：</p>
+        <pre><code>var date = new Date();
+console.log(new Intl.DateTimeFormat("zh-Hans-CN-u-ca-chinese").format(date));  // 37/4/27
+</code></pre>
+        <p>在六十甲子纳音表中，序号为37的干支是"庚子"。4代表农历四月，27代表农历廿七。合起来，则表示"农历庚子年四月廿七"。喔！</p>
+        <pre><code>var date = new Date("2020/05/27 09:15:00");
+console.log(new Intl.DateTimeFormat("zh-Hans-CN-u-ca-chinese").format(date));  // 37/闰4/5
+</code></pre>
+        <p>没错，庚子年闰四月初五。</p>
         
         <h2>日期的本质</h2>
         <p>对于Date对象，其内部存储了一个数值。其数值相对于1970年1月1日的格林尼治天文台旧址所在的零时区的零时。</p>
@@ -418,7 +435,11 @@ console.log(date.toLocaleString());  // 1970/1/2 上午8:00:00
 console.log(date.toLocaleString());  // 2020/2/3 下午11:15:37
 </code></pre>
         <p>注意表示月份的参数。实际的月份需要加在表示月份的参数数值上加1。这是因为其内部表示月份的数值是从0开始的。所以0就表示1月份。</p>
-        <p></p>
+        <p>Date()有一个比较隐蔽的特点：</p>
+        <pre><code>var date = new Date(2020, 1, 0);  // 第3个参数传入0
+console.log(date.toLocaleString());  // 2020/1/31 上午12:00:00
+</code></pre>
+        <p>第3个参数表示日期，在这里传入0值，将得到当月的最后一天的日期。</p>
         
         <h3>4. 参数为字符串的构造</h3>
         <p>返回以字符串表示的时间的日期。</p>
@@ -670,6 +691,9 @@ console.log("This is script place");
             <li><a href="http://www.yangyide.net/lifa/5083.html" target="_blank">十二地支中正月为何建寅不建子</a></li>
             <li><a href="https://www.jb51.net/article/85837.htm" target="_blank">简单了解JavaScript操作XPath的一些基本方法</a></li>
             <li><a href="https://zhidao.baidu.com/question/200518269475395245.html?qbl=relate_question_0&word=%C4%EA%C9%CF%C6%F0%D4%C2%B7%A8" target="_blank">四柱预测学中如何月上起日?有什么捷诀?</a></li>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat" target="_blank">MDN, Intl.DateTimeFormat() constructor</a></li>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation" target="_blank">MDN, Intl</a></li>
+            
         </ul>
     </body>
 </html>
