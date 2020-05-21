@@ -17,6 +17,15 @@
             
             function init() {
                 var date = new Date();
+                setDateInUI(date);
+                
+                document.querySelector("form tr input[type=button]").onclick = function() {
+                    var date = 农历Utils.getRandomDate();
+                    setDateInUI(date);
+                };
+            }
+            
+            function setDateInUI(date) {
                 var year = date.getFullYear();
                 var month = date.getMonth() + 1;
                 var dateday = date.getDate();
@@ -31,12 +40,6 @@
                 
                 document.querySelector("form tr input[type=date]").value = "" + year + "-" + month + "-" + dateday;
                 document.querySelector("form tr input[type=text]").value = "" + date.getHours() + ":" + date.getMinutes();
-                
-                document.querySelector("form tr input[type=button]").onclick = function() {
-                    var date = 农历Utils.getRandomDate();
-                    document.querySelector("form tr input[type=date]").value = date.toLocaleDateString();
-                };
-                
             }
         </script>
         

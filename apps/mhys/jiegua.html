@@ -98,10 +98,8 @@
                 var canvas = document.getElementById("guaxiang");
                 var ctx = canvas.getContext("2d");
                 
-                canvas.width = 355;
+                canvas.width = window.innerWidth - 35;
                 canvas.height = canvas.width * 0.618;
-                
-                
                 
                 ctx.imageSmoothingEnabled = true;
                 ctx.imageSmoothingQuality = "high";
@@ -113,8 +111,6 @@
                 
                 //console.log(梅花易数Obj.本卦.上卦.get初爻());
             }
-            
-            
         </script>
 
     </head>
