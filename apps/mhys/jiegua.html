@@ -6,22 +6,11 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-        <link rel="stylesheet" media="screen" href="../../css/document.css">
+        <link rel="stylesheet" media="screen" href="css/apps.css">
 
         <style type="text/css">
-            html {
-                margin: 0;
-                padding: 0;
-            }
-            
-            body {
-                /*margin: 0;*/
-                /*padding: 0;*/
-            }
-            
             canvas {
                 border: 1px solid black;
-                /*width: 100%;*/
                 margin: 0;
                 padding: 0;
             }
@@ -44,11 +33,24 @@
             }
             
             function directSuanGua() {
-                //var date = 农历Utils.getRandomDate();
+                var date = 农历Utils.getRandomDate();
                 
-                var date = new Date("2020/05/16 15:50");
+                // var date = new Date();
+                displayInfo(date);
+            }
+            
+            function displayInfo(date) {
+                //农历Utils.算出农历(date, onReceiveData);
+                var 农历Obj = 农历Utils.算出农历On公历(date);
                 
-                农历Utils.算出农历(date, onReceiveData);
+                document.getElementById("gonglishijian").textContent = 农历Obj.公历.toString();
+                document.getElementById("nonglishijian").textContent = 农历Obj.toString();
+                document.getElementById("sizhuganzhi").textContent = 农历Obj.四柱.toString();
+                
+                var 梅花易数Obj = mhysUtils.get梅花易数From农历Obj(农历Obj);
+                document.getElementById("meihuasishu").textContent = 梅花易数Obj.年数 + ", " + 梅花易数Obj.月数 + ", " + 梅花易数Obj.日数 + ", " + 梅花易数Obj.时数; 
+                
+                drawGuaXiang(梅花易数Obj);
             }
             
             function getSuanGuoParams() {
@@ -63,7 +65,8 @@
 
                 dateStr = dateStr + " " + (hourStr.length < 2 ? '0' + hourStr : hourStr) + ":" + (minuteStr.length < 2 ? '0' + minuteStr : minuteStr);
                 var date = new Date(dateStr);
-                农历Utils.算出农历(date, onReceiveData);
+                
+                displayInfo(date);
             }
 
 //            function onReceiveData(xmlDoc, date) {
@@ -79,16 +82,16 @@
 //                document.getElementById("nonglishijian").textContent = 农历年Str + "年" + 农历月日Str + 农历时辰Str + "时";
 //            }
             
-            function onReceiveData(农历Obj) {
-                document.getElementById("gonglishijian").textContent = 农历Obj.公历.toString();
-                document.getElementById("nonglishijian").textContent = 农历Obj.toString();
-                document.getElementById("sizhuganzhi").textContent = 农历Obj.四柱.toString();
-                
-                var 梅花易数Obj = mhysUtils.get梅花易数From农历Obj(农历Obj);
-                document.getElementById("meihuasishu").textContent = 梅花易数Obj.年数 + ", " + 梅花易数Obj.月数 + ", " + 梅花易数Obj.日数 + ", " + 梅花易数Obj.时数; 
-                
-                drawGuaXiang(梅花易数Obj);
-            }
+//            function onReceiveData(农历Obj) {
+//                document.getElementById("gonglishijian").textContent = 农历Obj.公历.toString();
+//                document.getElementById("nonglishijian").textContent = 农历Obj.toString();
+//                document.getElementById("sizhuganzhi").textContent = 农历Obj.四柱.toString();
+//                
+//                var 梅花易数Obj = mhysUtils.get梅花易数From农历Obj(农历Obj);
+//                document.getElementById("meihuasishu").textContent = 梅花易数Obj.年数 + ", " + 梅花易数Obj.月数 + ", " + 梅花易数Obj.日数 + ", " + 梅花易数Obj.时数; 
+//                
+//                drawGuaXiang(梅花易数Obj);
+//            }
             
             function drawGuaXiang(梅花易数Obj) {
                 // iphone x: 375 * 812
@@ -117,10 +120,10 @@
     </head>
     <body>
         <h1>解卦</h1>
-        <p>公历时间：<span id="gonglishijian">123</span></p>
-        <p>农历时间：<span id="nonglishijian">233</span></p>
-        <p>四柱干支：<span id="sizhuganzhi">123</span></p>
-        <p>梅花四数：<span id="meihuasishu">233</span></p>
+        <p>公历时间：<span id="gonglishijian"></span></p>
+        <p>农历时间：<span id="nonglishijian"></span></p>
+        <p>四柱干支：<span id="sizhuganzhi"></span></p>
+        <p>梅花四数：<span id="meihuasishu"></span></p>
         
         <canvas id="guaxiang"></canvas>
     </body>

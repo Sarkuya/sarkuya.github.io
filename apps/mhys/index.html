@@ -8,7 +8,9 @@
         
         <!--<link rel="stylesheet" href="./css/style.css" type="text/style">-->
         
-        <link rel="stylesheet" media="screen" href="../../css/document.css">
+        <link rel="stylesheet" media="screen" href="css/apps.css">
+        
+        <script type="text/javascript" src="js/农历Utils.js"></script>
         
         <script type="text/javascript">
             window.addEventListener("load", init);
@@ -29,26 +31,44 @@
                 
                 document.querySelector("form tr input[type=date]").value = "" + year + "-" + month + "-" + dateday;
                 document.querySelector("form tr input[type=text]").value = "" + date.getHours() + ":" + date.getMinutes();
+                
+                document.querySelector("form tr input[type=button]").onclick = function() {
+                    var date = 农历Utils.getRandomDate();
+                    document.querySelector("form tr input[type=date]").value = date.toLocaleDateString();
+                };
+                
             }
         </script>
         
     </head>
     <body>
         <h1>梅花易数 V0.1</h1>
-        <h2 style="text-align: right">Sarkuya</h2>
+        <h2 class="authorinfo">Sarkuya</h2>
         
-        <h2>按公历时间起卦</h2>
+        <h2>起卦</h2>
+        
+        <h3>1、按公历时间起卦</h3>
         <form action="jiegua.html" method="get">
             <table>
                 <tbody>
                     <tr><th>日期</th><td><input name="date" type="date" /></td></tr>
                     <tr><th>时分</th><td><input name="hour" type="text" value="15:20" /></td></tr>
-                    <tr><td></td><td><input type="submit" /></td></tr>
+                    <tr><td></td><td><input type="button" value="随机日期" /><input type="submit" /></td></tr>
                 </tbody>
             </table>
         </form>
         
+        <h3>2、按农历时间起卦</h3>
+        <h3>3、按物数起卦</h3>
+        <h3>4、按声音起卦</h3>
+        
+        
         <h2>《梅花易数》经典案例</h2>
         <p>细嚼<a href="docs/classics/cases.html">经典</a>，感悟玄机。</p>
+        <ul>
+            <li><a href="docs/classics/cases.html" target="_blank">观梅占</a></li>
+            <li><a href="" target="_blank">牡丹占</a></li>
+            
+        </ul>
     </body>
 </html>

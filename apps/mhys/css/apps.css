@@ -1,0 +1,63 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2020-5-21, 22:00:28
+    Author     : Sarkuya
+*/
+
+@page {
+    size: a4 portrait;
+}
+
+@media screen and (max-width: 375px) {
+    pre {
+        overflow-x: scroll;
+    }
+}
+
+html {
+    background: linear-gradient(#00abeb, #fff);
+}
+
+body {
+    margin: 0.5em;
+    padding: 0.5em;
+    background-color: #fff;
+    border-radius: 0.5em;
+    box-shadow: 0 0 5px #123;
+    font-family: Helvetica, "Lucida Grande", "Lucida Sans Unicode", Arial, Verdana, sans-serif;
+}
+
+h1 {
+    color: #007ac0;
+    text-align: center;
+    font-size: xx-large;
+    text-shadow:#ccc 3px 3px 3px;
+    color: rgb(92, 25, 36);
+    /*letter-spacing: 0.5em;*/
+
+}
+
+h2 {
+    color: #043a6b;
+}
+
+h2:not(:nth-of-type(1)) {
+    text-align: center;
+    margin-top: 3em;
+}
+
+h3 {
+    color: #007aa0;
+}
+
+.authorinfo {
+    color: #6f6f6f;
+    text-align: right;
+    font-style: italic;
+    font-size: 100%;
+    margin-right: 0.5em;
+}

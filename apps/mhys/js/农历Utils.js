@@ -41,7 +41,10 @@ function 农历() {
     this.四柱 = new 四柱();
     
     this.toString = function() {
-        var yearStr = 农历Utils.转换年为大写数字(this.年) + "年";
+        //var yearStr = 农历Utils.转换年为大写数字(this.年) + "年";
+        
+        var yearStr = 六十甲子纳音表Utils.get纳音干支(this.年).substring(1) + "年";
+        
         var monthStr = 农历Utils.转换月为大写数字(this.月);
         if (this.is闰月) {
             monthStr = "闰" + monthStr;
@@ -249,6 +252,68 @@ ajax.load = function (url, handleFunc) {
         
         handleFunc(农历Obj);
     });
+};
+
+农历Utils.算出农历On公历 = function(date) {
+    var 公历Obj = new 公历(date);
+    
+    var 农历Obj = new 农历();
+    农历Obj.公历 = 公历Obj;
+    
+    var options = {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: false
+    };
+    
+    var dateStr = new Intl.DateTimeFormat("zh-Hans-CN-u-ca-chinese", options).format(date);
+    
+    var firstDelimiter = dateStr.indexOf("/");
+    var secondDelimiter = dateStr.lastIndexOf("/");
+    var thirdDelimiter = dateStr.indexOf(" ");
+    var fourthDelimiter = dateStr.indexOf(":");
+    
+    var 年Str = dateStr.substring(0, firstDelimiter);
+    var 月Str = dateStr.substring(firstDelimiter + 1, secondDelimiter);
+    var 日Str = dateStr.substring(secondDelimiter + 1, thirdDelimiter);
+    var 时Str = dateStr.substring(thirdDelimiter + 1, fourthDelimiter);
+    
+    农历Obj.年 = parseInt(年Str);
+    if (月Str.indexOf("闰") > -1) {
+        农历Obj.月 = parseInt(月Str.substring(1));
+        农历Obj.is闰月 = true;
+    } else {
+        农历Obj.月 = parseInt(月Str);
+    }
+    农历Obj.日 = parseInt(日Str);
+    农历Obj.时 = parseInt(时Str);
+
+    this.算出四柱On农历(农历Obj);
+    
+    return 农历Obj;
+};
+
+农历Utils.算出四柱On农历 = function (农历Obj) {
+    农历Obj.四柱.年柱 = 六十甲子纳音表Utils.get纳音干支(农历Obj.年);
+    this.年上起月法(农历Obj);
+    
+    // 算出日柱
+    var date2 = 农历Obj.公历.date;
+    
+    var 日期起始干支 = {
+        日期: new Date("1900/01/31"),
+        日干支: "甲辰"
+    };
+    
+    var date1 = 日期起始干支.日期;
+    var diff = DateUtils.dateDiff(date2, date1, DateUnit.DAY);
+    var 日柱干支 = 六十甲子纳音表Utils.get干支From流逝时辰(日期起始干支.日干支, diff);
+    农历Obj.四柱.日柱 = 日柱干支;
+    
+    this.日上起时法(农历Obj);
 };
 
 农历Utils.算出四柱 = function (农历Obj, 农历info) {
