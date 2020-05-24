@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>解卦</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" media="screen" href="css/apps.css">
+
+        <style type="text/css">
+            canvas {
+                /*border: 1px solid black;*/
+                
+                border-radius: 1em;
+                box-shadow: 2px 2px 5px #333;
+                background: rgb(240, 242, 233);
+            }
+        </style>
+               
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        
+        <script type="text/javascript" src="js/dateutils.js"></script>
+        <script type="text/javascript" src="js/六十甲子纳音表.js"></script>
+        <script type="text/javascript" src="js/农历Utils.js"></script>
+        <script type="text/javascript" src="js/梅花易数.js"></script>
+        <script type="text/javascript" src="js/八卦.js"></script>
+        <script type="text/javascript" src="js/六十四卦.js"></script>
+        <script type="text/javascript" src="js/周易图形.js"></script>
+
+        <script type="text/javascript">
+            window.addEventListener("load", init);
+
+            function init() {
+                directSuanGua();
+                //getSuanGuoParams();
+            }
+            
+            function directSuanGua() {
+                var date = 农历Utils.getRandomDate();
+                
+                var date = new Date("1974/07/12 9:35:00");
+                
+                // var date = new Date();
+                displayInfo(date);
+                
+                
+                
+                // test for get json
+                $.getJSON('data/json/六十四卦.json', function(data) {
+                    var items = [];
+
+                    $.each(data, function(key, val) {
+                        //items.push('<li id="' + key + '">' + val + '</li>');
+                        console.log(key, val);
+                    });
+
+//                    $('<ul/>', {
+//                        'class': 'my-new-list',
+//                        html: items.join('')
+//                    }).appendTo('body');
+                });
+            }
+            
+            function displayInfo(date) {
+                //农历Utils.算出农历(date, onReceiveData);
+                var 农历Obj = 农历Utils.算出农历On公历(date);
+                
+                document.getElementById("gonglishijian").textContent = 农历Obj.公历.toString();
+                document.getElementById("nonglishijian").textContent = 农历Obj.toString();
+                document.getElementById("sizhuganzhi").textContent = 农历Obj.四柱.toString();
+                
+                var 梅花易数Obj = mhysUtils.get梅花易数From农历Obj(农历Obj);
+                document.getElementById("meihuasishu").textContent = 梅花易数Obj.年数 + ", " + 梅花易数Obj.月数 + ", " + 梅花易数Obj.日数 + ", " + 梅花易数Obj.时数; 
+                
+                drawGuaXiang(梅花易数Obj);
+            }
+            
+            function getSuanGuoParams() {
+                var paramStr = location.search;
+
+                var dateStr = paramStr.substring(paramStr.indexOf("=") + 1, paramStr.indexOf("&"));
+
+                var hourStr = paramStr.substring(paramStr.lastIndexOf("=") + 1, paramStr.lastIndexOf("%3A"));
+                var minuteStr = paramStr.substring(paramStr.lastIndexOf("%3A") + 3);
+
+                dateStr = dateStr.replace(/-/g, "/");
+
+                dateStr = dateStr + " " + (hourStr.length < 2 ? '0' + hourStr : hourStr) + ":" + (minuteStr.length < 2 ? '0' + minuteStr : minuteStr);
+                var date = new Date(dateStr);
+                
+                displayInfo(date);
+            }
+
+//            function onReceiveData(xmlDoc, date) {
+//                var 公历时间 = new 公历(date);
+//                
+//                var 农历info = 农历Utils.get农历Info(xmlDoc, date);
+//
+//                var 农历年Str = 农历Utils.算出农历年(农历info, date);
+//                var 农历月日Str = 农历Utils.算出农历月日(农历info, date);
+//                var 农历时辰Str = 农历Utils.算出农历时辰(date);
+//                
+//                document.getElementById("gonglishijian").textContent = 公历时间.toString();
+//                document.getElementById("nonglishijian").textContent = 农历年Str + "年" + 农历月日Str + 农历时辰Str + "时";
+//            }
+            
+//            function onReceiveData(农历Obj) {
+//                document.getElementById("gonglishijian").textContent = 农历Obj.公历.toString();
+//                document.getElementById("nonglishijian").textContent = 农历Obj.toString();
+//                document.getElementById("sizhuganzhi").textContent = 农历Obj.四柱.toString();
+//                
+//                var 梅花易数Obj = mhysUtils.get梅花易数From农历Obj(农历Obj);
+//                document.getElementById("meihuasishu").textContent = 梅花易数Obj.年数 + ", " + 梅花易数Obj.月数 + ", " + 梅花易数Obj.日数 + ", " + 梅花易数Obj.时数; 
+//                
+//                drawGuaXiang(梅花易数Obj);
+//            }
+            
+            function drawGuaXiang(梅花易数Obj) {
+                // iphone x: 375 * 812
+                var canvas = document.getElementById("guaxiang");
+                var ctx = canvas.getContext("2d");
+                
+                canvas.width = window.innerWidth - 35;
+                
+                if (canvas.width > 340) {
+                    canvas.width = 340;
+                }
+                
+                canvas.height = canvas.width * 0.618;
+                
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = "high";
+                
+                zygrc.draw梅花卦象(ctx, 梅花易数Obj);
+                
+                //zygrc.draw重卦(ctx, 10, 80, 梅花易数Obj.本卦.上卦, 梅花易数Obj.本卦.下卦);
+                //zygrc.draw重卦(ctx, 120, 80, 梅花易数Obj.互卦.上卦, 梅花易数Obj.互卦.下卦);
+                
+                //console.log(梅花易数Obj.本卦.上卦.get初爻());
+            }
+        </script>
+
+    </head>
+    <body>
+        <h1>解卦</h1>
+        <p>公历时间：<span id="gonglishijian"></span></p>
+        <p>农历时间：<span id="nonglishijian"></span></p>
+        <p>四柱干支：<span id="sizhuganzhi"></span></p>
+        <p>梅花四数：<span id="meihuasishu"></span></p>
+        
+        <canvas id="guaxiang"></canvas>
+    </body>
+</html>

@@ -4,55 +4,114 @@
     <head>
         <title>解卦</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" media="screen" href="css/apps.css">
+        <!--        <link rel="stylesheet" href="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+                <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+                <script src="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
 
-        <style type="text/css">
+        <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+
+
+        <style>
+            /* Start with core styles outside of a media query that apply to mobile and up */
+            /* Global typography and design elements, stacked containers */
+            body { font-family: Helvetica, san-serif; }
+            H1 { color: green; }
+            a:link { color:purple; }
+
+            /* Stack the two content containers */
+            .main,
+            .sidebar { display:block; width:100%; }
+
             canvas {
-                border: 1px solid black;
-                margin: 0;
-                padding: 0;
+                /*border: 1px solid black;*/
+
+                border-radius: 1em;
+                box-shadow: 2px 2px 5px #333;
+                background: rgb(240, 242, 233);
+            }
+
+            p.details {
+                text-indent: 1em;
+                line-height: 1.5em;
+            }
+
+            span.key-text {
+                color: brown;
+                font-weight: bold;
+                margin-right: 1em;
+            }
+
+            /* First breakpoint at 576px */
+            /* Inherits mobile styles, but floats containers to make columns */
+            @media all and (min-width: 36em){
+                .main { float: left; width:60%; }
+                .sidebar { float: left; width:40%; }
+            }
+
+            /* Second breakpoint at 800px */
+            /* Adjusts column proportions, tweaks base H1 */
+            @media all and (min-width: 50em){
+                .main { width:70%; }
+                .sidebar { width:30%; }
+
+                /* You can also tweak any other styles in a breakpoint */
+                H1 { color: blue; font-size:1.2em }
             }
         </style>
-               
-        
+
+
         <script type="text/javascript" src="js/dateutils.js"></script>
         <script type="text/javascript" src="js/六十甲子纳音表.js"></script>
         <script type="text/javascript" src="js/农历Utils.js"></script>
         <script type="text/javascript" src="js/梅花易数.js"></script>
         <script type="text/javascript" src="js/八卦.js"></script>
+        <script type="text/javascript" src="js/六十四卦.js"></script>
         <script type="text/javascript" src="js/周易图形.js"></script>
 
         <script type="text/javascript">
-            window.addEventListener("load", init);
+            //window.addEventListener("load", init);
+
+            var 八卦PanelContent = "";
+
+            $(init);
 
             function init() {
+                initEvents();
+
                 //directSuanGua();
                 getSuanGuoParams();
             }
-            
+
+            function initEvents() {
+                $("#tab-bagua ul li a").bind("click", prepareBaguaNav);
+            }
+
             function directSuanGua() {
                 var date = 农历Utils.getRandomDate();
-                
+
                 // var date = new Date();
                 displayInfo(date);
             }
-            
+
             function displayInfo(date) {
                 //农历Utils.算出农历(date, onReceiveData);
                 var 农历Obj = 农历Utils.算出农历On公历(date);
-                
+
                 document.getElementById("gonglishijian").textContent = 农历Obj.公历.toString();
                 document.getElementById("nonglishijian").textContent = 农历Obj.toString();
                 document.getElementById("sizhuganzhi").textContent = 农历Obj.四柱.toString();
-                
+
                 var 梅花易数Obj = mhysUtils.get梅花易数From农历Obj(农历Obj);
-                document.getElementById("meihuasishu").textContent = 梅花易数Obj.年数 + ", " + 梅花易数Obj.月数 + ", " + 梅花易数Obj.日数 + ", " + 梅花易数Obj.时数; 
-                
+                document.getElementById("meihuasishu").textContent = 梅花易数Obj.年数 + ", " + 梅花易数Obj.月数 + ", " + 梅花易数Obj.日数 + ", " + 梅花易数Obj.时数;
+
                 drawGuaXiang(梅花易数Obj);
             }
-            
+
             function getSuanGuoParams() {
                 var paramStr = location.search;
 
@@ -65,62 +124,162 @@
 
                 dateStr = dateStr + " " + (hourStr.length < 2 ? '0' + hourStr : hourStr) + ":" + (minuteStr.length < 2 ? '0' + minuteStr : minuteStr);
                 var date = new Date(dateStr);
-                
+
                 displayInfo(date);
             }
 
-//            function onReceiveData(xmlDoc, date) {
-//                var 公历时间 = new 公历(date);
-//                
-//                var 农历info = 农历Utils.get农历Info(xmlDoc, date);
-//
-//                var 农历年Str = 农历Utils.算出农历年(农历info, date);
-//                var 农历月日Str = 农历Utils.算出农历月日(农历info, date);
-//                var 农历时辰Str = 农历Utils.算出农历时辰(date);
-//                
-//                document.getElementById("gonglishijian").textContent = 公历时间.toString();
-//                document.getElementById("nonglishijian").textContent = 农历年Str + "年" + 农历月日Str + 农历时辰Str + "时";
-//            }
-            
-//            function onReceiveData(农历Obj) {
-//                document.getElementById("gonglishijian").textContent = 农历Obj.公历.toString();
-//                document.getElementById("nonglishijian").textContent = 农历Obj.toString();
-//                document.getElementById("sizhuganzhi").textContent = 农历Obj.四柱.toString();
-//                
-//                var 梅花易数Obj = mhysUtils.get梅花易数From农历Obj(农历Obj);
-//                document.getElementById("meihuasishu").textContent = 梅花易数Obj.年数 + ", " + 梅花易数Obj.月数 + ", " + 梅花易数Obj.日数 + ", " + 梅花易数Obj.时数; 
-//                
-//                drawGuaXiang(梅花易数Obj);
-//            }
-            
             function drawGuaXiang(梅花易数Obj) {
                 // iphone x: 375 * 812
                 var canvas = document.getElementById("guaxiang");
                 var ctx = canvas.getContext("2d");
-                
+
                 canvas.width = window.innerWidth - 35;
+
+                if (canvas.width > 337) {
+                    canvas.width = 337;
+                }
+
                 canvas.height = canvas.width * 0.618;
-                
+
                 ctx.imageSmoothingEnabled = true;
                 ctx.imageSmoothingQuality = "high";
-                
+
                 zygrc.draw梅花卦象(ctx, 梅花易数Obj);
-                
+
                 //zygrc.draw重卦(ctx, 10, 80, 梅花易数Obj.本卦.上卦, 梅花易数Obj.本卦.下卦);
                 //zygrc.draw重卦(ctx, 120, 80, 梅花易数Obj.互卦.上卦, 梅花易数Obj.互卦.下卦);
-                
+
                 //console.log(梅花易数Obj.本卦.上卦.get初爻());
+            }
+
+
+
+            function prepareBaguaNav(event) {
+                var 卦名 = event.target.textContent;
+
+                八卦PanelContent = $("#tab-bagua").html();
+
+                $.getJSON('data/json/八卦万物属性.json', function (data) {
+                    var obj = data[卦名];
+
+                    var resultStr = "";
+                    
+                    //resultStr = '<ul data-role="listview" data-inset="false" class="ui-listview">';
+
+                    $.each(obj, function (key, value) {
+                        resultStr += "<p class='details'><span class='key-text'>" + key + ": </span>" + value + "</p>";
+                        //resultStr += "<li class='ui-li-static ui-body-inherit'><span class='key-text'>" + key + ": </span>" + value + "</li>";
+                    });
+                    
+                    //resultStr += '</ul>';
+
+                    //$("#tab-bagua").html("<a href='#' data-role='button' data-icon='star' onclick='navBackToBagua()'>back</a>" + resultStr);
+                    
+                    
+                    var button1 = $("<p><a href='#' class='ui-link ui-btn ui-icon-carat-l ui-btn-icon-left ui-shadow ui-corner-all' onclick='navBackToBagua()'>返回</a></p>");
+                    var button2 = $("<p><a href='#' class='ui-link ui-btn ui-icon-carat-l ui-btn-icon-left ui-shadow ui-corner-all' onclick='navBackToBagua()'>返回</a></p>");
+                    
+                    
+                    //$("#tab-bagua").html("<a href='#' class='ui-link ui-btn ui-icon-carat-l ui-btn-icon-left ui-shadow ui-corner-all' onclick='navBackToBagua()'>返回</a>" + resultStr);
+                    
+                    $("#tab-bagua").html("").append(button1).append(resultStr).append(button2);
+
+                });
+
+
+            }
+
+            function navBackToBagua() {
+                $("#tab-bagua").html(八卦PanelContent);
+                $("#tab-bagua ul li a").bind("click", prepareBaguaNav);
             }
         </script>
 
     </head>
     <body>
-        <h1>解卦</h1>
-        <p>公历时间：<span id="gonglishijian"></span></p>
-        <p>农历时间：<span id="nonglishijian"></span></p>
-        <p>四柱干支：<span id="sizhuganzhi"></span></p>
-        <p>梅花四数：<span id="meihuasishu"></span></p>
-        
-        <canvas id="guaxiang"></canvas>
+        <div data-role="page" data-theme="a">
+
+            <div data-role="header">
+                <h1>解卦</h1>
+            </div>
+
+            <div role="main" class="ui-content">
+                <ul data-role="listview" data-inset="true">
+                    <li><span class="key-text">公历时间：</span><span id="gonglishijian"></span></li>
+                    <li><span class="key-text">农历时间：</span><span id="nonglishijian"></span></li>
+                    <li><span class="key-text">四柱干支：</span><span id="sizhuganzhi"></span></li>
+                    <li><span class="key-text">梅花四数：</span><span id="meihuasishu"></span></li>
+                </ul>
+                
+<!--                <p>公历时间：<span id="gonglishijian"></span></p>
+                <p>农历时间：<span id="nonglishijian"></span></p>
+                <p>四柱干支：<span id="sizhuganzhi"></span></p>
+                <p>梅花四数：<span id="meihuasishu"></span></p>-->
+
+                <canvas id="guaxiang"></canvas>
+
+                <p></p>
+
+                <div data-role="tabs">
+                    <div data-role="navbar">
+                        <ul>
+                            <li><a href="#tab-wuxing" class="ui-btn-active">五行生克</a></li>
+                            <li><a href="#tab-bagua">八卦属性</a></li>
+                            <li><a href="#tab-lssgua">六十四卦</a></li>
+                        </ul>
+                    </div>
+                    <div id="tab-wuxing">
+                        <p>金生水，水生木，木生火，火生土，土生金。</p>
+                        <p>金克木，木克土，土克水，水克火，火克金。</p>
+                        
+                        
+
+                        <div data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
+                            <h4>五行相生</h4>
+                            <ul data-role="listview" data-inset="false">
+                                <li>金生水</li>
+                                <li>水生木</li>
+                                <li>木生火</li>
+                                <li>火生土</li>
+                                <li>土生金</li>
+                            </ul>
+                        </div>
+                        <div data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
+                            <h4>五行相克</h4>
+                            <ul data-role="listview" data-inset="false">
+                                <li>金克木</li>
+                                <li>木克土</li>
+                                <li>土克水</li>
+                                <li>水克火</li>
+                                <li>火克金</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="tab-bagua">
+                        <p></p>
+                        
+                        <a href="#" data-role="button" data-icon="star">注意：目前只完成了乾卦！</a>
+                        
+                        <ul data-role="listview" data-inset="true">
+                            <li><a href="#">乾</a></li>
+                            <li><a href="#">兑</a></li>
+                            <li><a href="#">离</a></li>
+                            <li><a href="#">震</a></li>
+                            <li><a href="#">巽</a></li>
+                            <li><a href="#">坎</a></li>
+                            <li><a href="#">艮</a></li>
+                            <li><a href="#">坤</a></li>
+                        </ul>
+                    </div>
+                    <div id="tab-lssgua">
+                        <p>六十四卦内容。</p>
+                    </div>
+                </div>
+            </div>
+            <div data-role="footer">
+                <h4>All Rights Reserved</h4>
+            </div>
+
+        </div>
     </body>
 </html>

@@ -2,6 +2,31 @@
 const GOLDEN_RATE = (Math.sqrt(5) - 1) / 2;
 
 var zygrc = {
+    梅花易数卦像: {
+        字体: {
+            复卦: {
+                size: "24px Helvetica",
+                color: "rgb(34, 77, 91)"
+            },
+            上下卦: {
+                size: "12px Helvetica",
+                color: "rgb(153, 175, 172)"
+            },
+            体卦: {
+                size: "22px Helvetica",
+                color: "magenta"
+            },
+            用卦: {
+                size: "22px Helvetica",
+                color: "rgb(92, 25, 36)"
+            },
+            六十四卦: {
+                size: "18px Helvetica",
+                color: "#999"
+            }
+            
+        }
+    }
 };
 
 zygrc.init = function() {
@@ -83,8 +108,8 @@ zygrc.draw互卦 = function (ctx, 梅花易数Obj) {
     this.draw重卦(ctx, 卦象StartX, 卦象StartY, 梅花易数Obj.互卦.上卦, 梅花易数Obj.互卦.下卦);
     
     // 卦象名称
-    ctx.font = '24px Arial';
-    ctx.fillStyle = "blue";
+    ctx.font = this.梅花易数卦像.字体.复卦.size;
+    ctx.fillStyle = this.梅花易数卦像.字体.复卦.color;
     ctx.textAlign = "center";
     ctx.textBaseline = "bottom";
     
@@ -99,8 +124,8 @@ zygrc.draw互卦 = function (ctx, 梅花易数Obj) {
     var 上卦属性 = `(${梅花易数Obj.互卦.上卦.名称}${梅花易数Obj.互卦.上卦.五行})`;
     var 下卦属性 = `(${梅花易数Obj.互卦.下卦.名称}${梅花易数Obj.互卦.下卦.五行})`;
     
-    ctx.font = '12px Arial';
-    ctx.fillStyle = "rgb(208, 134, 33)";
+    ctx.font = this.梅花易数卦像.字体.上下卦.size;
+    ctx.fillStyle = this.梅花易数卦像.字体.上下卦.color;
     ctx.textAlign = "left";
     ctx.textBaseline = "middle";
     
@@ -115,13 +140,13 @@ zygrc.draw互卦 = function (ctx, 梅花易数Obj) {
     ctx.fillText(下卦属性, 下卦属性StartX, 下卦属性StartY);
     
     // 六十四卦
-    ctx.font = '18px Arial';
-    ctx.fillStyle = "#999";
+    ctx.font = this.梅花易数卦像.字体.六十四卦.size;
+    ctx.fillStyle = this.梅花易数卦像.字体.六十四卦.color;
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
     
     var 六十四卦title = "泽天夬";
-    //ctx.fillText(六十四卦title, centerX, 卦象StartY + this.爻高度 * 6 + this.爻垂直间距 * 6);
+    ctx.fillText(六十四卦title, centerX, 卦象StartY + this.爻高度 * 6 + this.爻垂直间距 * 6);
     
     ctx.restore();
 };
@@ -143,8 +168,8 @@ zygrc.draw本卦 = function (ctx, 梅花易数Obj) {
     draw卦象(卦象StartX, 卦象StartY);
 
     // 卦象名称
-    ctx.font = '24px Arial';
-    ctx.fillStyle = "blue";
+    ctx.font = this.梅花易数卦像.字体.复卦.size;
+    ctx.fillStyle = this.梅花易数卦像.字体.复卦.color;
     ctx.textAlign = "center";
     ctx.textBaseline = "bottom";
     
@@ -160,8 +185,8 @@ zygrc.draw本卦 = function (ctx, 梅花易数Obj) {
     var 上卦属性 = `(${梅花易数Obj.本卦.上卦.名称}${梅花易数Obj.本卦.上卦.五行})`;
     var 下卦属性 = `(${梅花易数Obj.本卦.下卦.名称}${梅花易数Obj.本卦.下卦.五行})`;
     
-    ctx.font = '12px Arial';
-    ctx.fillStyle = "rgb(208, 134, 33)";
+    ctx.font = this.梅花易数卦像.字体.上下卦.size;
+    ctx.fillStyle = this.梅花易数卦像.字体.上下卦.color;
     ctx.textAlign = "left";
     ctx.textBaseline = "middle";
     
@@ -176,17 +201,17 @@ zygrc.draw本卦 = function (ctx, 梅花易数Obj) {
     ctx.fillText(下卦属性, 下卦属性StartX, 下卦属性StartY);
     
     // 六十四卦
-    ctx.font = '18px Arial';
-    ctx.fillStyle = "#999";
+    ctx.font = this.梅花易数卦像.字体.六十四卦.size;
+    ctx.fillStyle = this.梅花易数卦像.字体.六十四卦.color;
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
     
     var 六十四卦title = "雷天恒";
-    //ctx.fillText(六十四卦title, 卦象StartX + this.阳爻宽度 / 2, 卦象StartY + this.爻高度 * 6 + this.爻垂直间距 * 6);
+    ctx.fillText(六十四卦title, 卦象StartX + this.阳爻宽度 / 2, 卦象StartY + this.爻高度 * 6 + this.爻垂直间距 * 6);
     
     
     // 体用
-    ctx.font = '22px Arial';
+    ctx.font = this.梅花易数卦像.字体.体卦.size;
     ctx.textAlign = "right";
     ctx.textBaseline = "middle";
     
@@ -194,14 +219,14 @@ zygrc.draw本卦 = function (ctx, 梅花易数Obj) {
     下卦属性StartX = 上卦属性StartX;
     
     if (梅花易数Obj.体卦 === 梅花易数Obj.本卦.上卦) {
-        ctx.fillStyle = "magenta";
+        ctx.fillStyle = this.梅花易数卦像.字体.体卦.color;
         ctx.fillText("体", 上卦属性StartX, 上卦属性StartY);
-        ctx.fillStyle = "rgb(100, 0, 100)";
+        ctx.fillStyle = this.梅花易数卦像.字体.用卦.color;
         ctx.fillText("用", 下卦属性StartX, 下卦属性StartY);
     } else {
-        ctx.fillStyle = "rgb(100, 0, 100)";
+        ctx.fillStyle = this.梅花易数卦像.字体.用卦.color;
         ctx.fillText("用", 上卦属性StartX, 上卦属性StartY);
-        ctx.fillStyle = "magenta";
+        ctx.fillStyle = this.梅花易数卦像.字体.体卦.color;
         ctx.fillText("体", 下卦属性StartX, 下卦属性StartY);
     }
     
@@ -253,8 +278,8 @@ zygrc.draw变卦 = function (ctx, 梅花易数Obj) {
     this.draw重卦(ctx, 卦象StartX, 卦象StartY, 梅花易数Obj.变卦.上卦, 梅花易数Obj.变卦.下卦);
     
     // 卦象名称
-    ctx.font = '24px Arial';
-    ctx.fillStyle = "blue";
+    ctx.font = this.梅花易数卦像.字体.复卦.size;
+    ctx.fillStyle = this.梅花易数卦像.字体.复卦.color;
     ctx.textAlign = "center";
     ctx.textBaseline = "bottom";
     
@@ -270,8 +295,8 @@ zygrc.draw变卦 = function (ctx, 梅花易数Obj) {
     var 上卦属性 = `(${梅花易数Obj.变卦.上卦.名称}${梅花易数Obj.变卦.上卦.五行})`;
     var 下卦属性 = `(${梅花易数Obj.变卦.下卦.名称}${梅花易数Obj.变卦.下卦.五行})`;
     
-    ctx.font = '12px Arial';
-    ctx.fillStyle = "rgb(208, 134, 33)";
+    ctx.font = this.梅花易数卦像.字体.上下卦.size;
+    ctx.fillStyle = this.梅花易数卦像.字体.上下卦.color;
     ctx.textAlign = "left";
     ctx.textBaseline = "middle";
     
@@ -286,13 +311,13 @@ zygrc.draw变卦 = function (ctx, 梅花易数Obj) {
     ctx.fillText(下卦属性, 下卦属性StartX, 下卦属性StartY);
     
     // 六十四卦
-    ctx.font = '18px Arial';
-    ctx.fillStyle = "#999";
+    ctx.font = this.梅花易数卦像.字体.六十四卦.size;
+    ctx.fillStyle = this.梅花易数卦像.字体.六十四卦.color;
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
     
-    var 六十四卦title = "雷水解";
-    //ctx.fillText(六十四卦title, 卦象StartX + this.阳爻宽度 / 2, 卦象StartY + this.爻高度 * 6 + this.爻垂直间距 * 6);
+    var 六十四卦title = "火天同人";
+    ctx.fillText(六十四卦title, 卦象StartX + this.阳爻宽度 / 2, 卦象StartY + this.爻高度 * 6 + this.爻垂直间距 * 6);
     
     
     //this.draw重卦(ctx, x, y, 梅花易数Obj.变卦.上卦, 梅花易数Obj.变卦.下卦);
