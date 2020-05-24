@@ -10,7 +10,8 @@ var zygrc = {
             },
             上下卦: {
                 size: "12px Helvetica",
-                color: "rgb(153, 175, 172)"
+                //color: "rgb(153, 175, 172)"
+                color: "hsl(30, 100%, 25%)"
             },
             体卦: {
                 size: "22px Helvetica",
