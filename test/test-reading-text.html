@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Test Reading Text From Web</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        
+        <style>
+            #test {
+                height: 240px;
+            }
+        </style>
+        
+        <script type="text/javascript">
+            $(init);
+            
+            function init() {
+                $.get("../apps/mhys/data/text/卷一象数易理篇之三.txt", function(data) {
+                    getTextOf(data, "坤");
+                });
+            }
+            
+            function getTextOf(data, guaName) {
+                var beginPos = data.indexOf("八卦万物属类");
+                var beginText = data.substring(beginPos);
+                beginPos = beginText.indexOf(guaName + "卦");
+                beginText = beginText.substring(beginPos);
+                
+                var endPos = beginText.indexOf("五味");
+                
+                var firstPart = beginText.substring(0, endPos);
+                var secondPart = beginText.substring(endPos);
+                secondPart = secondPart.substring(0, secondPart.indexOf("\n"));
+                
+                var wholeText = firstPart + secondPart;
+                
+                wholeText = wholeText.replace(/\n\n/g, "\n");
+                
+                var arr = wholeText.split("\n");
+                
+                wholeText = "";
+                
+                arr.forEach(line => {
+                    var result = line.split("：");
+                    
+                    var str = "";
+                    
+                    if (result.length === 1) {
+                        str = "<p class='center'>" + result[0] + "</p>";
+                    } else {
+                        str = "<p class='details'><span class='key-text'>" + result[0] + ": </span>" + result[1] + "</p>";
+                    }
+                    
+                    wholeText += str;
+                });
+                
+                return wholeText;
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Test Reading Text From Web</h1>
+        
+        <form>
+            <label for="test">Textarea:</label>
+            <textarea name="test" id="test" cols="40" rows="18"></textarea>
+        </form>
+        
+    </body>
+</html>

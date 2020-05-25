@@ -39,6 +39,18 @@
                 text-indent: 1em;
                 line-height: 1.5em;
             }
+            
+            p.title {
+                font-weight: bold;
+                font-size: 1.5em;
+                margin: 2em;
+            }
+            
+            p.center {
+                text-align: center;
+                font-weight: bold;
+                color: #369;
+            }
 
             span.key-text {
                 color: brown;
@@ -156,37 +168,58 @@
 
             function prepareBaguaNav(event) {
                 var 卦名 = event.target.textContent;
-
+                
                 八卦PanelContent = $("#tab-bagua").html();
 
-                $.getJSON('data/json/八卦万物属性.json', function (data) {
-                    var obj = data[卦名];
-
-                    var resultStr = "";
-                    
-                    //resultStr = '<ul data-role="listview" data-inset="false" class="ui-listview">';
-
-                    $.each(obj, function (key, value) {
-                        resultStr += "<p class='details'><span class='key-text'>" + key + ": </span>" + value + "</p>";
-                        //resultStr += "<li class='ui-li-static ui-body-inherit'><span class='key-text'>" + key + ": </span>" + value + "</li>";
-                    });
-                    
-                    //resultStr += '</ul>';
-
-                    //$("#tab-bagua").html("<a href='#' data-role='button' data-icon='star' onclick='navBackToBagua()'>back</a>" + resultStr);
-                    
+                $.get("data/text/卷一象数易理篇之三.txt", function (data) {
+                    var resultStr = getTextOf(data, 卦名);
                     
                     var button1 = $("<p><a href='#' class='ui-link ui-btn ui-icon-carat-l ui-btn-icon-left ui-shadow ui-corner-all' onclick='navBackToBagua()'>返回</a></p>");
                     var button2 = $("<p><a href='#' class='ui-link ui-btn ui-icon-carat-l ui-btn-icon-left ui-shadow ui-corner-all' onclick='navBackToBagua()'>返回</a></p>");
                     
-                    
-                    //$("#tab-bagua").html("<a href='#' class='ui-link ui-btn ui-icon-carat-l ui-btn-icon-left ui-shadow ui-corner-all' onclick='navBackToBagua()'>返回</a>" + resultStr);
-                    
                     $("#tab-bagua").html("").append(button1).append(resultStr).append(button2);
-
                 });
+                
+                function getTextOf(data, guaName) {
+                    var beginPos = data.indexOf("八卦万物属类");
+                    var beginText = data.substring(beginPos);
+                    beginPos = beginText.indexOf(guaName + "卦");
+                    beginText = beginText.substring(beginPos);
 
+                    var endPos = beginText.indexOf("五味");
 
+                    var firstPart = beginText.substring(0, endPos);
+                    var secondPart = beginText.substring(endPos);
+                    secondPart = secondPart.substring(0, secondPart.indexOf("\n"));
+
+                    var wholeText = firstPart + secondPart;
+
+                    wholeText = wholeText.replace(/\n\n/g, "\n");
+
+                    var arr = wholeText.split("\n");
+
+                    wholeText = "";
+
+                    arr.forEach((line, index) => {
+                        var result = line.split("：");
+
+                        var str = "";
+
+                        if (result.length === 1) {
+                            if (index === 0) {
+                                str = "<p class='center title'>" + result[0] + "</p>";
+                            } else {
+                                str = "<p class='center'>" + result[0] + "</p>";
+                            }
+                        } else {
+                            str = "<p class='details'><span class='key-text'>" + result[0] + ": </span>" + result[1] + "</p>";
+                        }
+
+                        wholeText += str;
+                    });
+
+                    return wholeText;
+                }
             }
 
             function navBackToBagua() {
