@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Persistent Navbar</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    </head>
+
+    <body>
+        <div data-role="page">
+            <div data-role="header" style="overflow: hidden;">
+                <h1>Persistent Navbar</h1>
+                <a href="#" data-icon="gear" class="ui-btn-right">Options</a>
+                <div data-role="navbar" data-iconpos="left" >
+                    <ul>
+                        <li><a href="#" data-icon="calendar" class="ui-state-persist ui-btn-active">Calendar</a></li>
+                        <li><a href="#" data-icon="cloud">Cloud</a></li>
+                        <li><a href="#" data-icon="user">User</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div role="main" class="ui-content">
+                <h2>abc</h2>
+                <p>abc</p>
+            </div>
+            
+            <div data-role="footer" style="overflow: hidden;">
+                
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#">One</a></li>
+                        <li><a href="#">Two</a></li>
+                        <li><a href="#">Three</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>JQuery Mobile</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    </head>
+
+    <body>
+        <div data-role="page">
+            <div data-role="header">
+                <h1>JQuery Mobile App</h1>
+            </div>
+
+
+            <div role="main" class="ui-content">
+                <h2>1. CDN</h2>
+                <p>需使用3个文件：</p>
+                <ol>
+                    <li>jquery.mobile.css</li>
+                    <li>jquery.js</li>
+                    <li>jquery.mobile.js</li>
+                </ol>
+                
+                <p>JQuery Mobile官方的推荐的CDN是：</p>
+                <pre><code>&lt;link rel="stylesheet" href="http://code.jquery.com/mobile/[version]/jquery.mobile-[version].min.css" /&gt;
+&lt;script src="http://code.jquery.com/jquery-[version].min.js"&gt;&lt;/script&gt;
+&lt;script src="http://code.jquery.com/mobile/[version]/jquery.mobile-[version].min.js"&gt;&lt;/script&gt;
+</code></pre>
+
+                <p>而在国内，可使用速度较快的百度CDN。</p>
+                <pre><code>&lt;link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css"&gt;
+&lt;script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"&gt;&lt;/script&gt;
+</code></pre>
+                <p>使用了这些配置后，即使未编写任何代码，网页已被JQuery Mobile进行了初始化设置。</p>
+
+                <h2>2. Page Template</h2>
+                <p>一个JQuery Mobile Page的模板：</p>
+                <pre><code>&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;JQuery Mobile Page Template&lt;/title&gt;
+        &lt;meta charset="UTF-8"&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+
+        &lt;link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css"&gt;
+        &lt;script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"&gt;&lt;/script&gt;
+        &lt;script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+
+    &lt;body&gt;
+        &lt;div data-role="page"&gt;
+            &lt;div data-role="header"&gt;
+                &lt;h1&gt;JQuery Mobile Page Template&lt;/h1&gt;
+            &lt;/div&gt;
+
+            &lt;div role="main" class="ui-content"&gt;
+                &lt;h2&gt;JQuery Mobile Page Template&lt;/h2&gt;
+                &lt;p&gt;Use this page template as your start-up.&lt;/p&gt;
+            &lt;/div&gt;
+            
+            &lt;div data-role="footer"&gt;
+                &lt;h4&gt;All Rights Reserved&lt;/h4&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+                <p>一个最基本的Page就这样形成了。</p>
+                
+                <h2>3. Page之间的导航</h2>
+                <h3>3.1 一个Page形成多个Page的效果</h3>
+                <p>Demo: <a href="https://demos.jquerymobile.com/1.4.5/pages-multi-page/" target="_blank">Multi-page</a></p>
+                <p>在一个Page中包含多个<code>data-role="page"</code>的属性，并且为它们分配不同的id值即可。只需简单地相间之间进行链接就行了。</p>
+                
+                
+                <h2>99. Local Demos</h2>
+                <ol>
+                    <li><a href="demos/pages/page-template.html" target="_blank">Page Template</a></li>
+                    <li><a href="demos/pages/pages-in-one-page.html" target="_blank">Multi Pages in One Page</a></li>
+                    <li><a href="demos/navbar/persistent-navbar.html" target="_blank">Persistent Navbar</a></li>
+                    
+                </ol>
+                
+                <h2>References</h2>
+                <ul>
+                    <li><a href="https://jquerymobile.com" target="_blank">JQuery Mobile Home</a></li>
+                    <li><a href="https://demos.jquerymobile.com/1.4.5/intro/" target="_blank">JQuery Mobile Introduction</a></li>
+                    <li><a href="http://localhost:8383/JQueryMobileApp/js/jquery-mobile/demos/icons/" target="_blank">JQuery Mobile Icons</a></li>
+                </ul>
+            </div>
+            
+            <div data-role="footer">
+                <h4>All Rights Reserved</h4>
+            </div>
+        </div>
+    </body>
+</html>

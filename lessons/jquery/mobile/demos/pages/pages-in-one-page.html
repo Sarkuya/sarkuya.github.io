@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Pages in One Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    </head>
+    <body>
+        <div data-role="page" id="foo">
+            <div data-role="header">
+                <h1>Page one</h1>
+            </div>
+
+            <div role="main" class="ui-content">
+                <p>This is the content of page 1.</p>
+                <p>This <a href="#bar">link</a> would lead to page two.</p>
+            </div>
+
+            <div data-role="footer">
+                <h4>Page Footer</h4>
+                <p>All Rights Reserved</p>
+            </div>
+        </div>
+        
+        <div data-role="page" id="bar">
+            <div data-role="header">
+                <h1>Page Two</h1>
+            </div>
+
+            <div role="main" class="ui-content">
+                <p>This is the content of page 2.</p>
+                <p>This <a href="#foo">link</a> would go back to page one.</p>
+            </div>
+
+            <div data-role="footer">
+                <h4>Page Footer</h4>
+                <p>All Rights Reserved</p>
+            </div>
+        </div>
+    </body>
+</html>
