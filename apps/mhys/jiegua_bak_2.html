@@ -126,12 +126,15 @@
 
             function getSuanGuoParams() {
                 var paramStr = location.search;
+                console.log(paramStr);
 
                 var dateStr = paramStr.substring(paramStr.indexOf("=") + 1, paramStr.indexOf("&"));
 
                 var hourStr = paramStr.substring(paramStr.lastIndexOf("=") + 1, paramStr.lastIndexOf("%3A"));
                 var minuteStr = paramStr.substring(paramStr.lastIndexOf("%3A") + 3);
                 
+                console.log(dateStr, hourStr, minuteStr);
+
                 dateStr = dateStr.replace(/-/g, "/");
 
                 dateStr = dateStr + " " + (hourStr.length < 2 ? '0' + hourStr : hourStr) + ":" + (minuteStr.length < 2 ? '0' + minuteStr : minuteStr);

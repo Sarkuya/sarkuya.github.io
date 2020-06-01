@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>JQuery Mobile Navigation Demo</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+        <script type="text/javascript">
+            $(init);
+
+            function init() {
+                test2();
+            }
+            
+            function test2() {
+                $("a").on("click", function(event) {
+                    event.preventDefault();
+                    
+                    $.mobile.navigate($(this).attr("href"), {foo: $(this).attr("data-foo")});
+                    
+                    console.log($(this).attr("data-foo"));
+                });
+            }
+            
+            function test1() {
+                $.mobile.navigate("#foo", {info: "info about the #foo hash"});
+
+                $.mobile.navigate("#bar");
+
+                // only window history back triggers this event
+                $(window).on("navigate", function (event, data) {
+                    console.log(data.state.info);
+                    console.log(data.state.direction);
+                    console.log(data.state.url);
+                    console.log(data.state.hash);
+                });
+                
+                window.history.back();
+            }
+        </script>
+    </head>
+
+    <body>
+        <div data-role="page">
+            <div data-role="header">
+                <h1>JQuery Mobile Navigation Demo</h1>
+            </div>
+
+            <div role="main" class="ui-content">
+                <h2>nav-source-2.html</h2>
+                <p><a data-role="button" href="nav-dest-1.html" data-transition="slide">Go to next page</a></p>
+            </div>
+
+            <div data-role="footer">
+                <h4>All Rights Reserved</h4>
+            </div>
+        </div>
+    </body>
+</html>

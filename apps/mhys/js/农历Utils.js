@@ -13,7 +13,18 @@ function 公历(date) {
     this.分 = date.getMinutes();
     
     this.toString = function() {
-        return `${this.年}年${this.月}月${this.日}日 ${this.时}:${this.分}`;
+        var hour = this.时;
+        var min = this.分;
+        
+        if (this.时 < 10) {
+            hour = "0" + this.时;
+        }
+        
+        if (this.分 < 10) {
+            min = "0" + this.时;
+        }
+        
+        return `${this.年}年${this.月}月${this.日}日 ${hour}:${min}`;
     };
 }
 

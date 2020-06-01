@@ -2,76 +2,80 @@
 
 <html>
     <head>
-        <title>梅花易数</title>
+        <title>梅花易数 V0.1</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width = device-width, initial-scale=1.0">
-        
-        <!--<link rel="stylesheet" href="./css/style.css" type="text/style">-->
-        
-        <link rel="stylesheet" media="screen" href="css/apps.css">
-        
-        <script type="text/javascript" src="js/农历Utils.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
         
         <script type="text/javascript">
-            window.addEventListener("load", init);
+            $(init);
             
             function init() {
-                var date = new Date();
-                setDateInUI(date);
-                
-                document.querySelector("form tr input[type=button]").onclick = function() {
-                    var date = 农历Utils.getRandomDate();
-                    setDateInUI(date);
-                };
-            }
-            
-            function setDateInUI(date) {
-                var year = date.getFullYear();
-                var month = date.getMonth() + 1;
-                var dateday = date.getDate();
-                
-                if (month < 10) {
-                    month = "0" + month;
-                }
-                
-                if (dateday < 10) {
-                    dateday = "0" + dateday;
-                }
-                
-                document.querySelector("form tr input[type=date]").value = "" + year + "-" + month + "-" + dateday;
-                document.querySelector("form tr input[type=text]").value = "" + date.getHours() + ":" + date.getMinutes();
             }
         </script>
         
     </head>
+
     <body>
-        <h1>梅花易数 V0.1</h1>
-        <h2 class="authorinfo">Sarkuya</h2>
-        
-        <h2>起卦</h2>
-        
-        <h3>1、按公历时间起卦</h3>
-        <form action="jiegua.html" method="get">
-            <table>
-                <tbody>
-                    <tr><th>日期</th><td><input name="date" type="date" /></td></tr>
-                    <tr><th>时分</th><td><input name="hour" type="text" value="15:20" /></td></tr>
-                    <tr><td></td><td><input type="button" value="随机日期" /><input type="submit" /></td></tr>
-                </tbody>
-            </table>
-        </form>
-        
-        <h3>2、按农历时间起卦</h3>
-        <h3>3、按物数起卦</h3>
-        <h3>4、按声音起卦</h3>
-        
-        
-        <h2>《梅花易数》经典案例</h2>
-        <p>细嚼<a href="docs/classics/cases.html">经典</a>，感悟玄机。</p>
-        <ul>
-            <li><a href="docs/classics/cases.html" target="_blank">观梅占</a></li>
-            <li><a href="" target="_blank">牡丹占</a></li>
+        <div data-role="page">
+            <div data-role="header" data-position="fixed" style="overflow: hidden;">
+                <h1>梅花易数 (V0.1)</h1>
+<!--                <div data-role="navbar" data-iconpos="left" >
+                    <ul>
+                        <li><a href="#" data-icon="calendar" class="ui-state-persist ui-btn-active">起卦</a></li>
+                        <li><a href="#" data-icon="cloud">按物数起卦</a></li>
+                        <li><a href="#" data-icon="user">User</a></li>
+                    </ul>
+                </div>-->
+            </div>
+
+            <div role="main" class="ui-content">
+                <ul data-role="listview" data-inset="true">
+                    <li data-role="list-divider" data-transition="flip">按时间起卦</li>
+                    <li><a href="qigua-on-gongli.html" data-ajax="false">按公历</a></li>
+                    <li><a href="#">按农历</a></li>
+                </ul>
+                
+                <ul data-role="listview" data-inset="true">
+                    <li data-role="list-divider">按数字起卦</li>
+                    <li><a href="#">按声音、物数</a></li>
+                    <li><a href="#">按字数</a></li>
+                </ul>
+                
+                <ul data-role="listview" data-inset="true">
+                    <li data-role="list-divider">按长度起卦</li>
+                    <li><a href="#">按丈尺</a></li>
+                    <li><a href="#">按尺寸</a></li>
+                    <li><a href="#">按公制</a></li>
+                </ul>
+                
+                <ul data-role="listview" data-inset="true">
+                    <li data-role="list-divider">为人占</li>
+                    <li><a href="#">时间</a></li>
+                    <li><a href="#">按声音</a></li>
+                    <li><a href="#">按人品</a></li>
+                    <li><a href="#">按诸物</a></li>
+                    <li><a href="#">按书写</a></li>
+                </ul>
+                
+                
+            </div>
             
-        </ul>
+            
+            
+            <div data-role="footer" data-position="fixed" style="overflow: hidden;">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#" data-icon="video" class="ui-state-persist ui-btn-active">运指乾坤</a></li>
+                        <li><a href="#" data-icon="star">原文赏析</a></li>
+                        <li><a href="#" data-icon="edit">精研周易</a></li>
+                        <li><a href="#" data-icon="user">关于应用</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

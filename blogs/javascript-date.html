@@ -17,27 +17,9 @@
             function init() {
           
 
-var date = new Date("2020/05/03 19:15:00");
-var options = {
-    dateStyle: "full",
-    timeStyle: "full",
-    calendar: "chinese",
-    numberingSystem: "handidec",
-    
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    
-    weekday: "long",
-    
-    dayPeriod: "long",
-    
-    hour12: false,
-    hourCycle: "h24"
-};
-console.log(new Intl.DateTimeFormat("zh-Hans-CN-u-ca-chinese", options).format(date));
+var date = new Date();
+
+console.log(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
 
 
 
@@ -278,6 +260,7 @@ console.log(Intl.getCanonicalLocales(['zh-cn', 'EN-US', 'FR']));  // ["zh-CN", "
                     <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat" target="_blank">MDN, Intl.DateTimeFormat() constructor</a></li>
                     <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation" target="_blank">MDN, Intl</a></li>
                     <li><a href="https://www.unicode.org/reports/tr35/tr35.html#BCP_47_Conformance" target="_blank">UNICODE LOCALE DATA MARKUP LANGUAGE (LDML)</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts" target="_blank">Intl.DateTimeFormat.prototype.formatToParts()</a></li>
                     
                 </ul>
             </section>
