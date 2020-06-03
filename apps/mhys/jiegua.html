@@ -59,7 +59,7 @@
             }
             
             img {
-                max-width: 321px;
+                max-width: 325px;
             }
 
             /* First breakpoint at 576px */
@@ -117,7 +117,7 @@
             function displayInfo(date) {
                 //农历Utils.算出农历(date, onReceiveData);
                 var 农历Obj = 农历Utils.算出农历On公历(date);
-
+                
                 document.getElementById("gonglishijian").textContent = 农历Obj.公历.toString();
                 document.getElementById("nonglishijian").textContent = 农历Obj.toString();
                 document.getElementById("sizhuganzhi").textContent = 农历Obj.四柱.toString();
@@ -130,7 +130,7 @@
 
             function getSuanGuoParams() {
                 var paramStr = location.search;
-
+                
                 var dateStr = paramStr.substring(paramStr.indexOf("=") + 1, paramStr.indexOf("&"));
 
                 var hourStr = paramStr.substring(paramStr.lastIndexOf("=") + 1, paramStr.lastIndexOf("%3A"));
@@ -140,7 +140,7 @@
 
                 dateStr = dateStr + " " + (hourStr.length < 2 ? '0' + hourStr : hourStr) + ":" + (minuteStr.length < 2 ? '0' + minuteStr : minuteStr);
                 var date = new Date(dateStr);
-
+                
                 displayInfo(date);
             }
 

@@ -16,12 +16,12 @@ function 公历(date) {
         var hour = this.时;
         var min = this.分;
         
-        if (this.时 < 10) {
-            hour = "0" + this.时;
+        if (hour < 10) {
+            hour = "0" + hour;
         }
         
-        if (this.分 < 10) {
-            min = "0" + this.时;
+        if (min < 10) {
+            min = "0" + min;
         }
         
         return `${this.年}年${this.月}月${this.日}日 ${hour}:${min}`;
