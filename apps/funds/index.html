@@ -26,6 +26,12 @@
                 //initTables();
 
                 showTables();
+                
+                initEvents();
+            }
+            
+            function initEvents() {
+                $("#init-btn").click(initTables);
             }
 
             function initTables() {
@@ -81,6 +87,8 @@
                     <tbody>
                     </tbody>
                 </table>
+                
+                <button class="ui-btn ui-btn-inline" id="init-btn">Init Tables</button>
             </div>
 
             <div data-role="footer" style="overflow: hidden;">
