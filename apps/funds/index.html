@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>基金工具 V0.1</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+        <script src="js/dbUtils.js"></script>
+
+        <script type="text/javascript">
+            $(init);
+
+            function init() {
+                if (!dbUtils.checkWebSQLSupoort()) {
+                    $("div[data-role='page'] div[role='main'] h2").before("<p style='color: red;'>Opps, Your browser seems not support Web SQL!</p>");
+                    return;
+                }
+
+                dbUtils.openDatabase();
+
+                //initTables();
+
+                showTables();
+            }
+
+            function initTables() {
+                //var newBlock = $("div[data-role='page'] div[role='main'] h2").before("<textarea></textarea>").prev();
+
+                dbUtils.executeSqlFile("db/CreateTables.sql");
+                dbUtils.executeSqlFile("db/InsertData.sql");
+            }
+
+            function showTables() {
+                var tblBody = $("#my-table tbody");
+                tblBody.html("");
+                
+                dbUtils.executeQuery("SELECT * FROM 基金", (resultSet) => {
+                    for (var i = 0; i < resultSet.rows.length; i++) {
+                        var rowItem = resultSet.rows.item(i);
+                        
+                        $("<tr></tr>")
+                            .append($("<td></td>").text(rowItem.id))
+                            .append($(`<td><a data-ajax='false' href='show-fund.html?id=${rowItem.id}&name=${rowItem.名称}'>${rowItem.名称}</a></td>`))
+                            .append($("<td></td>").text(rowItem.代码))
+                            .append($("<td></td>").text(rowItem.成立日期))
+                            .appendTo(tblBody);
+                    }
+                    
+                    tblBody.closest("table#my-table")
+                        .table("refresh")
+                        .trigger("create");
+                });
+            }
+        </script>
+
+    </head>
+
+    <body>
+        <div data-role="page">
+            <div data-role="header" data-position="fixed" style="overflow: hidden;">
+                <h1>基金工具 (V0.1)</h1>
+            </div>
+
+            <div role="main" class="ui-content">
+                <h2>基金列表</h2>
+
+                <table data-role="table" id="my-table" data-mode="columntoggle" class="ui-body-d ui-shadow ui-responsive table-stripe">
+                    <thead>
+                        <tr>
+                            <th data-priority="2">id</th>
+                            <th>名称</th>
+                            <th data-priority="1">代码</th>
+                            <th data-priority="3">成立日期</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+            <div data-role="footer" style="overflow: hidden;">
+                <h4>Sarkuya&COPY;, 2020-06-05</h4>
+            </div>
+        </div>
+    </body>
+</html>

@@ -103,36 +103,49 @@ window.addEventListener("DOMConetentLoaded", (event) => {
             
             <section class="chapter">
                 <h1>ECMAScript6新特性</h1>
-                <p>设有：</p>
-                <pre class="highlight">
+                
+                <section>
+                    <h1>lambda表达式</h1>
+                
+                    <p>设有：</p>
+                    <pre class="highlight">
 window.addEventListener("load", function() {
     console.log("Hello");
 });
 </pre>
-                <p>使用ECMAScript6，可改写为：</p>
-                <pre class="highlight">
+                    <p>使用ECMAScript6，可改写为：</p>
+                    <pre class="highlight">
 window.addEventListener("load", () => {
     console.log("Hello");
 });
 </pre>
-                <p>即使没有参数传入，这里的括号也不能省略。</p>
-                <p>如果匿名函数内只有一条语句，更可写为：</p>
-                <pre class="highlight">
+                    <p>即使没有参数传入，这里的括号也不能省略。</p>
+                    <p>如果匿名函数内只有一条语句，更可写为：</p>
+                    <pre class="highlight">
 window.addEventListener("load", () => console.log("Hello"));
 </pre>
-                <p>注意，此时这条单独的语句后面不能带有";"号。</p>
-                <p>如果有参数，</p>
-                <pre class="highlight">
+                    <p>注意，此时这条单独的语句后面不能带有";"号。</p>
+                    <p>如果有参数，</p>
+                    <pre class="highlight">
 [1, 2, 3].forEach((element) => {
     console.log(element);
 });
 </pre>
-                <p>此时参数列表中的括号可以省略。</p>
-                <pre class="highlight">
+                    <p>此时参数列表中的括号可以省略。</p>
+                    <pre class="highlight">
 [1, 2, 3].forEach(element => {
     console.log(element);
 });
 </pre>
+                </section>
+                
+                <section>
+                    <h1>可使用变量的字符串</h1>
+                    <p>使用<code>`</code>包围起来的字符串，可以在里面使用变量。</p>
+                    <pre>var result = 25;
+var str = `结果为${result}。`</pre>
+                </section>
+                
             </section>
             
             <section class="chapter">

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>基金详细信息</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        
+        <script src="js/dbUtils.js"></script>
+        
+        <style type="text/css">
+            h1 {
+                color: brown;
+            }
+            
+            span.field-name {
+                color: #369;
+                display: inline-block;
+                border: 0px solid black;
+                width: 110px;
+                text-align: right;
+                font-weight: bold;
+            }
+            
+            span#curr-con-rate-num {
+                color: red;
+                margin-left: 1em;
+                margin-right: 1em;
+                font-weight: bold;
+            }
+            
+        </style>
+
+        <script type="text/javascript">
+            $(init);
+
+            function init() {
+                //test();
+                
+                //return;
+                
+                if (!dbUtils.checkWebSQLSupoort()) {
+                    $("div[data-role='page'] div[role='main'] h2").before("<p style='color: red;'>Opps, Your browser seems not support Web SQL!</p>");
+                    return;
+                }
+
+                dbUtils.openDatabase();
+                
+                retrieveData();
+                
+                initEvents();
+            }
+            
+            function test() {
+                var a = [];
+                var b = [1, 2, 3];
+                var c = [4, 5];
+                a.push(b);
+                a.push(c);
+                console.log(a, a.length);
+            }
+            
+            function initEvents() {
+                $("#btn-update-netvalue").click(onUpdateNetValue);
+            }
+            
+            function onUpdateNetValue() {
+                //console.log("abc");
+            }
+            
+            function retrieveData() {
+                var paramStr = decodeURI(location.search);
+                
+                var idStr = paramStr.substring(paramStr.indexOf("=") + 1, paramStr.indexOf("&"));
+                var nameStr = paramStr.substring(paramStr.lastIndexOf("=") + 1);
+                
+                $("#fund-name").text(nameStr);
+                
+                retrieveHistoryNetValue(parseInt(idStr));
+                retrieveStaticInfo(parseInt(idStr));
+            }
+            
+            function retrieveHistoryNetValue(id) {
+                var tblBody = $("#my-table tbody");
+                tblBody.html("");
+                
+                dbUtils.executeQueryWithArgs("SELECT * FROM 历史净值 WHERE 基金id = ? ORDER BY 日期 DESC LIMIT 20",  [id], (resultSet) => {
+                    for (var i = 0; i < resultSet.rows.length; i++) {
+                        var rowItem = resultSet.rows.item(i);
+                        
+                        $("<tr></tr>")
+                            .append($("<td></td>").text(rowItem.日期))
+                            .append($("<td></td>").text(rowItem.单位净值))
+                            .append($("<td></td>").text(rowItem.日涨幅))
+                            .appendTo(tblBody);
+                    }
+                    
+                    tblBody.closest("table#my-table")
+                        .table("refresh")
+                        .trigger("create");
+                });
+            }
+            
+            function retrieveStaticInfo(id) {
+                retriveHistoryNetValue();
+                retriveRating();
+                
+                function retriveRating() {
+                    var sqlStatement1 = {};
+                    sqlStatement1.sql = `SELECT COUNT(*) AS 上涨次数, MAX(CAST(日涨幅 AS float)) AS 最大日涨幅, MIN(CAST(日涨幅 AS float)) AS 最小日涨幅, ROUND(AVG(CAST(日涨幅 AS float)), 2) AS 平均日涨幅
+                                            FROM 历史净值
+                                            WHERE 基金id = ? AND CAST(日涨幅 AS float) > 0.0`;
+                    sqlStatement1.args = [id];
+
+                    var sqlStatement2 = {};
+                    sqlStatement2.sql = `SELECT COUNT(*) AS 下跌次数, MIN(CAST(日涨幅 AS float)) AS 最大日跌幅, MAX(CAST(日涨幅 AS float)) AS 最小日跌幅, ROUND(AVG(CAST(日涨幅 AS float)), 2) AS 平均日跌幅
+                                            FROM 历史净值
+                                            WHERE 基金id = ? AND CAST(日涨幅 AS float) < 0.0`;
+                    sqlStatement2.args = [id];
+                    
+                    var sqlStatement3 = {};
+                    sqlStatement3.sql = `SELECT 日期, 单位净值, CAST(日涨幅 AS float) AS 日涨幅
+                                            FROM 历史净值
+                                            WHERE 基金id = ?
+                                            ORDER BY 日期 DESC`;
+                    sqlStatement3.args = [id];
+
+                    var sqlStatements = [];
+                    sqlStatements.push(sqlStatement1);
+                    sqlStatements.push(sqlStatement2);
+                    sqlStatements.push(sqlStatement3);
+
+                    dbUtils.batchQueryWithArgs(sqlStatements, result => {
+                        var resultSet1 = result[0];
+                        var incrNum = resultSet1.rows.item(0).上涨次数;
+                        var maxIncr = resultSet1.rows.item(0).最大日涨幅;
+                        var minIncr = resultSet1.rows.item(0).最小日涨幅;
+                        var avgIncr = resultSet1.rows.item(0).平均日涨幅;
+                        
+                        $("#incr-num").text(incrNum);
+                        $("#max-incr").text(maxIncr + "%");
+                        $("#min-incr").text(minIncr + "%");
+                        $("#avg-incr").text(avgIncr + "%");
+                        
+                        var resultSet2 = result[1];
+                        var decrNum = resultSet2.rows.item(0).下跌次数;
+                        var maxDecr = resultSet2.rows.item(0).最大日跌幅;
+                        var minDecr = resultSet2.rows.item(0).最小日跌幅;
+                        var avgDecr = resultSet2.rows.item(0).平均日跌幅;
+                        
+                        $("#decr-num").text(decrNum);
+                        $("#max-decr").text(maxDecr + "%");
+                        $("#min-decr").text(minDecr + "%");
+                        $("#avg-decr").text(avgDecr + "%");
+                        
+                        var resultSet3 = result[2];
+                        var len = resultSet3.rows.length;
+                        
+                        处理连涨(resultSet3);
+                        
+                        return;
+                        
+                        var isCurConRateCalc = true;
+                        var curConRate = {
+                            trend: "",
+                            num: 0
+                        };
+                        
+                        var prevTrend = 0;
+                        
+                        var currConIncr = 0;
+                        var currConDecr = 0;
+                        
+                        var maxConIncr = 0;
+                        var maxConDecr = 0;
+                        
+                        var conIncrStatics = {};
+                        var conDecrStatics = {};
+                        
+                        function getTrend(rate) {
+                            if (rate > 0.0) {
+                                return 1;
+                            } else if (rate === 0.0) {
+                                return 0;
+                            } else {
+                                return -1;
+                            }
+                        }
+                        
+                        for (var i = 0; i < len; i++) {
+                            var currRate = resultSet3.rows.item(i).日涨幅;
+                            
+                            console.log(currRate);
+                            
+                            if (i === 0) {
+                                prevTrend = getTrend(currRate);
+                                
+                                if (prevTrend > 0) {
+                                    currConIncr = 1;
+                                } else if (prevTrend < 0) {
+                                    currConDecr = 1;
+                                }
+                            } else {
+                                var currTrend = getTrend(currRate);
+                                
+                                if (currTrend === 0) {
+                                    prevTrend = 0;
+                                    
+                                    if (isCurConRateCalc === true) {
+                                        if (currConIncr > 0) {
+                                            curConRate.trend = "连涨";
+                                            curConRate.num = currConIncr;
+                                        } else {
+                                            curConRate.trend = "连跌";
+                                            curConRate.num = currConDecr;
+                                        }
+                                        
+                                        isCurConRateCalc = false;
+                                    }
+                                    
+                                    if (currConIncr > 0) {
+                                        if (conIncrStatics[currConIncr] === undefined) {
+                                            conIncrStatics[currConIncr] = 1;
+                                        } else {
+                                            conIncrStatics[currConIncr]++;
+                                        }
+                                    }
+                                    
+                                    if (currConDecr > 0) {
+                                        if (conDecrStatics[currConDecr] === undefined) {
+                                            conDecrStatics[currConDecr] = 1;
+                                        } else {
+                                            conDecrStatics[currConDecr]++;
+                                        }
+                                    }
+                                    
+                                    maxConIncr = Math.max(maxConIncr, currConIncr);
+                                    maxConDecr = Math.max(maxConDecr, currConDecr);
+                                    
+                                    currConIncr = 0;
+                                    currConDecr = 0;
+                                } else if (currTrend !== prevTrend) {
+                                    prevTrend = currTrend;
+                                    
+                                    if (isCurConRateCalc === true) {
+                                        if (currConIncr > 0) {
+                                            curConRate.trend = "连涨";
+                                            curConRate.num = currConIncr;
+                                        } else {
+                                            curConRate.trend = "连跌";
+                                            curConRate.num = currConDecr;
+                                        }
+                                        
+                                        isCurConRateCalc = false;
+                                    }
+                                    
+                                    if (currConIncr > 0) {
+                                        if (conIncrStatics[currConIncr] === undefined) {
+                                            conIncrStatics[currConIncr] = 1;
+                                        } else {
+                                            conIncrStatics[currConIncr]++;
+                                        }
+                                    }
+                                    
+                                    if (currConDecr > 0) {
+                                        if (conDecrStatics[currConDecr] === undefined) {
+                                            conDecrStatics[currConDecr] = 1;
+                                        } else {
+                                            conDecrStatics[currConDecr]++;
+                                        }
+                                    }
+                                    
+                                    maxConIncr = Math.max(maxConIncr, currConIncr);
+                                    maxConDecr = Math.max(maxConDecr, currConDecr);
+                                    
+                                    if (currTrend > 0) {
+                                        currConIncr = 1;
+                                    } else if (currTrend < 0) {
+                                        currConDecr = 1;
+                                    }
+                                } else {
+                                    prevTrend = currTrend;
+                                    
+                                    if (currTrend > 0) {
+                                        currConIncr++;
+                                    } else if (currTrend < 0) {
+                                        currConDecr++;
+                                    }
+                                }
+                            }
+                        }
+                        //console.log(maxConIncr, maxConDecr);
+                        $("#max-con-incr").text(maxConIncr);
+                        $("#max-con-decr").text(maxConDecr);
+                        $("#curr-con-rate").html(curConRate.trend + "<span id='curr-con-rate-num'>" + curConRate.num + "</span>" + "天");
+                        console.log(conIncrStatics, conDecrStatics);
+                    });
+                }
+                
+                
+                function 处理连涨(resultSet) {
+                    var len = resultSet.rows.length;
+                    
+                    var index = 0;
+                    
+                    var arr = [];
+                    
+                    for (var i = 0; i < len; i++) {
+                        var item = resultSet.rows.item(i);
+                        if (item.日涨幅 > 0) {
+                            arr.push({
+                                "序号": index,
+                                "日期": item.日期,
+                                "单位净值": item.单位净值,
+                                "日涨幅": item.日涨幅
+                            });
+                        }
+                        index++;
+                    }
+                    
+                    var resultObj = {};
+                    
+                    var 连涨天数 = 1;
+                    var startIndex = 0;
+                    var prevItem = arr[startIndex];
+                    
+                    for (var i = 1; i < arr.length; i++) {
+                        var currItem = arr[i];
+                        
+                        // 与前面相连
+                        if (prevItem.序号 + 1 === currItem.序号) {
+                            连涨天数++;
+                            prevItem = currItem;
+                            
+                        } else {  // 不连了
+                            if (resultObj[连涨天数] === undefined) {
+                                resultObj[连涨天数] = [];
+                            }
+                            
+                            var thisArr = [];
+                            var index = startIndex;
+
+                            for (var j = 1; j <= 连涨天数; j++) {
+                                thisArr.push(arr[index]);
+                                index++;
+                            }
+
+                            resultObj[连涨天数].push(thisArr);
+                            
+                            连涨天数 = 1;
+                            startIndex = i;
+                            prevItem = currItem;
+                        }
+                    }
+                    
+                    $("#max-con-incr").text(Object.getOwnPropertyNames(resultObj).reverse()[0] + "天");
+                    
+                    for (var propName in resultObj) {
+                        var days = propName;
+                        var num = resultObj[propName].length;
+                        
+                        var str = `<li class="ui-li-has-count"><a href="#" class="ui-btn ui-btn-icon-right ui-icon-carat-r">连涨${days}天<span class="ui-li-count ui-body-b">${num}</span></a></li>`;
+                        $("#curr-con-rate").parent().after(str);
+                    }
+                }
+                
+                function retriveHistoryNetValue() {
+                    var sqlStatement1 = {};
+                    sqlStatement1.sql = `SELECT MAX(单位净值) AS 最高单位净值, MIN(单位净值) AS 最低单位净值, AVG(单位净值) AS 平均单位净值
+                                           FROM 历史净值
+                                           WHERE 基金Id = ?`;
+                    sqlStatement1.args = [id];
+
+                    var sqlStatement2 = {};
+                    sqlStatement2.sql = `SELECT 单位净值, 日涨幅
+                                           FROM 历史净值
+                                           WHERE 基金Id = ?
+                                           ORDER BY 日期 DESC
+                                           LIMIT 1`;
+                    sqlStatement2.args = [id];
+
+                    var sqlStatements = [];
+                    sqlStatements.push(sqlStatement1);
+                    sqlStatements.push(sqlStatement2);
+
+                    dbUtils.batchQueryWithArgs(sqlStatements, result => {
+                        var resultSet1 = result[0];
+                        var maxValue = resultSet1.rows.item(0).最高单位净值;
+                        var minValue = resultSet1.rows.item(0).最低单位净值;
+                        var avgValue = resultSet1.rows.item(0).平均单位净值;
+
+                        $("#max-netvalue").text(maxValue.toFixed(4));
+                        $("#min-netvalue").text(minValue.toFixed(4));
+                        $("#avg-netvalue").text(avgValue.toFixed(4));
+
+                        var resultSet2 = result[1];
+                        var currValue = resultSet2.rows.item(0).单位净值;
+                        var currRate = resultSet2.rows.item(0).日涨幅;
+                        $("#curr-netvalue").text(currValue.toFixed(4));
+                        $("#curr-rate").text(currRate);
+
+
+                        var currPercent = ((currValue - minValue) / (maxValue - minValue));
+                        var distFromTop = ((currPercent - 1) * 100).toFixed(2) + "%";
+                        var distFromBottom = ((currPercent) * 100).toFixed(2) + "%";
+
+                        $("#dist-from-top").text((currValue - maxValue).toFixed(4) + ", " + distFromTop);
+                        $("#dist-from-bott").text("+" + (currValue - minValue).toFixed(4) + ", +" +  distFromBottom);
+                    });
+                }
+            }
+        </script>
+        
+    </head>
+
+    <body>
+        <div data-role="page">
+            <div data-role="header">
+                <h1>基金详细信息</h1>
+            </div>
+
+            <div role="main" class="ui-content">
+                <h2 id="fund-name">招商中证白酒</h2>
+                <p></p>
+
+                <div data-role="tabs">
+                    <div data-role="navbar">
+                        <ul>
+                            <li><a href="#tab-statics-info" class="ui-state-persist ui-btn-active">统计信息</a></li>
+                            <li><a href="#tab-netvalue">历史净值</a></li>
+                            <li><a href="#tab-lssgua">买卖费率</a></li>
+                        </ul>
+                    </div>
+                    <div id="tab-netvalue">
+                        <table data-role="table" id="my-table" data-mode="columntoggle" class="ui-body-d ui-shadow ui-responsive table-stripe">
+                            <thead>
+                                <tr>
+                                    <th data-priority="1">日期</th>
+                                    <th>单位净值</th>
+                                    <th data-priority="2">日涨幅</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>abc</td><td>abc</td><td>abc</td></tr>
+                                <tr><td>abc</td><td>abc</td><td>abc</td></tr>
+                                <tr><td>abc</td><td>abc</td><td>abc</td></tr>
+                            </tbody>
+                        </table>
+                        <!--<a href="#">第一页</a><a href="#">上一页</a><a href="#">下一页</a><a href="#">最后一页</a>-->
+                        
+                        <div data-role="header">
+                            <div data-role="controlgroup" data-type="horizontal" class="ui-mini ui-btn-left">
+                                <a href="#" class="ui-btn ui-btn-icon-left ui-icon-plus">Add</a>
+                                <a href="#" class="ui-btn ui-btn-icon-left ui-icon-carat-l">Left</a>
+                                <a href="#" class="ui-btn ui-btn-icon-right ui-icon-carat-r">Right</a>
+                            </div>
+                        </div>
+                        
+                        <p></p>
+                        <p></p>
+                        
+                        <div>
+                            <p>abc</p>
+                        </div>
+                        
+                        <!--<p><input type="button" data-icon="navigation" id="btn-update-netvalue" value="更新单位净值" /></p>-->
+                        
+                        
+                    </div>
+                    <div id="tab-statics-info">
+                        <ul data-role="listview" data-inset="true">
+                            <li data-role="list-divider">单位净值</li>
+                            <li><span class="field-name">最高单位净值：</span><span id="max-netvalue"></span></li>
+                            <li><span class="field-name">最低单位净值：</span><span id="min-netvalue"></span></li>
+                            <li><span class="field-name">平均单位净值：</span><span id="avg-netvalue"></span></li>
+                            <li><span class="field-name">当前净值：</span><span id="curr-netvalue"></span></li>
+                            <li><span class="field-name">峰顶差距：</span><span id="dist-from-top"></span></li>
+                            <li><span class="field-name">谷底差距：</span><span id="dist-from-bott"></span></li>
+                            
+                            <li data-role="list-divider">日涨幅</li>
+                            <li><span class="field-name">上涨次数：</span><span id="incr-num"></span></li>
+                            <li><span class="field-name">最大日涨幅：</span><span id="max-incr"></span></li>
+                            <li><span class="field-name">最小日涨幅：</span><span id="min-incr"></span></li>
+                            <li><span class="field-name">平均日涨幅：</span><span id="avg-incr"></span></li>
+                            
+                            <li><span class="field-name">最新涨跌：</span><span id="curr-rate"></span></li>
+                            
+                            <li><span class="field-name">下跌次数：</span><span id="decr-num"></span></li>
+                            <li><span class="field-name">最大日跌幅：</span><span id="max-decr"></span></li>
+                            <li><span class="field-name">最小日跌幅：</span><span id="min-decr"></span></li>
+                            <li><span class="field-name">平均日跌幅：</span><span id="avg-decr"></span></li>
+                            
+                            
+                            <li data-role="list-divider">连续上涨</li>
+                            <li><span class="field-name">最多连续上涨：</span><span id="max-con-incr"></span></li>
+                            <li><span class="field-name">最多连续下跌：</span><span id="max-con-decr"></span></li>
+                            <li><span class="field-name">当前连续涨跌：</span><span id="curr-con-rate"></span></li>
+                            
+<!--                            <li><a href="#">连涨1天 <span class="ui-li-count">12</span></a></li>
+                            <li><a href="#">连涨2天 <span class="ui-li-count">25</span></a></li>-->
+                            
+                            
+                            <li data-role="list-divider">星期上涨</li>
+                            <li><span class="field-name">周一上涨次数：</span><span id="a1"></span></li>
+                            <li><span class="field-name">周二上涨次数：</span><span id="a2"></span></li>
+                            <li><span class="field-name">周三上涨次数：</span><span id="a3"></span></li>
+                            <li><span class="field-name">周四上涨次数：</span><span id="a3"></span></li>
+                            <li><span class="field-name">周五上涨次数：</span><span id="a3"></span></li>
+                            <li><span class="field-name">周六上涨次数：</span><span id="a3"></span></li>
+                            <li><span class="field-name">周日上涨次数：</span><span id="a3"></span></li>
+                            <li data-role="list-divider">星期下跌</li>
+                            <li><span class="field-name">周一下跌次数：</span><span id="a1"></span></li>
+                            <li><span class="field-name">周二下跌次数：</span><span id="a2"></span></li>
+                            <li><span class="field-name">周三下跌次数：</span><span id="a3"></span></li>
+                            <li><span class="field-name">周四下跌次数：</span><span id="a3"></span></li>
+                            <li><span class="field-name">周五下跌次数：</span><span id="a3"></span></li>
+                            <li><span class="field-name">周六下跌次数：</span><span id="a3"></span></li>
+                            <li><span class="field-name">周日下跌次数：</span><span id="a3"></span></li>
+                            <li data-role="list-divider">破记录</li>
+                            <li><span class="field-name">连续破高次数：</span><span id="a1"></span></li>
+                            <li><span class="field-name">连续破低次数：</span><span id="a1"></span></li>
+                        </ul>
+                    </div>
+                    <div id="tab-lssgua">
+                        <p>六十四卦内容。</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div data-role="footer">
+                <h4>All Rights Reserved</h4>
+            </div>
+        </div>
+    </body>
+</html>

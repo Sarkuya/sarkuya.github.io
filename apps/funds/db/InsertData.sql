@@ -1,0 +1,43 @@
+INSERT INTO 交易类型 VALUES(1, '买入');
+INSERT INTO 交易类型 VALUES(2, '定投');
+INSERT INTO 交易类型 VALUES(3, '卖出');
+
+-- 招商中证白酒指数分级
+
+INSERT INTO 基金 VALUES(1, '招商中证白酒指数分级', '161725', '2015-05-27');
+
+INSERT INTO 买入费率 VALUES(1, 0, '0.10%');
+INSERT INTO 买入费率 VALUES(1, 500000, '0.05%');
+INSERT INTO 买入费率 VALUES(1, 1000000, '1000');
+
+INSERT INTO 卖出费率 VALUES(1, 0, '1.5%');
+INSERT INTO 卖出费率 VALUES(1, 7, '0.5%');
+INSERT INTO 卖出费率 VALUES(1, 365, '0.25%');
+INSERT INTO 卖出费率 VALUES(1, 730, '0');
+-- 
+-- 
+-- -- 易方达消费行业股票
+
+INSERT INTO 基金 VALUES(2, '易方达消费行业股票', '110022', '2010-08-20');
+
+INSERT INTO 买入费率 VALUES(2, 0, '0.15%');
+INSERT INTO 买入费率 VALUES(2, 1000000, '0.12%');
+INSERT INTO 买入费率 VALUES(2, 5000000, '0.03%');
+INSERT INTO 买入费率 VALUES(2, 10000000, '1000');
+
+INSERT INTO 卖出费率 VALUES(2, 0, '1.5%');
+INSERT INTO 卖出费率 VALUES(2, 7, '0.5%');
+INSERT INTO 卖出费率 VALUES(2, 365, '0.25%');
+INSERT INTO 卖出费率 VALUES(2, 730, '0');
+-- 
+-- 
+-- 
+-- 嘉实中证500ETF联接C
+
+INSERT INTO 基金 VALUES(3, '嘉实中证500ETF联接C', '070039', '2018-09-13');
+
+INSERT INTO 买入费率 VALUES(3, 0, '0');
+
+INSERT INTO 卖出费率 VALUES(3, 0, '1.5%');
+INSERT INTO 卖出费率 VALUES(3, 7, '0');
+

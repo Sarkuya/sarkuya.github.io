@@ -509,6 +509,40 @@ caret-begin-word "&lt;span class=\"htmltag\"&gt;" caret-end-word "&lt;/span&gt;"
             <section class="chapter">
                 <h1>浏览器</h1>
                 <p>Google Chrome浏览器可以从<a href="https://www.google.cn/intl/zh-CN/chrome/" target="_blank">这里</a>直接下载。</p>
+                
+                <section>
+                    <h1>Safari</h1>
+                    
+                    <section>
+                        <h1>iPhone Web SQL数据库支持</h1>
+                        <p>默认情况下，iPhone客户端不允许使用Web SQL. 可在iPhone上这样设置：</p>
+                        <pre>设置App -> Safari浏览器 -> 高级 -> Experimental Features -> Disable Web SQL</pre>
+                        <p>默认时，它是打开的，即默认关闭了Web SQL功能。将此开关关闭。</p>
+                        <p>其他一些默认关闭的重要功能还有：</p>
+                        <ul>
+                            <li>Highlight API</li>
+                            <li>MathML Core</li>
+                            <li>WebGL 2.0</li>
+                            <li>WebGPU</li>
+                        </ul>
+                        <p>可以从</p>
+                        <pre>设置App -> Safari浏览器 -> 高级 -> 网站数据</pre>
+                        <p>中看到浏览器Web SQL的使用容量情况。</p>
+                    </section>
+                    
+                    <section>
+                        <h1>在Wifi下访问开发中的网站</h1>
+                        <p>使用NetBeans开发Web应用时，当运行该应用时，会在Mac OSX的浏览器中加载下面的地址：</p>
+                        <pre>http://localhost:8383/</pre>
+                        <p>如果需要在iPhone中访问上述Web应用，则：</p>
+                        <ol>
+                            <li>打开一个"终端"，输入：<code>ifconfig</code>, 回车。</li>
+                            <li>找到类似于<code>192.168.0.103</code>的地址。</li>
+                            <li>在iPhone的Safari的地址栏中输入：<code>http://192.168.0.103/index.html</code></li>
+                        </ol>
+                    </section>
+                </section>
+                
             </section>
             
             <section class="chapter">
