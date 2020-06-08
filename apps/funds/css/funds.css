@@ -1,0 +1,32 @@
+
+/* 
+    Created on : 2019-3-3, 10:31:19
+    Author     : sarkuya
+*/
+
+colgroup[data-col-type="number"] {
+    /*border: 2px solid brown;*/
+}
+
+td.positive-num {
+    color: red;
+}
+
+td.negative-num {
+    color: green;
+}
+
+td.index {
+    text-align: center;
+}
+
+td.string {
+    text-align: left;
+    color: #000;
+}
+
+td.number {
+    text-align: right;
+}
+
+

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>管理基金历史净值</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="css/style.css" type="text/style">
+        
+        <script src="js/dbUtils.js"></script>
+        <script src="js/ttFundsUtils.js"></script>
+        
+        <script>
+            function init() {
+                dbUtils.openDatabase();
+                
+                initEvents();
+                
+                //retieveDataFromDatabase();
+            }
+            
+            function initEvents() {
+                var table = document.querySelector("table");
+                
+                var updateAllNetValuesButtons = table.querySelectorAll("button.all-netvalues");
+                
+                updateAllNetValuesButtons.forEach(function(element) {
+                    element.addEventListener("click", onUpdateAllNetValuesButtonsClicked);
+                });
+                
+                var latestNetValueButtons = table.querySelectorAll("button.latest-netvalue");
+                
+                latestNetValueButtons.forEach(function(element) {
+                    element.addEventListener("click", onLatestNetValueButtonsClicked);
+                });
+            }
+            
+            function onUpdateAllNetValuesButtonsClicked(event) {
+                var button = event.target;
+                var td = button.parentElement;
+                var code = td.parentElement.cells[2].textContent;
+                var fundId = td.parentElement.getAttribute("data-fund-id");
+                var progress = td.nextSibling.firstChild;
+                
+                ttFundsUtils.retrieveAllNetValuesForAFund(fundId, code, progress);
+            }
+            
+            function onLatestNetValueButtonsClicked(event) {
+                var button = event.target;
+                var td = button.parentElement;
+                var code = td.parentElement.cells[2].textContent;
+                var fundId = td.parentElement.getAttribute("data-fund-id");
+                var progress = td.nextSibling.firstChild;
+                
+                ttFundsUtils.retrieveLatestNetValueForAFund(fundId, code, progress);
+            }
+            
+            function retieveDataFromDatabase() {
+                dbUtils.openDatabase();
+                dbUtils.executeQuery("SELECT 名称, 代码, 成立日期 FROM 基金", function(resultSet) {
+                    for (var i = 0; i < resultSet.rows.length; i++) {
+                        var record = resultSet.rows.item(i);
+                        //console.log(record.名称, record.代码, record.成立日期);
+                    }
+                    
+                });
+            }
+            
+            window.addEventListener("load", init);
+        </script>
+    </head>
+    <body>
+        <h1>管理基金历史净值</h1>
+        
+        <table>
+            <caption>基金历史净值列表</caption>
+            <thead>
+                <tr><th>序号</th><th>名称</th><th>代码</th><th>成立日期</th><th>成立时净值</th><th>最早净值日期</th><th>最早净值</th><th>最新净值日期</th><th>最新净值</th><th>操作</th><th>进度</th></tr>
+            </thead>
+            <tbody>
+                <tr data-fund-id="1"><td>1</td><td>招商中证白酒指数分级</td><td>161725</td><td>2015-05-27</td><td></td><td>2015-05-27</td><td>0.3527</td><td>2015-05-27</td><td>0.3527</td><td><button class="all-netvalues">更新所有净值</button><button class="latest-netvalue">获取最新净值</button></td><td><progress value="0" max="100"></progress><label></label></td></tr>
+                <tr data-fund-id="2"><td>2</td><td>易方达消费行业股票</td><td>110022</td><td>2010-08-20</td><td></td><td>2015-05-27</td><td>0.3527</td><td>2015-05-27</td><td>0.3527</td><td><button class="all-netvalues">更新所有净值</button><button class="latest-netvalue">获取最新净值</button></td><td><progress value="0" max="100"></progress><label></label></td></tr>
+                <tr data-fund-id="3"><td>3</td><td>嘉实中证500ETF联接C</td><td>070039</td><td>2018-09-13</td><td></td><td>2015-05-27</td><td>0.3527</td><td>2015-05-27</td><td>0.3527</td><td><button class="all-netvalues">更新所有净值</button><button class="latest-netvalue">获取最新净值</button></td><td><progress value="0" max="100"></progress><label></label></td></tr>
+            </tbody>
+        </table>
+    </body>
+</html>
