@@ -11,6 +11,7 @@
         <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
         
         <script src="js/dbUtils.js"></script>
+        <script src="js/ttFundsDataUtils.js"></script>
         
         <style type="text/css">
             h1 {
@@ -37,6 +38,8 @@
 
         <script type="text/javascript">
             $(init);
+            
+            var codeStr;
 
             function init() {
                 //test();
@@ -56,35 +59,34 @@
             }
             
             function test() {
-                var a = [];
-                var b = [1, 2, 3];
-                var c = [4, 5];
-                a.push(b);
-                a.push(c);
-                console.log(a, a.length);
             }
             
             function initEvents() {
                 $("#btn-update-netvalue").click(onUpdateNetValue);
+                
             }
             
             function onUpdateNetValue() {
-                //console.log("abc");
+                ttFundsDataUtils.updateNetValues(codeStr);
+//                $("table#my-table").closest("table#my-table")
+//                        .table("refresh")
+//                        .trigger("create");
             }
             
             function retrieveData() {
                 var paramStr = decodeURI(location.search);
                 
                 var idStr = paramStr.substring(paramStr.indexOf("=") + 1, paramStr.indexOf("&"));
+                codeStr = paramStr.substring(paramStr.indexOf("code=") + 5, paramStr.lastIndexOf("&"));
                 var nameStr = paramStr.substring(paramStr.lastIndexOf("=") + 1);
                 
                 $("#fund-name").text(nameStr);
                 
-                retrieveHistoryNetValue(parseInt(idStr));
+                retrieveHistoryNetValue(parseInt(idStr), codeStr);
                 retrieveStaticInfo(parseInt(idStr));
             }
             
-            function retrieveHistoryNetValue(id) {
+            function retrieveHistoryNetValue(id, codeStr) {
                 var tblBody = $("#my-table tbody");
                 tblBody.html("");
                 
@@ -467,7 +469,7 @@
                             <p>abc</p>
                         </div>
                         
-                        <!--<p><input type="button" data-icon="navigation" id="btn-update-netvalue" value="更新单位净值" /></p>-->
+                        <p><input type="button" data-icon="navigation" id="btn-update-netvalue" value="更新单位净值" /></p>
                         
                         
                     </div>

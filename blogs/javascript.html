@@ -161,6 +161,142 @@ fetch("test.json")
             </section>
             
             <section class="chapter">
+                <h1>JSONP</h1>
+                <p>像调用本地的JavaScript脚本一样，跨域调用远程服务器的JavaScript脚本，以获得服务器返回的数据。</p>
+                
+                <section>
+                    <h1>本地调用JavaScript脚本</h1>
+                    <p>设有一test.html文件，内容为：</p>
+                    <pre class="highlight">
+&lt;script type="text/javascript"&gt;
+    $(init);
+
+    function init() {
+        service();
+    }
+
+    function service() {
+        doJob();
+    }
+
+    function doJob() {
+        console.log("Doing job...");
+    }
+&lt;/script&gt;
+</pre>
+                </section>
+                
+                <section>
+                    <h1>分离service函数</h1>
+                    <p>新建一个service.js文件，内容为：</p>
+                    <pre class="highlight">
+function service() {
+    doJob();
+}
+</pre>
+                    <p>test.html的内容修改如下：</p>
+                    <pre class="highlight">
+&lt;script src="service.js"&gt;&lt;/script&gt;
+
+&lt;script type="text/javascript"&gt;
+    $(init);
+
+    function init() {
+        service();
+    }
+
+    function doJob() {
+        console.log("Doing job...");
+    }
+&lt;/script&gt;
+</pre>
+                    <p>加载service.js脚本文件，然后继续调用service()函数。此时，该函数已位于本地服务器中。</p>
+                </section>
+                
+                <section>
+                    <h1>不用再调用service()函数</h1>
+                    <p>从提供服务的角度，我们可以不用再在脚本中调用service()，只需加载service.js就行了。</p>
+                    <p>test.html的内容：</p>
+                    <pre class="highlight">
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;script type="text/javascript"&gt;
+            function doJob() {
+                console.log("Doing job...");
+            }
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;script src="service.js"&gt;&lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+                    <p>service.js的内容：</p>
+                    <pre class="highlight">
+doJob();
+</pre>
+                    <p>先定义好doJob()函数的内容，然后，在body中加载service.js文件，由于它直接调用了doJob()函数，此时，此函数已在本地中定义，将执行本地的doJob()函数。</p>
+                    <p>这说明了什么问题？重温这句话：JavaScript是客户端的脚本语言。当我们"调用"service.js时，即使该文件就在服务器端，但服务器并不会在服务器端执行该文件。相反，服务器将返回该文件的全部内容至客户端，然后，在客户端才执行这个脚本文件的命令。</p>
+                    <p>为什么这种方法能允许跨域运行？因为JavaScript是客户端的脚本语言，它只会在客户端运行，不存在攻击服务器的安全问题。</p>
+                </section>
+                
+                <section>
+                    <h1>接收服务器数据</h1>
+                    <p>service.js的内容改为：</p>
+                    <pre class="highlight">
+var data = {
+    name: "Mike",
+    age: 25
+};
+
+doJob(data);
+</pre>
+                    <p>test.html的内容改为：</p>
+                    <pre class="highlight">
+function doJob(data) {
+    console.log(data);
+}
+</pre>
+                    <p>service.js先创建了一个data对象，然后，再以data为参数，调用doJob()函数。</p>
+                    <p>慢着，service.js不是客户端的脚本语言吗，不是只能在客户端运行吗，即使返回data，此数据也是客户端的数据啊？</p>
+                    <p>既正确，也不正确。service.js确实是客户端的脚本语言，上面的代码确实是在客户端生成的data，这一点很正确。但是，别忘了，service.js是存放在服务器端的文件。如果我们将这个JavaScript客户端脚本文件改为服务器端的脚本文件，如service.php, servcie.asp，等，它们不就可以有权限来访问服务器商的资源了吗？访问服务器端的资源文件，以生成data，然后，再写成客户端脚本可运行的doJob(data)的形式，以返回给客户端，其将在客户端中得以运行。就这么简单。</p>
+                    <p>为简单起见，以使我们更关注JSONP的工作机制，本文中还是继续假设service.js是能取得服务器数据的脚本。</p>
+                </section>
+                
+                <section>
+                    <h1>协议握手</h1>
+                    <p>上面service.js中要求客户端必须要有doJob()函数，才能将data接收回来。</p>
+                </section>
+                
+                <section>
+                    <h1>aaa</h1>
+                    <p></p>
+                </section>
+                
+                <section>
+                    <h1>aaa</h1>
+                    <p></p>
+                </section>
+                
+                <section>
+                    <h1>aaa</h1>
+                    <p></p>
+                </section>
+                
+                <section>
+                    <h1>aaa</h1>
+                    <p></p>
+                </section>
+                
+                <section>
+                    <h1>aaa</h1>
+                    <p></p>
+                </section>
+                
+                
+            </section>
+            
+            <section class="chapter">
                 <h1>相对路径的指定</h1>
                 <p>每个文件均有一个所在的路径。这个文件的父路径不是这个所在的路径。</p>
                 <ul class="domtree">

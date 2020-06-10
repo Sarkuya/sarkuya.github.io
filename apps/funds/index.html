@@ -51,7 +51,7 @@
                         
                         $("<tr></tr>")
                             .append($("<td></td>").text(rowItem.id))
-                            .append($(`<td><a data-ajax='false' href='show-fund.html?id=${rowItem.id}&name=${rowItem.名称}'>${rowItem.名称}</a></td>`))
+                            .append($(`<td><a data-ajax='false' href='show-fund.html?id=${rowItem.id}&code=${rowItem.代码}&name=${rowItem.名称}'>${rowItem.名称}</a></td>`))
                             .append($("<td></td>").text(rowItem.代码))
                             .append($("<td></td>").text(rowItem.成立日期))
                             .appendTo(tblBody);
