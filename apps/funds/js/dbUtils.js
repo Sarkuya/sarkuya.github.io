@@ -2,15 +2,22 @@ var dbUtils = {};
 
 var fundsDB;
 
+
+window.addEventListener("load", () => {
+    if (!dbUtils.checkWebSQLSupoort()) {
+        $("p#error-output").text("Opps, Your browser seems not support Web SQL!").show();
+        return;
+    }
+});
+
+
 dbUtils.checkWebSQLSupoort = function () {
     return window.openDatabase;
 };
 
-
 dbUtils.openDatabase = function () {
     fundsDB = openDatabase("FundsDB", "1.0", "offline funds storage", 5*1024*1024);
 };
-
 
 dbUtils.executeSingleStatementWithArgs = function(sqlStatement, args) {
     fundsDB.transaction(
@@ -27,7 +34,7 @@ dbUtils.executeSingleStatementWithArgs = function(sqlStatement, args) {
 };
 
 
-dbUtils.executeStatements = function(sqlStatements) {
+dbUtils.executeStatements = function(sqlStatements, onErrorFunc, onSuccessFunc) {
     fundsDB.transaction(
         function(tx) {
             for (var i = 0; i < sqlStatements.length; i++) {
@@ -35,36 +42,41 @@ dbUtils.executeStatements = function(sqlStatements) {
             }
         },
         function(error) {
-            console.log(error.message);
+            if (onErrorFunc) {
+                onErrorFunc(error);
+            }
         },
         function() {
-            //console.log("Statements executed.");
+            if (onSuccessFunc) {
+                onSuccessFunc();
+            }
         }
     );
 };
 
-dbUtils.executeQuery = function(sqlStatement, handleFunc) {
-    var result = {};
-    
+dbUtils.executeQuery = function(sqlStatement, handleFunc, errorCallback) {
     fundsDB.readTransaction(
         function(tx) {
             tx.executeSql(
                 sqlStatement,
                 [],
                 function(tx, resultSet) {
-                    result.resultSet = resultSet;
+                    handleFunc(resultSet);
                 },
                 function(tx, error) {
-                    console.log(error.message);
+                    errorCallback(error);
                 }
             );
         },
         function(error) {
-            console.log(error.message);
+            console.log("Transaction error: ");
+            $("p#error-output").text("Transaction Error: " + error.message).show();
         },
-        function() {
-            handleFunc(result.resultSet);
-        }
+        // Transaction SuccessCallback
+//        function() {
+//            console.log("Transaction success: ");
+//            handleFunc(result.resultSet);
+//        }
     );
 };
 
@@ -125,9 +137,9 @@ dbUtils.batchQueryWithArgs = function(sqlStatements, handleFunc) {
 
 
 
-dbUtils.executeSqlFile = function(url) {
+dbUtils.executeSqlFile = function(url, onErrorFunc, onSuccessFunc) {
     this.loadSqlStatements(url, (sqls) => {
-        this.executeStatements(sqls);
+        this.executeStatements(sqls, onErrorFunc, onSuccessFunc);
     });
 };
 

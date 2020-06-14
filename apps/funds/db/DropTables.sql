@@ -1,0 +1,6 @@
+Drop TABLE IF EXISTS 基金;
+Drop TABLE IF EXISTS 历史净值;
+Drop TABLE IF EXISTS 买入费率;
+Drop TABLE IF EXISTS 卖出费率;
+Drop TABLE IF EXISTS 交易类型;
+Drop TABLE IF EXISTS 交易记录;
