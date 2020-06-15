@@ -2,26 +2,66 @@
 
 <html>
     <head>
-        <title>HTML5 Application Template</title>
+        <title>WebGL Tutorial</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
         
-        <link rel="stylesheet" href="../../../css/style.css">
-        <link rel="stylesheet" href="../../../css/document.css">
-        
-        <script src="../../../js/htmlDocUtils.js"></script>
-    </head>
-    <body>
-        <article>
-            <header>
-                <h1>HTML5 Application Template</h1>
-                <p class='authorinfo'>Sarkuya, <time>2019-05-17</time></p>
-            </header>
+        <style>
+            body {
+                background: #fff;
+            }
             
-            <section class="chapter">
-                <h1>HTML5 Application Template</h1>
+            div[role="main"]>h2 {
+                color: #336699;
+                font-size: xx-large;
+            }
+            
+            p {
+                font-family: Helvetica, Arial, Verdana, sans-serif;
+                line-height: 1.5em;
+                text-indent: 2em;
+            }
+            
+            pre {
+                background: #e5e5e5;
+                background: rgba(0, 0, 0, 0.05);
+                white-space:  pre-wrap;
+                padding: 0.5em 1em 0.5em;
+                font-size: 0.9em;
+                border: 1px dashed #2f6fab;
+                border-radius: 5px;
+            }
+            
+            pre strong {
+                color: brown;
+            }
+            
+            span.htmltag {
+                color: rgb(235, 76, 33);
+                font-style: italic;
+                padding: 0 0.1em;
+            }
+            
+            span.tag-id {
+                color: green;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div data-role="page">
+            <div data-role="header">
+                <h1>WebGL Application Template</h1>
+            </div>
+
+            <div role="main" class="ui-content">
+                <h2>HTML5 Application Template</h2>
                 <p>The following is a HTML5 app template with a <span class="htmltag">canvas</span> element. To have a clear vision of the canvas, we add a border style to it. This border style will be removed later if not necessary, for example, when we have drawn something in the canvas.</p>
-                <pre class="highlight">
+                <pre>
 &lt;!DOCTYPE html&gt;
 
 &lt;html&gt;
@@ -38,23 +78,22 @@
     &lt;/head&gt;
     &lt;body&gt;
         &lt;h1&gt;HTML5 Application Template&lt;/h1&gt;
-        &lt;canvas id="webglcanvas" width="300" height="300"&gt;Your browser does not support HTML5 Canvas!&lt;/canvas&gt;
+        
+        &lt;<strong>canvas</strong> id="<span class="tag-id">webglcanvas</span>" width="300" height="300"&gt;Your browser does not support HTML5 Canvas!&lt;/<strong>canvas</strong>&gt;
     &lt;/body&gt;
 &lt;/html&gt;
 </pre>
                 <p>View <a href="demos/html5-app-template.html" target="_blank">demo</a>.</p>
-            </section>
-
-            <section class="reference">
-                <h1>References</h1>
+                
+                <h3>Key Notes:</h3>
                 <ul>
-                    <li><a href="" target="_blank">Ref Here</a></li>
+                    <li>use the <span class="htmltag">canvas</span> element.</li>
                 </ul>
-            </section>
+            </div>
             
-            <p>Previous: <a>Introduction</a> | <a>Table of Contents</a> | Next: <a>Drawing</a></p>
-            
-            <footer><p class="copyright">All rights reserved.</p></footer>
-        </article>
+            <div data-role="footer">
+                <h4>All Rights Reserved</h4>
+            </div>
+        </div>
     </body>
 </html>

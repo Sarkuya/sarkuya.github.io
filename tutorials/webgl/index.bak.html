@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>WebGL Tutorial</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="shortcut icon" href="../../images/png/WebGL-Logo.png" type="image/png" />
+        
+        <link rel="stylesheet" href="../../css/style.css">
+        <link rel="stylesheet" href="../../css/tutorial.css">
+        
+    <style type="text/css">
+        body>h1 {
+            text-align: center;
+        }
+        
+        h1 {
+            text-align: left;
+        }
+        
+        body>h2 {
+            color: brown;
+            font-size: xx-large;
+            text-align: center;
+        }
+        
+        .subject {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-gap: 10px;
+        }
+        
+        .subject .subsubject {
+            border: 1px solid #f0f0f0;
+            display: grid;
+            grid-template-columns: 50px auto 1fr;
+            grid-gap: 10px;
+        }
+        
+        .subject .subsubject>h1 {
+            color: chocolate;
+            grid-row: 1 / 3;
+            grid-column: 1;
+            font-size: 300%;
+            margin: 0;
+            text-align: center;
+            align-self:center;
+            font-style: italic;
+            text-shadow: #ccc 5px 5px 5px;
+        }
+        
+        .subject .subsubject>h2 {
+            margin: 0;
+            grid-row: 1 / 3;
+            grid-column: 2 / 4;
+            font-size: xx-large;
+            align-self: center;
+            text-align: center;
+        }
+        
+        .subject .subsubject>a {
+            width: fit-content;
+            grid-row: 3;
+            grid-column: 1 / 3;
+        }
+        
+        .subject .subsubject>a>img {
+            box-shadow: 0px 0px 5px #333;
+            filter: blur(1px);
+        }
+        
+        .subject .subsubject>a:hover>img {
+            box-shadow: 0px 0px 15px #999;
+            filter: none;
+        }
+        
+        .subject .subsubject>.keynotes {
+            grid-row: 3;
+            grid-column: 3;
+        }
+        
+        .subject .subsubject>.keynotes>h1 {
+            color: #007ac0;
+            font-size: 120%;
+            text-align: left;
+        }
+        
+        .subject .subsubject>.keynotes>p {
+            color: #333;
+            font-weight: bold;
+            text-indent: 0px;
+        }
+        
+        .subject .subsubject>.keynotes>ul {
+            font-size: 80%;
+        }
+        
+        .subject .subsubject>.keynotes>ul>li {
+            color: #666;
+        }
+        
+        .subject .subsubject>.description {
+            grid-row: 4;
+            grid-column: 1 / 4;
+        }
+        
+        .subject .subsubject>.description>p {
+            line-height: 1.5em;
+        }
+
+    </style>
+
+    </head>
+    <body>
+        <img src="../../images/png/WebGL-Logo.png" alt="WebGL" />
+        <h1>WebGL Tutorial</h1>
+        <p class='authorinfo'>Sarkuya, <time>2019-05-17</time></p>
+        
+        <h2>A. WebGL Application Template</h2>
+        <div class="subject">
+            <div class="subsubject">
+                <h1>1</h1>
+                <h2>HTML5 Template</h2>
+                <a href="articles/html5-app-template_bak.html"><img src="images/html5-app-template.png" alt="HTML5 app template" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>nothing but a HTML5 template</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>A simple HTML5 application template.</p>
+                    <p>View <a href="articles/demos/html5-app-template.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+
+            <div class="subsubject">
+                <h1>2</h1>
+                <h2>Simple WebGL App</h2>
+                <a href="articles/webgl-app.html"><img src="images/webgl-app.png" alt="Simple WebGL App" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>WebGL initialization</li>
+                    </ul>
+                    
+                    <h1>WebGL Functions</h1>
+                    <ul>
+                        <li>getContext</li>
+                        <li>clearColor</li>
+                        <li>clear</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>The simplest WebGL application ever seen - clears the background with the black color.</p>
+                    <p>View <a href="articles/demos/webgl-app.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+        </div>
+        
+        <h2>B. WebGL Pipelines</h2>
+        <div class="subject">
+            <div class="subsubject">
+                <h1>3</h1>
+                <h2>Yellow Triangle</h2>
+                <a href="articles/pipelines.html"><img src="images/yellow-triangle.png" alt="Yellow Triangle" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>WebGL pipelines</li>
+                        <li>WebGL states</li>
+                        <li>vertex attributes</li>
+                        <li>program and shaders</li>
+                        <li>VBO</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <p>Program:</p>
+                    <ul>
+                        <li>createProgram</li>
+                        <li>attachShader</li>
+                        <li>linkProgram</li>
+                        <li>getProgramParameter</li>
+                        <li>getProgramInfoLog</li>
+                        <li>deleteProgram</li>
+                    </ul>
+                    <p>Shaders:</p>
+                    <ul>
+                        <li>createShader</li>
+                        <li>shaderSource</li>
+                        <li>compileShader</li>
+                        <li>getShaderParameter</li>
+                        <li>getShaderInfoLog</li>
+                        <li>deleteShader</li>
+                    </ul>
+                    <p>Buffers:</p>
+                    <ul>
+                        <li>createBuffer</li>
+                        <li>bindBuffer</li>
+                        <li>bufferData</li>
+                    </ul>
+                    <p>Vertex Attrib Array:</p>
+                    <ul>
+                        <li>getAttribLocation</li>
+                        <li>enableVertexAttribArray</li>
+                        <li>vertexAttribPointer</li>
+                    </ul>
+                    <p>Renering:</p>
+                    <ul>
+                        <li>drawArrays</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Lots to learn, but step by step. It is essential for every WebGL application.</p>
+                    <p>Introduce function <strong>initVBOs</strong> to do the specific stuff.</p>
+                    <p>View <a href="articles/demos/yellow-triangle.html" target="_blank">demo</a>.</p>
+                    <p>Move the common functions to <strong>webglUtils</strong>.</p>
+                    <p>View <a href="articles/demos/yellow-triangle-refactored.html" target="_blank">demo</a> after refactoring.</p>
+                </div>
+            </div>
+            
+            <div class="subsubject">
+                <h1>4</h1>
+                <h2>Colored Triangle</h2>
+                <a href="articles/pipelines.html"><img src="images/colored-triangle.png" alt="Colored Triangle" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>2 vertex attributes</li>
+                        <li>varying variables</li>
+                        <li>vertices with mixed structure</li>
+                        <li>primative assembly</li>
+                        <li>rasterization</li>
+                        <li>per-fragment operations</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>N/A</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Coming into a colorful world.</p>
+                    <p>View <a href="articles/demos/colored-triangle.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+            
+            <div class="subsubject">
+                <h1>5</h1>
+                <h2>Two VBOs</h2>
+                <a href="articles/pipelines.html"><img src="images/two-vbos.png" alt="Two VBOs" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>2 seperate VBOs</li>
+                        <li>2 primitives</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>N/A</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Two VBOs, one for vertex postions, the other for vertex colors. Two primitives lies in a VBO.</p>
+                    <p>View <a href="articles/demos/two-vbos.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+        </div>
+        
+        <h2>C. Drawing Primitives</h2>
+        <div class="subject">
+            <div class="subsubject">
+                <h1>6</h1>
+                <h2>Points</h2>
+                <a href="articles/pipelines.html"><img src="images/points.png" alt="Points" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>no gl.pointSize method</li>
+                        <li>gl.PointSize in shaders</li>
+                        <li>generate points along with arbitrary regular polygons</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>N/A</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Draw the simplest primitves in WebGL.</p>
+                    <p>View <a href="articles/demos/primitives-points.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+            
+            <div class="subsubject">
+                <h1>7</h1>
+                <h2>Lines</h2>
+                <a href="articles/pipelines.html"><img src="images/lines.png" alt="Lines" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>LINES, LINE_STRIP, LINE_LOOP</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>lineWidth (implementation dependant)</li>
+                    </ul>
+                    
+                    <h1>States Inquiry Functions</h1>
+                    <ul>
+                        <li>getParameter(gl.ALIASED_LINE_WIDTH_RANGE)</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Draw lines.</p>
+                    <p>View <a href="articles/demos/primitives-lines.html" target="_blank">demo</a> of gl.LINES.</p>
+                    <p>View <a href="articles/demos/primitives-line-loop.html" target="_blank">demo</a> of gl.LINE_LOOP.</p>
+                    <p>View <a href="articles/demos/primitives-line-strip.html" target="_blank">demo</a> of gl.LINE_STRIP.</p>
+                </div>
+            </div>
+            
+            <div class="subsubject">
+                <h1>8</h1>
+                <h2>Discontiguous Triangles</h2>
+                <a href="articles/pipelines.html"><img src="images/triangles.png" alt="Triangles" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>gl.TRIANGLES</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>N/A</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Draw discontiguous triangles.</p>
+                    <p>View <a href="articles/demos/primitives-triangles.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+            
+            <div class="subsubject">
+                <h1>9</h1>
+                <h2>Triangle Strip</h2>
+                <a href="articles/pipelines.html"><img src="images/triangle-strip.png" alt="Triangle Strip" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>gl.TRIANGLE_STRIP</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>N/A</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Use 3 colors in each triangle to distinguish the vertices.</p>
+                    <p>View <a href="articles/demos/primitives-triangle-strip.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+            
+            <div class="subsubject">
+                <h1>10</h1>
+                <h2>Triangle Strip 2</h2>
+                <a href="articles/pipelines.html"><img src="images/triangle-strip-2.png" alt="Triangle Strip 2" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>gl.TRIANGLE_STRIP</li>
+                        <li>construct different primitives using the same buffer data</li>
+                        <li>draw texts in WebGL with help of 2D Canvas</li>
+                        <li>NDCToCanvas</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>N/A</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Add labels for better illustration of vertices order.</p>
+                    <p>View <a href="articles/demos/primitives-triangle-strip-2.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+            
+            <div class="subsubject">
+                <h1>11</h1>
+                <h2>Triangle Strip 3</h2>
+                <a href="articles/pipelines.html"><img src="images/triangle-strip-3.png" alt="Triangle Strip 3" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>gl.TRIANGLE_STRIP</li>
+                        <li>several solid pre-defined colors instead of varying colors</li>
+                        <li>multiple times of drawArrays to form different primitves</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>getUniformLocation</li>
+                        <li>uniform4f</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Not so many colors flaring.</p>
+                    <p>View <a href="articles/demos/primitives-triangle-strip-3.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+            
+            <div class="subsubject">
+                <h1>12</h1>
+                <h2>Triangle Fan</h2>
+                <a href="articles/pipelines.html"><img src="images/triangle-fan.png" alt="Triangle Fan" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>gl.TRIANGLE_FAN</li>
+                        <li>2 exclusive buffers</li>
+                        <li>rebind buffers in rendering</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>N/A</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Use a second exclusive vertex attribute array to draw the blues lines.</p>
+                    <p>View <a href="articles/demos/primitives-triangle-fan.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+            
+            <div class="subsubject">
+                <h1>13</h1>
+                <h2>Rectangle: Using gl.TRIANGLES</h2>
+                <a href="articles/pipelines.html"><img src="images/rectangle-triangles.png" alt="Rectangle" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>6 vertices, 2 triangles</li>
+                        <li>v0 overrided with v3, v2 overrided with v4</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>N/A</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Use 6 vertices to construct 2 adjacent triangles to be appeared as a rectangle.</p>
+                    <p>View <a href="articles/demos/primitives-rectangle-triangles.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+            
+            <div class="subsubject">
+                <h1>14</h1>
+                <h2>Rectangle: Using gl.TRIANGLE_FAN</h2>
+                <a href="articles/pipelines.html"><img src="images/rectangle-triangle-fan.png" alt="Rectangle" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>4 vertices, 2 triangles</li>
+                        <li>addtional positions in VBO to draw a line</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>N/A</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Use 4 vertices to construct 2 adjacent triangles to be appeared as a rectangle, adding 2 vertices by repeating v0 and v2.</p>
+                    <p>View <a href="articles/demos/primitives-rectangle-triangle-fan.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+            
+            <div class="subsubject">
+                <h1>15</h1>
+                <h2>Rectangle - drawElements</h2>
+                <a href="articles/pipelines.html"><img src="images/rectangle-drawElements.png" alt="Rectangle" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>seperate buffers initializing into initVBOs and initIBOs</li>
+                        <li>always rebind IBOs before invoking drawElements</li>
+                        <li>Uint8Array and UNSIGNED_BYTE</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>drawElements</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Draw a rectangle using the convenient and powerful drawElements method.</p>
+                    <p>View <a href="articles/demos/primitives-rectangle-drawElements.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+            
+            <div class="subsubject">
+                <h1>16</h1>
+                <h2>Rectangle - drawElements 2</h2>
+                <a href="articles/pipelines.html"><img src="images/rectangle-drawElements-2.png" alt="Rectangle" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>2 IBOs to draw 3 primitives</li>
+                        <li>drawElements combined with drawArrays</li>
+                        <li>switch back to non-varying color</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>N/A</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>Make full use of each vertex we defined.</p>
+                    <p>View <a href="articles/demos/primitives-rectangle-drawElements-2.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+        </div>
+        
+        <h2>D. Drawing Multiple Objects</h2>
+        <div class="subject">
+            <div class="subsubject">
+                <h1>17</h1>
+                <h2>Facing with 2 Objects</h2>
+                <a href="articles/html5-app-template_bak.html"><img src="images/multiple-objects.png" alt="Multiple Objects" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>an object has information of vertice positions, vertice indices, vertice colors, and later vertice normals</li>
+                        <li>rebind ELEMENT_ARRAY_BUFFER before drawElements</li>
+                        <li>drawElements consumes an enabled array, which consumes ARRAY_BUFFER</li>
+                        <li>vertexAttribPointer modifies WebGL states</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>N/A</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>An ugly yet easy-to-understand implementation for drawing 2 objects.</p>
+                    <p>View <a href="articles/demos/multiple-objects.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+
+            <div class="subsubject">
+                <h1>18</h1>
+                <h2>Object-Oriented Refactoring</h2>
+                <a href="articles/webgl-app.html"><img src="images/multiple-objects-refactored.png" alt="Multiple Objects" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>createObject(), then drawObject()</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>N/A</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p>I will never mind whether you have too many objects to be rendered under this infrastructure.</p>
+                    <p>View <a href="articles/demos/multiple-objects-refactored.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+        </div>
+        
+        <h2>E. Textures</h2>
+        <div class="subject">
+            <div class="subsubject">
+                <h1>19</h1>
+                <h2>Texture Essentials</h2>
+                <a href="articles/html5-app-template_bak.html"><img src="images/texture-essentials.png" alt="Texture Essentials" /></a>
+                <div class="keynotes">
+                    <h1>Key Notes:</h1>
+                    <ul>
+                        <li>replace aColor with aTexCoord</li>
+                        <li>texture2D() before assigning</li>
+                        <li>asynchronous image loading</li>
+                        <li>config textures</li>
+                        <li>pixelStorei() before texImage2D()</li>
+                    </ul>
+                    
+                    <h1>New WebGL Functions</h1>
+                    <ul>
+                        <li>texture2D (GLSL)</li>
+                        <li>activeTexture</li>
+                        <li>bindTexture</li>
+                        <li>createTexture</li>
+                        <li>generateMipmap</li>
+                        <li>pixelStorei</li>
+                        <li>texImage2D</li>
+                        <li>texParameteri</li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <p></p>
+                    <p>View <a href="articles/demos/textures/texture-essentials.html" target="_blank">demo</a>.</p>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="reference">
+            <h1>References</h1>
+            <ul>
+                <li><a href="https://www.khronos.org/webgl/" target="_blank">Khronos WebGL Home</a></li>
+                <li><a href="https://github.com/KhronosGroup/WebGL" target="_blank">Khronos WebGL GitHub</a></li>
+                <li><a href="https://www.khronos.org/registry/webgl/specs/latest/1.0/" target="_blank">WebGL 1.0 Specification</a></li>
+                <li><a href="https://webgl2fundamentals.org/" target="_blank">WebGL2 Fundamentals</a></li>
+                <li><a href="https://codepen.io/luigimannoni/pen/bdPVVz" target="_blank">WebGL in CodePen by LuigiMannoni</a></li>
+                <li><a href="https://codepen.io/luigimannoni/" target="_blank">CodePen by LuigiMannoni</a></li>
+                <li><a href="https://www.convertico.com/favicon/" target="_blank">Convert PNG to favico.ico</a></li>
+            </ul>
+        </div>
+
+        <footer><p class="copyright">All rights reserved.</p></footer>
+
+    </body>
+</html>
