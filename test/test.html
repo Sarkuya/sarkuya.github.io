@@ -10,18 +10,48 @@
         <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
-        <script src="../apps/funds/js/dbUtils.js"></script>
-        <script src="../apps/funds/js/ttFundsDataUtils.js"></script>
+<!--        <script src="../apps/funds/js/dbUtils.js"></script>
+        <script src="../apps/funds/js/ttFundsDataUtils.js"></script>-->
+        
+        <script src="../js/htmlDocUtils.js"></script>
 
         <script type="text/javascript">
             $(init);
 
             function init() {
-                ttFundsDataUtils.updateNetValues("161725");
+                
             }
         </script>
+        
+        <style>
+            pre.highlight span.htmltag {
+                color: brown;
+                padding: 0em;
+            }
+        </style>
     </head>
     <body>
+        <pre class="highlight">
+&lt;!DOCTYPE html&gt;
 
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;HTML5 Application Template&lt;/title&gt;
+        &lt;meta charset="UTF-8"&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+        
+        &lt;style type="text/css"&gt;
+            #webglcanvas {
+                border: 1px dotted lightgray;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;HTML5 Application Template&lt;/h1&gt;
+        
+        &lt;canvas id="webglcanvas" width="300" height="300"&gt;Your browser does not support HTML5 Canvas!&lt;/canvas&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+        </pre>
     </body>
 </html>

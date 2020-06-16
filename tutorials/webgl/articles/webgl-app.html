@@ -2,96 +2,83 @@
 
 <html>
     <head>
-        <title>Simple WebGL Application</title>
+        <title>HTML5 Application Template</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
         
-        <link rel="stylesheet" href="../../../css/style.css">
-        <link rel="stylesheet" href="../../../css/document.css">
-        
+        <link rel="stylesheet" href="css/tutorial-doc.css">
         <script src="../../../js/htmlDocUtils.js"></script>
+        
+        <style>
+
+        </style>
     </head>
+
     <body>
-        <article>
-            <header>
-                <h1>Simple WebGL Application</h1>
-                <p class='authorinfo'>Sarkuya, <time>2019-05-18</time></p>
-            </header>
-            
-            <section class="chapter">
-                <h1>Sources</h1>
+        <div data-role="page">
+            <div data-role="header">
+                <h1>WebGL Application Template</h1>
+            </div>
+
+            <div role="main" class="ui-content">
+                <h2>Simple WebGL Application</h2>
                 <p>Based on the template of previous section, let's add the JavaScript codes to do the WebGL stuff.</p>
                 <pre class="highlight">
-&lt;!DOCTYPE html&gt;
+&lt;script type="text/javascript"&gt;
+    var gl;
 
-&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;Simple WebGL Application&lt;/title&gt;
-        &lt;meta charset="UTF-8"&gt;
-        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    function init() {
+        if (!window.WebGLRenderingContext) {
+            alert("Your browser doese not support WebGL!");
+            return;
+        }
 
-        &lt;script type="text/javascript"&gt;
-            var gl;
-            
-            function init() {
-                if (!window.WebGLRenderingContext) {
-                    alert("Your browser doese not support WebGL!");
-                    return;
-                }
-                
-                var canvas = document.getElementById("webglcanvas");
-                gl = canvas.getContext("webgl");
-                
-                if (!gl) {
-                    alert("Unable to initialize WebGL!");
-                    return;
-                }
-                
-                gl.clearColor(0.0, 0.0, 0.0, 1.0);
-                
-                render();
-            }
-            
-            function render() {
-                gl.clear(gl.COLOR_BUFFER_BIT);
-            }
-            
-            window.addEventListener("DOMContentLoaded", init);
-        &lt;/script&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;h1&gt;Simple WebGL Application&lt;/h1&gt;
-        &lt;canvas id="webglcanvas" width="300" height="300"&gt;Your Borwser does not support HTML5 Canvas!&lt;/canvas&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
+        var canvas = document.getElementById("webgl-canvas");
+        gl = canvas.getContext("webgl");
+
+        if (!gl) {
+            alert("Unable to initialize WebGL!");
+            return;
+        }
+
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
+        render();
+    }
+
+    function render() {
+        gl.clear(gl.COLOR_BUFFER_BIT);
+    }
+
+    window.addEventListener("DOMContentLoaded", init);
+&lt;/script&gt;
 </pre>
                 <p>View <a href="demos/webgl-app.html" target="_blank">demo</a>.</p>
-            </section>
-            
-            <section class="chapter">
-                <h1>Key Notes</h1>
+                
+                <h3>Key Notes</h3>
+                <ul>
+                    <li>WebGL initialization</li>
+                </ul>
+                
+                <h3>WebGL Functions</h3>
                 <p>Canvas:</p>
                 <ul>
                     <li>getContext</li>
                 </ul>
-                <p>WebGLRenderingContext:</p>
+                <p><span class="webgl-obj">WebGLRenderingContext</span>:</p>
                 <ul>
                     <li>clearColor</li>
                     <li>clear</li>
                 </ul>
-                
-            </section>
-
-            <section class="reference">
-                <h1>References</h1>
-                <ul>
-                    <li><a href="" target="_blank">Ref Here</a></li>
-                </ul>
-            </section>
+            </div>
             
-            <p>Previous: <a>Introduction</a> | <a>Table of Contents</a> | Next: <a>Drawing</a></p>
-            
-            <footer><p class="copyright">All rights reserved.</p></footer>
-        </article>
+            <div data-role="footer">
+                <h4>All Rights Reserved</h4>
+            </div>
+        </div>
     </body>
 </html>

@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>WebGL Tutorial</title>
+        <title>HTML5 Application Template</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -10,45 +10,11 @@
         <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
         
+        <link rel="stylesheet" href="css/tutorial-doc.css">
+        <script src="../../../js/htmlDocUtils.js"></script>
+        
         <style>
-            body {
-                background: #fff;
-            }
-            
-            div[role="main"]>h2 {
-                color: #336699;
-                font-size: xx-large;
-            }
-            
-            p {
-                font-family: Helvetica, Arial, Verdana, sans-serif;
-                line-height: 1.5em;
-                text-indent: 2em;
-            }
-            
-            pre {
-                background: #e5e5e5;
-                background: rgba(0, 0, 0, 0.05);
-                white-space:  pre-wrap;
-                padding: 0.5em 1em 0.5em;
-                font-size: 0.9em;
-                border: 1px dashed #2f6fab;
-                border-radius: 5px;
-            }
-            
-            pre strong {
-                color: brown;
-            }
-            
-            span.htmltag {
-                color: rgb(235, 76, 33);
-                font-style: italic;
-                padding: 0 0.1em;
-            }
-            
-            span.tag-id {
-                color: green;
-            }
+
         </style>
     </head>
 
@@ -61,7 +27,7 @@
             <div role="main" class="ui-content">
                 <h2>HTML5 Application Template</h2>
                 <p>The following is a HTML5 app template with a <span class="htmltag">canvas</span> element. To have a clear vision of the canvas, we add a border style to it. This border style will be removed later if not necessary, for example, when we have drawn something in the canvas.</p>
-                <pre>
+                <pre class="highlight">
 &lt;!DOCTYPE html&gt;
 
 &lt;html&gt;
@@ -70,19 +36,23 @@
         &lt;meta charset="UTF-8"&gt;
         &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
         
+        &lt;link rel="stylesheet" href="css/demostyle.css"&gt;
+        &lt;script src="js/demoutils.js"&gt;&lt;/script&gt;
+        
         &lt;style type="text/css"&gt;
-            #webglcanvas {
+            #webgl-canvas {
                 border: 1px dotted lightgray;
             }
         &lt;/style&gt;
     &lt;/head&gt;
     &lt;body&gt;
         &lt;h1&gt;HTML5 Application Template&lt;/h1&gt;
-        
-        &lt;<strong>canvas</strong> id="<span class="tag-id">webglcanvas</span>" width="300" height="300"&gt;Your browser does not support HTML5 Canvas!&lt;/<strong>canvas</strong>&gt;
+        &lt;canvas id="webgl-canvas"&gt;Your browser does not support HTML5 Canvas!&lt;/canvas&gt;
     &lt;/body&gt;
 &lt;/html&gt;
 </pre>
+                <p>By default, the canvas width is 300px and its height is 300px.</p>
+                <p><span class="file-name">demostyle.css</span> is to center the canvas. And <span class="file-name">demoutils.js</span> is to set the width and the height of the canvas according to the client width. None of them are relavant of WebGL programming, but to beautify the HTML elements on the page.</p>
                 <p>View <a href="demos/html5-app-template.html" target="_blank">demo</a>.</p>
                 
                 <h3>Key Notes:</h3>

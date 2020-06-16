@@ -1,0 +1,48 @@
+/* 
+    Created on : 2020-6-17, 1:14:06
+    Author     : Sarkuya
+*/
+
+div[role="main"]>h2 {
+    color: #336699;
+}
+
+div[role="main"] h3 {
+    color: #007aa0;
+}
+
+p {
+    font-family: Helvetica, Arial, Verdana, sans-serif;
+    line-height: 1.5em;
+    text-indent: 2em;
+}
+
+pre {
+    background: rgba(0, 0, 0, 0.05);
+    white-space:  pre-wrap;
+    padding: 0.5em 1em 0.5em;
+    font-size: 0.8em;
+    border: 1px dashed #2f6fab;
+    border-radius: 5px;
+}
+
+pre strong {
+    color: green;
+}
+
+span.htmltag {
+    color: brown;
+}
+
+span.file-name {
+    color: green;
+}
+
+span.webgl-obj {
+    color:   coral;
+}
+
+p+ul {
+    margin-left: 2em;
+    margin-top: -1em;
+}

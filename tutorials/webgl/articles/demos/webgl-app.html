@@ -6,36 +6,40 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
+        <link rel="stylesheet" href="css/demostyle.css">
+        <script src="js/demoutils.js"></script>
+        
         <script type="text/javascript">
             var gl;
-            
+
             function init() {
                 if (!window.WebGLRenderingContext) {
                     alert("Your browser doese not support WebGL!");
                     return;
                 }
-                
-                var canvas = document.getElementById("webglcanvas");
+
+                var canvas = document.getElementById("webgl-canvas");
                 gl = canvas.getContext("webgl");
-                
+
                 if (!gl) {
                     alert("Unable to initialize WebGL!");
+                    return;
                 }
-                
+
                 gl.clearColor(0.0, 0.0, 0.0, 1.0);
-                
+
                 render();
             }
-            
+
             function render() {
                 gl.clear(gl.COLOR_BUFFER_BIT);
             }
-            
+
             window.addEventListener("DOMContentLoaded", init);
         </script>
     </head>
     <body>
         <h1>Simple WebGL Application</h1>
-        <canvas id="webglcanvas" width="300" height="300">Your browser does not support HTML5 Canvas!</canvas>
+        <canvas id="webgl-canvas">Your browser does not support HTML5 Canvas!</canvas>
     </body>
 </html>

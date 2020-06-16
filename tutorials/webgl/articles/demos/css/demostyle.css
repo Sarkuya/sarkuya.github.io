@@ -1,0 +1,16 @@
+/* 
+    Created on : 2020-6-17, 0:27:16
+    Author     : Sarkuya
+*/
+
+body {
+    text-align: center;
+}
+
+h1 {
+    color: #336699;
+}
+
+#webgl-canvas {
+    margin: 0 auto;
+}
