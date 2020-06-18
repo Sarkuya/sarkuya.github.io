@@ -46,8 +46,66 @@ span.webgl-obj {
     color: coral;
 }
 
+span.parameter {
+    font-weight: bold;
+    color: green;
+}
 
 p+ul {
     margin-left: 2em;
     margin-top: -1em;
+}
+
+div.synopsis {
+    font-size: 0.8em;
+}
+
+div.synopsis h4 {
+    color: brown;
+    margin: 0.1em;
+    padding: 0;
+}
+
+div.synopsis p {
+    text-indent: 1em;
+    margin: 0em;
+    padding: 0em;
+}
+
+div.synopsis h4:first-of-type + p {
+    background-color: hsla(240, 30%, 80%, 0.3);
+    border-radius: 5px;
+    padding: 0.5em;
+    text-indent: 0.5em;
+}
+
+div.synopsis h4:not(:first-of-type) {
+    margin-top: 1.1em;
+}
+
+div.synopsis h4+p {
+    margin: 0;
+    padding: 0;
+}
+
+div.synopsis dl {
+    margin-left: 1em;
+}
+
+div.synopsis dl dt {
+    font-weight: bold;
+    color: green;
+}
+
+div.synopsis ul {
+    border: 0px solid black;
+    margin: 0 0em;
+    padding: 0em;
+    list-style-position: inside;
+}
+
+div.synopsis ul li {
+    border: 0px solid red;
+    margin-left: 0em;
+    padding: 0 0em;
 }

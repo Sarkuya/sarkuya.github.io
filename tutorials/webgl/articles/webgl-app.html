@@ -14,7 +14,9 @@
         <script src="../../../js/htmlDocUtils.js"></script>
         
         <style>
-
+            pre {
+                display: none;
+            }
         </style>
     </head>
 
@@ -72,15 +74,28 @@
                         
                         <div class="synopsis">
                             <h4>Synopsis</h4>
-                            <p>getContext(contextType, contextAttributes) => WebGL2RenderingContext</p>
+                            <p>getContext(type, attributes)</p>
                             <h4>Parameters</h4>
-                            <p>contextType: "webgl", or "experimental-webgl"</p>
-                            <p>contextAttributes: </p>
-                            <ul>
-                                <li>alpha: aaa</li>
-                                <li>desynchronized aaa</li>
+                            <dl>
+                                <dt>type</dt>
+                                <dd>
+                                    <ul>
+                                        <li>"webgl"</li>
+                                        <li>"experimental-webgl"</li>
+                                    </ul>
+                                </dd>
                                 
-                            </ul>
+                                <dt>attributes</dt>
+                                <dd>
+                                    <dl>
+                                        <dt>alpha</dt>
+                                        <dd>Boolean, conains a alpha buffer?</dd>
+                                    </dl>
+                                </dd>
+                            </dl>
+                            
+                            <h4>Return</h4>
+                            <p>WebGL2RenderingContext</p>
                         </div>
                         
 
