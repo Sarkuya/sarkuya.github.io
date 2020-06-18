@@ -38,9 +38,14 @@ span.file-name {
     color: green;
 }
 
-span.webgl-obj {
-    color:   coral;
+span.html5-obj {
+    color: #999;
 }
+
+span.webgl-obj {
+    color: coral;
+}
+
 
 p+ul {
     margin-left: 2em;
