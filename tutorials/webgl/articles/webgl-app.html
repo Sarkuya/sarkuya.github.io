@@ -14,9 +14,6 @@
         <script src="../../../js/htmlDocUtils.js"></script>
         
         <style>
-            pre {
-                display: none;
-            }
         </style>
     </head>
 
@@ -73,32 +70,50 @@
                         <h2>getContext</h2>
                         
                         <div class="synopsis">
+                            <h4>Brief</h4>
+                            <p>init and return a WebGL context.</p>
                             <h4>Synopsis</h4>
-                            <p>getContext(type, attributes)</p>
+                            <p>WebGLRenderingContext getContext(type, attributes)</p>
                             <h4>Parameters</h4>
                             <dl>
                                 <dt>type</dt>
                                 <dd>
-                                    <ul>
-                                        <li>"webgl"</li>
-                                        <li>"experimental-webgl"</li>
-                                    </ul>
+                                    <dl>
+                                        <dt>"webgl"</dt>
+                                        <dd>create and return a WebGL context.</dd>
+                                        <dt>"experimental-webgl"</dt>
+                                        <dd>create and return an experimental WebGL context.</dd>
+                                    </dl>
                                 </dd>
                                 
                                 <dt>attributes</dt>
                                 <dd>
                                     <dl>
                                         <dt>alpha</dt>
-                                        <dd>Boolean, conains a alpha buffer?</dd>
+                                        <dd>boolean. need an alpha buffer? <br/>Default: true</dd>
+                                        <dt>depth</dt>
+                                        <dd>boolean. need an depth buffer of at least 16 bits? <br/>Default: true</dd>
+                                        <dt>stencil</dt>
+                                        <dd>boolean. need an stencil buffer of at least 8 bits? <br/>Default: false</dd>
+                                        <dt>antialias</dt>
+                                        <dd>boolean. need antialias? <br/>Default: true</dd>
+                                        <dt>premultipliedAlpha</dt>
+                                        <dd>boolean. contains colors with premultiplied alpha? <br/>Default: true</dd>
+                                        <dt>preserveDrawingBuffer</dt>
+                                        <dd>boolean. preserve drawingBuffer?<br/>Default: false</dd>
+                                        <dt>powerPreference</dt>
+                                        <dd>string. options: "default", "high-performance", "low-power".<br/>Default: "default"</dd>
+                                        <dt>failIfMajorPerformanceCaveat</dt>
+                                        <dd>boolean. <br/>Default: false</dd>
+                                        <dt>desynchronized</dt>
+                                        <dd>boolean. <br/>Default: false</dd>
                                     </dl>
                                 </dd>
                             </dl>
                             
                             <h4>Return</h4>
-                            <p>WebGL2RenderingContext</p>
+                            <p>WebGLRenderingContext</p>
                         </div>
-                        
-
                     </div>
                 </div>
                 
@@ -106,11 +121,40 @@
                     <h4><span class="webgl-obj">WebGLRenderingContext</span></h4>
                     <div data-role="collapsible">
                         <h2>clear</h2>
-                        <p>clear(red, green, blue, alpha)</p>
+                        <div class="synopsis">
+                            <h4>Brief</h4>
+                            <p>clear buffers to preset values.</p>
+                            <h4>Synopsis</h4>
+                            <p>void clear(GLbitfield mask)</p>
+                            <h4>Parameters</h4>
+                            <dl>
+                                <dt>mask</dt>
+                                <dd>which buffers to be cleared. Values are:
+                                    <dl>
+                                        <dt>GL_COLOR_BUFFER_BIT</dt>
+                                        <dd>color buffer</dd>
+                                        <dt>GL_DEPTH_BUFFER_BIT</dt>
+                                        <dd>depth buffer</dd>
+                                        <dt>GL_STENCIL_BUFFER_BIT</dt>
+                                        <dd>stencil buffer</dd>
+                                    </dl>
+                                </dd>
+                            </dl>
+                        </div>
                     </div>
                     <div data-role="collapsible">
                         <h2>clearColor</h2>
-                        <p>clearColor(red, green, blue, alpha)</p>
+                        <div class="synopsis">
+                            <h4>Brief</h4>
+                            <p>specify clear values for the color buffers.</p>
+                            <h4>Synopsis</h4>
+                            <p>void clearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha)</p>
+                            <h4>Parameters</h4>
+                            <dl>
+                                <dt>red, green, blue, alpha</dt>
+                                <dd>Specify the red, green, blue, alpha values used to clear color buffers. The initial values are all 0.</dd>
+                            </dl>
+                        </div>
                     </div>
                 </div>
             </div>

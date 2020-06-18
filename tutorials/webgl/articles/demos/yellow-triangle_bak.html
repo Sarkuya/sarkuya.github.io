@@ -5,10 +5,7 @@
         <title>Yellow Triangle</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <link rel="stylesheet" href="css/demostyle.css">
-        <script src="js/demoutils.js"></script>
-        
+
         <script id="vshader" type="x-shader/x-vertex">
             attribute vec4 vPosition;
 
@@ -23,7 +20,7 @@
 
             void main()
             {
-                gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
+                gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
             }
         </script>
 
@@ -36,12 +33,11 @@
                     return;
                 }
 
-                var canvas = document.getElementById("webgl-canvas");
+                var canvas = document.getElementById("webglcanvas");
                 gl = canvas.getContext("webgl");
 
                 if (!gl) {
                     alert("Unable to initialize WebGL!");
-                    return;
                 }
                 
                 gl.program = prepareProgram("vshader", "fshader");
@@ -141,6 +137,6 @@
     </head>
     <body>
         <h1>Yellow Triangle</h1>
-        <canvas id="webgl-canvas">Your browser does not support HTML5 Canvas!</canvas>
+        <canvas id="webglcanvas" width="500" height="500">Your browser does not support HTML5 Canvas!</canvas>
     </body>
 </html>

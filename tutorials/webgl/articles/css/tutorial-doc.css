@@ -30,12 +30,25 @@ pre strong {
     color: green;
 }
 
+span.class-name {
+    color: brown;
+    font-weight: bold;
+}
+
+span.constant {
+    color: #666;
+}
+
 span.htmltag {
     color: brown;
 }
 
 span.file-name {
     color: green;
+}
+
+span.function-name {
+    color: darkgoldenrod;
 }
 
 span.html5-obj {
@@ -47,8 +60,12 @@ span.webgl-obj {
 }
 
 span.parameter {
-    font-weight: bold;
-    color: green;
+    color: orange;
+    font-style: italic;
+}
+
+span.variable-name {
+    color: blue;
 }
 
 p+ul {
@@ -72,7 +89,7 @@ div.synopsis p {
     padding: 0em;
 }
 
-div.synopsis h4:first-of-type + p {
+div.synopsis h4:nth-of-type(2) + p {
     background-color: hsla(240, 30%, 80%, 0.3);
     border-radius: 5px;
     padding: 0.5em;
@@ -90,11 +107,29 @@ div.synopsis h4+p {
 
 div.synopsis dl {
     margin-left: 1em;
+    margin-top: 0em;
+    border: 0px solid black;
 }
 
 div.synopsis dl dt {
     font-weight: bold;
     color: green;
+    border: 0px solid black;
+}
+
+div.synopsis dl dd {
+    border: 0px solid black;
+    margin-left: 1em;
+    color: #aaa;
+}
+
+div.synopsis dl dd dl {
+    margin: 0;
+}
+
+div.synopsis dl dd dl dt {
+    color: #333;
+    font-weight: bold;
 }
 
 div.synopsis ul {
