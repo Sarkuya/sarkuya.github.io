@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Test Reading Text From Web</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!--        <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
+
+<!--        <script src="../apps/funds/js/dbUtils.js"></script>
+        <script src="../apps/funds/js/ttFundsDataUtils.js"></script>-->
+        
+        <!--<script src="../js/htmlDocUtils.js"></script>-->
+
+        <script type="text/javascript">
+            window.addEventListener("load", init);
+            
+            window.addEventListener("scroll", init);
+            window.addEventListener("resize", init);
+            
+
+            function init() {
+//                var div1 = document.getElementById("div1");
+                //console.dir(window);
+                
+                document.getElementById("screenWidthSpan").textContent = window.screen.width;
+                document.getElementById("screenHeightSpan").textContent = window.screen.height;
+                document.getElementById("innerWidthSpan").textContent = window.innerWidth;
+                document.getElementById("innerHeightSpan").textContent = window.innerHeight;
+                document.getElementById("outerWidthSpan").textContent = window.outerWidth;
+                document.getElementById("outerHeightSpan").textContent = window.outerHeight;
+                
+                document.getElementById("scrollXSpan").textContent = window.scrollX;
+                document.getElementById("scrollYSpan").textContent = window.scrollY;
+                
+                document.getElementById("pageXOffsetSpan").textContent = window.pageXOffset;
+                document.getElementById("pageYOffsetSpan").textContent = window.pageYOffset;
+                
+            }
+            
+            function onScroll(e) {
+//                //var last_known_scroll_position = window.scrollY;
+//                document.getElementById("scrollXSpan").textContent = window.scrollX;
+//                document.getElementById("scrollYSpan").textContent = window.scrollY;
+//                
+//                document.getElementById("pageXOffsetSpan").textContent = window.pageXOffset;
+//                document.getElementById("pageYOffsetSpan").textContent = window.pageYOffset;
+//                
+//                if (window.scrollY === 0) {
+//                    console.log("yes");
+//                }
+                init();
+            }
+        </script>
+        
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0
+            }
+            #div1 {
+                border: 1px solid black;
+            }
+            
+            form {
+                border: 0px solid black;
+                width: 200px;
+            }
+            
+            form label, form span {
+                line-height: 20px;
+                margin: 0.1em 0.1em;
+                border: 0px solid black;
+            }
+            
+            form label {
+                float: left;
+                width: 100px;
+                text-align: right;
+                color: #336699;
+            }
+            
+            form span {
+                width: 50px;
+                display: inline-block;
+                text-align: right;
+                text-decoration: underline;
+            }
+            
+            form br {
+                clear: left;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="div1">
+            <h1>Windows的属性</h1>
+            <p>有innerWidth, innerHeight, outerWidth, outerHeight, pageXOffset, pageYOffset, screen, scrollX, scrollY, .</p>
+            <p>innerWidth就是浏览器内部的空白区域的宽度，innerHeight就是浏览器内部的空白区域的高度。</p>
+            <p>当放大浏览器的视图大小时，由于文字变大了，同一区域内能显示的文字变少了，因此innerWidth, innerHeight也随之变小。反之，则变大。</p>
+            <p>scrollY是指文档在垂直方向上滚动了多少像素。</p>
+            <p>scrollY与pageYOffset是一样的。</p>
+        </div>
+        
+
+        
+        <form>
+            <fieldset>
+                <legend>Windows Properties:</legend>
+                <label>screenWidth: </label><span id="screenWidthSpan">aa</span> <br />
+                <label>screenHeight: </label><span id="screenHeightSpan">bb</span> <br />
+                <label>innerWidth: </label><span id="innerWidthSpan">aa</span> <br />
+                <label>innerHeight: </label><span id="innerHeightSpan">bb</span> <br />
+                <label>outerWidth: </label><span id="outerWidthSpan">aa</span> <br />
+                <label>outerHeight: </label><span id="outerHeightSpan">bb</span> <br />
+                
+                <label>scrollX: </label><span id="scrollXSpan">aa</span> <br />
+                <label>scrollY: </label><span id="scrollYSpan">aa</span> <br />
+                
+                <label>pageXOffset: </label><span id="pageXOffsetSpan">aa</span> <br />
+                <label>pageYOffset: </label><span id="pageYOffsetSpan">aa</span> <br />
+            </fieldset>
+        </form>
+        
+        <p>This is some text.</p>
+        <p>This is some text.</p>
+        <p>This is some text.</p>
+        <p>This is some text.</p>
+        <p>This is some text.</p>
+        <p>This is some text.</p>
+        <p>This is some text.</p>
+        <p>This is some text.</p>
+        <p>This is some text.</p>
+        <p>This is some text.</p>
+        <p>This is some text.</p>
+        <p>This is some text.</p>
+        <p>This is some text.</p>
+        <p>This is some text.</p>
+        <p>This is some text.</p>
+        <p>This is some text.</p>
+        
+
+    </body>
+</html>

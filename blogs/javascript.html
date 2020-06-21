@@ -94,10 +94,36 @@
                     <h1>DOMContentLoaded</h1>
                     <p></p>
                     <pre class="programlisting">
-window.addEventListener("DOMConetentLoaded", (event) => {
+window.addEventListener("DOMContentLoaded", (event) => {
     console.log("Dom fully loaded and parsed");
 });
 </pre>
+                </section>
+                
+                <section>
+                    <h1>内联与外联JavaScript是否允许相同函数名</h1>
+                    <p>html文件：</p>
+                    <pre class="programlisting">
+&lt;script src="service.js"&gt;&lt;/script&gt;
+
+&lt;script type="text/javascript"&gt;
+    window.addEventListener("DOMContentLoaded", (event) =&gt; {
+        console.log("in html...");
+    });
+&lt;/script&gt;
+</pre>
+                    <p>外部的service.js文件：</p>
+                    <pre class="programlisting">
+window.addEventListener("DOMContentLoaded", (event) => {
+    console.log("in js...");
+});
+</pre>
+                    <p>运行结果：</p>
+                    <pre class="screen">
+in js...
+in html...
+</pre>
+                    <p>说明尽管在两个地方都有相同的函数名，但都依调用次序先后得到执行。因此，内联与外联的JavaScript允许包含相同的函数名称。至于哪个先运行，取决于在代码中的先后次序。</p>
                 </section>
             </section>
             

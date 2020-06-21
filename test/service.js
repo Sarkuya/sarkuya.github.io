@@ -1,6 +1,3 @@
-var data = {
-    name: "Mike",
-    age: 25
-};
-
-doJob(data);
+window.addEventListener("DOMContentLoaded", (event) => {
+    console.log("in js...");
+});

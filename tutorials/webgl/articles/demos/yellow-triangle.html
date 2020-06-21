@@ -6,8 +6,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        <link rel="stylesheet" href="css/demostyle.css">
-        <script src="js/demoutils.js"></script>
+<!--        <link rel="stylesheet" href="css/demostyle.css">
+        <script src="js/demoutils.js"></script>-->
         
         <script id="vshader" type="x-shader/x-vertex">
             attribute vec4 vPosition;
@@ -23,7 +23,7 @@
 
             void main()
             {
-                gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
+                gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
             }
         </script>
 
@@ -38,7 +38,7 @@
 
                 var canvas = document.getElementById("webgl-canvas");
                 gl = canvas.getContext("webgl");
-
+                
                 if (!gl) {
                     alert("Unable to initialize WebGL!");
                     return;
@@ -63,6 +63,28 @@
                 gl.bindBuffer(gl.ARRAY_BUFFER, null);
                 
                 gl.clearColor(0.0, 0.0, 0.0, 1.0);
+                
+                reshape();
+            }
+            
+            function reshape() {
+                var bodyMarginValue = parseInt(window.getComputedStyle(document.body, null).getPropertyValue("margin"));
+
+                if (!bodyMarginValue) {
+                    bodyMarginValue = 0;
+                }
+
+                var width = window.innerWidth - bodyMarginValue * 3;
+                var height = window.innerHeight - bodyMarginValue * 3;
+
+                var min = Math.min(width, height);
+                
+                var canvas = document.getElementById("webgl-canvas");
+
+                canvas.width = min;
+                canvas.height = min;
+
+                gl.viewport(0, 0, canvas.width, canvas.height);
                 
                 render();
             }
@@ -136,11 +158,12 @@
                 gl.drawArrays(gl.TRIANGLES, 0, 3);
             }
 
-            window.addEventListener("DOMContentLoaded", init);
+            window.addEventListener("load", init);
+            window.addEventListener("resize", reshape);
         </script>
     </head>
     <body>
-        <h1>Yellow Triangle</h1>
+        <!--<h1>Yellow Triangle</h1>-->
         <canvas id="webgl-canvas">Your browser does not support HTML5 Canvas!</canvas>
     </body>
 </html>
