@@ -6,9 +6,14 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-<!--        <link rel="stylesheet" href="css/demostyle.css">
-        <script src="js/demoutils.js"></script>-->
+        <link rel="stylesheet" href="css/demostyle.css">
+        <script src="js/demoutils.js"></script>
         
+        <style>
+            #webgl-canvas {
+            }
+        </style>
+
         <script id="vshader" type="x-shader/x-vertex">
             attribute vec4 vPosition;
 
@@ -76,7 +81,7 @@
 
                 var width = window.innerWidth - bodyMarginValue * 3;
                 var height = window.innerHeight - bodyMarginValue * 3;
-
+                
                 var min = Math.min(width, height);
                 
                 var canvas = document.getElementById("webgl-canvas");
@@ -163,7 +168,6 @@
         </script>
     </head>
     <body>
-        <!--<h1>Yellow Triangle</h1>-->
         <canvas id="webgl-canvas">Your browser does not support HTML5 Canvas!</canvas>
     </body>
 </html>
