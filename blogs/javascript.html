@@ -128,6 +128,136 @@ in html...
             </section>
             
             <section class="chapter">
+                <h1>读写CSS</h1>
+                
+                
+                <p>document has a property named "styleSheets", holding the inline css rules and outer css rules.</p>
+
+                <section>
+                    <h1>Examples:</h1>
+                    <p>Suppose there is an outer css and an inline css in a HTML file. The following code get the inline one.</p>
+                    <pre>
+var innerCSS;
+
+for (var i = 0; i < document.styleSheets.length; i++) {
+    var ss = document.styleSheets[i];
+    if (!ss.href) {
+        innerCSS = ss;
+        break;
+    }
+}
+</pre>
+                    <p>Now suppose the inline style has the content:</p>
+                    <pre>
+&lt;style&gt;
+    #grid {
+        background-color: lightgreen;
+        display: grid;
+        grid-template-columns: 100px 100px 100px;
+        grid-gap: 10px;
+    }
+
+    #grid div {
+        background-color: #ddd;
+        border: 1px solid gray;
+        border-radius: 5px;
+        text-align: center;
+    }
+&lt;/style&gt;
+</pre>
+                    <p>There are 2 css rules in it. The first is "#grid", and the second is "#grid div". Iterate each css rule:</p>
+                    <pre>
+for (var i = 0; i < innerCSS.cssRules.length; i ++) {
+    var rule = innerCSS.cssRules[i];
+
+    console.log(rule);
+}</pre>
+                </section>
+        
+                <section>
+                    <h1>CSSStyleSheet</h1>
+                    <p>has the following properties:</p>
+                    <dl>
+                        <dt>cssRules</dt>
+                        <dd>CSSRuleList, which has a function: item([index]), and a property: "length"</dd>
+                        <dd>Each css rule in it is of type CSSStyleRule.</dd>
+                        <dt>disabled</dt>
+                        <dd>bbb</dd>
+                        <dt>href</dt>
+                        <dd>for the outer css style sheet, such as "css/style.css"</dd>
+                        <dt>media</dt>
+                        <dd>bbb</dd>
+                        <dt>ownerNode</dt>
+                        <dd>for outer css style sheet, nodeName is "LINK"</dd>
+                        <dd>for inline css style sheet, nodeName is "STYLE"</dd>
+                        <dt>ownerRule</dt>
+                        <dd>bbb</dd>
+                        <dt>parentStyleSheet</dt>
+                        <dd>bbb</dd>
+                        <dt>rules</dt>
+                        <dd>bbb</dd>
+                        <dt>title</dt>
+                        <dd>bbb</dd>
+                        <dt>type</dt>
+                        <dd>"text/css"</dd>
+                    </dl>
+                </section>
+        
+        
+                <section>
+                    <h1>CSSStyleRule</h1>
+                    <dl>
+                        <dt>cssText</dt>
+                        <dd>string representation of css content</dd>
+                        <dt>parentRule</dt>
+                        <dd>null</dd>
+                        <dt>parentStyleSheet</dt>
+                        <dd>bbb</dd>
+                        <dt>selectorText</dt>
+                        <dd>"#grid"</dd>
+                        <dt>style</dt>
+                        <dd>CSSStyleDeclaration</dd>
+                        <dt>type</dt>
+                        <dd>1</dd>
+                    </dl>
+
+                    <p>For example, for the following css:</p>
+                    <pre>.container {
+    color: red;
+    display: grid;
+    grid-template-columns: 100px 100px 100px;
+    grid-gap: 10px;
+}</pre>
+                    <p>The whole is a CSSStyleRule. Its' selectorText is ".container".</p>
+                    <p>For the style, the contents are:</p>
+                    <pre>
+0: "background-color"
+1: "display"
+2: "grid-template-columns"
+3: "grid-row-gap"
+4: "grid-column-gap"
+alignContent: ""
+alignItems: ""
+...
+display: "grid"
+...
+gridTemplateColumns: "100px 100px 100px"
+
+...
+
+length: 5
+...
+x: ""
+y: ""
+zIndex: ""
+zoom: ""
+</pre>
+                    <p>That means, the rule you added are shown as properties starting from 0.</p>
+                    <p>Note that you specified the "grid-gap" property, while the style has the properties of "grid-row-gap" and "grid-column-gap", which means "grid-gap" is the shortcut for both of "grid-row-gap" and "grid-column-gap".</p>
+                </section>
+            </section>
+            
+            <section class="chapter">
                 <h1>ECMAScript6新特性</h1>
                 
                 <section>
