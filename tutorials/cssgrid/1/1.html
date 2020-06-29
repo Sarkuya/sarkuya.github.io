@@ -10,7 +10,8 @@
 
         <style>
             #grid {
-                background-color: lightgreen;
+                background-color: #ccc;
+                
                 display: grid;
                 grid-template-columns: 100px 100px 100px;
                 grid-gap: 10px;
@@ -19,49 +20,109 @@
             #grid div {
                 background-color: #ddd;
                 border: 1px solid gray;
-                border-radius: 5px;
                 text-align: center;
             }
         </style>
-        
+
         <script type="text/javascript">
             window.addEventListener("DOMContentLoaded", init);
-            
+
             function init() {
+                showInlineCSS("origin");
+                listInlineCSS("source");
             }
             
-            function changeCSS() {
-                var source = document.getElementById("source");
-                var srcContent = source.value;
+            function showInlineCSS(preId) {
+                var cssText = document.getElementsByTagName("style")[0].textContent;
                 
+                cssText = formatCSSContent(cssText);
+                
+                document.getElementById(preId).textContent = "";
+                
+                cssText.forEach((line, index) => {
+                    document.getElementById(preId).textContent += (index !== cssText.length-1) ? line + "\n" : line;
+                });
+            }
+            
+            function listInlineCSS(textAreaId) {
+                var cssText = document.getElementsByTagName("style")[0].textContent;
+                
+                cssText = formatCSSContent(cssText);
+                
+                document.getElementById(textAreaId).value = "";
+                
+                cssText.forEach((line, index) => {
+                    document.getElementById(textAreaId).value += (index !== cssText.length-1) ? line + "\n" : line;
+                });
+            }
+            
+            function formatCSSContent(cssText) {
+                const LINE_INDENT = 2;
+                var result = [];
+                
+                var lines = cssText.trim().split("\n");
+                
+                lines.forEach(line => {
+                    line = line.trim();
+                    
+                    if (line.indexOf("{") === -1 && line.indexOf("}") === -1) {
+                        line = " ".repeat(LINE_INDENT) + line;
+                    }
+                    
+                    result.push(line);
+                });
+                
+                return result;
+            }
+
+            function applyCSS(textAreaId) {
+                var source = document.getElementById(textAreaId);
+                var srcContent = source.value;
+
                 var re = /(\s*)([^}]+})/g;
                 var result;
-                
-                while ( (result = re.exec(srcContent)) !== null) {
+
+                while ((result = re.exec(srcContent)) !== null) {
                     var cssRule = result[2];
-                    
+
                     var cssRuleReg = /(.+)\s*\{\s*(.+)\}/gs;
-                    
+
                     var cssRuleResult;
-                    
-                    while ( (cssRuleResult = cssRuleReg.exec(cssRule)) !== null) {
+
+                    while ((cssRuleResult = cssRuleReg.exec(cssRule)) !== null) {
                         var selector = cssRuleResult[1].trim();
                         var rules = cssRuleResult[2];
-                        
+
                         var selectedElements = document.querySelectorAll(selector);
-                        
+
                         for (var i = 0; i < selectedElements.length; i++) {
                             selectedElements[i].style = rules;
                         }
                     }
                 }
             }
+
+            function getInlineCSS() {
+                for (var i = 0; i < document.styleSheets.length; i++) {
+                    var ss = document.styleSheets[i];
+                    if (!ss.href) {
+                        return ss;
+                    }
+                }
+
+                return null;
+            }
         </script>
     </head>
     <body>
-        <h1>First Grid</h1>
+        <h1>Lesson 1: Grid as Container</h1>
 
-        <h2>Demo</h2>
+        <h2>CSS</h2>
+        
+        <pre id="origin"></pre>
+        
+        <h2>Result</h2>
+        
         <div id="grid">
             <div>A</div>
             <div>B</div>
@@ -70,37 +131,25 @@
             <div>E</div>
             <div>F</div>
         </div>
-        
-        <h2>Essentials</h2>
+
+        <h2>Distrutes</h2>
         <h3>Grid Container</h3>
         <ul>
             <li>display: grid</li>
             <li>grid-tempalte-columns: how many columns for each row?</li>
             <li>grid-gap</li>
         </ul>
-        
+
         <h3>Related CSS Properties</h3>
         <ul>
             <li>grid-tempalte-rows</li>
             <li>grid-column-gap, grid-row-gap</li>
         </ul>
         
-        <textarea rows="10" cols="50" id="source">
-#grid {
-    background-color: lightgreen;
-    display: grid;
-    grid-template-columns: 100px 100px 100px;
-    grid-gap: 10px;
-}
+        <h2>Exercise</h2>
 
-#grid div {
-    background-color: #ddd;
-    border: 1px solid gray;
-    border-radius: 5px;
-    text-align: center;
-}</textarea><br />
-        <button onclick="changeCSS()">Apply CSS</button>
+        <textarea rows="13" cols="50" id="source"></textarea><br />
+        <button onclick="applyCSS('source')">Apply CSS</button>
 
-        
     </body>
 </html>
