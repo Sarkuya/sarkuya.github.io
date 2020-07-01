@@ -23,7 +23,12 @@ pre {
     border-radius: 10px;
 }
 
-button {
+/*button {
     padding: 6px 12px;
     color: darkorchid;
+}*/
+
+.ui-input-text {
+    min-height: 100px;
+    overflow:  scroll;
 }

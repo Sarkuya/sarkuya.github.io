@@ -6,12 +6,17 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+
         <link rel="stylesheet" href="../css/general.css">
 
         <style>
             #grid {
                 background-color: #ccc;
-                
+
                 display: grid;
                 grid-template-columns: 100px 100px 100px;
                 grid-gap: 10px;
@@ -28,50 +33,71 @@
             window.addEventListener("DOMContentLoaded", init);
 
             function init() {
-                showInlineCSS("origin");
+                showHTML("grid", "html-source");
+                showInlineCSS("css-source");
                 listInlineCSS("source");
             }
-            
+
+            function showHTML(divId, preId) {
+                var divStr = document.getElementById(divId).outerHTML;
+                
+                var spaces = divStr.lastIndexOf("</") - (divStr.lastIndexOf("\n") + 2);
+                
+                divStr = " ".repeat(spaces) + divStr;
+                
+                divStr = divStr.split("\n");
+                
+                var result = "";
+                
+                divStr.forEach((line, index) => {
+                    line = line.replace(" ".repeat(spaces), "");
+                    
+                    result += line + "\n";
+                });
+                
+                document.getElementById(preId).textContent =  result;
+            }
+
             function showInlineCSS(preId) {
                 var cssText = document.getElementsByTagName("style")[0].textContent;
-                
+
                 cssText = formatCSSContent(cssText);
-                
+
                 document.getElementById(preId).textContent = "";
-                
+
                 cssText.forEach((line, index) => {
-                    document.getElementById(preId).textContent += (index !== cssText.length-1) ? line + "\n" : line;
+                    document.getElementById(preId).textContent += (index !== cssText.length - 1) ? line + "\n" : line;
                 });
             }
-            
+
             function listInlineCSS(textAreaId) {
                 var cssText = document.getElementsByTagName("style")[0].textContent;
-                
+
                 cssText = formatCSSContent(cssText);
-                
+
                 document.getElementById(textAreaId).value = "";
-                
+
                 cssText.forEach((line, index) => {
-                    document.getElementById(textAreaId).value += (index !== cssText.length-1) ? line + "\n" : line;
+                    document.getElementById(textAreaId).value += (index !== cssText.length - 1) ? line + "\n" : line;
                 });
             }
-            
+
             function formatCSSContent(cssText) {
                 const LINE_INDENT = 2;
                 var result = [];
-                
+
                 var lines = cssText.trim().split("\n");
-                
+
                 lines.forEach(line => {
                     line = line.trim();
-                    
+
                     if (line.indexOf("{") === -1 && line.indexOf("}") === -1) {
                         line = " ".repeat(LINE_INDENT) + line;
                     }
-                    
+
                     result.push(line);
                 });
-                
+
                 return result;
             }
 
@@ -115,41 +141,66 @@
         </script>
     </head>
     <body>
-        <h1>Lesson 1: Grid as Container</h1>
+        <div data-role="page">
+            <div data-role="header">
+                <h1>Lesson 1: Grid as Container</h1>
+            </div>
 
-        <h2>CSS</h2>
-        
-        <pre id="origin"></pre>
-        
-        <h2>Result</h2>
-        
-        <div id="grid">
-            <div>A</div>
-            <div>B</div>
-            <div>C</div>
-            <div>D</div>
-            <div>E</div>
-            <div>F</div>
+            <div role="main" class="ui-content">
+                <h2>HTML and CSS Sources</h2>
+                
+                <div data-role="tabs">
+                    <div data-role="navbar">
+                        <ul>
+                            <li><a href="#tab-html-source" data-ajax="false" class="ui-btn-active">HTML</a></li>
+                            <li><a href="#tab-css-source" data-ajax="false">CSS</a></li>
+                        </ul>
+                    </div>
+                    <div id="tab-html-source" class="ui-body-d ui-content">
+                        <pre id="html-source"></pre>
+                    </div>
+                    <div id="tab-css-source" class="ui-body-d ui-content">
+                        <pre id="css-source"></pre>
+                    </div>
+                </div>
+
+                <h2>Result</h2>
+
+                <div id="grid">
+                    <div>A</div>
+                    <div>B</div>
+                    <div>C</div>
+                    <div>D</div>
+                    <div>E</div>
+                    <div>F</div>
+                </div>
+
+                <h2>CSS Rules</h2>
+                <h3>Rules in Grid Container</h3>
+                <ul>
+                    <li>display: grid</li>
+                    <li>grid-tempalte-columns: how many columns for each row?</li>
+                    <li>grid-gap</li>
+                </ul>
+                
+                <h3>Rules in Grid Children</h3>
+                <p>None</p>
+
+                <h3>Related CSS Properties</h3>
+                <ul>
+                    <li>grid-tempalte-rows</li>
+                    <li>grid-row-gap, grid-column-gap</li>
+                </ul>
+
+                <h2>Exercise</h2>
+
+                <textarea cols="50" rows="8" id="source"></textarea><br />
+                <button onclick="applyCSS('source')">Apply CSS</button>
+            </div>
+
+            <div data-role="footer">
+                <h4>All Rights Reserved</h4>
+            </div>
         </div>
-
-        <h2>Distrutes</h2>
-        <h3>Grid Container</h3>
-        <ul>
-            <li>display: grid</li>
-            <li>grid-tempalte-columns: how many columns for each row?</li>
-            <li>grid-gap</li>
-        </ul>
-
-        <h3>Related CSS Properties</h3>
-        <ul>
-            <li>grid-tempalte-rows</li>
-            <li>grid-column-gap, grid-row-gap</li>
-        </ul>
-        
-        <h2>Exercise</h2>
-
-        <textarea rows="13" cols="50" id="source"></textarea><br />
-        <button onclick="applyCSS('source')">Apply CSS</button>
-
     </body>
 </html>
