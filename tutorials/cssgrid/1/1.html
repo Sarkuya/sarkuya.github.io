@@ -12,7 +12,7 @@
 
 
         <link rel="stylesheet" href="../css/general.css">
-
+        
         <style>
             #grid {
                 background-color: #ccc;
@@ -35,7 +35,9 @@
             function init() {
                 showHTML("grid", "html-source");
                 showInlineCSS("css-source");
-                listInlineCSS("source");
+                
+                showExerciseCSS("source");
+                showExerciseResult();
             }
 
             function showHTML(divId, preId) {
@@ -70,16 +72,33 @@
                 });
             }
 
-            function listInlineCSS(textAreaId) {
+            function showExerciseCSS(textAreaId) {
                 var cssText = document.getElementsByTagName("style")[0].textContent;
 
                 cssText = formatCSSContent(cssText);
 
-                document.getElementById(textAreaId).value = "";
+                var textareaElement = document.getElementById(textAreaId);
+                textareaElement.style.height = "auto";
+                textareaElement.rows = "" + cssText.length;
+                
+                textareaElement.value = "";
 
                 cssText.forEach((line, index) => {
-                    document.getElementById(textAreaId).value += (index !== cssText.length - 1) ? line + "\n" : line;
+                    textareaElement.value += (index !== cssText.length - 1) ? line + "\n" : line;
                 });
+            }
+            
+            function showExerciseResult() {
+                var outPanel = document.getElementById("exercise-output");
+                
+                var srcDiv = document.getElementById("grid");
+                var dstDiv = srcDiv.cloneNode(true);
+                
+                dstDiv.setAttribute("id", "grid-copy");
+                
+                outPanel.appendChild(dstDiv);
+                
+                applyCSS("source");
             }
 
             function formatCSSContent(cssText) {
@@ -104,7 +123,9 @@
             function applyCSS(textAreaId) {
                 var source = document.getElementById(textAreaId);
                 var srcContent = source.value;
-
+                
+                srcContent = srcContent.replace(/#grid/g, "#grid-copy");
+                
                 var re = /(\s*)([^}]+})/g;
                 var result;
 
@@ -147,7 +168,7 @@
             </div>
 
             <div role="main" class="ui-content">
-                <h2>HTML and CSS Sources</h2>
+                <h2>Blackboard</h2>
                 
                 <div data-role="tabs">
                     <div data-role="navbar">
@@ -165,7 +186,6 @@
                 </div>
 
                 <h2>Result</h2>
-
                 <div id="grid">
                     <div>A</div>
                     <div>B</div>
@@ -193,8 +213,9 @@
                 </ul>
 
                 <h2>Exercise</h2>
-
-                <textarea cols="50" rows="8" id="source"></textarea><br />
+                <p>Note: Do exercise in Chrome. Safari is not well supported for 'grid-gap', unless 'grid-template-columns' is modified at the same time.</p>
+                <textarea id="source"></textarea>
+                <div id="exercise-output"></div>
                 <button onclick="applyCSS('source')">Apply CSS</button>
             </div>
 
