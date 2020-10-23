@@ -1,0 +1,21 @@
+
+/* 
+    Created on : 2020年10月23日, 23:40:02
+    Author     : Sarkuya
+*/
+
+/*
+* CSS Syntax
+*/
+
+span.css-rule-selector {
+    color: green;
+}
+
+span.css-rule-property {
+    color:  darkorange;
+}
+
+span.css-rule-value {
+    color: black;
+}

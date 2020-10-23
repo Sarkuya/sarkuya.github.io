@@ -1,13 +1,13 @@
 h1 {
-    color: green;
+    color: rgb(92, 25, 36);
 }
 
 h2 {
-    color: #336699;
+    color: #043a6b;
 }
 
 h3 {
-    color: #333;
+    color: #007aa0;
 }
 
 dt {
@@ -16,11 +16,12 @@ dt {
 
 pre {
     font-family: monospace;
-    font-size: 80%;
+    font-size: 90%;
     color: #666;
     background-color: #eee;
     padding: 0.5em;
     border-radius: 10px;
+    border: 1px solid lightgray;
 }
 
 /*button {

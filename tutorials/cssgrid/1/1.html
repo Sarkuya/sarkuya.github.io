@@ -10,6 +10,8 @@
         <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
+        <link rel="stylesheet" href="../../../css/pre-lighter.css">
+        <script src="../../../js/pre-lighter.js"></script>
 
         <link rel="stylesheet" href="../css/general.css">
         
@@ -18,8 +20,7 @@
                 background-color: #ccc;
 
                 display: grid;
-                grid-template-columns: 100px 100px 100px;
-                grid-gap: 10px;
+                grid-template-columns: 200px 50px 100px;
             }
 
             #grid div {
@@ -62,9 +63,9 @@
 
             function showInlineCSS(preId) {
                 var cssText = document.getElementsByTagName("style")[0].textContent;
-
+                
                 cssText = formatCSSContent(cssText);
-
+                
                 document.getElementById(preId).textContent = "";
 
                 cssText.forEach((line, index) => {
@@ -168,24 +169,24 @@
             </div>
 
             <div role="main" class="ui-content">
-                <h2>Blackboard</h2>
+                <h2>1. Blackboard</h2>
                 
                 <div data-role="tabs">
                     <div data-role="navbar">
                         <ul>
-                            <li><a href="#tab-html-source" data-ajax="false" class="ui-btn-active">HTML</a></li>
-                            <li><a href="#tab-css-source" data-ajax="false">CSS</a></li>
+                            <li><a href="#tab-css-source" data-ajax="false" class="ui-btn-active">CSS</a></li>
+                            <li><a href="#tab-html-source" data-ajax="false">HTML</a></li>
                         </ul>
+                    </div>
+                    <div id="tab-css-source" class="ui-body-d ui-content">
+                        <pre id="css-source" data-syntax="css"></pre>
                     </div>
                     <div id="tab-html-source" class="ui-body-d ui-content">
                         <pre id="html-source"></pre>
                     </div>
-                    <div id="tab-css-source" class="ui-body-d ui-content">
-                        <pre id="css-source"></pre>
-                    </div>
                 </div>
 
-                <h2>Result</h2>
+                <h2>2. Result</h2>
                 <div id="grid">
                     <div>A</div>
                     <div>B</div>
@@ -195,12 +196,11 @@
                     <div>F</div>
                 </div>
 
-                <h2>CSS Rules</h2>
+                <h2>3. CSS Rules</h2>
                 <h3>Rules in Grid Container</h3>
                 <ul>
-                    <li>display: grid</li>
-                    <li>grid-tempalte-columns: how many columns for each row?</li>
-                    <li>grid-gap</li>
+                    <li><span class="css-rule-property">display</span>: grid</li>
+                    <li><span class="css-rule-property">grid-template-columns</span>: how many columns for each row? How wide is each column?</li>
                 </ul>
                 
                 <h3>Rules in Grid Children</h3>
@@ -208,19 +208,25 @@
 
                 <h3>Related CSS Properties</h3>
                 <ul>
-                    <li>grid-tempalte-rows</li>
-                    <li>grid-row-gap, grid-column-gap</li>
+                    <li><span class="css-rule-property">grid-template-rows</span></li>
                 </ul>
 
-                <h2>Exercise</h2>
-                <p>Note: Do exercise in Chrome. Safari is not well supported for 'grid-gap', unless 'grid-template-columns' is modified at the same time.</p>
+                <h2>4. Exercise</h2>
+                <p>Note: Do exercise in Chrome. Safari is not well supported for <span class="css-rule-property">grid-gap</span>, unless <span class="css-rule-property">grid-template-columns</span> is modified at the same time.</p>
                 <textarea id="source"></textarea>
                 <div id="exercise-output"></div>
                 <button onclick="applyCSS('source')">Apply CSS</button>
+                
+                <h2>5. How to Specify <span class="css-rule-property">grid-template-columns</span></h2>
+                
+                <h3>5.1 Hard-Coding Width: npx ...</h3>
+                <h3>5.2 Auto Calculattion: auto ...</h3>
+                <h3>5.3 1st Priority Filling: 1fr ...</h3>
+                <h3>5.3 Repetition Cycles: repeat ...</h3>
             </div>
 
             <div data-role="footer">
-                <h4>All Rights Reserved</h4>
+                <h4>&COPY; Sarkuya 2020. All Rights Reserved</h4>
             </div>
         </div>
     </body>
