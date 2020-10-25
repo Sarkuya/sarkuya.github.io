@@ -12,6 +12,10 @@ function init() {
         if (pre.dataset.syntax === "css") {
             hilightCSS(pre);
         }
+        
+        if (pre.dataset.syntax === "html") {
+            hilightHTML(pre);
+        }
     }
 }
 
@@ -62,4 +66,31 @@ function hilightCSS(pre) {
     finalStr = finalStr.replace(/(.+)(\n\n)$/, "$1");
     
     pre.innerHTML = finalStr;
+}
+
+function hilightHTML(pre) {
+    var source = pre.textContent;
+
+    var re = new RegExp("(</?)([^>\\s]+)(\\s?[^>]*>)", "gi");
+
+    var newString = source.replace(re, function(match, p1, p2, p3, offset, string) {
+        function processAttribs(str) {
+            var reg = /(\s*)(\w+)(\s*)=(\s*)("[^"]*")/g;
+
+            var resultStr = str.replace(reg, function(match, space1, attribName, space2, space3, attribValue, offset, string) {
+                return space1 + "<span class='htmltag-attrib-name'>" + attribName + "</span>" + space2 + "=" + space3 + "<span class='htmltag-attrib-value'>" + attribValue + "</span>";
+            });
+
+            return resultStr;
+        }
+
+        p1 = p1.replace(/</g, "&lt;");
+        p3 = p3.replace(/>/g, "&gt;");
+
+        p3 = processAttribs(p3);
+
+        return p1 + "<span class='htmltag-name'>" + p2 + "</span>" + p3;
+    });
+
+    pre.innerHTML = newString;
 }

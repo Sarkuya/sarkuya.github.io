@@ -14,15 +14,7 @@ dt {
     color: brown;
 }
 
-pre {
-    font-family: monospace;
-    font-size: 90%;
-    color: #666;
-    background-color: #eee;
-    padding: 0.5em;
-    border-radius: 10px;
-    border: 1px solid lightgray;
-}
+
 
 /*button {
     padding: 6px 12px;
