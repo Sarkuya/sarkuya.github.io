@@ -1,3 +1,8 @@
+/*
+ * Version 0.01
+ * Author: Sarkuya, 2020-10-23
+ */
+
 window.addEventListener("load", init);
 
 function init() {
