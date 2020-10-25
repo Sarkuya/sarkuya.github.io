@@ -101,26 +101,7 @@
                 
                 applyCSS("source");
             }
-
-            function formatCSSContent(cssText) {
-                const LINE_INDENT = 2;
-                var result = [];
-
-                var lines = cssText.trim().split("\n");
-
-                lines.forEach(line => {
-                    line = line.trim();
-
-                    if (line.indexOf("{") === -1 && line.indexOf("}") === -1) {
-                        line = " ".repeat(LINE_INDENT) + line;
-                    }
-
-                    result.push(line);
-                });
-
-                return result;
-            }
-
+            
             function applyCSS(textAreaId) {
                 var source = document.getElementById(textAreaId);
                 var srcContent = source.value;
