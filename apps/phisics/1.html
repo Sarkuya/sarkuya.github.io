@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>1. 质点 参考系与坐标系</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        
+        <link rel="stylesheet" href="css/style.css">
+        <script src="js/geoGrp.js"></script>
+        
+        <script type="text/javascript">
+            $(init);
+            
+            function init() {
+                var canvas = document.getElementById("canvas1");
+                
+                geoGrp.setupCanvas(canvas);
+                geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), 4, 4, 4, 4, false, false);
+                
+                geoGrp.drawLineWithArrow(Point(-4, 0), Point(4, 0), 20, 0.5, "black");
+                
+                for (var i = -2; i <= 3; i++) {
+                    geoGrp.drawLine(Point(i, 0.15), Point(i, 0), "black");
+                }
+                
+                geoGrp.ctx.textAlign = 'center';
+                geoGrp.ctx.textBaseline = 'bottom';
+                geoGrp.ctx.font = "16px Arial";
+                geoGrp.ctx.strokeStyle = "black";
+                
+                geoGrp.drawText("B", Point(-2, 0.2));
+                geoGrp.drawText("O", Point(0, 0.2));
+                geoGrp.drawText("A", Point(3, 0.2));
+                
+                geoGrp.ctx.textBaseline = 'top';
+                
+                geoGrp.drawText("-2", Point(-2, -0.2));
+                geoGrp.drawText("0", Point(0, -0.2));
+                geoGrp.drawText("3", Point(3, -0.2));
+                
+                geoGrp.canvasFitImage(20);
+            }
+        </script>
+    </head>
+
+    <body>
+        <div data-role="page">
+            <div data-role="header" data-position="fixed" style="overflow: hidden;">
+                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-mini"></a>
+                <h1>1. 质点 参考系与坐标系</h1>
+            </div>
+
+            <div role="main" class="ui-content">
+                <h2>质点</h2>
+                <p>将物体简化为一个有质量的物质点，这样的点称为<span class="term">质点</span> (<span class="term">mass point</span>)。</p>
+                
+                <h2>参考系</h2>
+                <p>描述一个物体的运行，首先要选定某个其他物体做参考，观察物体相对于这个"其他物体"的位置是否随时间变化，以及怎样变化。这种用来做参考的物体称为<span class="term">参考系</span> (<span class="term">reference frame</span>)。</p>
+                
+                <h2>坐标系</h2>
+                <p>为定量地描述物体的位置及位置的变化，需要在参考系上建立适当的<span class="term">坐标系</span> (<span class="term">coordinate system</span>)。</p>
+                <canvas id="canvas1" width="390" height="300"></canvas>
+                
+                
+<!--                <h2>速度公式</h2>
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <mrow>
+                        <mrow><mi>v</mi></mrow>
+                        <mo>=</mo>
+                        <mfrac>
+                            <mrow><mi>s</mi></mrow>
+                            <mrow><mi>t</mi></mrow>
+                        </mfrac>
+                    </mrow>
+                </math>-->
+            </div>
+            
+            <div data-role="footer" data-position="fixed" style="overflow: hidden;">
+                <p>Sarkuya, 2020</p>
+            </div>
+        </div>
+    </body>
+</html>

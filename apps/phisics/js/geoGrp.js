@@ -560,11 +560,15 @@ geoGrp.lineTo = function(pt, color) {
 };
 
 
-geoGrp.drawLine = function(pt1, pt2) {
+geoGrp.drawLine = function(pt1, pt2, color) {
     var point1 = this.pointFromUserToCanvas(pt1);
     var point2 = this.pointFromUserToCanvas(pt2);
     
     var ctx = this.ctx;
+    
+    ctx.save();
+    
+    ctx.strokeStyle = color;
     
     ctx.beginPath();
     
@@ -573,6 +577,8 @@ geoGrp.drawLine = function(pt1, pt2) {
     
     ctx.stroke();
     ctx.closePath();
+    
+    ctx.restore();
 };
 
 //geoGrp.drawBrace = function() {
