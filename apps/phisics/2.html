@@ -33,22 +33,11 @@
                 geoGrp.drawLineWithArrow(pt2, pt3, 20, 0.2, "green");
                 geoGrp.drawLineWithArrow(pt1, pt3, 20, 0.2, "magenta");
                 
-                geoGrp.ctx.font = "16px Arial";
-                geoGrp.ctx.strokeStyle = "black";
+                geoGrp.fillText("O", Point(pt1.x - 0.1, pt1.y - 0.1), "black", "16px Arial");
+                geoGrp.fillText("A", Point(pt2.x - 0.2, pt2.y + 0.1), "black", "16px Arial");
+                geoGrp.fillText("B", Point(pt3.x + 0.2, pt3.y + 0.1), "black", "16px Arial");
                 
-                geoGrp.ctx.textAlign = 'right';
-                geoGrp.ctx.textBaseline = 'top';
-                geoGrp.drawText("O", pt1);
-                
-                geoGrp.ctx.textAlign = 'right';
-                geoGrp.ctx.textBaseline = 'bottom';
-                geoGrp.drawText("A", Point(0.9, 2));
-                
-                geoGrp.ctx.textAlign = 'left';
-                geoGrp.ctx.textBaseline = 'bottom';
-                geoGrp.drawText("B", Point(3.6, 3));
-                
-                geoGrp.canvasFitImage(20);
+                geoGrp.canvasFitImage(5);
             }
         </script>
     </head>
@@ -70,13 +59,12 @@
                 
                 <h2>矢量和标量</h2>
                 <p><span class="term">矢量</span> (<span class="term">vector</span>)既有大小，又有方向，如位移。<span class="term">标量</span> (<span class="term">scalar</span>)只有大小，没有方向，如温度、质量。</p>
-                <p>标题相加，遵从算术加法的法则。</p>
+                <p>标量相加，遵从算术加法的法则。</p>
                 <p>矢量相加，有不同的运算法则。</p>
-                <canvas id="canvas1" width="360" height="360"></canvas>
+                <canvas id="canvas1" width="340" height="340"></canvas>
                 
                 <h2>直线运动的位置和位移</h2>
-                <p></p>
-                
+                <p>物体在<span class="variable">t<sub>1</sub></span>时刻位于<span class="variable">x<sub>1</sub></span>，在<span class="variable">t<sub>2</sub></span>时刻位于<span class="variable">x<sub>2</sub></span>，则物体的位移<span class="variable">l</span>等于两个位置的坐标变化。其公式：</p>
                 <math xmlns="http://www.w3.org/1998/Math/MathML">
                     <mrow>
                         <mrow><mi>l</mi></mrow>
@@ -86,10 +74,20 @@
                         <mrow><msub><mi>x</mi><mn>1</mn></msub></mrow>
                     </mrow>
                 </math>
+                <p>或: </p>
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <mrow>
+                    <mrow><mi>&Delta;x</mi></mrow>
+                        <mo>=</mo>
+                        <mrow><msub><mi>x</mi><mn>2</mn></msub></mrow>
+                        <mo>-</mo>
+                        <mrow><msub><mi>x</mi><mn>1</mn></msub></mrow>
+                    </mrow>
+                </math>
             </div>
             
             <div data-role="footer" data-position="fixed" style="overflow: hidden;">
-                <p>Sarkuya, 2020</p>
+                <p>All rights reserved. Sarkuya&copy;, 2020</p>
             </div>
         </div>
     </body>

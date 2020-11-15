@@ -32,3 +32,14 @@ math {
 span.term {
     color: brown;
 }
+
+span.variable {
+    font-family: Times New Roman;
+    font-style: italic;
+    padding: 0.2em;
+    color: magenta;
+}
+
+div[data-role='footer'] p {
+    text-align: center;
+}
