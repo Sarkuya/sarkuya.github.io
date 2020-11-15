@@ -64,7 +64,8 @@ var geoGrp = {
     Y_MARK_LABEL_POS: "left",
     
     isDrawAxis: false,
-    isDrawMarks: false
+    isDrawMarks: false,
+    isDrawMarkLabels: false
 };
 
 geoGrp.setupCanvas = function(canvas) {
@@ -81,7 +82,7 @@ geoGrp.setupCanvas = function(canvas) {
     //console.log("in geo, ctx = " + this.ctx);
 };
 
-geoGrp.setupCoordinate = function(yAxisPositive, orgPoint, xPositiveMarksMaxValue, xPositiveMarksNum, yPositiveMarksMaxValue, yPositiveMarksNum, isDrawAxis, isDrawMarks, orgOffsetX, orgOffsetY) {
+geoGrp.setupCoordinate = function(yAxisPositive, orgPoint, xPositiveMarksMaxValue, xPositiveMarksNum, yPositiveMarksMaxValue, yPositiveMarksNum, isDrawAxis, isDrawMarks, isDrawMarkLabels, orgOffsetX, orgOffsetY) {
     this.Y_AXIS_POSIVE = yAxisPositive;
     
     this.ORIGIN_POINT_USER = orgPoint;
@@ -129,10 +130,11 @@ geoGrp.setupCoordinate = function(yAxisPositive, orgPoint, xPositiveMarksMaxValu
     
     this.isDrawAxis = isDrawAxis;
     this.isDrawMarks = isDrawMarks;
+    this.isDrawMarkLabels = isDrawMarkLabels;
     
     if (isDrawAxis) {
-        this.drawXAxis(this.isDrawMarks);
-        this.drawYAxis(this.isDrawMarks);
+        this.drawXAxis(this.isDrawMarks, this.isDrawMarkLabels);
+        this.drawYAxis(this.isDrawMarks, this.isDrawMarkLabels);
     }
 };
 
@@ -279,14 +281,16 @@ geoGrp.canvasFitImage = function(padding) {
     ctx.putImageData(imageData, centerImageX, centerImageY);
 };
 
-geoGrp.drawXAxisLines = function(isDrawMarks) {
+geoGrp.drawXAxisLines = function(isDrawMarks, color) {
     var ctx = this.ctx;
+    
+    ctx.save();
     
     ctx.beginPath();
     
     var org = this.ORIGIN_POINT_CANVAS;
     
-    ctx.strokeStyle = this.AXIS_COLOR;
+    ctx.strokeStyle = color ? color : this.AXIS_COLOR;
     
     //x positive axis
     ctx.moveTo(org.x, org.y);
@@ -345,10 +349,14 @@ geoGrp.drawXAxisLines = function(isDrawMarks) {
     ctx.stroke();
     
     ctx.closePath();
+    
+    ctx.restore();
 };
 
 geoGrp.drawXAxisMarkLabels = function() {
     var ctx = this.ctx;
+    
+    ctx.save();
     
     ctx.strokeStyle = this.MARK_LABLEL_COLOR;
     
@@ -385,10 +393,14 @@ geoGrp.drawXAxisMarkLabels = function() {
         ctx.strokeText("-" + index * (this.X_POSITIVE_MARKS_MAX_VALUE / this.X_POSITIVE_MARKS_NUM), x, y);
         index++;
     }
+    
+    ctx.restore();
 };
 
 geoGrp.drawYAxisMarkLabels = function() {
     var ctx = this.ctx;
+    
+    ctx.save();
     
     ctx.strokeStyle = this.MARK_LABLEL_COLOR;
     
@@ -437,16 +449,20 @@ geoGrp.drawYAxisMarkLabels = function() {
             index++;
         }
     }
+    
+    ctx.restore();
 };
 
-geoGrp.drawYAxisLines = function(isDrawMarks) {
+geoGrp.drawYAxisLines = function(isDrawMarks, color) {
     var ctx = this.ctx;
+    
+    ctx.save();
     
     ctx.beginPath();
     
     var org = this.ORIGIN_POINT_CANVAS;
     
-    ctx.strokeStyle = this.AXIS_COLOR;
+    ctx.strokeStyle = color ? color : this.AXIS_COLOR;
     
     //y positive axis
     ctx.moveTo(org.x, org.y);
@@ -537,20 +553,22 @@ geoGrp.drawYAxisLines = function(isDrawMarks) {
     ctx.stroke();
     
     ctx.closePath();
+    
+    ctx.restore();
 };
 
-geoGrp.drawXAxis = function (isDrawMarks) {
-    this.drawXAxisLines(isDrawMarks);
+geoGrp.drawXAxis = function (isDrawMarks, isDrawMarkLabels, color) {
+    this.drawXAxisLines(isDrawMarks, color);
     
-    if (isDrawMarks) {
+    if (isDrawMarkLabels) {
         this.drawXAxisMarkLabels();
     }
 };
 
-geoGrp.drawYAxis = function (isDrawMarks) {
-    this.drawYAxisLines(isDrawMarks);
+geoGrp.drawYAxis = function (isDrawMarks, isDrawMarkLabels, color) {
+    this.drawYAxisLines(isDrawMarks, color);
     
-    if (isDrawMarks) {
+    if (isDrawMarkLabels) {
         this.drawYAxisMarkLabels();
     }
 };
@@ -1628,15 +1646,49 @@ geoGrp.fillRotatedTextAroundPoint = function(text, orgPoint, radius, angle) {
     
     var ctx = this.ctx;
     
+    ctx.save();
+    
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
-    
-    ctx.save();
     
     ctx.translate(_orgPoint.x, _orgPoint.y);
     ctx.rotate(_angle);
     
     ctx.fillText(text, _radius, 0);
+    
+    ctx.restore();
+};
+
+geoGrp.drawDeltaLabel = function(x1, x2, label, font, color) {
+    var ctx = this.ctx;
+    
+    ctx.save();
+    
+    var padding = 0.4;
+    var height = 1;
+    
+    ctx.font = font;
+    var textWidth = ctx.measureText(label).width;
+    textWidth /= this.X_UNIT_LENGTH;
+    
+    ctx.strokeStyle = color;
+    
+    this.drawLine(Point(x1, padding), Point(x1, padding + height), color);
+    this.drawLine(Point(x2, padding), Point(x2, padding + height), color);
+    
+    var y = padding + height / 2;
+    
+    var centerPoint = Point(x1 + (x2-x1)/2, y);
+    
+    var leftArrowEndX = x1 + padding/2;
+    var leftArrowStartX = centerPoint.x - textWidth/2 - padding/2;
+    
+    var rightArrowStartX = centerPoint.x + textWidth/2 + padding/2;
+    var rightArrowEndX = x2 - padding/2;
+    
+    this.fillText(label, centerPoint, "black", font);
+    this.drawLineWithArrow(Point(leftArrowStartX, y), Point(leftArrowEndX, y), 20, 0.4, color);
+    this.drawLineWithArrow(Point(rightArrowStartX, y), Point(rightArrowEndX, y), 20, 0.4, color);
     
     ctx.restore();
 };

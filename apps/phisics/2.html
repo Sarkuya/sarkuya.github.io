@@ -6,9 +6,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!--        <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
         <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
+        <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
         
         <link rel="stylesheet" href="css/style.css">
         <script src="js/geoGrp.js"></script>
@@ -16,10 +16,12 @@
         <script type="text/javascript">
             //$(init);
             window.addEventListener("load", init);
+            var g = geoGrp;
             
             function init() {
                 doInCanvas1();
                 doInCanvas2();
+                doInCanvas3();
             }
             
             function doInCanvas1() {
@@ -49,12 +51,59 @@
             function doInCanvas2() {
                 var canvas = document.getElementById("canvas2");
                 
-                geoGrp.setupCanvas(canvas);
-                geoGrp.setupCoordinate("up", geoGrp.getCenterPoint(), 5, 5, 7, 7, false, false, -2, 0);
+                g.setupCanvas(canvas);
+                g.setupCoordinate("up", g.getCenterPoint(), 5, 5, 7, 7, false, true, false, -2, 0);
                 
-                geoGrp.drawXAxis(true);
+                g.drawXAxis(true, false, "#999");
                 
-                //geoGrp.canvasFitImage(5);
+                var pt0 = Point(0, 0);
+                var pt1 = Point(2, 0);
+                var pt2 = Point(5, 0);
+                var pt3 = Point(7, 0);
+                
+                var font = "16px Arial";
+                var textColor = "black";
+                var dirColor = "red";
+                
+                g.fillText("O", Point(pt0.x, pt0.y - 1.0), textColor, font);
+                g.fillText("x1", Point(pt1.x, pt1.y - 1.0), textColor, font);
+                g.fillText("x2", Point(pt2.x, pt2.y - 1.0), textColor, font);
+                g.fillText("x", Point(pt3.x, pt3.y - 1.0), textColor, font);
+                
+                g.drawLineWithArrow(pt1, pt2, 20, 0.7, dirColor);
+                
+                g.drawDeltaLabel(pt1.x, pt2.x, "Δx", font, "blue");
+                
+                g.canvasFitImage(5);
+            }
+            
+            function doInCanvas3() {
+                var canvas = document.getElementById("canvas3");
+                
+                g.setupCanvas(canvas);
+                g.setupCoordinate("up", g.getCenterPoint(), 4, 4, 4, 4, false, true, false, -1, 0);
+                
+                g.drawXAxis(true, false, "#999");
+                
+                var pt0 = Point(0, 0);
+                var pt1 = Point(-2, 0);
+                var pt2 = Point(3, 0);
+                var pt3 = Point(5, 0);
+                
+                var font = "16px Arial";
+                var textColor = "black";
+                var dirColor = "red";
+                
+                g.fillText("O", Point(pt0.x, pt0.y - 1.0), textColor, font);
+                g.fillText("xB", Point(pt1.x, pt1.y - 1.0), textColor, font);
+                g.fillText("xA", Point(pt2.x, pt2.y - 1.0), textColor, font);
+                g.fillText("x/m", Point(pt3.x, pt3.y - 1.0), textColor, font);
+                
+                g.drawLineWithArrow(pt2, pt1, 20, 0.4, dirColor);
+                
+                g.drawDeltaLabel(pt1.x, pt2.x, "Δx", font, "blue");
+                
+                g.canvasFitImage(5);
             }
         </script>
     </head>
@@ -101,8 +150,10 @@
                         <mrow><msub><mi>x</mi><mn>1</mn></msub></mrow>
                     </mrow>
                 </math>
-                <p></p>
+                <p>下图中，质点从<span class="variable">x<sub>1</sub></span>移动到<span class="variable">x<sub>2</sub></span>，则其位移为<span class="variable">Δx</span> = x2 - x1 = 5 - 2 = 3。<span class="variable">Δx</span>的值 > 0，表示该位移的方向为正。</p>
                 <canvas id="canvas2" width="340" height="340"></canvas>
+                <p>下图中，质点从<span class="variable">x<sub>A</sub></span>移动到<span class="variable">x<sub>B</sub></span>，则其位移为<span class="variable">Δx</span> = xB - xA = -2 - 3 = -5。<span class="variable">Δx</span>的值 < 0，表示该位移的方向为负。</p>
+                <canvas id="canvas3" width="340" height="340"></canvas>
             </div>
             
             
