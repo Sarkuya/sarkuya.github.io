@@ -61,8 +61,10 @@ var geoGrp = {
     MARK_LABLEL_COLOR: "rgba(189, 223, 234, 0.5)",
     
     X_MARK_LABEL_POS: "up",
-    Y_MARK_LABEL_POS: "left"
+    Y_MARK_LABEL_POS: "left",
     
+    isDrawAxis: false,
+    isDrawMarks: false
 };
 
 geoGrp.setupCanvas = function(canvas) {
@@ -79,7 +81,7 @@ geoGrp.setupCanvas = function(canvas) {
     //console.log("in geo, ctx = " + this.ctx);
 };
 
-geoGrp.setupCoordinate = function(yAxisPositive, orgPoint, xPositiveMarksMaxValue, xPositiveMarksNum, yPositiveMarksMaxValue, yPositiveMarksNum, isDrawAxis, isDrawMarks) {
+geoGrp.setupCoordinate = function(yAxisPositive, orgPoint, xPositiveMarksMaxValue, xPositiveMarksNum, yPositiveMarksMaxValue, yPositiveMarksNum, isDrawAxis, isDrawMarks, orgOffsetX, orgOffsetY) {
     this.Y_AXIS_POSIVE = yAxisPositive;
     
     this.ORIGIN_POINT_USER = orgPoint;
@@ -105,9 +107,32 @@ geoGrp.setupCoordinate = function(yAxisPositive, orgPoint, xPositiveMarksMaxValu
     }
     this.Y_UNIT_LENGTH = this.Y_UNIT_MARK_LENGTH / (this.Y_POSITIVE_MARKS_MAX_VALUE / this.Y_POSITIVE_MARKS_NUM);
     
+    if (orgOffsetX !== undefined && orgOffsetY !== undefined ) {
+        orgOffsetY = (this.Y_AXIS_POSIVE === "up") ? -orgOffsetY : orgOffsetY;
+        
+        this.ORIGIN_POINT_CANVAS = Point(
+                this.ORIGIN_POINT_CANVAS.x + orgOffsetX * this.X_UNIT_LENGTH,
+                this.ORIGIN_POINT_CANVAS.y + orgOffsetY * this.Y_UNIT_LENGTH
+        );
+
+        this.X_POSITIVE_MARKS_NUM = this.X_POSITIVE_MARKS_NUM - orgOffsetX / (this.X_POSITIVE_MARKS_MAX_VALUE / this.X_POSITIVE_MARKS_NUM);
+        this.X_POSITIVE_MARKS_MAX_VALUE = this.X_POSITIVE_MARKS_MAX_VALUE - orgOffsetX;
+        
+        if (this.Y_AXIS_POSIVE === "up") {
+            this.Y_POSITIVE_MARKS_NUM = this.Y_POSITIVE_MARKS_NUM + orgOffsetY / (this.Y_POSITIVE_MARKS_MAX_VALUE / this.Y_POSITIVE_MARKS_NUM);
+            this.Y_POSITIVE_MARKS_MAX_VALUE = this.Y_POSITIVE_MARKS_MAX_VALUE + orgOffsetY;
+        } else {
+            this.Y_POSITIVE_MARKS_NUM = this.Y_POSITIVE_MARKS_NUM - orgOffsetY / (this.Y_POSITIVE_MARKS_MAX_VALUE / this.Y_POSITIVE_MARKS_NUM);
+            this.Y_POSITIVE_MARKS_MAX_VALUE = this.Y_POSITIVE_MARKS_MAX_VALUE - orgOffsetY;
+        }
+    }
+    
+    this.isDrawAxis = isDrawAxis;
+    this.isDrawMarks = isDrawMarks;
+    
     if (isDrawAxis) {
-        this.drawXAxis(isDrawMarks);
-        this.drawYAxis(isDrawMarks);
+        this.drawXAxis(this.isDrawMarks);
+        this.drawYAxis(this.isDrawMarks);
     }
 };
 
