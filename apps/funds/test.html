@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Test</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="js/dbUtils.js"></script>
+        <script src="../mhys/js/dateutils.js"></script>
+        
+        <script type="text/javascript">
+            function init() {
+                dbUtils.openDatabase();
+                
+                retrieveData();
+            }
+            
+            function retrieveData() {
+                dbUtils.executeQuery("SELECT 日期, 单位净值, CAST(日涨幅 AS float) AS 日涨幅 FROM 历史净值 WHERE 基金Id = 1 ORDER BY 日期 ASC", function(resultSet) {
+                    var netValues = [];
+        
+                    for (var i = 0; i < resultSet.rows.length; i++) {
+                        var record = resultSet.rows.item(i);
+                        
+                        console.log(record.单位净值);
+                        
+                        netValues.push({
+                            日期: new Date(record.日期),
+                            单位净值: record.单位净值,
+                            日涨幅: record.日涨幅
+                        });
+                    }
+                    
+                    //console.log(netValues);
+                    
+                    //processData(netValues);
+                    
+                });
+            }
+            
+            function processData(netValues) {
+                多久达到收益率(netValues, 5);
+            }
+            
+            function 多久达到收益率(netValues, earningRate) {
+                var list = netValues;
+                
+                var mapped = list.map(function(el, i) {
+                    return {index: i, value: el};
+                });
+                
+                mapped.sort(function(a, b) {
+                    if (a.value.日期 > b.value.日期) {
+                        return 1;
+                    }
+                    
+                    if (a.value.日期 < b.value.日期) {
+                        return -1;
+                    }
+                    
+                    return 0;
+                });
+                
+                var result = mapped.map(function(el) {
+                    return list[el.index];
+                });
+                
+                result = netValues;
+                
+                console.log(result);
+                
+                
+                
+                //console.log(result[0].日期.toLocaleDateString());
+                
+                var startIndex = 0;
+                var count = 1;
+                
+//                for (var index = startIndex; index < startIndex + count; index++) {
+//                    var 收益率 = 0.0;
+//                    for (var i = index + 1; i < result.length; i++) {
+//                        收益率 += result[i].日涨幅;
+//
+//                        if (收益率 >= earningRate) {
+//                            console.log("开始于: " + result[index].日期.toLocaleDateString(), result[index].单位净值);
+//                            console.log("截止于: " + result[i].日期.toLocaleDateString(), result[i].单位净值);
+//                            console.log("天数: " + DateUtils.dateDiff(result[i].日期, result[index].日期, DateUnit.DAY));
+//                            break;
+//                        }
+//                    }
+//                }
+                
+                //for (var index = startIndex; index < startIndex + count; index++) {
+                    var start = result[0].单位净值;
+                    
+                    for (var i = 0 + 1; i < result.length; i++) {
+                        var end = result[i].单位净值;
+                        
+                        console.log(start, end);
+
+                        if ((end - start) / start >= earningRate) {
+                            console.log("开始于: " + result[index].日期.toLocaleDateString(), result[index].单位净值);
+                            console.log("截止于: " + result[i].日期.toLocaleDateString(), result[i].单位净值);
+                            console.log("天数: " + DateUtils.dateDiff(result[i].日期, result[index].日期, DateUnit.DAY));
+                            break;
+                        }
+                    }
+                //}
+                
+                
+                
+            }
+            
+            window.addEventListener("load", init);
+        </script>
+    </head>
+    <body>
+        <div>TODO write content</div>
+    </body>
+</html>
