@@ -24,8 +24,6 @@
                     for (var i = 0; i < resultSet.rows.length; i++) {
                         var record = resultSet.rows.item(i);
                         
-                        console.log(record.单位净值);
-                        
                         netValues.push({
                             日期: new Date(record.日期),
                             单位净值: record.单位净值,
@@ -33,83 +31,67 @@
                         });
                     }
                     
-                    //console.log(netValues);
-                    
-                    //processData(netValues);
-                    
+                    processData(netValues);
                 });
             }
             
             function processData(netValues) {
-                多久达到收益率(netValues, 5);
+                多久达到收益率(netValues, 10, 1200, 1400);
             }
             
-            function 多久达到收益率(netValues, earningRate) {
-                var list = netValues;
-                
+            function mappedSort(list, propertyName, sortType) {
                 var mapped = list.map(function(el, i) {
                     return {index: i, value: el};
                 });
                 
-                mapped.sort(function(a, b) {
-                    if (a.value.日期 > b.value.日期) {
-                        return 1;
+                mapped.sort((a, b) => {
+                    if (propertyName) {
+                        if (sortType === 'ASC') {
+                            return (a.value)[propertyName] - (b.value)[propertyName];
+                        } else {
+                            return (b.value)[propertyName] - (a.value)[propertyName];
+                        }
+                    } else {
+                        if (sortType === 'ASC') {
+                            return a.value - b.value;
+                        } else {
+                            return b.value - a.value;
+                        }
                     }
-                    
-                    if (a.value.日期 < b.value.日期) {
-                        return -1;
-                    }
-                    
-                    return 0;
                 });
                 
                 var result = mapped.map(function(el) {
                     return list[el.index];
                 });
                 
-                result = netValues;
+                return result;
+            }
+            
+            function 多久达到收益率(netValues, earningRate, start, count) {
+                var result = mappedSort(netValues, "日期", "ASC");
                 
-                console.log(result);
-                
-                
-                
-                //console.log(result[0].日期.toLocaleDateString());
-                
-                var startIndex = 0;
-                var count = 1;
-                
-//                for (var index = startIndex; index < startIndex + count; index++) {
-//                    var 收益率 = 0.0;
-//                    for (var i = index + 1; i < result.length; i++) {
-//                        收益率 += result[i].日涨幅;
-//
-//                        if (收益率 >= earningRate) {
-//                            console.log("开始于: " + result[index].日期.toLocaleDateString(), result[index].单位净值);
-//                            console.log("截止于: " + result[i].日期.toLocaleDateString(), result[i].单位净值);
-//                            console.log("天数: " + DateUtils.dateDiff(result[i].日期, result[index].日期, DateUnit.DAY));
-//                            break;
-//                        }
-//                    }
-//                }
-                
-                //for (var index = startIndex; index < startIndex + count; index++) {
-                    var start = result[0].单位净值;
+                for (var startIndex = start; startIndex < start + count; startIndex++) {
+                    //var startIndex = 5;
                     
-                    for (var i = 0 + 1; i < result.length; i++) {
-                        var end = result[i].单位净值;
-                        
-                        console.log(start, end);
+                    if (startIndex > netValues.length - 1) {
+                        return;
+                    }
+                
+                    var 期初净值 = result[startIndex].单位净值;
+                    var 期初日期 = result[startIndex].日期;
+                    
+                    for (var index = startIndex + 1; index < result.length; index++) {
+                        var 期末净值 = result[index].单位净值;
 
-                        if ((end - start) / start >= earningRate) {
-                            console.log("开始于: " + result[index].日期.toLocaleDateString(), result[index].单位净值);
-                            console.log("截止于: " + result[i].日期.toLocaleDateString(), result[i].单位净值);
-                            console.log("天数: " + DateUtils.dateDiff(result[i].日期, result[index].日期, DateUnit.DAY));
+                        if ((期末净值 - 期初净值) / 期初净值 > earningRate / 100) {
+                            var 期末日期 = result[index].日期;
+                            //console.log("开始于: " + 期初日期.toLocaleDateString(), 期初净值);
+                            //console.log("截止于: " + 期末日期.toLocaleDateString(), 期末净值);
+                            console.log("天数: " + DateUtils.dateDiff(期末日期, 期初日期, DateUnit.DAY) + " (" + 期初日期.toLocaleDateString() + ")");
                             break;
                         }
                     }
-                //}
-                
-                
+                }
                 
             }
             
