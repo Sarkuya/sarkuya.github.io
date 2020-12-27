@@ -18,21 +18,27 @@
             }
             
             function retrieveData() {
-                dbUtils.executeQuery("SELECT 日期, 单位净值, CAST(日涨幅 AS float) AS 日涨幅 FROM 历史净值 WHERE 基金Id = 1 ORDER BY 日期 ASC", function(resultSet) {
-                    var netValues = [];
-        
-                    for (var i = 0; i < resultSet.rows.length; i++) {
-                        var record = resultSet.rows.item(i);
-                        
-                        netValues.push({
-                            日期: new Date(record.日期),
-                            单位净值: record.单位净值,
-                            日涨幅: record.日涨幅
-                        });
-                    }
-                    
-                    processData(netValues);
-                });
+                dbUtils.executeQuery(
+                        "SELECT 日期, 单位净值, CAST(日涨幅 AS float) AS 日涨幅\
+                            FROM 历史净值\
+                            WHERE 基金Id =\
+                                (SELECT id FROM 基金 WHERE 名称 = '招商中证白酒指数分级')\
+                            ORDER BY 日期 ASC",
+                    function(resultSet) {
+                        var netValues = [];
+
+                        for (var i = 0; i < resultSet.rows.length; i++) {
+                            var record = resultSet.rows.item(i);
+
+                            netValues.push({
+                                日期: new Date(record.日期),
+                                单位净值: record.单位净值,
+                                日涨幅: record.日涨幅
+                            });
+                        }
+
+                        processData(netValues);
+                    });
             }
             
             function processData(netValues) {
@@ -71,8 +77,6 @@
                 var result = mappedSort(netValues, "日期", "ASC");
                 
                 for (var startIndex = start; startIndex < start + count; startIndex++) {
-                    //var startIndex = 5;
-                    
                     if (startIndex > netValues.length - 1) {
                         return;
                     }
@@ -85,14 +89,11 @@
 
                         if ((期末净值 - 期初净值) / 期初净值 > earningRate / 100) {
                             var 期末日期 = result[index].日期;
-                            //console.log("开始于: " + 期初日期.toLocaleDateString(), 期初净值);
-                            //console.log("截止于: " + 期末日期.toLocaleDateString(), 期末净值);
                             console.log("天数: " + DateUtils.dateDiff(期末日期, 期初日期, DateUnit.DAY) + " (" + 期初日期.toLocaleDateString() + ")");
                             break;
                         }
                     }
                 }
-                
             }
             
             window.addEventListener("load", init);
