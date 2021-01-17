@@ -21,13 +21,15 @@
             let canvasMouseDownX = 0;
             let canvasMouseDownY = 0;
             
+            let offsetXFromCurCursorToSelectBoxX;
+            let offsetYFromCurCursorToSelectBoxY;
+            
             let selectBox = {
                 x: 0,
                 y: 0,
                 width: 0,
                 height: 0
             };
-            
             
             function init() {
                 let mainCanvas = document.getElementById('main-canvas');
@@ -46,8 +48,6 @@
                 offCanvas.addEventListener('mousemove', onCanvasMouseMove);
                 offCtx = offCanvas.getContext('2d');
                 
-                
-                
                 mainCanvas.width = mainCanvas.parentNode.clientWidth;
                 mainCanvas.height = mainCanvas.parentNode.clientHeight;
                 
@@ -63,14 +63,17 @@
                 canvasMouseDownX = e.offsetX;
                 canvasMouseDownY = e.offsetY;
                 
-                selectBox.x = canvasMouseDownX;
-                selectBox.y = canvasMouseDownY;
-                
-                document.getElementById('selectbox-pane').querySelector('li:nth-child(1) input').value = selectBox.x;
-                document.getElementById('selectbox-pane').querySelector('li:nth-child(2) input').value = selectBox.y;
+                if (isShowingSelectBox === true && isMouseInSelectBox === true) {
+                    offsetXFromCurCursorToSelectBoxX = canvasMouseDownX - selectBox.x;
+                    offsetYFromCurCursorToSelectBoxY = canvasMouseDownY - selectBox.y;
+                    
+                }
                 
                 if (isShowingSelectBox === false || (isShowingSelectBox === true && isMouseInSelectBox === false)) {
                     offCtx.clearRect(0, 0, offCanvas.width, offCanvas.height);
+                    
+                    selectBox.x = canvasMouseDownX;
+                    selectBox.y = canvasMouseDownY;
                     
                     selectBox.width = 0;
                     selectBox.height = 0;
@@ -80,6 +83,9 @@
                     
                     isShowingSelectBox = false;
                 }
+                
+                document.getElementById('selectbox-pane').querySelector('li:nth-child(1) input').value = selectBox.x;
+                document.getElementById('selectbox-pane').querySelector('li:nth-child(2) input').value = selectBox.y;
                 
                 updateStateInfo();
             }
@@ -92,16 +98,23 @@
                     fillSelectBox();
                     
                     isCanvasMouseDragging = false;
+                    isShowingSelectBox = true;
                 }
                 
                 updateStateInfo();
             }
             
             function onCanvasMouseMove(e) {
+                if (isCanvasMouseDown === false && isShowingSelectBox === false) {
+                    return;
+                }
+                
                 if (isCanvasMouseDown === true) {
                     isCanvasMouseDragging = true;
-                    isShowingSelectBox = true;
-                    
+                }
+                
+                // draw a new select box
+                if (isCanvasMouseDown === true && isShowingSelectBox === false) {
                     offCtx.clearRect(0, 0, offCanvas.width, offCanvas.height);
                     
                     selectBox.width = e.offsetX - canvasMouseDownX;
@@ -118,8 +131,21 @@
                     
                     document.getElementById('selectbox-pane').querySelector('li:nth-child(3) input').value = selectBox.width;
                     document.getElementById('selectbox-pane').querySelector('li:nth-child(4) input').value = selectBox.height;
-                } else {
-                    if (e.offsetX > selectBox.x && e.offsetX < selectBox.x + selectBox.width
+                } 
+                
+                // whether cursor in select box region
+                if (isCanvasMouseDown === false && isShowingSelectBox === true) {
+                    if (e.offsetX === selectBox.x) {
+                        offCanvas.style.cursor = 'w-resize';
+                    } else if (e.offsetX === selectBox.x + selectBox.width) {
+                        offCanvas.style.cursor = 'e-resize';
+                    } else if (e.offsetY === selectBox.y) {
+                        offCanvas.style.cursor = 'n-resize';
+                    } else if (e.offsetY === selectBox.y + selectBox.height) {
+                        offCanvas.style.cursor = 's-resize';
+                    }
+                    
+                    else if (e.offsetX > selectBox.x && e.offsetX < selectBox.x + selectBox.width
                          && e.offsetY > selectBox.y && e.offsetY < selectBox.y + selectBox.height) {
                         offCanvas.style.cursor = 'move';
                         isMouseInSelectBox = true;
@@ -127,6 +153,19 @@
                         offCanvas.style.cursor = 'crosshair';
                         isMouseInSelectBox = false;
                     }
+                }
+                
+                // move select box
+                if (isCanvasMouseDown === true && isShowingSelectBox === true && isMouseInSelectBox === true) {
+                    offCtx.clearRect(0, 0, offCanvas.width, offCanvas.height);
+                    
+                    selectBox.x = e.offsetX - offsetXFromCurCursorToSelectBoxX;
+                    selectBox.y = e.offsetY - offsetYFromCurCursorToSelectBoxY;
+                    
+                    fillSelectBox();
+                    
+                    document.getElementById('selectbox-pane').querySelector('li:nth-child(1) input').value = selectBox.x;
+                    document.getElementById('selectbox-pane').querySelector('li:nth-child(2) input').value = selectBox.y;
                 }
                 
                 updateStateInfo();
@@ -143,8 +182,6 @@
                 document.getElementById('stateinfo-pane').querySelector('li:nth-child(3) span').textContent = isMouseInSelectBox;
                 document.getElementById('stateinfo-pane').querySelector('li:nth-child(4) span').textContent = isShowingSelectBox;
             }
-            
-            
             
             window.addEventListener("load", init);
         </script>
