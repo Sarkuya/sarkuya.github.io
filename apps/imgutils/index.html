@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Image Utils</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="css/style.css">
+        
+        <script>
+            let offCanvas;
+            let offCtx;
+            
+            let isCanvasMouseDown = false;
+            let isCanvasMouseDragging = false;
+            
+            let isMouseInSelectBox = false;
+            let isShowingSelectBox = false;
+            
+            let canvasMouseDownX = 0;
+            let canvasMouseDownY = 0;
+            
+            let selectBox = {
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0
+            };
+            
+            
+            function init() {
+                let mainCanvas = document.getElementById('main-canvas');
+                
+                let ctx = mainCanvas.getContext('2d');
+                
+                let img = new Image();
+                img.onload = function() {
+                    ctx.drawImage(img, 0, 0);
+                };
+                img.src = 'imgs/test.png';
+                
+                offCanvas = document.getElementById('offscreen-canvas');
+                offCanvas.addEventListener('mousedown', onCanvasMouseDown);
+                offCanvas.addEventListener('mouseup', onCanvasMouseUp);
+                offCanvas.addEventListener('mousemove', onCanvasMouseMove);
+                offCtx = offCanvas.getContext('2d');
+                
+                
+                
+                mainCanvas.width = mainCanvas.parentNode.clientWidth;
+                mainCanvas.height = mainCanvas.parentNode.clientHeight;
+                
+                offCanvas.width = mainCanvas.width;
+                offCanvas.height = mainCanvas.height;
+                
+                updateStateInfo();
+            }
+            
+            function onCanvasMouseDown(e) {
+                isCanvasMouseDown = true;
+                
+                canvasMouseDownX = e.offsetX;
+                canvasMouseDownY = e.offsetY;
+                
+                selectBox.x = canvasMouseDownX;
+                selectBox.y = canvasMouseDownY;
+                
+                document.getElementById('selectbox-pane').querySelector('li:nth-child(1) input').value = selectBox.x;
+                document.getElementById('selectbox-pane').querySelector('li:nth-child(2) input').value = selectBox.y;
+                
+                if (isShowingSelectBox === false || (isShowingSelectBox === true && isMouseInSelectBox === false)) {
+                    offCtx.clearRect(0, 0, offCanvas.width, offCanvas.height);
+                    
+                    selectBox.width = 0;
+                    selectBox.height = 0;
+                    
+                    document.getElementById('selectbox-pane').querySelector('li:nth-child(3) input').value = selectBox.width;
+                    document.getElementById('selectbox-pane').querySelector('li:nth-child(4) input').value = selectBox.height;
+                    
+                    isShowingSelectBox = false;
+                }
+                
+                updateStateInfo();
+            }
+            
+            function onCanvasMouseUp(e) {
+                isCanvasMouseDown = false;
+                
+                if (isCanvasMouseDragging === true) {
+                    offCtx.clearRect(0, 0, offCanvas.width, offCanvas.height);
+                    fillSelectBox();
+                    
+                    isCanvasMouseDragging = false;
+                }
+                
+                updateStateInfo();
+            }
+            
+            function onCanvasMouseMove(e) {
+                if (isCanvasMouseDown === true) {
+                    isCanvasMouseDragging = true;
+                    isShowingSelectBox = true;
+                    
+                    offCtx.clearRect(0, 0, offCanvas.width, offCanvas.height);
+                    
+                    selectBox.width = e.offsetX - canvasMouseDownX;
+                    selectBox.height = e.offsetY - canvasMouseDownY;
+                    
+                    fillSelectBox();
+                    
+                    offCtx.font = '12px arial';
+                    offCtx.textBaseline = 'top';
+                    offCtx.textAlign = 'center';
+                    
+                    offCtx.fillStyle = 'black';
+                    offCtx.fillText(`${selectBox.width}, ${selectBox.height}`, e.offsetX, e.offsetY);
+                    
+                    document.getElementById('selectbox-pane').querySelector('li:nth-child(3) input').value = selectBox.width;
+                    document.getElementById('selectbox-pane').querySelector('li:nth-child(4) input').value = selectBox.height;
+                } else {
+                    if (e.offsetX > selectBox.x && e.offsetX < selectBox.x + selectBox.width
+                         && e.offsetY > selectBox.y && e.offsetY < selectBox.y + selectBox.height) {
+                        offCanvas.style.cursor = 'move';
+                        isMouseInSelectBox = true;
+                    } else {
+                        offCanvas.style.cursor = 'crosshair';
+                        isMouseInSelectBox = false;
+                    }
+                }
+                
+                updateStateInfo();
+            }
+            
+            function fillSelectBox() {
+                offCtx.fillStyle = 'rgba(125, 125, 125, 0.1)';
+                offCtx.fillRect(selectBox.x, selectBox.y, selectBox.width, selectBox.height);
+            }
+            
+            function updateStateInfo() {
+                document.getElementById('stateinfo-pane').querySelector('li:nth-child(1) span').textContent = isCanvasMouseDown;
+                document.getElementById('stateinfo-pane').querySelector('li:nth-child(2) span').textContent = isCanvasMouseDragging;
+                document.getElementById('stateinfo-pane').querySelector('li:nth-child(3) span').textContent = isMouseInSelectBox;
+                document.getElementById('stateinfo-pane').querySelector('li:nth-child(4) span').textContent = isShowingSelectBox;
+            }
+            
+            
+            
+            window.addEventListener("load", init);
+        </script>
+    </head>
+    
+    
+    <body>
+        <h1>Image Utils</h1>
+        <div id="main">
+            <div id="toolset">
+                <ul>
+                    <li><img onclick="aa()" /></li>
+                    <li><img onclick="aa()" /></li>
+                </ul>
+            </div>
+            <div id="workbench">
+                <canvas id="main-canvas"></canvas>
+                <canvas id="offscreen-canvas"></canvas>
+            </div>
+            <div id="properties-panel">
+                <div class='pane' id='selectbox-pane'>
+                    <h1>SelectBox</h1>
+                    <ul>
+                        <li><label>x</label>: <input type='text' /></li>
+                        <li><label>y</label>: <input type='text' /></li>
+                        <li><label>width</label>: <input type='text' /></li>
+                        <li><label>height</label>: <input type='text' /></li>
+                    </ul>
+                </div>
+                
+                <div class='pane' id='stateinfo-pane'>
+                    <h1>State Info</h1>
+                    <ul>
+                        <li><label>isCanvasMouseDown</label>: <span>1</span></li>
+                        <li><label>isCanvasMouseDragging</label>: <span>2</span></li>
+                        <li><label>isMouseInSelectBox</label>: <span>3</span></li>
+                        <li><label>isShowingSelectBox</label>: <span>4</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
