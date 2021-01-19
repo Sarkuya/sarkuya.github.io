@@ -31,6 +31,8 @@
                 height: 0
             };
             
+            const BORDER_OFFSET = 5;
+            
             function init() {
                 let mainCanvas = document.getElementById('main-canvas');
                 
@@ -135,23 +137,33 @@
                 
                 // whether cursor in select box region
                 if (isCanvasMouseDown === false && isShowingSelectBox === true) {
-                    if (e.offsetX === selectBox.x) {
+                    // hover at the border
+                    if (e.offsetX >= selectBox.x - BORDER_OFFSET && e.offsetX <= selectBox.x + BORDER_OFFSET ) {
                         offCanvas.style.cursor = 'w-resize';
-                    } else if (e.offsetX === selectBox.x + selectBox.width) {
+                    } else if (e.offsetX >= selectBox.x + selectBox.width - BORDER_OFFSET && e.offsetX <= selectBox.x + selectBox.width + BORDER_OFFSET) {
                         offCanvas.style.cursor = 'e-resize';
-                    } else if (e.offsetY === selectBox.y) {
+                    } else if (e.offsetY >= selectBox.y - BORDER_OFFSET && e.offsetY <= selectBox.y + BORDER_OFFSET) {
                         offCanvas.style.cursor = 'n-resize';
-                    } else if (e.offsetY === selectBox.y + selectBox.height) {
+                    } else if (e.offsetY >= selectBox.y + selectBox.height - BORDER_OFFSET && e.offsetY <= selectBox.y + selectBox.height + BORDER_OFFSET) {
                         offCanvas.style.cursor = 's-resize';
                     }
                     
+                    // hover inside the select box 
                     else if (e.offsetX > selectBox.x && e.offsetX < selectBox.x + selectBox.width
                          && e.offsetY > selectBox.y && e.offsetY < selectBox.y + selectBox.height) {
                         offCanvas.style.cursor = 'move';
                         isMouseInSelectBox = true;
-                    } else {
+                        
+                        offCtx.strokeStyle = 'magenta';
+                        offCtx.strokeRect(selectBox.x, selectBox.y, selectBox.width, selectBox.height);
+                    }
+                    // hover outside the select box
+                    else {
                         offCanvas.style.cursor = 'crosshair';
                         isMouseInSelectBox = false;
+                        
+                        offCtx.strokeStyle = 'lightgray';
+                        offCtx.strokeRect(selectBox.x, selectBox.y, selectBox.width, selectBox.height);
                     }
                 }
                 
