@@ -18,6 +18,9 @@
             let isMouseInSelectBox = false;
             let isShowingSelectBox = false;
             
+            let isSelectBoxBorderResizing = false;
+            let selectBoxBorderResizingDir;
+            
             let canvasMouseDownX = 0;
             let canvasMouseDownY = 0;
             
@@ -31,32 +34,52 @@
                 height: 0
             };
             
+            const SelectBoxBorderResizingDir = {
+                NORTH: 0,
+                EAST: 1,
+                SOUTH: 2,
+                WEST: 3
+            };
+            
             const BORDER_OFFSET = 5;
             
             function init() {
                 let mainCanvas = document.getElementById('main-canvas');
                 
+                mainCanvas.width = mainCanvas.parentNode.clientWidth;
+                mainCanvas.height = mainCanvas.parentNode.clientHeight;
                 let ctx = mainCanvas.getContext('2d');
-                
-                let img = new Image();
-                img.onload = function() {
-                    ctx.drawImage(img, 0, 0);
-                };
-                img.src = 'imgs/test.png';
+                loadBgImage(ctx);
                 
                 offCanvas = document.getElementById('offscreen-canvas');
                 offCanvas.addEventListener('mousedown', onCanvasMouseDown);
                 offCanvas.addEventListener('mouseup', onCanvasMouseUp);
                 offCanvas.addEventListener('mousemove', onCanvasMouseMove);
-                offCtx = offCanvas.getContext('2d');
-                
-                mainCanvas.width = mainCanvas.parentNode.clientWidth;
-                mainCanvas.height = mainCanvas.parentNode.clientHeight;
                 
                 offCanvas.width = mainCanvas.width;
                 offCanvas.height = mainCanvas.height;
+                offCtx = offCanvas.getContext('2d');
                 
                 updateStateInfo();
+            }
+            
+            function loadBgImage(ctx) {
+                let img = new Image();
+                img.onload = function() {
+                    let aspect = img.width / img.height;
+                    
+                    let width = ctx.canvas.width;
+                    let height = ctx.canvas.height;
+                    
+                    if (width < height) {
+                        height = width / aspect;
+                    } else if (width > height) {
+                        width = height * aspect;
+                    }
+                    
+                    ctx.drawImage(img, 0, 0, width, height);
+                };
+                img.src = 'imgs/test.png';
             }
             
             function onCanvasMouseDown(e) {
@@ -68,7 +91,6 @@
                 if (isShowingSelectBox === true && isMouseInSelectBox === true) {
                     offsetXFromCurCursorToSelectBoxX = canvasMouseDownX - selectBox.x;
                     offsetYFromCurCursorToSelectBoxY = canvasMouseDownY - selectBox.y;
-                    
                 }
                 
                 if (isShowingSelectBox === false || (isShowingSelectBox === true && isMouseInSelectBox === false)) {
@@ -140,12 +162,20 @@
                     // hover at the border
                     if (e.offsetX >= selectBox.x - BORDER_OFFSET && e.offsetX <= selectBox.x + BORDER_OFFSET ) {
                         offCanvas.style.cursor = 'w-resize';
+                        isSelectBoxBorderResizing = true;
+                        selectBoxBorderResizingDir = SelectBoxBorderResizingDir.WEST;
                     } else if (e.offsetX >= selectBox.x + selectBox.width - BORDER_OFFSET && e.offsetX <= selectBox.x + selectBox.width + BORDER_OFFSET) {
                         offCanvas.style.cursor = 'e-resize';
+                        isSelectBoxBorderResizing = true;
+                        selectBoxBorderResizingDir = SelectBoxBorderResizingDir.EAST;
                     } else if (e.offsetY >= selectBox.y - BORDER_OFFSET && e.offsetY <= selectBox.y + BORDER_OFFSET) {
                         offCanvas.style.cursor = 'n-resize';
+                        isSelectBoxBorderResizing = true;
+                        selectBoxBorderResizingDir = SelectBoxBorderResizingDir.NORTH;
                     } else if (e.offsetY >= selectBox.y + selectBox.height - BORDER_OFFSET && e.offsetY <= selectBox.y + selectBox.height + BORDER_OFFSET) {
                         offCanvas.style.cursor = 's-resize';
+                        isSelectBoxBorderResizing = true;
+                        selectBoxBorderResizingDir = SelectBoxBorderResizingDir.SOUTH;
                     }
                     
                     // hover inside the select box 
@@ -154,16 +184,15 @@
                         offCanvas.style.cursor = 'move';
                         isMouseInSelectBox = true;
                         
-                        offCtx.strokeStyle = 'magenta';
-                        offCtx.strokeRect(selectBox.x, selectBox.y, selectBox.width, selectBox.height);
+                        strokeSelectBox('magenta');
                     }
+                    
                     // hover outside the select box
                     else {
                         offCanvas.style.cursor = 'crosshair';
                         isMouseInSelectBox = false;
                         
-                        offCtx.strokeStyle = 'lightgray';
-                        offCtx.strokeRect(selectBox.x, selectBox.y, selectBox.width, selectBox.height);
+                        strokeSelectBox('lightgray');
                     }
                 }
                 
@@ -188,11 +217,18 @@
                 offCtx.fillRect(selectBox.x, selectBox.y, selectBox.width, selectBox.height);
             }
             
+            function strokeSelectBox(color) {
+                offCtx.strokeStyle = color;
+                offCtx.strokeRect(selectBox.x, selectBox.y, selectBox.width, selectBox.height);
+            }
+            
             function updateStateInfo() {
                 document.getElementById('stateinfo-pane').querySelector('li:nth-child(1) span').textContent = isCanvasMouseDown;
                 document.getElementById('stateinfo-pane').querySelector('li:nth-child(2) span').textContent = isCanvasMouseDragging;
                 document.getElementById('stateinfo-pane').querySelector('li:nth-child(3) span').textContent = isMouseInSelectBox;
                 document.getElementById('stateinfo-pane').querySelector('li:nth-child(4) span').textContent = isShowingSelectBox;
+                document.getElementById('stateinfo-pane').querySelector('li:nth-child(5) span').textContent = isSelectBoxBorderResizing;
+                document.getElementById('stateinfo-pane').querySelector('li:nth-child(6) span').textContent = selectBoxBorderResizingDir;
             }
             
             window.addEventListener("load", init);
@@ -231,6 +267,11 @@
                         <li><label>isCanvasMouseDragging</label>: <span>2</span></li>
                         <li><label>isMouseInSelectBox</label>: <span>3</span></li>
                         <li><label>isShowingSelectBox</label>: <span>4</span></li>
+                        
+                        <li><label>isSelectBoxBorderResizing</label>: <span>5</span></li>
+                        <li><label>selectBoxBorderResizingDir</label>: <span>6</span></li>
+                        
+                        
                     </ul>
                 </div>
             </div>

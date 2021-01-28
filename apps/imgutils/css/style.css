@@ -71,5 +71,6 @@
 }
 
 #properties-panel #stateinfo-pane ul li label {
+    font-size: 80%;
     width: 180px;
 }
